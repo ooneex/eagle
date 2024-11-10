@@ -4,11 +4,8 @@ import type {
   HeaderFieldType,
   MethodType,
   MimeType,
-} from "@ooneex/http";
+} from '@/http/types.ts';
 
-/**
- * Represents the type of user agent.
- */
 export type UserAgentType = {
   browser: {
     name?: string;
@@ -33,34 +30,16 @@ export type UserAgentType = {
   };
 };
 
-/**
- * Represents the browser type of user agent.
- */
-export type UserAgentBrowserType = UserAgentType["browser"];
+export type UserAgentBrowserType = UserAgentType['browser'];
 
-/**
- * Represents the engine type of user agent.
- */
-export type UserAgentEngineType = UserAgentType["engine"];
+export type UserAgentEngineType = UserAgentType['engine'];
 
-/**
- * Represents the type of operating system of a user agent.
- */
-export type UserAgentOsType = UserAgentType["os"];
+export type UserAgentOsType = UserAgentType['os'];
 
-/**
- * Represents the device type of a user agent.
- */
-export type UserAgentDeviceType = UserAgentType["device"];
+export type UserAgentDeviceType = UserAgentType['device'];
 
-/**
- * Represents the CPU type of user agent.
- */
-export type UserAgentCpuType = UserAgentType["cpu"];
+export type UserAgentCpuType = UserAgentType['cpu'];
 
-/**
- * Represents a user agent.
- */
 export interface IUserAgent {
   readonly browser: UserAgentBrowserType;
   readonly engine: UserAgentEngineType;
@@ -69,9 +48,6 @@ export interface IUserAgent {
   readonly cpu: UserAgentCpuType;
 }
 
-/**
- * Interface representing a header checker.
- */
 export interface IHeaderChecker {
   isBlob: () => boolean;
   isJson: () => boolean;
@@ -81,19 +57,16 @@ export interface IHeaderChecker {
   isHtml: () => boolean;
 }
 
-/**
- * Represents a readonly header object that provides methods for accessing various header fields.
- */
 export interface IReadonlyHeader extends IHeaderChecker {
   readonly native: Headers;
   get: (name: HeaderFieldType) => string | null;
   getAllow: () => MethodType | null;
-  getAccept: () => MimeType | "*/*" | null;
+  getAccept: () => MimeType | '*/*' | null;
   getAcceptEncoding: () => EncodingType[] | null;
   getContentLength: () => number | null;
-  getContentType: () => MimeType | "*/*" | null;
+  getContentType: () => MimeType | '*/*' | null;
   getContentDisposition: () => string | null;
-  getUserAgent: () => IUserAgent;
+  // getUserAgent: () => IUserAgent;
   getAuthorization: () => string | null;
   getBasicAuth: () => string | null;
   getBearerToken: () => string | null;
@@ -114,9 +87,6 @@ export interface IReadonlyHeader extends IHeaderChecker {
   toJson: () => Record<string, string>;
 }
 
-/**
- * Header interface for representing HTTP headers.
- */
 export interface IHeader extends IReadonlyHeader {
   readonly native: Headers;
 }

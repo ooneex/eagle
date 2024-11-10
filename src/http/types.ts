@@ -17,7 +17,7 @@ export type MimeDefinitionType = {
 
 export type MethodType = (typeof HTTP_METHODS)[number];
 export type ProtocolType = (typeof HTTP_PROTOCOLS)[number];
-export type HeaderFieldType = (typeof HEADER_FIELDS)[number];
+export type HeaderFieldType = (typeof HEADER_FIELDS)[number] | string;
 export type StatusCodeType = keyof typeof STATUS_CODE_TEXT;
 export type StatusCodeKeyType = keyof typeof STATUS_CODE;
 
