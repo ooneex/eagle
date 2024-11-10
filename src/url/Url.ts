@@ -1,16 +1,11 @@
-import {
-  type IReadonlyCollection,
-  ReadonlyCollection,
-} from "@ooneex/collection";
-import { parseString, trim } from "@ooneex/helper";
-import type { ScalarType } from "@ooneex/types";
-import "urlpattern-polyfill";
-import type { IUrl } from "./types";
+import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
+import { IReadonlyCollection } from '@/collection/types.ts';
+import { parseString, trim } from '@/helper/mod.ts';
+import { ScalarType } from '@/types.ts';
+import { IUrl } from '@/url/types.ts';
 
-/**
- * Represents a URL object.
- */
 export class Url implements IUrl {
+  public readonly native: URL;
   public readonly protocol: string;
   public readonly subdomain: string | null;
   public readonly domain: string;
@@ -20,15 +15,13 @@ export class Url implements IUrl {
   public readonly fragment: string;
   public readonly base: string;
   public readonly origin: string;
-  public readonly raw: string;
 
   constructor(url: string | URL) {
-    const native = new URL(url);
-    this.raw = native.toString();
+    this.native = new URL(url);
 
-    this.protocol = trim(native.protocol, ":");
+    this.protocol = trim(this.native.protocol, ':');
     this.subdomain = null;
-    this.domain = native.hostname;
+    this.domain = this.native.hostname;
     const match = /(?<subdomain>.+)\.(?<domain>[a-z0-9-_]+\.[a-z0-9]+)$/i.exec(
       this.domain,
     );
@@ -41,15 +34,15 @@ export class Url implements IUrl {
       this.domain = domain;
     }
 
-    this.port = native.port ? parseString(native.port) : 80;
-    this.path = native.pathname;
-    this.fragment = trim(native.hash, "#");
-    this.base = `${native.protocol}//${native.host}`;
-    this.origin = native.origin;
+    this.port = this.native.port ? parseString(this.native.port) : 80;
+    this.path = this.native.pathname;
+    this.fragment = trim(this.native.hash, '#');
+    this.base = `${this.native.protocol}//${this.native.host}`;
+    this.origin = this.native.origin;
 
     const parameters: [string, ScalarType][] = [];
-    for (const [key, value] of native.searchParams) {
-      parameters.push([key, parseString(value)]);
+    for (const [key, value] of this.native.searchParams) {
+      parameters.push([key, parseString<ScalarType>(value)]);
     }
     this.queries = new ReadonlyCollection<string, ScalarType>(parameters);
   }

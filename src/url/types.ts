@@ -1,9 +1,6 @@
-import type { IReadonlyCollection } from "@ooneex/collection";
-import type { ScalarType } from "@ooneex/types";
+import { IReadonlyCollection } from '@/collection/types.ts';
+import { ScalarType } from '@/types.ts';
 
-/**
- * Represents a URL.
- */
 export interface IUrl {
   readonly protocol: string;
   readonly subdomain: string | null;
@@ -14,5 +11,5 @@ export interface IUrl {
   readonly fragment: string;
   readonly base: string;
   readonly origin: string;
-  readonly raw: string;
+  readonly native: URL;
 }
