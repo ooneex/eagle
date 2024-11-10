@@ -4,13 +4,14 @@
     "install": "deno install --allow-scripts",
     "dev": "deno run -A --watch app.ts",
     "fmt": "deno run -A npm:@biomejs/biome check --write .",
-    "lint": "deno run -A npm:@biomejs/biome check .",
+    "lint": "deno run -A npm:@biomejs/biome check ."
   },
   "imports": {
     "@/": "./src/",
     "@biomejs/biome": "npm:@biomejs/biome@^1.9.4",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
+    "@std/http": "jsr:@std/http"
   },
   "fmt": {
     "useTabs": false,
@@ -22,7 +23,7 @@
   "lock": false,
   "compilerOptions": {
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": true
   },
-  "nodeModulesDir": "auto",
+  "nodeModulesDir": "auto"
 }

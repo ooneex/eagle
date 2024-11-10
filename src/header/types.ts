@@ -31,13 +31,9 @@ export type UserAgentType = {
 };
 
 export type UserAgentBrowserType = UserAgentType['browser'];
-
 export type UserAgentEngineType = UserAgentType['engine'];
-
 export type UserAgentOsType = UserAgentType['os'];
-
 export type UserAgentDeviceType = UserAgentType['device'];
-
 export type UserAgentCpuType = UserAgentType['cpu'];
 
 export interface IUserAgent {
@@ -66,7 +62,7 @@ export interface IReadonlyHeader extends IHeaderChecker {
   getContentLength: () => number | null;
   getContentType: () => MimeType | '*/*' | null;
   getContentDisposition: () => string | null;
-  // getUserAgent: () => IUserAgent;
+  getUserAgent: () => IUserAgent;
   getAuthorization: () => string | null;
   getBasicAuth: () => string | null;
   getBearerToken: () => string | null;

@@ -1,5 +1,5 @@
 import { HeaderChecker } from '@/header/HeaderChecker.ts';
-import { IReadonlyHeader } from '@/header/types.ts';
+import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import {
   CharsetType,
   EncodingType,
@@ -7,6 +7,7 @@ import {
   MethodType,
   MimeType,
 } from '@/http/types.ts';
+import { UserAgent } from '@std/http/user-agent';
 
 type MimeReturnType = MimeType | '*/*' | null;
 
@@ -105,9 +106,9 @@ export class ReadonlyHeader extends HeaderChecker implements IReadonlyHeader {
     return this.get('Server');
   }
 
-  // public getUserAgent(): IUserAgent {
-  // return new UserAgent(this.get('User-Agent'));
-  // }
+  public getUserAgent(): IUserAgent {
+    return new UserAgent(this.get('User-Agent'));
+  }
 
   public getAuthorization(): string | null {
     return this.get('Authorization');
