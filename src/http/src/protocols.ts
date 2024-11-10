@@ -1,0 +1,21 @@
+/**
+ * Array of supported HTTP protocols.
+ */
+export const HTTP_PROTOCOLS = [
+  "TCP",
+  "SMTP",
+  "PPP",
+  "FTP",
+  "SFTP",
+  "HTTP",
+  "HTTPS",
+  "TELNET",
+  "POP3",
+  "IPv4",
+  "IPv6",
+  "ICMP",
+  "UDP",
+  "IMAP",
+  "SSH",
+  "Gopher",
+] as const;
