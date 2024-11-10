@@ -1,7 +1,3 @@
-/**
- * MIME_DB is a variable that represents a mapping of MIME types to their respective metadata.
- * It is an object with MIME types as keys and objects as values.
- */
 export const MIME_DB = {
   "application/1d-interleaved-parityfec": { source: "iana" },
   "application/3gpdash-qoe-report+xml": {
