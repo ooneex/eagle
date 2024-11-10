@@ -1,8 +1,9 @@
 import { Header } from '@/header/Header.ts';
 import { STATUS_CODE_TEXT } from '@/http/http_status.ts';
 import { CharsetType, StatusCodeType } from '@/http/types.ts';
+import { IHttpResponse } from '@/response/types.ts';
 
-export class HttpResponse {
+export class HttpResponse implements IHttpResponse {
   private data: Record<string, unknown> | ReadableStream | null = null;
   private content: string | null = null;
   private message: string | null = null;
