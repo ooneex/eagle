@@ -10,9 +10,17 @@ import {
 export class Doc {
   private docs: ClassDocType[] | null = null;
 
-  constructor(private readonly filePath: string) {}
+  constructor(private readonly filePath?: string) {}
+
+  public setDocs(docs: ClassDocType[]): void {
+    this.docs = docs;
+  }
 
   public async parse(): Promise<ClassDocType[]> {
+    if (!this.filePath) {
+      return [];
+    }
+
     const command = new Deno.Command('deno', {
       args: ['doc', '--json', this.filePath],
     });

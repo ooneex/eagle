@@ -1,5 +1,5 @@
 import {
-  ControllerStore,
+  ControllerContainer,
   DecoratorException,
   Get,
   Host,
@@ -13,7 +13,7 @@ import { beforeEach, describe, it } from '@std/testing/bdd';
 
 describe('Controller Decorators', () => {
   beforeEach(() => {
-    ControllerStore.clear();
+    ControllerContainer.clear();
   });
 
   describe('HTTP Method Decorators', () => {
@@ -25,7 +25,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
 
       expect(config?.methods).toEqual(['GET']);
       expect(config?.paths).toEqual(['/test']);
@@ -39,7 +39,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.methods).toEqual(['POST']);
       expect(config?.paths).toEqual(['/create']);
     });
@@ -52,7 +52,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.methods).toEqual(['GET']);
       expect(config?.paths).toEqual([]);
     });
@@ -67,7 +67,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.paths).toEqual(['/api/v1']);
     });
 
@@ -80,7 +80,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.paths).toEqual(['/api/v1', '/api/v2']);
     });
 
@@ -108,7 +108,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.hosts).toEqual(['example.com']);
     });
 
@@ -121,7 +121,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.hosts?.[0]).toBe(hostPattern);
     });
 
@@ -134,7 +134,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.hosts).toEqual(['example.com', 'api.example.com']);
     });
   });
@@ -150,7 +150,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.hosts).toEqual(['example.com']);
       expect(config?.paths).toEqual(['/api', '/users']);
       expect(config?.methods).toEqual(['GET']);
@@ -166,7 +166,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.controller).toBe(TestController);
     });
 
@@ -180,7 +180,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       expect(config?.controller).toBe(TestController);
     });
   });
@@ -194,7 +194,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const config = ControllerStore.get(TestController.name);
+      const config = ControllerContainer.get(TestController.name);
       const Controller = config?.controller!;
 
       expect(Controller).toBeDefined();

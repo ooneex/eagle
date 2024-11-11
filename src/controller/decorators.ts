@@ -1,5 +1,5 @@
+import { ControllerContainer } from '@/controller/container.ts';
 import { DecoratorException } from '@/controller/DecoratorException.ts';
-import { ControllerStore } from '@/controller/store.ts';
 import {
   ControllerMethodType,
   DecoratorControllerType,
@@ -55,10 +55,10 @@ export const Path = (path: string) => {
     ensureInitialData(context, controller);
 
     if (context.name) {
-      const config = ControllerStore.get(context.name) ?? {};
+      const config = ControllerContainer.get(context.name) ?? {};
       if (!config.paths?.includes(path)) {
         config.paths?.push(path);
-        ControllerStore.add(context.name, config);
+        ControllerContainer.add(context.name, config);
       }
     }
   };
@@ -70,10 +70,10 @@ export const Host = (host: string | RegExp) => {
     ensureInitialData(context, controller);
 
     if (context.name) {
-      const config = ControllerStore.get(context.name) ?? {};
+      const config = ControllerContainer.get(context.name) ?? {};
       if (!config.hosts?.includes(host)) {
         config.hosts?.push(host);
-        ControllerStore.add(context.name, config);
+        ControllerContainer.add(context.name, config);
       }
     }
   };
@@ -89,16 +89,16 @@ const registerMethod = (
   ensureInitialData(context, controller);
 
   if (context.name) {
-    const config = ControllerStore.get(context.name) ?? {};
+    const config = ControllerContainer.get(context.name) ?? {};
     if (!config.methods?.includes(method)) {
       config.methods?.push(method);
-      ControllerStore.add(context.name, config);
+      ControllerContainer.add(context.name, config);
     }
 
     if (path) {
       if (!config.paths?.includes(path)) {
         config.paths?.push(path);
-        ControllerStore.add(context.name, config);
+        ControllerContainer.add(context.name, config);
       }
     }
   }
@@ -108,8 +108,8 @@ const ensureInitialData = (
   context: ClassDecoratorContext,
   controller: ControllerType,
 ) => {
-  if (context.name && !ControllerStore.has(context.name)) {
-    ControllerStore.add(context.name, {
+  if (context.name && !ControllerContainer.has(context.name)) {
+    ControllerContainer.add(context.name, {
       methods: [],
       paths: [],
       hosts: [],
@@ -119,6 +119,8 @@ const ensureInitialData = (
 };
 
 const ensureIsController = (context: ClassDecoratorContext) => {
+  console.log(context);
+
   if (context.kind !== 'class') {
     throw new DecoratorException(
       'Controller decorator can only be used on controller classes',
