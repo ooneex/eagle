@@ -1,7 +1,7 @@
 import { IHttpResponse } from '@/response/types.ts';
 
 export interface IController {
-  action: (...args: unknown[]) => IHttpResponse | Promise<IHttpResponse>;
+  action: (...args: any[]) => IHttpResponse | Promise<IHttpResponse>;
 }
 
 export type ControllerMethodType =
@@ -15,7 +15,6 @@ export type ControllerMethodType =
 
 export type DecoratorControllerType = {
   new (...args: unknown[]): unknown;
-  // action: (...args: unknown[]) => IHttpResponse | Promise<IHttpResponse>;
 };
 
 export type StoreControllerValueType = {

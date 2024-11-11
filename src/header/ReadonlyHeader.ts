@@ -178,7 +178,6 @@ export class ReadonlyHeader extends HeaderChecker implements IReadonlyHeader {
     return headers;
   }
 
-  // deno-lint-ignore no-explicit-any
   [Symbol.iterator](): IterableIterator<[HeaderFieldType, any]> {
     // @ts-ignore: trust me
     return this.native[Symbol.iterator]();
