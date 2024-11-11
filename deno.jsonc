@@ -1,14 +1,13 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "install": "deno install --allow-scripts",
     "dev": "deno run -A --watch app.ts",
+    "test": "deno test -A",
     "fmt": "deno run -A npm:@biomejs/biome check --write .",
     "lint": "deno run -A npm:@biomejs/biome check ."
   },
   "imports": {
     "@/": "./src/",
-    "@biomejs/biome": "npm:@biomejs/biome@^1.9.4",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
     "@std/http": "jsr:@std/http"
@@ -19,6 +18,12 @@
     "semiColons": true,
     "singleQuote": true,
     "proseWrap": "preserve"
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "exclude": ["no-explicit-any"]
+    }
   },
   "lock": false,
   "compilerOptions": {
