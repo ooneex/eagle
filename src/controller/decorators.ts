@@ -1,51 +1,56 @@
 import { DecoratorException } from '@/controller/DecoratorException.ts';
 import { ControllerStore } from '@/controller/store.ts';
-import { ControllerMethodType, IController } from '@/controller/types.ts';
+import {
+  ControllerMethodType,
+  DecoratorControllerType,
+} from '@/controller/types.ts';
+
+type ControllerType = DecoratorControllerType;
 
 export const Delete = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'DELETE', path);
   };
 };
 
 export const Get = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'GET', path);
   };
 };
 
 export const Head = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'HEAD', path);
   };
 };
 
 export const Options = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'OPTIONS', path);
   };
 };
 
 export const Patch = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'PATCH', path);
   };
 };
 
 export const Post = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'POST', path);
   };
 };
 
 export const Put = (path?: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'PUT', path);
   };
 };
 
 export const Path = (path: string) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
     ensureInitialData(context, controller);
 
@@ -60,7 +65,7 @@ export const Path = (path: string) => {
 };
 
 export const Host = (host: string | RegExp) => {
-  return (controller: IController, context: ClassDecoratorContext) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
     ensureInitialData(context, controller);
 
@@ -75,7 +80,7 @@ export const Host = (host: string | RegExp) => {
 };
 
 const registerMethod = (
-  controller: IController,
+  controller: ControllerType,
   context: ClassDecoratorContext,
   method: ControllerMethodType,
   path?: string,
@@ -101,7 +106,7 @@ const registerMethod = (
 
 const ensureInitialData = (
   context: ClassDecoratorContext,
-  controller: IController,
+  controller: ControllerType,
 ) => {
   if (context.name && !ControllerStore.has(context.name)) {
     ControllerStore.add(context.name, {

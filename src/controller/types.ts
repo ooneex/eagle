@@ -13,9 +13,14 @@ export type ControllerMethodType =
   | 'POST'
   | 'PUT';
 
+export type DecoratorControllerType = {
+  new (...args: unknown[]): unknown;
+  // action: (...args: unknown[]) => IHttpResponse | Promise<IHttpResponse>;
+};
+
 export type StoreControllerValueType = {
   methods?: ControllerMethodType[];
   paths?: string[];
   hosts?: (string | RegExp)[];
-  controller?: IController;
+  controller?: DecoratorControllerType;
 };
