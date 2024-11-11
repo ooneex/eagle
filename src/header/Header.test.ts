@@ -49,13 +49,17 @@ describe('Header', () => {
     it('should set blob content type', () => {
       const headers = new Header();
       headers.setBlobType();
-      expect(headers.get('Content-Type')).toBe('application/octet-stream');
+      expect(headers.get('Content-Type')).toBe(
+        'application/octet-stream; charset=UTF-8',
+      );
     });
 
     it('should set form data content type', () => {
       const headers = new Header();
       headers.setFormDataType();
-      expect(headers.get('Content-Type')).toBe('multipart/form-data');
+      expect(headers.get('Content-Type')).toBe(
+        'multipart/form-data; charset=UTF-8',
+      );
     });
 
     it('should set HTML content type with charset', () => {
