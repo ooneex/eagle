@@ -55,7 +55,7 @@ export const Path = (path: string) => {
     ensureInitialData(context, controller);
 
     if (context.name) {
-      const config = ControllerContainer.get(context.name) ?? {};
+      const config = ControllerContainer.get(context.name)!;
       if (!config.paths?.includes(path)) {
         config.paths?.push(path);
         ControllerContainer.add(context.name, config);
@@ -70,7 +70,7 @@ export const Host = (host: string | RegExp) => {
     ensureInitialData(context, controller);
 
     if (context.name) {
-      const config = ControllerContainer.get(context.name) ?? {};
+      const config = ControllerContainer.get(context.name)!;
       if (!config.hosts?.includes(host)) {
         config.hosts?.push(host);
         ControllerContainer.add(context.name, config);
@@ -89,7 +89,7 @@ const registerMethod = (
   ensureInitialData(context, controller);
 
   if (context.name) {
-    const config = ControllerContainer.get(context.name) ?? {};
+    const config = ControllerContainer.get(context.name)!;
     if (!config.methods?.includes(method)) {
       config.methods?.push(method);
       ControllerContainer.add(context.name, config);
