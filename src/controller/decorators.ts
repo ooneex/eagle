@@ -110,6 +110,7 @@ const ensureInitialData = (
 ) => {
   if (context.name && !ControllerContainer.has(context.name)) {
     ControllerContainer.add(context.name, {
+      name: context.name,
       methods: [],
       paths: [],
       hosts: [],
@@ -119,8 +120,6 @@ const ensureInitialData = (
 };
 
 const ensureIsController = (context: ClassDecoratorContext) => {
-  console.log(context);
-
   if (context.kind !== 'class') {
     throw new DecoratorException(
       'Controller decorator can only be used on controller classes',

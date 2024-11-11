@@ -107,7 +107,7 @@ export class Doc {
   }
 
   public async findClasses(
-    criteria:
+    criteria?:
       & Partial<
         Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
       >
@@ -134,6 +134,10 @@ export class Doc {
   ): Promise<ClassDocType[]> {
     if (!this.docs) {
       this.docs = await this.parse();
+    }
+
+    if (!criteria) {
+      criteria = {};
     }
 
     const classes: ClassDocType[] = [];
@@ -325,7 +329,7 @@ export class Doc {
   }
 
   public async findConstructors(
-    criteria: Partial<Omit<ConstructorDocType, 'name' | 'parameters'>> & {
+    criteria?: Partial<Omit<ConstructorDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
       parameters?: Partial<Omit<ConstructorParamDocType, 'name'>> & {
         name?: string | RegExp;
@@ -341,6 +345,10 @@ export class Doc {
   ): Promise<ConstructorDocType[]> {
     if (!this.docs) {
       this.docs = await this.parse();
+    }
+
+    if (!criteria) {
+      criteria = {};
     }
 
     const constructors: ConstructorDocType[] = [];
@@ -426,7 +434,7 @@ export class Doc {
   }
 
   public async findProperties(
-    criteria: Partial<Omit<PropertyDocType, 'name'>> & {
+    criteria?: Partial<Omit<PropertyDocType, 'name'>> & {
       name?: string | RegExp;
       class?:
         & Partial<
@@ -439,6 +447,10 @@ export class Doc {
   ): Promise<PropertyDocType[]> {
     if (!this.docs) {
       this.docs = await this.parse();
+    }
+
+    if (!criteria) {
+      criteria = {};
     }
 
     const properties: PropertyDocType[] = [];
@@ -510,7 +522,7 @@ export class Doc {
   }
 
   public async findMethods(
-    criteria: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
+    criteria?: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
       class?:
         & Partial<
@@ -526,6 +538,10 @@ export class Doc {
   ): Promise<MethodDocType[]> {
     if (!this.docs) {
       this.docs = await this.parse();
+    }
+
+    if (!criteria) {
+      criteria = {};
     }
 
     const methods: MethodDocType[] = [];

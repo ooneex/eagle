@@ -18,6 +18,7 @@ export type DecoratorControllerType = {
 };
 
 export type StoreControllerValueType = {
+  name: string;
   methods?: ControllerMethodType[];
   paths?: string[];
   hosts?: (string | RegExp)[];

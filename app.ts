@@ -1,4 +1,5 @@
-import { Eagle } from './src/app/Eagle.ts';
+import { Eagle } from '@/app/mod.ts';
+import './controllers/TestController.ts';
 
 const app = new Eagle();
-await app.listen();
+app.listen();

@@ -3,11 +3,10 @@ import { HttpResponse, IHttpResponse } from '@/response/mod.ts';
 
 @Get()
 export class TestController implements IController {
-  constructor() {}
-
   public action(request: Request): IHttpResponse {
-    console.log(request);
     const response = new HttpResponse();
+
+    // console.log(request);
 
     return response.text('Hello, world!');
   }
