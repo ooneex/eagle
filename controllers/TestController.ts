@@ -3,8 +3,6 @@ import { HttpResponse, IHttpResponse } from '@/response/mod.ts';
 
 @Get()
 export class TestController implements IController {
-  // private readonly name: string = 'coucou';
-
   constructor() {}
 
   public action(request: Request): IHttpResponse {

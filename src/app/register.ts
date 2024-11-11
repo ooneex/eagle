@@ -7,7 +7,7 @@ const file = new File(Deno.cwd());
 const controllers = file.list({
   recursive: true,
   match:
-    /(Controller|Middleware|Filter|Service|Repository|Validator|Dto|Config)\.ts$/,
+    /(Controller|Middleware|Filter|Service|Repository|Validator|Dto|Config|Entity|Command)\.ts$/,
 });
 
 for (const controller of controllers) {
