@@ -2,14 +2,11 @@ import { Collection } from '@/collection/Collection.ts';
 import { ICollection } from '@/collection/types.ts';
 import { resolveDependencies } from '@/container/resolve.ts';
 import { ContainerScopeType } from '@/container/types.ts';
-import { ControllerContainer } from '@/controller/container.ts';
 
 const store = new Collection<
   ContainerScopeType,
   ICollection<string, unknown>
 >();
-
-store.add('controller', ControllerContainer as ICollection<string, unknown>);
 
 export class Container {
   public async get<T = unknown>(

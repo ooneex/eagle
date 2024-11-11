@@ -4,6 +4,8 @@ import {
   ControllerMethodType,
   DecoratorControllerType,
 } from '@/controller/types.ts';
+import { pathToRegexp } from '@/controller/utils.ts';
+import { trim } from '@/helper/trim.ts';
 
 type ControllerType = DecoratorControllerType;
 
@@ -57,7 +59,10 @@ export const Path = (path: string) => {
     if (context.name) {
       const config = ControllerContainer.get(context.name)!;
       if (!config.paths?.includes(path)) {
+        path = `/${trim(path, '/')}`;
+        const regexp = pathToRegexp(path);
         config.paths?.push(path);
+        config.regexp?.push(regexp);
         ControllerContainer.add(context.name, config);
       }
     }
@@ -97,7 +102,10 @@ const registerMethod = (
 
     if (path) {
       if (!config.paths?.includes(path)) {
+        path = `/${trim(path, '/')}`;
+        const regexp = pathToRegexp(path);
         config.paths?.push(path);
+        config.regexp?.push(regexp);
         ControllerContainer.add(context.name, config);
       }
     }
@@ -113,6 +121,7 @@ const ensureInitialData = (
       name: context.name,
       methods: [],
       paths: [],
+      regexp: [],
       hosts: [],
       controller: controller,
     });

@@ -203,4 +203,53 @@ describe('Controller Decorators', () => {
       );
     });
   });
+
+  describe('Controller Path Regexp', () => {
+    it('should store path regexp for @Path decorator', () => {
+      @Path('/users/:id')
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.regexp?.[0]).toBeInstanceOf(RegExp);
+      expect(config?.regexp?.[0].test('/users/123')).toBe(true);
+      expect(config?.regexp?.[0].test('/users/abc')).toBe(true);
+      expect(config?.regexp?.[0].test('/users')).toBe(false);
+    });
+
+    it('should store path regexp for method decorators with paths', () => {
+      @Get('/posts/:id/comments')
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.regexp?.[0]).toBeInstanceOf(RegExp);
+      expect(config?.regexp?.[0].test('/posts/123/comments')).toBe(true);
+      expect(config?.regexp?.[0].test('/posts/abc/comments')).toBe(true);
+      expect(config?.regexp?.[0].test('/posts/comments')).toBe(false);
+    });
+
+    it('should store multiple regexp patterns for combined decorators', () => {
+      @Get('/users/:userId/posts/:postId')
+      @Path('/api')
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.regexp?.length).toBe(2);
+      expect(config?.regexp?.[0].test('/api')).toBe(true);
+      expect(config?.regexp?.[1].test('/users/123/posts/456')).toBe(true);
+      expect(config?.regexp?.[1].test('/users/abc/posts/def')).toBe(true);
+      expect(config?.regexp?.[1].test('/users/posts')).toBe(false);
+    });
+  });
 });

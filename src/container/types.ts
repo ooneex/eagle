@@ -1,5 +1,4 @@
 export type ContainerScopeType =
-  | 'controller'
   | 'middleware'
   | 'filter'
   | 'service'
