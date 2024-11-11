@@ -1,7 +1,7 @@
 import { Header } from '@/header/Header.ts';
 import { CharsetType, StatusCodeType } from '@/http/types.ts';
 
-export interface IHttpResponse {
+export interface IResponse {
   readonly header: Header;
   text: (
     content: string,

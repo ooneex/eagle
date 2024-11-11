@@ -7,7 +7,7 @@ import {
   Path,
   Post,
 } from '@/controller/mod.ts';
-import { IHttpResponse } from '@/response/types.ts';
+import { IResponse } from '@/response/types.ts';
 import { expect } from '@std/expect';
 import { beforeEach, describe, it } from '@std/testing/bdd';
 
@@ -20,8 +20,8 @@ describe('Controller Decorators', () => {
     it('should register GET method', () => {
       @Get('/test')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -34,8 +34,8 @@ describe('Controller Decorators', () => {
     it('should register POST method', () => {
       @Post('/create')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -47,8 +47,8 @@ describe('Controller Decorators', () => {
     it('should work without path parameter', () => {
       @Get()
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -62,8 +62,8 @@ describe('Controller Decorators', () => {
     it('should register path', () => {
       @Path('/api/v1')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -75,8 +75,8 @@ describe('Controller Decorators', () => {
       @Path('/api/v2')
       @Path('/api/v1')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -91,8 +91,8 @@ describe('Controller Decorators', () => {
         class TestController implements IController {
           // @ts-ignore: Testing runtime behavior
           @Path('/api/v1')
-          action(): IHttpResponse {
-            return {} as IHttpResponse;
+          action(): IResponse {
+            return {} as IResponse;
           }
         }
       }).toThrow(DecoratorException);
@@ -103,8 +103,8 @@ describe('Controller Decorators', () => {
     it('should register string host', () => {
       @Host('example.com')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -116,8 +116,8 @@ describe('Controller Decorators', () => {
       const hostPattern = /.*\.example\.com/;
       @Host(hostPattern)
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -129,8 +129,8 @@ describe('Controller Decorators', () => {
       @Host('api.example.com')
       @Host('example.com')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -145,8 +145,8 @@ describe('Controller Decorators', () => {
       @Get('/users')
       @Path('/api')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -161,8 +161,8 @@ describe('Controller Decorators', () => {
     it('should store controller class reference', () => {
       @Get()
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -175,8 +175,8 @@ describe('Controller Decorators', () => {
       @Get('/users')
       @Path('/api')
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 
@@ -189,8 +189,8 @@ describe('Controller Decorators', () => {
     it('should ensure stored controller class has action method', () => {
       @Get()
       class TestController implements IController {
-        action(): IHttpResponse {
-          return {} as IHttpResponse;
+        action(): IResponse {
+          return {} as IResponse;
         }
       }
 

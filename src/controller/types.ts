@@ -1,26 +1,26 @@
-import { IHttpResponse } from '@/response/types.ts';
+import { IResponse } from '@/response/types.ts';
 
 export interface IController {
-  action: (...args: any[]) => IHttpResponse | Promise<IHttpResponse>;
+    action: (...args: any[]) => IResponse | Promise<IResponse>;
 }
 
 export type ControllerMethodType =
-  | 'DELETE'
-  | 'GET'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'PATCH'
-  | 'POST'
-  | 'PUT';
+    | 'DELETE'
+    | 'GET'
+    | 'HEAD'
+    | 'OPTIONS'
+    | 'PATCH'
+    | 'POST'
+    | 'PUT';
 
 export type DecoratorControllerType = {
-  new (...args: unknown[]): unknown;
+    new (...args: unknown[]): unknown;
 };
 
 export type StoreControllerValueType = {
-  name: string;
-  methods?: ControllerMethodType[];
-  paths?: string[];
-  hosts?: (string | RegExp)[];
-  controller?: DecoratorControllerType;
+    name: string;
+    methods?: ControllerMethodType[];
+    paths?: string[];
+    hosts?: (string | RegExp)[];
+    controller?: DecoratorControllerType;
 };

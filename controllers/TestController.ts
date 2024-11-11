@@ -1,9 +1,9 @@
 import { Get, IController } from '@/controller/mod.ts';
-import { HttpResponse, IHttpResponse } from '@/response/mod.ts';
+import { HttpResponse, IResponse } from '@/response/mod.ts';
 
 @Get()
 export class TestController implements IController {
-  public action(request: Request): IHttpResponse {
+  public action(request: Request): IResponse {
     const response = new HttpResponse();
 
     // console.log(request);
