@@ -94,6 +94,10 @@ export class ReadonlyHeader extends HeaderChecker implements IReadonlyHeader {
     return this.get('Host');
   }
 
+  public getIp(): string | null {
+    return this.get('X-Forwarded-For') || this.get('Remote-Addr');
+  }
+
   public getReferer(): string | null {
     return this.get('Referer');
   }

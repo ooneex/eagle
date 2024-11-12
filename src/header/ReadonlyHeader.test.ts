@@ -69,6 +69,21 @@ describe('ReadonlyHeader', () => {
       expect(header.getBasicAuth()).toBe(null);
       expect(header.getBearerToken()).toBe(null);
     });
+
+    it('should get IP from X-Forwarded-For or Remote-Addr headers', () => {
+      const headerWithXFF = createHeader([
+        ['X-Forwarded-For', '203.0.113.195'],
+      ]);
+      expect(headerWithXFF.getIp()).toBe('203.0.113.195');
+
+      const headerWithRemoteAddr = createHeader([
+        ['Remote-Addr', '192.168.1.1'],
+      ]);
+      expect(headerWithRemoteAddr.getIp()).toBe('192.168.1.1');
+
+      const headerWithoutIp = createHeader([]);
+      expect(headerWithoutIp.getIp()).toBe(null);
+    });
   });
 
   describe('utility methods', () => {

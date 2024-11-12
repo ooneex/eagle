@@ -68,6 +68,7 @@ export interface IReadonlyHeader extends IHeaderChecker {
   getBearerToken: () => string | null;
   getCookie: () => string | null;
   getHost: () => string | null;
+  getIp: () => string | null;
   getReferer: () => string | null;
   getRefererPolicy: () => string | null;
   getServer: () => string | null;
