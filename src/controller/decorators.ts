@@ -108,6 +108,10 @@ export const NotFound = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
 
+    ControllerContainer.add(NOT_FOUND_CONTROLLER_KEY, {
+      name: NOT_FOUND_CONTROLLER_KEY,
+    });
+
     container.add(NOT_FOUND_CONTROLLER_KEY, controller, {
       scope: 'controller',
       singleton: false,
@@ -119,6 +123,10 @@ export const NotFound = () => {
 export const ServerException = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
+
+    ControllerContainer.add(SERVER_EXCEPTION_CONTROLLER_KEY, {
+      name: SERVER_EXCEPTION_CONTROLLER_KEY,
+    });
 
     container.add(SERVER_EXCEPTION_CONTROLLER_KEY, controller, {
       scope: 'controller',

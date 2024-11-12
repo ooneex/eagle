@@ -5,8 +5,8 @@ import {
 } from '@/controller/types.ts';
 import { trim } from '@/helper/trim.ts';
 
-export const NOT_FOUND_CONTROLLER_KEY = '__not_found__';
-export const SERVER_EXCEPTION_CONTROLLER_KEY = '__server_exception__';
+export const NOT_FOUND_CONTROLLER_KEY = 'NotFoundController';
+export const SERVER_EXCEPTION_CONTROLLER_KEY = 'ServerExceptionController';
 
 export const pathToRegexp = (path: string): RegExp => {
   const pattern = path
