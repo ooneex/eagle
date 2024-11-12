@@ -6,11 +6,11 @@ import { Doc } from '@/doc/Doc.ts';
 
 export const getDependencies = async (
   key: string,
-): Promise<string[] | null> => {
+): Promise<string[]> => {
   const docDefinition = DocContainer.get(key);
 
   if (!docDefinition) {
-    return null;
+    return [];
   }
 
   const doc = new Doc();
@@ -21,7 +21,7 @@ export const getDependencies = async (
   }))[0];
 
   if (!constructorDoc) {
-    return null;
+    return [];
   }
 
   let dependencies: string[] = [];
@@ -55,11 +55,11 @@ export const getDependencies = async (
 export const resolveDependencies = async (
   key: string,
   scope?: ContainerScopeType,
-): Promise<unknown[] | null> => {
+): Promise<unknown[]> => {
   const dependencies = await getDependencies(key);
 
   if (!dependencies) {
-    return null;
+    return [];
   }
 
   const resolvedDependencies = await Promise.all(

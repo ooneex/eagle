@@ -18,7 +18,7 @@ export class Container {
       if (!Value) return null;
       const dependencies = await resolveDependencies(key, scope);
 
-      return new (Value as any)(...(dependencies ?? []));
+      return new (Value as any)(...dependencies);
     }
 
     for (const [, container] of store) {
@@ -26,7 +26,7 @@ export class Container {
       if (Value) {
         const dependencies = await resolveDependencies(key, scope);
 
-        return new (Value as any)(...(dependencies ?? []));
+        return new (Value as any)(...dependencies);
       }
     }
 
