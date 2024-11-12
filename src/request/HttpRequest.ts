@@ -2,12 +2,12 @@ import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
 import { IReadonlyCollection } from '@/collection/types.ts';
 import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
 import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
-import { RequestMethodType } from '@/request/types.ts';
+import { IRequest, RequestMethodType } from '@/request/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
 import { Url } from '@/url/Url.ts';
 
-export class HttpRequest {
+export class HttpRequest implements IRequest {
   public readonly url: IUrl;
   public readonly method: RequestMethodType;
   public readonly header: IReadonlyHeader;
