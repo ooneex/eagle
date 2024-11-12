@@ -647,4 +647,26 @@ export class Doc {
 
     return methods;
   }
+
+  public async findParameters(
+    className: string,
+    methodName: string,
+  ): Promise<MethodParamDocType[]> {
+    if (!this.docs) {
+      this.docs = await this.parse();
+    }
+
+    const actionDoc = (await this.findMethods({
+      name: methodName,
+      class: {
+        name: className,
+      },
+    }))[0];
+
+    if (!actionDoc) {
+      return [];
+    }
+
+    return actionDoc.parameters ?? [];
+  }
 }

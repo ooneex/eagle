@@ -108,4 +108,22 @@ describe('Doc', () => {
     expect(asyncMethods.length).toBe(1);
     expect(asyncMethods[0].name).toBe('fetchUserData');
   });
+
+  it('should find parameters for a method', async () => {
+    const params = await doc.findParameters('TestClass', 'setName');
+    expect(params.length).toBe(1);
+    expect(params[0].name).toBe('name');
+    expect(params[0].type).toBe('string');
+    expect(params[0].isOptional).toBe(false);
+  });
+
+  it('should return empty array for non-existent method', async () => {
+    const params = await doc.findParameters('User', 'nonExistentMethod');
+    expect(params).toEqual([]);
+  });
+
+  it('should return empty array for non-existent class', async () => {
+    const params = await doc.findParameters('NonExistentClass', 'someMethod');
+    expect(params).toEqual([]);
+  });
 });
