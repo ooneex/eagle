@@ -9,6 +9,12 @@ export interface IReadonlyCollection<
   keys: () => IterableIterator<K>;
   values: () => IterableIterator<V>;
   entries: () => IterableIterator<[K, V]>;
+  find: (
+    fn: (key: K, value: V) => boolean,
+  ) => { key: K; value: V } | null;
+  filter: (
+    fn: (key: K, value: V) => boolean,
+  ) => { key: K; value: V }[];
   [Symbol.iterator](): IterableIterator<[K, V]>;
 }
 
@@ -17,6 +23,8 @@ export interface IReadonlyArrayCollection<V = unknown> {
   isEmpty: () => boolean;
   count: () => number;
   values: () => IterableIterator<V>;
+  find: (fn: (value: V) => boolean) => V | null;
+  filter: (fn: (value: V) => boolean) => V[];
   [Symbol.iterator](): IterableIterator<V>;
 }
 

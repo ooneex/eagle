@@ -1,4 +1,4 @@
-import { IReadonlyCollection } from "@/collection/types.ts";
+import { IReadonlyCollection } from '@/collection/types.ts';
 
 export class ReadonlyCollection<K extends string | number = string, V = unknown>
   implements IReadonlyCollection<K, V> {
@@ -38,6 +38,30 @@ export class ReadonlyCollection<K extends string | number = string, V = unknown>
 
   public entries(): IterableIterator<[K, V]> {
     return this.data.entries();
+  }
+
+  public find(
+    fn: (key: K, value: V) => boolean,
+  ): { key: K; value: V } | null {
+    for (const [key, value] of this.entries()) {
+      if (fn(key, value)) {
+        return { key, value };
+      }
+    }
+    return null;
+  }
+
+  public filter(
+    fn: (key: K, value: V) => boolean,
+  ): { key: K; value: V }[] {
+    const results: { key: K; value: V }[] = [];
+    for (const [key, value] of this.entries()) {
+      if (fn(key, value)) {
+        results.push({ key, value });
+      }
+    }
+
+    return results;
   }
 
   [Symbol.iterator](): IterableIterator<[K, V]> {

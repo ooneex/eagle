@@ -1,4 +1,4 @@
-import { IReadonlyArrayCollection } from "@/collection/types.ts";
+import { IReadonlyArrayCollection } from '@/collection/types.ts';
 
 export class ReadonlyArrayCollection<V = unknown>
   implements IReadonlyArrayCollection<V> {
@@ -24,6 +24,18 @@ export class ReadonlyArrayCollection<V = unknown>
 
   public values(): IterableIterator<V> {
     return this.data.values();
+  }
+
+  public find(fn: (value: V) => boolean): V | null {
+    for (const value of this.data) {
+      if (fn(value)) return value;
+    }
+
+    return null;
+  }
+
+  public filter(fn: (value: V) => boolean): V[] {
+    return Array.from(this.data).filter(fn);
   }
 
   [Symbol.iterator](): IterableIterator<V> {
