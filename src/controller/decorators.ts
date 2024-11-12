@@ -1,3 +1,4 @@
+import { container } from '@/container/Container.ts';
 import { ControllerContainer } from '@/controller/container.ts';
 import { DecoratorException } from '@/controller/DecoratorException.ts';
 import {
@@ -107,9 +108,10 @@ export const NotFound = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
 
-    ControllerContainer.add(NOT_FOUND_CONTROLLER_KEY, {
-      name: NOT_FOUND_CONTROLLER_KEY,
-      controller: controller,
+    container.add(NOT_FOUND_CONTROLLER_KEY, controller, {
+      scope: 'controller',
+      singleton: false,
+      instance: false,
     });
   };
 };
@@ -118,9 +120,10 @@ export const ServerException = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context);
 
-    ControllerContainer.add(SERVER_EXCEPTION_CONTROLLER_KEY, {
-      name: SERVER_EXCEPTION_CONTROLLER_KEY,
-      controller: controller,
+    container.add(SERVER_EXCEPTION_CONTROLLER_KEY, controller, {
+      scope: 'controller',
+      singleton: false,
+      instance: false,
     });
   };
 };
@@ -165,7 +168,12 @@ const ensureInitialData = (
       regexp: [],
       hosts: [],
       ips: [],
-      controller: controller,
+    });
+
+    container.add(context.name, controller, {
+      scope: 'controller',
+      singleton: false,
+      instance: false,
     });
   }
 };

@@ -24,5 +24,4 @@ export type StoreControllerValueType = {
   regexp?: RegExp[];
   hosts?: (string | RegExp)[];
   ips?: (string | RegExp)[];
-  controller?: DecoratorControllerType;
 };
