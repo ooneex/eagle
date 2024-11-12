@@ -43,9 +43,7 @@ export class HttpRequest implements IRequest {
     }
     this.payload = new ReadonlyCollection(payload);
 
-    this.ip = this.header.get('x-forwarded-for') ||
-      this.header.get('remote-addr') ||
-      null;
+    this.ip = this.header.getIp();
     this.host = this.header.getHost();
     this.referer = this.header.getReferer();
     this.server = this.header.getServer();
