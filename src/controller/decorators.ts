@@ -171,7 +171,7 @@ const ensureInitialData = (
 };
 
 const ensureIsController = (context: ClassDecoratorContext) => {
-  if (context.kind !== 'class' && !context.name?.endsWith('Controller')) {
+  if (context.kind !== 'class' || !context.name?.endsWith('Controller')) {
     throw new DecoratorException(
       'Controller decorator can only be used on controller classes',
     );

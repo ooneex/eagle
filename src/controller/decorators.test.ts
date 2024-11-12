@@ -327,4 +327,32 @@ describe('Controller Decorators', () => {
       expect(config?.regexp?.[1].test('/users/posts')).toBe(false);
     });
   });
+
+  describe('Controller Class Name', () => {
+    it('should throw error if class name does not end with Controller', () => {
+      expect(() => {
+        @Path('/users')
+        // @ts-ignore: Testing runtime behavior
+        // deno-lint-ignore no-unused-vars
+        class TestClass implements IController {
+          action(): IResponse {
+            return {} as IResponse;
+          }
+        }
+      }).toThrow(DecoratorException);
+    });
+
+    it('should not throw error if class name ends with Controller', () => {
+      expect(() => {
+        @Path('/users')
+        // @ts-ignore: Testing runtime behavior
+        // deno-lint-ignore no-unused-vars
+        class TestController implements IController {
+          action(): IResponse {
+            return {} as IResponse;
+          }
+        }
+      }).not.toThrow();
+    });
+  });
 });
