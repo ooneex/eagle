@@ -7,13 +7,16 @@ const file = new File(Deno.cwd());
 const controllers = file.list({
   recursive: true,
   match:
-    /(Controller|Middleware|Filter|Service|Repository|Validator|Dto|Config|Entity|Command)\.ts$/,
+    /(Controller|Service|Middleware|Filter|Repository|Validator|Dto|Config|Entity|Command)\.ts$/,
 });
 
 for (const controller of controllers) {
   const doc = new Doc(controller);
   const data = await doc.parse();
   for (const datum of data) {
-    DocContainer.add(datum.name, datum);
+    const d = new Doc();
+    d.setDocs([datum]);
+
+    DocContainer.add(datum.name, d);
   }
 }
