@@ -9,43 +9,43 @@ import { trim } from '@/helper/trim.ts';
 
 type ControllerType = DecoratorControllerType;
 
-export const Delete = (path?: string) => {
+export const Delete = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'DELETE', path);
   };
 };
 
-export const Get = (path?: string) => {
+export const Get = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'GET', path);
   };
 };
 
-export const Head = (path?: string) => {
+export const Head = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'HEAD', path);
   };
 };
 
-export const Options = (path?: string) => {
+export const Options = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'OPTIONS', path);
   };
 };
 
-export const Patch = (path?: string) => {
+export const Patch = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'PATCH', path);
   };
 };
 
-export const Post = (path?: string) => {
+export const Post = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'POST', path);
   };
 };
 
-export const Put = (path?: string) => {
+export const Put = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     registerMethod(controller, context, 'PUT', path);
   };
@@ -88,7 +88,7 @@ const registerMethod = (
   controller: ControllerType,
   context: ClassDecoratorContext,
   method: ControllerMethodType,
-  path?: string,
+  path: string,
 ) => {
   ensureIsController(context);
   ensureInitialData(context, controller);

@@ -45,7 +45,7 @@ describe('Controller Decorators', () => {
     });
 
     it('should work without path parameter', () => {
-      @Get()
+      @Get('/')
       class TestController implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -54,7 +54,7 @@ describe('Controller Decorators', () => {
 
       const config = ControllerContainer.get(TestController.name);
       expect(config?.methods).toEqual(['GET']);
-      expect(config?.paths).toEqual([]);
+      expect(config?.paths).toEqual(['/']);
     });
   });
 
@@ -159,7 +159,7 @@ describe('Controller Decorators', () => {
 
   describe('Controller Storage', () => {
     it('should store controller class reference', () => {
-      @Get()
+      @Get('/')
       class TestController implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -187,7 +187,7 @@ describe('Controller Decorators', () => {
 
   describe('Controller Action', () => {
     it('should ensure stored controller class has action method', () => {
-      @Get()
+      @Get('/')
       class TestController implements IController {
         action(): IResponse {
           return {} as IResponse;
