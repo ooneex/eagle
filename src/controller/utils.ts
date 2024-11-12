@@ -5,6 +5,9 @@ import {
 } from '@/controller/types.ts';
 import { trim } from '@/helper/trim.ts';
 
+export const NOT_FOUND_CONTROLLER_KEY = '__not_found__';
+export const SERVER_EXCEPTION_CONTROLLER_KEY = '__server_exception__';
+
 export const pathToRegexp = (path: string): RegExp => {
   const pattern = path
     .replace(/:([a-zA-Z]+)/g, '(?<$1>[^/]+)')
@@ -65,5 +68,6 @@ export const findController = (
     },
   );
 
-  return controller?.value || null;
+  return controller?.value ||
+    ControllerContainer.get(NOT_FOUND_CONTROLLER_KEY) || null;
 };

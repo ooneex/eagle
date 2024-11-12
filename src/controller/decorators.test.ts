@@ -5,8 +5,12 @@ import {
   Host,
   IController,
   Ip,
+  NOT_FOUND_CONTROLLER_KEY,
+  NotFound,
   Path,
   Post,
+  SERVER_EXCEPTION_CONTROLLER_KEY,
+  ServerException,
 } from '@/controller/mod.ts';
 import { IResponse } from '@/response/types.ts';
 import { expect } from '@std/expect';
@@ -177,6 +181,36 @@ describe('Controller Decorators', () => {
 
       const config = ControllerContainer.get(TestController.name);
       expect(config?.ips).toEqual(['192.168.1.1', '10.0.0.1']);
+    });
+  });
+
+  describe('NotFound Decorator', () => {
+    it('should register not found controller', () => {
+      @NotFound()
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(NOT_FOUND_CONTROLLER_KEY);
+      expect(config?.name).toBe(NOT_FOUND_CONTROLLER_KEY);
+      expect(config?.controller).toBe(TestController);
+    });
+  });
+
+  describe('ServerException Decorator', () => {
+    it('should register server exception controller', () => {
+      @ServerException()
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(SERVER_EXCEPTION_CONTROLLER_KEY);
+      expect(config?.name).toBe(SERVER_EXCEPTION_CONTROLLER_KEY);
+      expect(config?.controller).toBe(TestController);
     });
   });
 

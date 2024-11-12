@@ -4,7 +4,11 @@ import {
   ControllerMethodType,
   DecoratorControllerType,
 } from '@/controller/types.ts';
-import { pathToRegexp } from '@/controller/utils.ts';
+import {
+  NOT_FOUND_CONTROLLER_KEY,
+  pathToRegexp,
+  SERVER_EXCEPTION_CONTROLLER_KEY,
+} from '@/controller/utils.ts';
 import { trim } from '@/helper/trim.ts';
 
 type ControllerType = DecoratorControllerType;
@@ -99,6 +103,28 @@ export const Ip = (ip: string | RegExp) => {
   };
 };
 
+export const NotFound = () => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
+    ensureIsController(context);
+
+    ControllerContainer.add(NOT_FOUND_CONTROLLER_KEY, {
+      name: NOT_FOUND_CONTROLLER_KEY,
+      controller: controller,
+    });
+  };
+};
+
+export const ServerException = () => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
+    ensureIsController(context);
+
+    ControllerContainer.add(SERVER_EXCEPTION_CONTROLLER_KEY, {
+      name: SERVER_EXCEPTION_CONTROLLER_KEY,
+      controller: controller,
+    });
+  };
+};
+
 const registerMethod = (
   controller: ControllerType,
   context: ClassDecoratorContext,
@@ -145,7 +171,7 @@ const ensureInitialData = (
 };
 
 const ensureIsController = (context: ClassDecoratorContext) => {
-  if (context.kind !== 'class') {
+  if (context.kind !== 'class' && !context.name?.endsWith('Controller')) {
     throw new DecoratorException(
       'Controller decorator can only be used on controller classes',
     );
