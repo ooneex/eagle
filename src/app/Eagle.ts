@@ -35,7 +35,6 @@ export class Eagle implements IEagle {
 
       const controller = await container.get<IController>(
         definition.name,
-        'controller',
       );
       if (!controller) {
         return buildDefaultNotFoundResponse(req);
@@ -67,7 +66,6 @@ export class Eagle implements IEagle {
 
         const controller = await container.get<IController>(
           definition.name,
-          'controller',
         );
         if (!controller) {
           return buildDefaultServerExceptionResponse(error as Error);

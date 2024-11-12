@@ -4,14 +4,14 @@ import { File } from '@/file/File.ts';
 
 const file = new File(Deno.cwd());
 
-const controllers = file.list({
+const resources = file.list({
   recursive: true,
   match:
     /(Controller|Service|Middleware|Filter|Repository|Validator|Dto|Config|Entity|Command)\.ts$/,
 });
 
-for (const controller of controllers) {
-  const doc = new Doc(controller);
+for (const resource of resources) {
+  const doc = new Doc(resource);
   const data = await doc.parse();
   for (const datum of data) {
     const d = new Doc();

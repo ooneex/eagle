@@ -1,10 +1,7 @@
 import { container } from '@/container/Container.ts';
 import { ControllerContainer } from '@/controller/container.ts';
 import { DecoratorException } from '@/controller/DecoratorException.ts';
-import {
-  ControllerMethodType,
-  DecoratorControllerType,
-} from '@/controller/types.ts';
+import { ControllerMethodType } from '@/controller/types.ts';
 import {
   NOT_FOUND_CONTROLLER_KEY,
   pathToRegexp,
@@ -12,7 +9,7 @@ import {
 } from '@/controller/utils.ts';
 import { trim } from '@/helper/trim.ts';
 
-type ControllerType = DecoratorControllerType;
+type ControllerType = unknown;
 
 export const Delete = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {

@@ -13,14 +13,16 @@ export const getDependencies = async (
   }
 
   const constructorDoc = (await doc.findConstructors({
-    name: key,
+    class: {
+      name: key,
+    },
   }))[0];
 
   if (!constructorDoc) {
     return [];
   }
 
-  let dependencies: string[] = [];
+  const dependencies: string[] = [];
 
   for (const parameter of constructorDoc.parameters) {
     if (parameter.type === key) {
@@ -31,18 +33,13 @@ export const getDependencies = async (
 
     const deps = await getDependencies(parameter.type);
 
-    if (!deps) {
-      dependencies.push(parameter.type);
-      continue;
-    }
-
     if (deps.includes(key)) {
       throw new ContainerException(
         `Circular dependency detected: ${key} -> ${parameter.type} -> ${key}`,
       );
     }
 
-    dependencies = [...dependencies, ...deps];
+    dependencies.push(parameter.type);
   }
 
   return dependencies;

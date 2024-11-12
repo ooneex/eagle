@@ -40,6 +40,7 @@ export class Container {
 
     for (const [, container] of this.store) {
       const Value = container.get(key);
+
       if (Value) {
         if (Value.singleton && Value.instance) {
           return Value.value as T;

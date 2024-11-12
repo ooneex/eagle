@@ -13,10 +13,6 @@ export type ControllerMethodType =
   | 'POST'
   | 'PUT';
 
-export type DecoratorControllerType = {
-  new (...args: unknown[]): unknown;
-};
-
 export type StoreControllerValueType = {
   name: string;
   methods?: ControllerMethodType[];
