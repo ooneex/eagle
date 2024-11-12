@@ -35,7 +35,7 @@ export class Url implements IUrl {
     }
 
     this.port = this.native.port ? parseString(this.native.port) : 80;
-    this.path = this.native.pathname;
+    this.path = `/${trim(this.native.pathname, '/')}`;
     this.fragment = trim(this.native.hash, '#');
     this.base = `${this.native.protocol}//${this.native.host}`;
     this.origin = this.native.origin;

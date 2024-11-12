@@ -2,6 +2,7 @@ import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
 import { IReadonlyCollection } from '@/collection/types.ts';
 import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
 import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
+import { parseString } from '@/helper/parseString.ts';
 import { IRequest, RequestMethodType } from '@/request/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
@@ -9,9 +10,11 @@ import { Url } from '@/url/Url.ts';
 
 export class HttpRequest implements IRequest {
   public readonly url: IUrl;
+  public readonly path: string;
   public readonly method: RequestMethodType;
   public readonly header: IReadonlyHeader;
   public readonly userAgent: IUserAgent;
+  public readonly queries: IReadonlyCollection<string, ScalarType>;
   public readonly params: IReadonlyCollection<string, ScalarType>;
   public readonly payload: IReadonlyCollection<string, unknown>;
   public readonly ip: string | null;
@@ -28,12 +31,14 @@ export class HttpRequest implements IRequest {
     },
   ) {
     this.url = new Url(this.request.url);
+    this.path = this.url.path;
     this.method = this.request.method.toUpperCase() as RequestMethodType;
     this.header = new ReadonlyHeader(request.headers);
     this.userAgent = this.header.getUserAgent();
+    this.queries = this.url.queries;
     const params: [string, ScalarType][] = [];
     for (const [key, value] of Object.entries(config?.params ?? {})) {
-      params.push([key, value]);
+      params.push([key, parseString(`${value}`)]);
     }
     this.params = new ReadonlyCollection(params);
 

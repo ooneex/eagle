@@ -35,7 +35,7 @@ describe('HttpRequest', () => {
     expect(httpRequest.bearerToken).toBe('token123');
 
     // Test params and payload
-    expect(httpRequest.params.get('id')).toBe('123');
+    expect(httpRequest.params.get('id')).toBe(123);
     expect(httpRequest.payload.get('name')).toBe('test');
   });
 
