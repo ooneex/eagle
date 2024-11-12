@@ -26,4 +26,25 @@ describe('trim', () => {
     expect(trim('#hello world#', '#')).toBe('hello world');
     expect(trim('  hello#world  ')).toBe('hello#world');
   });
+
+  it('should handle special regex characters', () => {
+    const specialChars = [
+      '.',
+      '[',
+      ']',
+      '(',
+      ')',
+      '+',
+      '*',
+      '^',
+      '$',
+      '?',
+      '/',
+    ];
+
+    for (const char of specialChars) {
+      const testString = `${char}${char}hello${char}${char}`;
+      expect(trim(testString, char)).toBe('hello');
+    }
+  });
 });
