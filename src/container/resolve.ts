@@ -2,19 +2,15 @@ import { container } from '@/container/Container.ts';
 import { ContainerException } from '@/container/ContainerException.ts';
 import { ContainerScopeType } from '@/container/types.ts';
 import { DocContainer } from '@/doc/container.ts';
-import { Doc } from '@/doc/Doc.ts';
 
 export const getDependencies = async (
   key: string,
 ): Promise<string[]> => {
-  const docDefinition = DocContainer.get(key);
+  const doc = DocContainer.get(key);
 
-  if (!docDefinition) {
+  if (!doc) {
     return [];
   }
-
-  const doc = new Doc();
-  doc.setDocs([docDefinition]);
 
   const constructorDoc = (await doc.findConstructors({
     name: key,

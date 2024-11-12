@@ -1,4 +1,5 @@
 export type ContainerScopeType =
+  | 'default'
   | 'middleware'
   | 'filter'
   | 'service'
@@ -7,4 +8,5 @@ export type ContainerScopeType =
   | 'dto'
   | 'config'
   | 'entity'
+  | 'controller'
   | 'command';

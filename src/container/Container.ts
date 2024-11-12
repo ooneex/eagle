@@ -1,36 +1,90 @@
 import { Collection } from '@/collection/Collection.ts';
 import { ICollection } from '@/collection/types.ts';
+import { ContainerException } from '@/container/ContainerException.ts';
 import { resolveDependencies } from '@/container/resolve.ts';
 import { ContainerScopeType } from '@/container/types.ts';
 
-const store = new Collection<
-  ContainerScopeType,
-  ICollection<string, unknown>
->();
-
 export class Container {
+  private store = new Collection<
+    ContainerScopeType,
+    ICollection<string, {
+      value: unknown;
+      singleton?: boolean;
+      instance?: boolean;
+    }>
+  >();
+
   public async get<T = unknown>(
     key: string,
     scope?: ContainerScopeType,
   ): Promise<T | null> {
     if (scope) {
-      const Value = store.get(scope)?.get(key) ?? null;
+      const Value = this.store.get(scope)?.get(key) ?? null;
       if (!Value) return null;
-      const dependencies = await resolveDependencies(key, scope);
 
-      return new (Value as any)(...dependencies);
+      if (Value.singleton && Value.instance) {
+        return Value.value as T;
+      }
+
+      const dependencies = await resolveDependencies(key, scope);
+      const instance = new (Value.value as any)(...dependencies);
+
+      if (Value.singleton) {
+        Value.value = instance;
+        Value.instance = true;
+        this.store.get(scope)?.add(key, Value);
+      }
+
+      return instance;
     }
 
-    for (const [, container] of store) {
+    for (const [, container] of this.store) {
       const Value = container.get(key);
       if (Value) {
-        const dependencies = await resolveDependencies(key, scope);
+        if (Value.singleton && Value.instance) {
+          return Value.value as T;
+        }
 
-        return new (Value as any)(...dependencies);
+        const dependencies = await resolveDependencies(key, scope);
+        const instance = new (Value.value as any)(...dependencies);
+
+        if (Value.singleton) {
+          Value.value = instance;
+          Value.instance = true;
+          container.add(key, Value);
+        }
+
+        return instance;
       }
     }
 
     return null;
+  }
+
+  public add<T = unknown>(
+    key: string,
+    value: T,
+    options: {
+      scope?: ContainerScopeType;
+      singleton?: boolean;
+      instance?: boolean;
+    },
+  ): this {
+    const { scope = 'default', singleton = false, instance = false } = options;
+
+    if (!this.store.has(scope)) {
+      this.store.add(scope, new Collection());
+    }
+
+    if (this.store.get(scope)!.has(key)) {
+      throw new ContainerException(
+        `Key '${key}' already exists in scope '${scope}'`,
+      );
+    }
+
+    this.store.get(scope)!.add(key, { value, singleton, instance });
+
+    return this;
   }
 }
 
