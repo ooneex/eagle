@@ -4,6 +4,7 @@ import {
   Get,
   Host,
   IController,
+  Ip,
   Path,
   Post,
 } from '@/controller/mod.ts';
@@ -136,6 +137,46 @@ describe('Controller Decorators', () => {
 
       const config = ControllerContainer.get(TestController.name);
       expect(config?.hosts).toEqual(['example.com', 'api.example.com']);
+    });
+  });
+
+  describe('Ip Decorator', () => {
+    it('should register string IP', () => {
+      @Ip('127.0.0.1')
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.ips).toEqual(['127.0.0.1']);
+    });
+
+    it('should register RegExp IP pattern', () => {
+      const ipPattern = /^192\.168\./;
+      @Ip(ipPattern)
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.ips?.[0]).toBe(ipPattern);
+    });
+
+    it('should register multiple IPs', () => {
+      @Ip('10.0.0.1')
+      @Ip('192.168.1.1')
+      class TestController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestController.name);
+      expect(config?.ips).toEqual(['192.168.1.1', '10.0.0.1']);
     });
   });
 

@@ -84,6 +84,21 @@ export const Host = (host: string | RegExp) => {
   };
 };
 
+export const Ip = (ip: string | RegExp) => {
+  return (controller: ControllerType, context: ClassDecoratorContext) => {
+    ensureIsController(context);
+    ensureInitialData(context, controller);
+
+    if (context.name) {
+      const config = ControllerContainer.get(context.name)!;
+      if (!config.ips?.includes(ip)) {
+        config.ips?.push(ip);
+        ControllerContainer.add(context.name, config);
+      }
+    }
+  };
+};
+
 const registerMethod = (
   controller: ControllerType,
   context: ClassDecoratorContext,
@@ -123,6 +138,7 @@ const ensureInitialData = (
       paths: [],
       regexp: [],
       hosts: [],
+      ips: [],
       controller: controller,
     });
   }
