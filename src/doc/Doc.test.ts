@@ -73,12 +73,12 @@ describe('Doc', () => {
   it('should find properties by name', () => {
     const nameProps = doc.findProperties({ name: 'name' });
     expect(nameProps.length).toBe(1);
-    expect(nameProps[0].type).toBe('string');
+    expect(nameProps[0].types).toContain('string');
     expect(nameProps[0].accessibility).toBe('private');
   });
 
   it('should find properties by type', () => {
-    const numberProps = doc.findProperties({ type: 'number' });
+    const numberProps = doc.findProperties({ types: ['number'] });
     expect(numberProps.length).toBe(1);
     expect(numberProps[0].name).toBe('age');
   });

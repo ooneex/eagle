@@ -1,6 +1,7 @@
-import { Service } from '@/service/mod.ts';
+import { service } from '@/service/mod.ts';
 
-@Service()
+@service()
 export class UserService {
-  name: string = 'UserService';
+  name: string | null = 'UserService';
+  key: string = 'user';
 }

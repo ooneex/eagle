@@ -1,6 +1,6 @@
 export type PropertyDocType = {
   name: string;
-  type: string;
+  types: string[];
   isOptional: boolean;
   isReadonly: boolean;
   accessibility: 'public' | 'protected' | 'private';

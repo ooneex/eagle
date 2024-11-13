@@ -82,9 +82,20 @@ export class Doc implements IDoc {
 
       const properties: PropertyDocType[] = [];
       for (const property of node?.classDef?.properties ?? []) {
+        let types: string[] = [];
+        if (property.tsType.kind === 'keyword') {
+          types = [property.tsType.repr];
+        }
+
+        if (property.tsType.kind === 'union') {
+          for (const type of property.tsType.union) {
+            types.push(type.repr);
+          }
+        }
+
         properties.push({
           name: property.name,
-          type: property.tsType.repr,
+          types: types,
           isReadonly: property.readonly,
           accessibility: property.accessibility,
           isOptional: property.optional,
@@ -228,8 +239,10 @@ export class Doc implements IDoc {
             }
           }
           if (
-            criteria.properties.type !== undefined &&
-            property.type !== criteria.properties.type
+            criteria.properties.types !== undefined &&
+            !property.types.some((type) =>
+              criteria.properties?.types?.includes(type)
+            )
           ) continue;
           if (
             criteria.properties.isOptional !== undefined &&
@@ -481,8 +494,8 @@ export class Doc implements IDoc {
         }
 
         if (
-          criteria.type !== undefined &&
-          property.type !== criteria.type
+          criteria.types !== undefined &&
+          !property.types.some((type) => criteria.types?.includes(type))
         ) continue;
         if (
           criteria.isOptional !== undefined &&
