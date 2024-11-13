@@ -115,7 +115,7 @@ describe('Doc', () => {
     const params = doc.findParameters('TestClass', 'setName');
     expect(params.length).toBe(1);
     expect(params[0].name).toBe('name');
-    expect(params[0].type).toBe('string');
+    expect(params[0].types).toContain('string');
     expect(params[0].isOptional).toBe(false);
   });
 

@@ -25,21 +25,23 @@ export const getDependencies = (
   const dependencies: string[] = [];
 
   for (const parameter of constructorDoc.parameters) {
-    if (parameter.type === key) {
+    const type = parameter.types[0];
+
+    if (type === key) {
       throw new ContainerException(
         `Circular dependency detected: ${key} is dependent on itself`,
       );
     }
 
-    const deps = getDependencies(parameter.type);
+    const deps = getDependencies(type);
 
     if (deps.includes(key)) {
       throw new ContainerException(
-        `Circular dependency detected: ${key} -> ${parameter.type} -> ${key}`,
+        `Circular dependency detected: ${key} -> ${type} -> ${key}`,
       );
     }
 
-    dependencies.push(parameter.type);
+    dependencies.push(type);
   }
 
   return dependencies;

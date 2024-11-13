@@ -39,9 +39,20 @@ export class Doc implements IDoc {
         if (method.kind !== 'method') continue;
         const params: MethodParamDocType[] = [];
         for (const param of method?.functionDef?.params ?? []) {
+          let types: string[] = [];
+          if (param.tsType.kind === 'keyword') {
+            types = [param.tsType.repr];
+          }
+
+          if (param.tsType.kind === 'union') {
+            for (const type of param.tsType.union) {
+              types.push(type.repr);
+            }
+          }
+
           params.push({
             name: param.name,
-            type: param.tsType.repr,
+            types,
             isOptional: param.optional,
           });
         }
@@ -65,10 +76,21 @@ export class Doc implements IDoc {
       if (c) {
         const params: ConstructorParamDocType[] = [];
         for (const param of c.params ?? []) {
+          let types: string[] = [];
+          if (param.tsType.kind === 'keyword') {
+            types = [param.tsType.repr];
+          }
+
+          if (param.tsType.kind === 'union') {
+            for (const type of param.tsType.union) {
+              types.push(type.repr);
+            }
+          }
+
           params.push({
             name: param.name,
             isOptional: param.optional,
-            type: param.tsType.repr,
+            types,
             accessibility: param.accessibility,
             isReadonly: param.readonly,
           });
@@ -95,7 +117,7 @@ export class Doc implements IDoc {
 
         properties.push({
           name: property.name,
-          types: types,
+          types,
           isReadonly: property.readonly,
           accessibility: property.accessibility,
           isOptional: property.optional,
@@ -206,8 +228,10 @@ export class Doc implements IDoc {
               }
             }
             if (
-              criteria.constructor.parameters.type !== undefined &&
-              param.type !== criteria.constructor.parameters.type
+              criteria.constructor?.parameters?.types !== undefined &&
+              !param.types.some((type) =>
+                criteria.constructor?.parameters?.types?.includes(type)
+              )
             ) continue;
             if (
               criteria.constructor.parameters.isOptional !== undefined &&
@@ -321,8 +345,10 @@ export class Doc implements IDoc {
                 }
               }
               if (
-                criteria.methods.parameters.type !== undefined &&
-                param.type !== criteria.methods.parameters.type
+                criteria.methods?.parameters?.types !== undefined &&
+                !param.types.some((t) =>
+                  criteria.methods?.parameters?.types?.includes(t)
+                )
               ) continue;
               if (
                 criteria.methods.parameters.isOptional !== undefined &&
@@ -415,8 +441,10 @@ export class Doc implements IDoc {
             }
           }
           if (
-            criteria.parameters.type !== undefined &&
-            param.type !== criteria.parameters.type
+            criteria.parameters?.types !== undefined &&
+            !param.types.some((type) =>
+              criteria.parameters?.types?.includes(type)
+            )
           ) continue;
           if (
             criteria.parameters.isOptional !== undefined &&
@@ -624,8 +652,8 @@ export class Doc implements IDoc {
               }
             }
             if (
-              criteria.parameters.type !== undefined &&
-              param.type !== criteria.parameters.type
+              criteria.parameters?.types !== undefined &&
+              !param.types.some((t) => criteria.parameters?.types?.includes(t))
             ) {
               paramsMatch = false;
               break;

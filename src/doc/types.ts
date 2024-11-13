@@ -10,7 +10,7 @@ export type PropertyDocType = {
 
 export type ConstructorParamDocType = {
   name: string;
-  type: string;
+  types: string[];
   isOptional: boolean;
   isReadonly: boolean;
   accessibility: 'public' | 'protected' | 'private';
@@ -24,7 +24,7 @@ export type ConstructorDocType = {
 
 export type MethodParamDocType = {
   name: string;
-  type: string;
+  types: string[];
   isOptional: boolean;
 };
 
