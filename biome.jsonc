@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "organizeImports": {
-    "enabled": true,
+    "enabled": true
   },
   "formatter": {
     "enabled": true,
@@ -9,15 +9,15 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "ignore": [],
+    "ignore": []
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
+      "quoteStyle": "single"
     },
     "parser": {
-      "unsafeParameterDecoratorsEnabled": true,
-    },
+      "unsafeParameterDecoratorsEnabled": true
+    }
   },
   "linter": {
     "enabled": true,
@@ -25,31 +25,31 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": "error",
-        "noUnusedVariables": "error",
+        "noUnusedVariables": "error"
       },
       "suspicious": {
         "noExplicitAny": "off",
         "noArrayIndexKey": "off",
-        "noConsoleLog": "error",
+        "noConsoleLog": "error"
       },
       "complexity": {
         "noStaticOnlyClass": "off",
         "noUselessConstructor": "off",
-        "useLiteralKeys": "off",
+        "useLiteralKeys": "off"
       },
       "style": {
         "noParameterAssign": "off",
-        "useImportType": "off",
+        "useImportType": "off"
       },
       "a11y": {
-        "noSvgWithoutTitle": "off",
+        "noSvgWithoutTitle": "off"
       },
       "performance": {
-        "noDelete": "error",
-      },
-    },
+        "noDelete": "error"
+      }
+    }
   },
   "files": {
-    "ignore": ["dist"],
-  },
+    "ignore": ["dist"]
+  }
 }

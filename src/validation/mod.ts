@@ -9,6 +9,18 @@ export { AssertNull } from '@/validation/asserts/AssertNull.ts';
 export { AssertNumber } from '@/validation/asserts/AssertNumber.ts';
 export { AssertString } from '@/validation/asserts/AssertString.ts';
 export { AssertUndefined } from '@/validation/asserts/AssertUndefined.ts';
+export { AssertBigintArray } from '@/validation/asserts/AssertBigintArray.ts';
+export { AssertBooleanArray } from '@/validation/asserts/AssertBooleanArray.ts';
+export { AssertDateArray } from '@/validation/asserts/AssertDateArray.ts';
+export { AssertEmailArray } from '@/validation/asserts/AssertEmailArray.ts';
+export { AssertFloatArray } from '@/validation/asserts/AssertFloatArray.ts';
+export { AssertFunction } from '@/validation/asserts/AssertFunction.ts';
+export { AssertFunctionArray } from '@/validation/asserts/AssertFunctionArray.ts';
+export { AssertIntArray } from '@/validation/asserts/AssertIntArray.ts';
+export { AssertNotNullArray } from '@/validation/asserts/AssertNotNullArray.ts';
+export { AssertNullArray } from '@/validation/asserts/AssertNullArray.ts';
+export { AssertNumberArray } from '@/validation/asserts/AssertNumberArray.ts';
+export { AssertStringArray } from '@/validation/asserts/AssertStringArray.ts';
 
 export * from '@/validation/decorators.ts';
 export * from '@/validation/types.ts';

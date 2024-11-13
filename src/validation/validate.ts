@@ -1,4 +1,5 @@
 import { DocContainer } from '@/doc/container.ts';
+import { assertMapper } from '@/validation/mapper.ts';
 import { IValidator } from '@/validation/types.ts';
 import { ValidationException } from '@/validation/ValidationException.ts';
 
@@ -14,5 +15,22 @@ export const validate = (validator: IValidator) => {
 
   const properties = doc.findProperties();
 
-  console.log(properties);
+  for (const property of properties) {
+    const constraints: string[] = [];
+
+    for (const t of property.types) {
+      let type = t.replace(/\[.*\]$/, 'Array');
+
+      if (assertMapper[type]) {
+        type = assertMapper[type];
+      }
+
+      constraints.push(t);
+    }
+
+    console.log(property);
+
+    constraints.push(property.name);
+    // const assert = new AssertArray();
+  }
 };

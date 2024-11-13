@@ -1,16 +1,12 @@
 import { IAssert } from '@/validation/types.ts';
+import { assert } from '@/validation/decorators.ts';
 
+@assert()
 export class AssertUndefined implements IAssert {
-  public readonly property: string;
-
-  constructor(property: string) {
-    this.property = property;
-  }
-
   public validate(value: unknown) {
     return {
       success: typeof value === 'undefined',
-      message: `${this.property} must be undefined`,
+      message: 'Value must be undefined',
     };
   }
 }

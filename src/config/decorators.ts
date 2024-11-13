@@ -5,11 +5,13 @@ export const config = () => {
   return (config: unknown, context: ClassDecoratorContext) => {
     ensureIsConfig(context, config);
 
-    container.add(context.name!, config, {
-      scope: 'config',
-      singleton: true,
-      instance: false,
-    });
+    if (context.name) {
+      container.add(context.name, config, {
+        scope: 'config',
+        singleton: true,
+        instance: false,
+      });
+    }
   };
 };
 

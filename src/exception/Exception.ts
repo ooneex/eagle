@@ -22,10 +22,9 @@ export class Exception<T = unknown> extends Error {
     );
 
     if (0 < this.stacks.length) {
-      const stack =
-        this.stacks[
-          message instanceof Error ? 0 : 2 < this.stacks.length ? 2 : 0
-        ];
+      const stack = this.stacks[
+        message instanceof Error ? 0 : 2 < this.stacks.length ? 2 : 0
+      ];
       this.file = stack.file;
       this.line = stack.line;
       this.column = stack.column;

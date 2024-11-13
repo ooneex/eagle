@@ -40,7 +40,10 @@ export class Doc implements IDoc {
         const params: MethodParamDocType[] = [];
         for (const param of method?.functionDef?.params ?? []) {
           let types: string[] = [];
-          if (param.tsType.kind === 'keyword') {
+          if (
+            param.tsType.kind === 'keyword' ||
+            param.tsType.kind === 'typeRef'
+          ) {
             types = [param.tsType.repr];
           }
           if (param.tsType.kind === 'array') {
@@ -73,14 +76,17 @@ export class Doc implements IDoc {
         });
       }
 
-      let constructor: ConstructorDocType | null = null;
+      let constructorDoc: ConstructorDocType | null = null;
       const c = node?.classDef?.constructors?.[0];
 
       if (c) {
         const params: ConstructorParamDocType[] = [];
         for (const param of c.params ?? []) {
           let types: string[] = [];
-          if (param.tsType.kind === 'keyword') {
+          if (
+            param.tsType.kind === 'keyword' ||
+            param.tsType.kind === 'typeRef'
+          ) {
             types = [param.tsType.repr];
           }
           if (param.tsType.kind === 'array') {
@@ -101,7 +107,7 @@ export class Doc implements IDoc {
             isReadonly: param.readonly,
           });
         }
-        constructor = {
+        constructorDoc = {
           name: c.name,
           accessibility: c.accessibility,
           parameters: params,
@@ -111,7 +117,10 @@ export class Doc implements IDoc {
       const properties: PropertyDocType[] = [];
       for (const property of node?.classDef?.properties ?? []) {
         let types: string[] = [];
-        if (property.tsType.kind === 'keyword') {
+        if (
+          property.tsType.kind === 'keyword' ||
+          property.tsType.kind === 'typeRef'
+        ) {
           types = [property.tsType.repr];
         }
 
@@ -141,7 +150,7 @@ export class Doc implements IDoc {
         isDefault: node.isDefault,
         isExported: node.declarationKind === 'export',
         isAbstract: node.classDef.isAbstract,
-        constructor,
+        constructor: constructorDoc,
         properties,
         methods,
       });
