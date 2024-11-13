@@ -8,7 +8,7 @@ import {
 } from '@/doc/types.ts';
 
 export class Doc {
-  private docs: ClassDocType[] | null = null;
+  private docs: ClassDocType[] = [];
 
   constructor(private readonly filePath?: string) {}
 
@@ -103,10 +103,12 @@ export class Doc {
       });
     }
 
+    this.docs = docs;
+
     return docs;
   }
 
-  public async findClasses(
+  public findClasses(
     criteria?:
       & Partial<
         Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
@@ -131,11 +133,7 @@ export class Doc {
           };
         };
       },
-  ): Promise<ClassDocType[]> {
-    if (!this.docs) {
-      this.docs = await this.parse();
-    }
-
+  ): ClassDocType[] {
     if (!criteria) {
       criteria = {};
     }
@@ -328,7 +326,7 @@ export class Doc {
     return classes;
   }
 
-  public async findConstructors(
+  public findConstructors(
     criteria?: Partial<Omit<ConstructorDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
       parameters?: Partial<Omit<ConstructorParamDocType, 'name'>> & {
@@ -342,11 +340,7 @@ export class Doc {
           name?: string | RegExp;
         };
     },
-  ): Promise<ConstructorDocType[]> {
-    if (!this.docs) {
-      this.docs = await this.parse();
-    }
-
+  ): ConstructorDocType[] {
     if (!criteria) {
       criteria = {};
     }
@@ -433,7 +427,7 @@ export class Doc {
     return constructors;
   }
 
-  public async findProperties(
+  public findProperties(
     criteria?: Partial<Omit<PropertyDocType, 'name'>> & {
       name?: string | RegExp;
       class?:
@@ -444,11 +438,7 @@ export class Doc {
           name?: string | RegExp;
         };
     },
-  ): Promise<PropertyDocType[]> {
-    if (!this.docs) {
-      this.docs = await this.parse();
-    }
-
+  ): PropertyDocType[] {
     if (!criteria) {
       criteria = {};
     }
@@ -521,7 +511,7 @@ export class Doc {
     return properties;
   }
 
-  public async findMethods(
+  public findMethods(
     criteria?: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
       class?:
@@ -535,11 +525,7 @@ export class Doc {
         name?: string | RegExp;
       };
     },
-  ): Promise<MethodDocType[]> {
-    if (!this.docs) {
-      this.docs = await this.parse();
-    }
-
+  ): MethodDocType[] {
     if (!criteria) {
       criteria = {};
     }
@@ -648,20 +634,16 @@ export class Doc {
     return methods;
   }
 
-  public async findParameters(
+  public findParameters(
     className: string,
     methodName: string,
-  ): Promise<MethodParamDocType[]> {
-    if (!this.docs) {
-      this.docs = await this.parse();
-    }
-
-    const actionDoc = (await this.findMethods({
+  ): MethodParamDocType[] {
+    const actionDoc = this.findMethods({
       name: methodName,
       class: {
         name: className,
       },
-    }))[0];
+    })[0];
 
     if (!actionDoc) {
       return [];

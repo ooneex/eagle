@@ -3,16 +3,16 @@ import { ContainerException } from '@/container/ContainerException.ts';
 import { ContainerScopeType } from '@/container/types.ts';
 import { DocContainer } from '@/doc/container.ts';
 
-export const getDependencies = async (
+export const getDependencies = (
   key: string,
-): Promise<string[]> => {
+): string[] => {
   const doc = DocContainer.get(key);
 
   if (!doc) {
     return [];
   }
 
-  const constructorDoc = (await doc.findConstructors({
+  const constructorDoc = (doc.findConstructors({
     class: {
       name: key,
     },
@@ -31,7 +31,7 @@ export const getDependencies = async (
       );
     }
 
-    const deps = await getDependencies(parameter.type);
+    const deps = getDependencies(parameter.type);
 
     if (deps.includes(key)) {
       throw new ContainerException(
@@ -45,18 +45,18 @@ export const getDependencies = async (
   return dependencies;
 };
 
-export const resolveDependencies = async (
+export const resolveDependencies = (
   key: string,
   scope?: ContainerScopeType,
-): Promise<unknown[]> => {
-  const dependencies = await getDependencies(key);
+): unknown[] => {
+  const dependencies = getDependencies(key);
 
   if (!dependencies) {
     return [];
   }
 
-  const resolvedDependencies = await Promise.all(
-    dependencies.map((dependency) => container.get(dependency, scope)),
+  const resolvedDependencies = dependencies.map((dependency) =>
+    container.get(dependency, scope)
   );
 
   return resolvedDependencies;

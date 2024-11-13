@@ -86,7 +86,7 @@ export const buildControllerActionParameters = async (
   const parameters: unknown[] = [];
 
   const doc = DocContainer.get(definition.name);
-  const params = doc ? await doc.findParameters(definition.name, 'action') : [];
+  const params = doc ? doc.findParameters(definition.name, 'action') : [];
 
   for (const param of params) {
     const type = param.type;

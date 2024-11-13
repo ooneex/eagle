@@ -14,10 +14,10 @@ export class Container {
     }>
   >();
 
-  public async get<T = unknown>(
+  public get<T = unknown>(
     key: string,
     scope?: ContainerScopeType,
-  ): Promise<T | null> {
+  ): T | null {
     if (scope) {
       const Value = this.store.get(scope)?.get(key) ?? null;
       if (!Value) return null;
@@ -26,7 +26,7 @@ export class Container {
         return Value.value as T;
       }
 
-      const dependencies = await resolveDependencies(key, scope);
+      const dependencies = resolveDependencies(key, scope);
       const instance = new (Value.value as any)(...dependencies);
 
       if (Value.singleton) {
@@ -46,7 +46,7 @@ export class Container {
           return Value.value as T;
         }
 
-        const dependencies = await resolveDependencies(key, scope);
+        const dependencies = resolveDependencies(key, scope);
         const instance = new (Value.value as any)(...dependencies);
 
         if (Value.singleton) {
