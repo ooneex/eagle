@@ -6,7 +6,7 @@ export const config = () => {
     ensureIsConfig(context);
 
     container.add(context.name!, service, {
-      scope: 'service',
+      scope: 'config',
       singleton: true,
       instance: false,
     });
