@@ -2,12 +2,13 @@ import {
   ClassDocType,
   ConstructorDocType,
   ConstructorParamDocType,
+  IDoc,
   MethodDocType,
   MethodParamDocType,
   PropertyDocType,
 } from '@/doc/types.ts';
 
-export class Doc {
+export class Doc implements IDoc {
   private docs: ClassDocType[] = [];
 
   constructor(private readonly filePath?: string) {}

@@ -49,3 +49,80 @@ export type ClassDocType = {
   properties: PropertyDocType[];
   methods: MethodDocType[];
 };
+
+export type IDoc = {
+  setDocs: (docs: ClassDocType[]) => void;
+  parse: () => Promise<ClassDocType[]>;
+  findClasses: (
+    criteria?:
+      & Partial<
+        Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
+      >
+      & {
+        name?: string | RegExp;
+        constructor?:
+          & Partial<Omit<ConstructorDocType, 'name' | 'parameters'>>
+          & {
+            name?: string | RegExp;
+            parameters?: Partial<Omit<ConstructorParamDocType, 'name'>> & {
+              name?: string | RegExp;
+            };
+          };
+        properties?: Partial<Omit<PropertyDocType, 'name'>> & {
+          name?: string | RegExp;
+        };
+        methods?: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
+          name?: string | RegExp;
+          parameters?: Partial<Omit<MethodParamDocType, 'name'>> & {
+            name?: string | RegExp;
+          };
+        };
+      },
+  ) => ClassDocType[];
+  findConstructors: (
+    criteria?: Partial<Omit<ConstructorDocType, 'name' | 'parameters'>> & {
+      name?: string | RegExp;
+      parameters?: Partial<Omit<ConstructorParamDocType, 'name'>> & {
+        name?: string | RegExp;
+      };
+      class?:
+        & Partial<
+          Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
+        >
+        & {
+          name?: string | RegExp;
+        };
+    },
+  ) => ConstructorDocType[];
+  findProperties: (
+    criteria?: Partial<Omit<PropertyDocType, 'name'>> & {
+      name?: string | RegExp;
+      class?:
+        & Partial<
+          Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
+        >
+        & {
+          name?: string | RegExp;
+        };
+    },
+  ) => PropertyDocType[];
+  findMethods: (
+    criteria?: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
+      name?: string | RegExp;
+      class?:
+        & Partial<
+          Omit<ClassDocType, 'name' | 'constructor' | 'properties' | 'methods'>
+        >
+        & {
+          name?: string | RegExp;
+        };
+      parameters?: Partial<Omit<MethodParamDocType, 'name'>> & {
+        name?: string | RegExp;
+      };
+    },
+  ) => MethodDocType[];
+  findParameters: (
+    className: string,
+    methodName: string,
+  ) => MethodParamDocType[];
+};
