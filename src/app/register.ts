@@ -6,7 +6,8 @@ const file = new File(Deno.cwd());
 
 const resources = file.list({
   recursive: true,
-  match: /(Service)\.ts$/,
+  match:
+    /(Controller|Service|Config|Validator|Middleware|Filter|Repository|Dto|Entity|Command)\.ts$/,
 });
 
 for (const resource of resources) {
