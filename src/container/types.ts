@@ -5,6 +5,7 @@ export type ContainerScopeType =
   | 'service'
   | 'repository'
   | 'validator'
+  | 'assert'
   | 'dto'
   | 'config'
   | 'entity'

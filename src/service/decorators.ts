@@ -16,7 +16,7 @@ export const service = () => {
 const ensureIsService = (context: ClassDecoratorContext) => {
   if (context.kind !== 'class' || !context.name?.endsWith('Service')) {
     throw new ServiceDecoratorException(
-      'Service decorator can only be used on service classes',
+      `Service decorator can only be used on service classes. ${context.name} must end with Service keyword.`,
     );
   }
 };

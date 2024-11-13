@@ -1,4 +1,4 @@
-import { config, ConfigDecoratorException } from '@/config/mod.ts';
+import { config, ConfigDecoratorException, IConfig } from '@/config/mod.ts';
 import { container } from '@/container/Container.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
@@ -7,8 +7,12 @@ describe('Config Decorator', () => {
   it('should register a valid config class in the container', () => {
     // Define a test config class
     @config()
-    class TestConfig {
+    class TestConfig implements IConfig {
       public value = 'test';
+
+      public toJson() {
+        return { value: this.value };
+      }
     }
 
     // Verify the class was registered in the container
@@ -23,7 +27,11 @@ describe('Config Decorator', () => {
       @config()
       // @ts-ignore: This is a test
       // deno-lint-ignore no-unused-vars
-      class InvalidClass {}
+      class InvalidClass implements IConfig {
+        public toJson() {
+          return {};
+        }
+      }
     }).toThrow(ConfigDecoratorException);
   });
 
@@ -31,7 +39,11 @@ describe('Config Decorator', () => {
     @config()
     // @ts-ignore: This is a test
     // deno-lint-ignore no-unused-vars
-    class SingletonConfig {}
+    class SingletonConfig implements IConfig {
+      public toJson() {
+        return {};
+      }
+    }
 
     const instance1 = container.get('SingletonConfig');
     const instance2 = container.get('SingletonConfig');

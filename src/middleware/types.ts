@@ -6,4 +6,7 @@ export interface IMiddleware<Response = unknown> {
     response?: Response;
     exception?: Exception;
   };
+
+  getScope: () => ('request' | 'response' | 'exception')[];
+  getOrder: () => number;
 }

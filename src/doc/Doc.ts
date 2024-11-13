@@ -43,6 +43,9 @@ export class Doc implements IDoc {
           if (param.tsType.kind === 'keyword') {
             types = [param.tsType.repr];
           }
+          if (param.tsType.kind === 'array') {
+            types = [`${param.tsType.array.repr}[]`];
+          }
 
           if (param.tsType.kind === 'union') {
             for (const type of param.tsType.union) {
@@ -80,6 +83,9 @@ export class Doc implements IDoc {
           if (param.tsType.kind === 'keyword') {
             types = [param.tsType.repr];
           }
+          if (param.tsType.kind === 'array') {
+            types = [`${param.tsType.array.repr}[]`];
+          }
 
           if (param.tsType.kind === 'union') {
             for (const type of param.tsType.union) {
@@ -107,6 +113,10 @@ export class Doc implements IDoc {
         let types: string[] = [];
         if (property.tsType.kind === 'keyword') {
           types = [property.tsType.repr];
+        }
+
+        if (property.tsType.kind === 'array') {
+          types = [`${property.tsType.array.repr}[]`];
         }
 
         if (property.tsType.kind === 'union') {
