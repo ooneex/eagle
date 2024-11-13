@@ -1,16 +1,11 @@
 import { container } from '@/container/Container.ts';
-import { Service, ServiceDecoratorException } from '@/service/mod.ts';
+import { service, ServiceDecoratorException } from '@/service/mod.ts';
 import { expect } from '@std/expect';
-import { beforeEach, describe, it } from '@std/testing/bdd';
+import { describe, it } from '@std/testing/bdd';
 
 describe('Service Decorator', () => {
-  beforeEach(() => {
-    // Clear container before each test
-    // container.clear();
-  });
-
   it('should register a valid service class', () => {
-    @Service()
+    @service()
     // @ts-ignore: This is a test
     class TestService {}
     const registeredService = container.get('TestService');
@@ -20,7 +15,7 @@ describe('Service Decorator', () => {
 
   it('should throw error when decorator is used on non-service class', () => {
     expect(() => {
-      @Service()
+      @service()
       // @ts-ignore: This is a test
       // deno-lint-ignore no-unused-vars
       class InvalidClass {}
@@ -29,7 +24,7 @@ describe('Service Decorator', () => {
 
   it('should throw error when class name does not end with Service', () => {
     expect(() => {
-      @Service()
+      @service()
       // @ts-ignore: This is a test
       // deno-lint-ignore no-unused-vars
       class TestController {}
@@ -37,7 +32,7 @@ describe('Service Decorator', () => {
   });
 
   it('should register service as singleton', () => {
-    @Service()
+    @service()
     // @ts-ignore: This is a test
     // deno-lint-ignore no-unused-vars
     class SingletonService {}

@@ -1,7 +1,7 @@
 import { container } from '@/container/Container.ts';
 import { ServiceDecoratorException } from '@/service/ServiceDecoratorException.ts';
 
-export const Service = () => {
+export const service = () => {
   return (service: unknown, context: ClassDecoratorContext) => {
     ensureIsService(context);
 
