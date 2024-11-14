@@ -8,52 +8,53 @@ import {
   SERVER_EXCEPTION_CONTROLLER_KEY,
 } from '@/controller/utils.ts';
 import { trim } from '@/helper/trim.ts';
+import { IValidator } from '@/validation/types.ts';
 
 type ControllerType = unknown;
 
-export const Delete = (path: string) => {
+export const Delete = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'DELETE', path);
+    registerMethod(controller, context, 'DELETE', path, validators);
   };
 };
 
-export const Get = (path: string) => {
+export const Get = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'GET', path);
+    registerMethod(controller, context, 'GET', path, validators);
   };
 };
 
-export const Head = (path: string) => {
+export const Head = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'HEAD', path);
+    registerMethod(controller, context, 'HEAD', path, validators);
   };
 };
 
-export const Options = (path: string) => {
+export const Options = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'OPTIONS', path);
+    registerMethod(controller, context, 'OPTIONS', path, validators);
   };
 };
 
-export const Patch = (path: string) => {
+export const Patch = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'PATCH', path);
+    registerMethod(controller, context, 'PATCH', path, validators);
   };
 };
 
-export const Post = (path: string) => {
+export const Post = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'POST', path);
+    registerMethod(controller, context, 'POST', path, validators);
   };
 };
 
-export const Put = (path: string) => {
+export const Put = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    registerMethod(controller, context, 'PUT', path);
+    registerMethod(controller, context, 'PUT', path, validators);
   };
 };
 
-export const Path = (path: string) => {
+export const Path = (path: string, validators?: IValidator[]) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context, controller);
     ensureInitialData(context, controller);
@@ -65,6 +66,11 @@ export const Path = (path: string) => {
         const regexp = pathToRegexp(path);
         config.paths?.push(path);
         config.regexp?.push(regexp);
+        ControllerContainer.add(context.name, config);
+      }
+
+      if (validators) {
+        config.validators?.push(...validators);
         ControllerContainer.add(context.name, config);
       }
     }
@@ -138,6 +144,7 @@ const registerMethod = (
   context: ClassDecoratorContext,
   method: ControllerMethodType,
   path: string,
+  validators?: IValidator[],
 ) => {
   ensureIsController(context, controller);
   ensureInitialData(context, controller);
@@ -158,6 +165,11 @@ const registerMethod = (
         ControllerContainer.add(context.name, config);
       }
     }
+
+    if (validators) {
+      config.validators?.push(...validators);
+      ControllerContainer.add(context.name, config);
+    }
   }
 };
 
@@ -173,6 +185,7 @@ const ensureInitialData = (
       regexp: [],
       hosts: [],
       ips: [],
+      validators: [],
     });
 
     container.add(context.name, controller, {

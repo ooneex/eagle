@@ -1,4 +1,5 @@
 import { IResponse } from '@/response/types.ts';
+import { IValidator } from '@/validation/types.ts';
 
 export interface IController {
   action: (...args: any[]) => IResponse | Promise<IResponse>;
@@ -20,4 +21,8 @@ export type StoreControllerValueType = {
   regexp?: RegExp[];
   hosts?: (string | RegExp)[];
   ips?: (string | RegExp)[];
+  /**
+   * No need to decorate those validators with @validator() decorator
+   */
+  validators?: IValidator[];
 };

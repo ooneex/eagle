@@ -13,7 +13,8 @@ import {
   SERVER_EXCEPTION_CONTROLLER_KEY,
   ServerException,
 } from '@/controller/mod.ts';
-import { IResponse } from '@/response/types.ts';
+import { IResponse } from '@/response/mod.ts';
+import { AbstractValidator, ValidatorScopeType } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { beforeEach, describe, it } from '@std/testing/bdd';
 
@@ -395,6 +396,60 @@ describe('Controller Decorators', () => {
           }
         }
       }).not.toThrow();
+    });
+  });
+
+  describe('Controller Validations', () => {
+    class TestValidator extends AbstractValidator {
+      getScope(): ValidatorScopeType {
+        return 'payload';
+      }
+    }
+
+    it('should store validators for method decorators', () => {
+      const testValidator = new TestValidator();
+
+      @Get('/test', [testValidator])
+      class Test25Controller implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(Test25Controller.name);
+      expect(config?.validators).toContain(testValidator);
+    });
+
+    it('should store validators for path decorator', () => {
+      const pathValidator = new TestValidator();
+
+      @Path('/test', [pathValidator])
+      class Test26Controller implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(Test26Controller.name);
+      expect(config?.validators).toContain(pathValidator);
+    });
+
+    it('should store multiple validators from different decorators', () => {
+      const methodValidator = new TestValidator();
+      const pathValidator = new TestValidator();
+
+      @Get('/test', [methodValidator])
+      @Path('/api', [pathValidator])
+      class Test27Controller implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(Test27Controller.name);
+      expect(config?.validators).toContain(methodValidator);
+      expect(config?.validators).toContain(pathValidator);
+      expect(config?.validators?.length).toBe(2);
     });
   });
 });
