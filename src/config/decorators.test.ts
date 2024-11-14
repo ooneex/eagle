@@ -50,4 +50,28 @@ describe('Config Decorator', () => {
 
     expect(instance1).toBe(instance2);
   });
+
+  it('should throw error if toJson method is not defined', () => {
+    expect(() => {
+      @config()
+      // @ts-ignore: Testing runtime behavior
+      // deno-lint-ignore no-unused-vars
+      class InvalidConfig {
+        // No toJson method
+      }
+    }).toThrow(ConfigDecoratorException);
+  });
+
+  it('should throw error if class does not end with Config keyword', () => {
+    expect(() => {
+      @config()
+      // @ts-ignore: Testing runtime behavior
+      // deno-lint-ignore no-unused-vars
+      class InvalidConfigInvalid {
+        public toJson() {
+          return {};
+        }
+      }
+    }).toThrow(ConfigDecoratorException);
+  });
 });
