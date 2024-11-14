@@ -1,6 +1,8 @@
 import { container } from '@/container/Container.ts';
 import {
+  AbstractValidator,
   assert,
+  IAssert,
   validator,
   ValidatorDecoratorException,
 } from '@/validation/mod.ts';
@@ -10,30 +12,27 @@ import { describe, it } from '@std/testing/bdd';
 describe('validator decorator', () => {
   it('should register validator class in container', () => {
     @validator()
-    // @ts-ignore: This is a test
-    class TestValidator implements IValidator {
+    class TestValidator extends AbstractValidator {
       public getScope() {
         return null;
       }
     }
 
-    const registeredValidator = container.get('TestValidator');
+    const registeredValidator = container.get(TestValidator.name);
     expect(registeredValidator).toBeDefined();
     expect(registeredValidator).toBeInstanceOf(TestValidator);
   });
 
   it('should register validator as singleton', () => {
     @validator()
-    // @ts-ignore: This is a test
-    // deno-lint-ignore no-unused-vars
-    class SingletonValidator implements IValidator {
+    class SingletonValidator extends AbstractValidator {
       public getScope() {
         return null;
       }
     }
 
-    const instance1 = container.get('SingletonValidator');
-    const instance2 = container.get('SingletonValidator');
+    const instance1 = container.get(SingletonValidator.name);
+    const instance2 = container.get(SingletonValidator.name);
 
     expect(instance1).toBe(instance2);
   });
@@ -43,7 +42,7 @@ describe('validator decorator', () => {
       @validator()
       // @ts-ignore: This is a test
       // deno-lint-ignore no-unused-vars
-      class InvalidClass implements IValidator {
+      class InvalidClass extends AbstractValidator {
         public getScope() {
           return null;
         }
@@ -56,7 +55,7 @@ describe('validator decorator', () => {
       @validator()
       // @ts-ignore: This is a test
       // deno-lint-ignore no-unused-vars
-      class TestService implements IValidator {
+      class TestService extends AbstractValidator {
         public getScope() {
           return null;
         }
@@ -65,40 +64,41 @@ describe('validator decorator', () => {
   });
 });
 
-it('should register assert decorator', () => {
-  @assert()
-  // @ts-ignore: This is a test
-  class AssertTest implements IAssert {
-    validate(_value: unknown) {
-      return { success: true, message: 'Valid' };
-    }
-  }
-
-  const registeredAssert = container.get('AssertTest');
-  expect(registeredAssert).toBeDefined();
-  expect(registeredAssert).toBeInstanceOf(AssertTest);
-});
-
-it('should throw error when decorator is used on non-assert class', () => {
-  expect(() => {
+describe('assert decorator', () => {
+  it('should register assert decorator', () => {
     @assert()
-    // @ts-ignore: This is a test
-    // deno-lint-ignore no-unused-vars
-    class InvalidClass {
-      // No validate method
-    }
-  }).toThrow(ValidatorDecoratorException);
-});
-
-it('should throw error when class does not implement IAssert', () => {
-  expect(() => {
-    @assert()
-    // @ts-ignore: This is a test
-    // deno-lint-ignore no-unused-vars
-    class TestValidator implements IValidator {
-      public getScope() {
-        return null;
+    class AssertTest implements IAssert {
+      validate(_value: unknown) {
+        return { success: true, message: 'Valid' };
       }
     }
-  }).toThrow(ValidatorDecoratorException);
+
+    const registeredAssert = container.get(AssertTest.name);
+    expect(registeredAssert).toBeDefined();
+    expect(registeredAssert).toBeInstanceOf(AssertTest);
+  });
+
+  it('should throw error when decorator is used on non-assert class', () => {
+    expect(() => {
+      @assert()
+      // @ts-ignore: This is a test
+      // deno-lint-ignore no-unused-vars
+      class InvalidClass {
+        // No validate method
+      }
+    }).toThrow(ValidatorDecoratorException);
+  });
+
+  it('should throw error when class does not implement IAssert', () => {
+    expect(() => {
+      @assert()
+      // @ts-ignore: This is a test
+      // deno-lint-ignore no-unused-vars
+      class TestValidator implements IAssert {
+        public randomMethod() {
+          return null;
+        }
+      }
+    }).toThrow(ValidatorDecoratorException);
+  });
 });

@@ -36,7 +36,8 @@ const ensureIsValidator = (
   if (
     context.kind !== 'class' ||
     !context.name?.endsWith('Validator') ||
-    !(validator as any).prototype.getScope
+    !(validator as any).prototype.getScope ||
+    !(validator as any).prototype.validate
   ) {
     throw new ValidatorDecoratorException(
       `Validator decorator can only be used on validator classes. ${context.name} must end with Validator keyword and implement IValidator interface.`,
