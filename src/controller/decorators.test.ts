@@ -186,7 +186,7 @@ describe('Controller Decorators', () => {
   });
 
   describe('NotFound Decorator', () => {
-    it('should register not found controller', async () => {
+    it('should register not found controller', () => {
       @NotFound()
       class Test12Controller implements IController {
         action(): IResponse {
@@ -194,7 +194,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const controller = await container.get(
+      const controller = container.get(
         NOT_FOUND_CONTROLLER_KEY,
         'controller',
       );
@@ -203,7 +203,7 @@ describe('Controller Decorators', () => {
   });
 
   describe('ServerException Decorator', () => {
-    it('should register server exception controller', async () => {
+    it('should register server exception controller', () => {
       @ServerException()
       class Test13Controller implements IController {
         action(): IResponse {
@@ -211,7 +211,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const controller = await container.get(
+      const controller = container.get(
         SERVER_EXCEPTION_CONTROLLER_KEY,
         'controller',
       );
@@ -238,7 +238,7 @@ describe('Controller Decorators', () => {
   });
 
   describe('Controller Storage', () => {
-    it('should store controller class reference', async () => {
+    it('should store controller class reference', () => {
       @Get('/')
       class Test15Controller implements IController {
         action(): IResponse {
@@ -246,14 +246,14 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const controller = await container.get(
+      const controller = container.get(
         Test15Controller.name,
         'controller',
       );
       expect(controller).toBeInstanceOf(Test15Controller);
     });
 
-    it('should store same controller class for multiple decorators', async () => {
+    it('should store same controller class for multiple decorators', () => {
       @Host('example.com')
       @Get('/users')
       @Path('/api')
@@ -263,7 +263,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const controller = await container.get(
+      const controller = container.get(
         Test16Controller.name,
         'controller',
       );
@@ -272,7 +272,7 @@ describe('Controller Decorators', () => {
   });
 
   describe('Controller Action', () => {
-    it('should ensure stored controller class has action method', async () => {
+    it('should ensure stored controller class has action method', () => {
       @Get('/')
       class Test17Controller implements IController {
         action(): IResponse {
@@ -280,7 +280,7 @@ describe('Controller Decorators', () => {
         }
       }
 
-      const controller = await container.get(
+      const controller = container.get(
         Test17Controller.name,
         'controller',
       );

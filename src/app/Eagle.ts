@@ -33,7 +33,7 @@ export class Eagle implements IEagle {
 
       const parameters = await buildControllerActionParameters(req, definition);
 
-      const controller = await container.get<IController>(
+      const controller = container.get<IController>(
         definition.name,
       );
       if (!controller) {
@@ -64,7 +64,7 @@ export class Eagle implements IEagle {
           definition,
         );
 
-        const controller = await container.get<IController>(
+        const controller = container.get<IController>(
           definition.name,
         );
         if (!controller) {

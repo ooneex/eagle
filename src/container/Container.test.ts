@@ -3,43 +3,43 @@ import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
 
 describe('Container', () => {
-  it('should add and get a value', async () => {
+  it('should add and get a value', () => {
     const container = new Container();
     class TestClass {}
 
     container.add('test', TestClass, { scope: 'default' });
-    const instance = await container.get('test');
+    const instance = container.get('test');
 
     expect(instance).toBeInstanceOf(TestClass);
   });
 
-  it('should handle singleton instances', async () => {
+  it('should handle singleton instances', () => {
     const container = new Container();
     class TestClass {}
 
     container.add('test', TestClass, { scope: 'default', singleton: true });
 
-    const instance1 = await container.get('test');
-    const instance2 = await container.get('test');
+    const instance1 = container.get('test');
+    const instance2 = container.get('test');
 
     expect(instance1).toBeInstanceOf(TestClass);
     expect(instance2).toBeInstanceOf(TestClass);
     expect(instance1).toBe(instance2);
   });
 
-  it('should handle scoped instances', async () => {
+  it('should handle scoped instances', () => {
     const container = new Container();
     class TestClass {}
 
     container.add('test', TestClass, { scope: 'service' });
-    const instance = await container.get('test', 'service');
+    const instance = container.get('test', 'service');
 
     expect(instance).toBeInstanceOf(TestClass);
   });
 
-  it('should return null for non-existent keys', async () => {
+  it('should return null for non-existent keys', () => {
     const container = new Container();
-    const result = await container.get('nonexistent');
+    const result = container.get('nonexistent');
 
     expect(result).toBe(null);
   });
