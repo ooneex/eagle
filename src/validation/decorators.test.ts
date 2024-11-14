@@ -62,6 +62,41 @@ describe('validator decorator', () => {
       }
     }).toThrow(ValidatorDecoratorException);
   });
+
+  it('should throw error if class does not have getScope method', () => {
+    expect(() => {
+      @validator()
+      // @ts-ignore: Testing runtime behavior
+      // deno-lint-ignore no-unused-vars
+      class TestValidator {
+        // No getScope method
+      }
+    }).toThrow(ValidatorDecoratorException);
+  });
+
+  it('should throw error if validate method is not defined', () => {
+    expect(() => {
+      @validator()
+      // @ts-ignore: Testing runtime behavior
+      // deno-lint-ignore no-unused-vars
+      class TestValidator {
+        // No validate method
+      }
+    }).toThrow(ValidatorDecoratorException);
+  });
+
+  it('should throw error if validate method does not return ValidationResultType', () => {
+    expect(() => {
+      @validator()
+      // @ts-ignore: Testing runtime behavior
+      // deno-lint-ignore no-unused-vars
+      class TestValidator {
+        public validate() {
+          return null;
+        }
+      }
+    }).toThrow(ValidatorDecoratorException);
+  });
 });
 
 describe('assert decorator', () => {
