@@ -3,6 +3,7 @@ import { ControllerMethodType } from '@/controller/types.ts';
 import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
+import { Cookie } from '@std/http/cookie';
 
 export type RequestMethodType = ControllerMethodType;
 
@@ -15,6 +16,7 @@ export interface IRequest {
   params: IReadonlyCollection<string, ScalarType>;
   payload: IReadonlyCollection<string, unknown>;
   queries: IReadonlyCollection<string, ScalarType>;
+  cookies: IReadonlyCollection<string, Cookie>;
   ip: string | null;
   host: string | null;
   referer: string | null;

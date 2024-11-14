@@ -7,7 +7,7 @@ import { IRequest, RequestMethodType } from '@/request/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
 import { Url } from '@/url/Url.ts';
-import { getCookies } from '@std/http/cookie';
+import { Cookie, getSetCookies } from '@std/http/cookie';
 
 export class HttpRequest implements IRequest {
   public readonly url: IUrl;
@@ -23,7 +23,7 @@ export class HttpRequest implements IRequest {
   public readonly referer: string | null;
   public readonly server: string | null;
   public readonly bearerToken: string | null;
-  public readonly cookies: IReadonlyCollection<string, string>;
+  public readonly cookies: IReadonlyCollection<string, Cookie>;
 
   constructor(
     private readonly native: Readonly<Request>,
@@ -56,10 +56,10 @@ export class HttpRequest implements IRequest {
     this.server = this.header.getServer();
     this.bearerToken = this.header.getBearerToken();
 
-    const cookies = getCookies(this.native.headers);
-    const cookiesArray: [string, string][] = [];
-    for (const [key, value] of Object.entries(cookies)) {
-      cookiesArray.push([key, value]);
+    const cookies = getSetCookies(this.native.headers);
+    const cookiesArray: [string, Cookie][] = [];
+    for (const cookie of cookies) {
+      cookiesArray.push([cookie.name, cookie]);
     }
     this.cookies = new ReadonlyCollection(cookiesArray);
   }

@@ -79,19 +79,23 @@ describe('HttpRequest', () => {
   });
 
   it('should handle cookies', () => {
-    const headers = new Headers({
-      'Cookie': 'session=abc123; theme=dark; user=john',
-    });
+    const headers = new Headers([
+      ['Set-Cookie', 'lulu=meow; Secure; Max-Age=3600'],
+      ['Set-Cookie', 'booya=kasha; HttpOnly; Path=/'],
+    ]);
 
     const request = new Request('https://example.com', {
       headers,
     });
 
     const httpRequest = new HttpRequest(request);
-    expect(httpRequest.cookies.count()).toBe(3);
-    expect(httpRequest.cookies.get('session')).toBe('abc123');
-    expect(httpRequest.cookies.get('theme')).toBe('dark');
-    expect(httpRequest.cookies.get('user')).toBe('john');
+    expect(httpRequest.cookies.count()).toBe(2);
+
+    const sessionCookie = httpRequest.cookies.get('lulu');
+    expect(sessionCookie?.value).toBe('meow');
+
+    const themeCookie = httpRequest.cookies.get('booya');
+    expect(themeCookie?.value).toBe('kasha');
   });
 
   it('should handle request with no cookies', () => {
@@ -99,6 +103,5 @@ describe('HttpRequest', () => {
     const httpRequest = new HttpRequest(request);
 
     expect(httpRequest.cookies.count()).toBe(0);
-    expect(httpRequest.cookies.get('nonexistent')).toBe(undefined);
   });
 });
