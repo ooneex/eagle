@@ -1,6 +1,8 @@
+import { ArrayCollection } from '@/collection/mod.ts';
 import { Header } from '@/header/Header.ts';
 import { CharsetType, StatusTextType } from '@/http/types.ts';
 import { IResponse } from '@/response/types.ts';
+import { Cookie, setCookie } from '@std/http/cookie';
 import {
   isClientErrorStatus,
   isErrorStatus,
@@ -17,6 +19,9 @@ export class HttpResponse implements IResponse {
   private message: string | null = null;
   private status: StatusTextType = 200;
   public readonly header: Header = new Header();
+  public readonly cookies: ArrayCollection<Cookie> = new ArrayCollection<
+    Cookie
+  >();
 
   public text(
     content: string,
@@ -144,6 +149,10 @@ export class HttpResponse implements IResponse {
   }
 
   public build(): Response {
+    for (const cookie of this.cookies) {
+      setCookie(this.header.native, cookie);
+    }
+
     const responseOptions = {
       status: this.status,
       statusText: STATUS_TEXT[this.status],

@@ -1,5 +1,6 @@
 import { HttpResponse } from '@/response/mod.ts';
 import { expect } from '@std/expect';
+import { Cookie } from '@std/http/cookie';
 import { describe, it } from '@std/testing/bdd';
 
 describe('HttpResponse', () => {
@@ -165,5 +166,26 @@ describe('HttpResponse', () => {
 
     response.json({}, 200);
     expect(response.isError()).toBe(false);
+  });
+
+  it('should handle cookies', () => {
+    const response = new HttpResponse();
+    const cookie1: Cookie = { name: 'session', value: '123456' };
+    const cookie2: Cookie = { name: 'theme', value: 'dark' };
+
+    response.cookies.add(cookie1);
+    response.cookies.add(cookie2);
+
+    const result = response.build();
+    const cookies = result.headers.get('Set-Cookie');
+
+    expect(cookies).toBe('session=123456, theme=dark');
+  });
+
+  it('should handle response with no cookies', () => {
+    const response = new HttpResponse();
+    const result = response.build();
+    const cookies = result.headers.get('Set-Cookie');
+    expect(cookies).toBe(null);
   });
 });

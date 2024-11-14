@@ -1,8 +1,11 @@
+import { IReadonlyArrayCollection } from '@/collection/types.ts';
 import { Header } from '@/header/Header.ts';
 import { CharsetType, StatusTextType } from '@/http/types.ts';
+import { Cookie } from '@std/http/cookie';
 
 export interface IResponse {
   readonly header: Header;
+  readonly cookies: IReadonlyArrayCollection<Cookie>;
   text: (
     content: string,
     status?: StatusTextType,
