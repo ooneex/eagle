@@ -1,5 +1,8 @@
+export type ValidatorScopeType = 'payload' | 'params' | 'queries' | null;
+
 export interface IValidator {
-  getScope: () => 'payload' | 'params' | 'queries' | null;
+  getScope: () => ValidatorScopeType;
+  validate: (data: unknown) => ValidationResultType;
 }
 
 export interface IAssert {
@@ -7,3 +10,12 @@ export interface IAssert {
     value: unknown,
   ) => { success: boolean; message: string; key?: string };
 }
+
+export type ValidationResultType = {
+  success: boolean;
+  details: {
+    property: string;
+    success: boolean;
+    message: string;
+  }[];
+};

@@ -5,11 +5,13 @@ export const validator = () => {
   return (validator: unknown, context: ClassDecoratorContext) => {
     ensureIsValidator(context, validator);
 
-    container.add(context.name!, validator, {
-      scope: 'validator',
-      singleton: true,
-      instance: false,
-    });
+    if (context.name) {
+      container.add(context.name, validator, {
+        scope: 'validator',
+        singleton: true,
+        instance: false,
+      });
+    }
   };
 };
 
@@ -17,11 +19,13 @@ export const assert = () => {
   return (assert: unknown, context: ClassDecoratorContext) => {
     ensureIsAssert(context, assert);
 
-    container.add(context.name!, assert, {
-      scope: 'assert',
-      singleton: true,
-      instance: false,
-    });
+    if (context.name) {
+      container.add(context.name, assert, {
+        scope: 'assert',
+        singleton: true,
+        instance: false,
+      });
+    }
   };
 };
 
