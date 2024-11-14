@@ -1,5 +1,5 @@
 import { Header } from '@/header/Header.ts';
-import { CharsetType, StatusCodeType } from '@/http/types.ts';
+import { CharsetType, StatusTextType } from '@/http/types.ts';
 import { IResponse } from '@/response/types.ts';
 import { STATUS_TEXT } from '@std/http/status';
 
@@ -7,12 +7,12 @@ export class HttpResponse implements IResponse {
   private data: Record<string, unknown> | ReadableStream | null = null;
   private content: string | null = null;
   private message: string | null = null;
-  private status: StatusCodeType = 200;
+  private status: StatusTextType = 200;
   public readonly header: Header = new Header();
 
   public text(
     content: string,
-    status: StatusCodeType = 200,
+    status: StatusTextType = 200,
     charset: CharsetType = 'UTF-8',
   ): this {
     this.content = content;
@@ -27,7 +27,7 @@ export class HttpResponse implements IResponse {
 
   public html(
     content: string,
-    status: StatusCodeType = 200,
+    status: StatusTextType = 200,
     charset: CharsetType = 'UTF-8',
   ): this {
     this.content = content;
@@ -42,7 +42,7 @@ export class HttpResponse implements IResponse {
 
   public json(
     data: Record<string, unknown>,
-    status: StatusCodeType = 200,
+    status: StatusTextType = 200,
     charset: CharsetType = 'UTF-8',
   ): this {
     this.data = data;
@@ -57,7 +57,7 @@ export class HttpResponse implements IResponse {
 
   public stream(
     data: string | ReadableStream,
-    status: StatusCodeType = 200,
+    status: StatusTextType = 200,
   ): this {
     this.data = data instanceof ReadableStream ? data : new ReadableStream({
       start(controller) {
@@ -72,7 +72,7 @@ export class HttpResponse implements IResponse {
   public exception(
     message: string,
     data: Record<string, unknown> | null = null,
-    status: StatusCodeType = 500,
+    status: StatusTextType = 500,
   ): this {
     this.message = message;
     this.data = data;
@@ -88,14 +88,14 @@ export class HttpResponse implements IResponse {
   public notFound(
     message: string,
     data: Record<string, unknown> | null = null,
-    status: StatusCodeType = 404,
+    status: StatusTextType = 404,
   ): this {
     return this.exception(message, data, status);
   }
 
   public redirect(
     url: string | URL,
-    status: StatusCodeType = 307,
+    status: StatusTextType = 307,
   ): Response {
     return Response.redirect(url, status);
   }

@@ -3,7 +3,7 @@ import { StoreControllerValueType } from '@/controller/types.ts';
 import { DocContainer } from '@/doc/container.ts';
 import { Exception } from '@/exception/Exception.ts';
 import { trim } from '@/helper/trim.ts';
-import { StatusCodeType } from '@/http/types.ts';
+import { StatusTextType } from '@/http/types.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
 import { IRequest } from '@/request/types.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
@@ -27,12 +27,12 @@ export const buildDefaultNotFoundResponse = (req: Request) => {
 export const buildDefaultServerExceptionResponse = (
   error: Error,
 ) => {
-  let status: StatusCodeType = 500;
+  let status: StatusTextType = 500;
   let message = 'Internal Server Error';
   let data: Record<string, unknown> | null = null;
 
   if (error instanceof Exception) {
-    status = error.status as StatusCodeType ?? 500;
+    status = error.status as StatusTextType ?? 500;
     message = error.message;
     data = error.data;
   }
