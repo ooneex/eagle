@@ -12,6 +12,7 @@ describe('Doc', () => {
         private name: string = 'Test';
         private age: number = 30;
         private isActive: boolean = true;
+        private roles: string[] = ['ROLE_USER', 'ROLE_ADMIN'];
 
         constructor(name: string) {
           this.name = name;
@@ -64,7 +65,7 @@ describe('Doc', () => {
   it('should parse class properties correctly', () => {
     const properties = doc.findProperties({});
 
-    expect(properties.length).toBe(3);
+    expect(properties.length).toBe(4);
     expect(properties.map((p) => p.name)).toContain('name');
     expect(properties.map((p) => p.name)).toContain('age');
     expect(properties.map((p) => p.name)).toContain('isActive');
@@ -81,6 +82,42 @@ describe('Doc', () => {
     const numberProps = doc.findProperties({ types: ['number'] });
     expect(numberProps.length).toBe(1);
     expect(numberProps[0].name).toBe('age');
+  });
+
+  it('should correctly identify property types', () => {
+    const properties = doc.findProperties({});
+
+    // Create a map of property names to their expected types
+    const expectedTypes: Record<string, string[]> = {
+      'name': ['string'],
+      'age': ['number'],
+      'isActive': ['boolean'],
+      'roles': ['string[]'],
+    };
+
+    properties.map((prop) => {
+      const expected = expectedTypes[prop.name];
+      expect(expected).toBeDefined();
+
+      // Check if at least one of the expected types matches
+      const hasMatchingType = prop.types.some((type) =>
+        expected.includes(type)
+      );
+      expect(hasMatchingType).toBe(true);
+    });
+
+    // Additional specific checks
+    const rolesProperty = properties.find((p) => p.name === 'roles');
+    expect(rolesProperty).toBeDefined();
+    expect(rolesProperty?.types).toContain('string[]');
+  });
+
+  it('should correctly identify array properties', () => {
+    const arrayProps = doc.findProperties({ types: ['string[]'] });
+
+    expect(arrayProps.length).toBe(1);
+    expect(arrayProps[0].name).toBe('roles');
+    expect(arrayProps[0].types).toContain('string[]');
   });
 
   it('should parse class methods correctly', () => {
