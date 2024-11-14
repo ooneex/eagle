@@ -55,7 +55,7 @@ export const Put = (path: string) => {
 
 export const Path = (path: string) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context);
+    ensureIsController(context, controller);
     ensureInitialData(context, controller);
 
     if (context.name) {
@@ -73,7 +73,7 @@ export const Path = (path: string) => {
 
 export const Host = (host: string | RegExp) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context);
+    ensureIsController(context, controller);
     ensureInitialData(context, controller);
 
     if (context.name) {
@@ -88,7 +88,7 @@ export const Host = (host: string | RegExp) => {
 
 export const Ip = (ip: string | RegExp) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context);
+    ensureIsController(context, controller);
     ensureInitialData(context, controller);
 
     if (context.name) {
@@ -103,7 +103,7 @@ export const Ip = (ip: string | RegExp) => {
 
 export const NotFound = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context);
+    ensureIsController(context, controller);
 
     ControllerContainer.add(NOT_FOUND_CONTROLLER_KEY, {
       name: NOT_FOUND_CONTROLLER_KEY,
@@ -119,7 +119,7 @@ export const NotFound = () => {
 
 export const ServerException = () => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context);
+    ensureIsController(context, controller);
 
     ControllerContainer.add(SERVER_EXCEPTION_CONTROLLER_KEY, {
       name: SERVER_EXCEPTION_CONTROLLER_KEY,
@@ -139,7 +139,7 @@ const registerMethod = (
   method: ControllerMethodType,
   path: string,
 ) => {
-  ensureIsController(context);
+  ensureIsController(context, controller);
   ensureInitialData(context, controller);
 
   if (context.name) {
@@ -183,8 +183,15 @@ const ensureInitialData = (
   }
 };
 
-const ensureIsController = (context: ClassDecoratorContext) => {
-  if (context.kind !== 'class' || !context.name?.endsWith('Controller')) {
+const ensureIsController = (
+  context: ClassDecoratorContext,
+  controller: ControllerType,
+) => {
+  if (
+    context.kind !== 'class' ||
+    !context.name?.endsWith('Controller') ||
+    !(controller as any).prototype.action
+  ) {
     throw new DecoratorException(
       'Controller decorator can only be used on controller classes',
     );

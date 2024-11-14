@@ -365,5 +365,36 @@ describe('Controller Decorators', () => {
         }
       }).not.toThrow();
     });
+
+    it('should throw error if class does not have action method', () => {
+      expect(() => {
+        @Get('/')
+        // @ts-ignore: Testing runtime behavior
+        // deno-lint-ignore no-unused-vars
+        class Test22Controller implements IController {}
+      }).toThrow(DecoratorException);
+    });
+
+    it('should throw error if action method is not defined', () => {
+      expect(() => {
+        @Get('/')
+        // @ts-ignore: Testing runtime behavior
+        // deno-lint-ignore no-unused-vars
+        class Test23Controller implements IController {}
+      }).toThrow(DecoratorException);
+    });
+
+    it('should not throw error if action method is defined', () => {
+      expect(() => {
+        @Get('/')
+        // @ts-ignore: Testing runtime behavior
+        // deno-lint-ignore no-unused-vars
+        class Test24Controller implements IController {
+          action(): IResponse {
+            return {} as IResponse;
+          }
+        }
+      }).not.toThrow();
+    });
   });
 });
