@@ -1,7 +1,7 @@
 import { Header } from '@/header/Header.ts';
-import { STATUS_CODE_TEXT } from '@/http/http_status.ts';
 import { CharsetType, StatusCodeType } from '@/http/types.ts';
 import { IResponse } from '@/response/types.ts';
+import { STATUS_TEXT } from '@std/http/status';
 
 export class HttpResponse implements IResponse {
   private data: Record<string, unknown> | ReadableStream | null = null;
@@ -114,7 +114,7 @@ export class HttpResponse implements IResponse {
   public build(): Response {
     const responseOptions = {
       status: this.status,
-      statusText: STATUS_CODE_TEXT[this.status],
+      statusText: STATUS_TEXT[this.status],
       headers: this.header.native,
     };
 
