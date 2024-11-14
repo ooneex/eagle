@@ -7,6 +7,7 @@ import { IRequest, RequestMethodType } from '@/request/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
 import { Url } from '@/url/Url.ts';
+import { getCookies } from '@std/http/cookie';
 
 export class HttpRequest implements IRequest {
   public readonly url: IUrl;
@@ -22,18 +23,19 @@ export class HttpRequest implements IRequest {
   public readonly referer: string | null;
   public readonly server: string | null;
   public readonly bearerToken: string | null;
+  public readonly cookies: IReadonlyCollection<string, string>;
 
   constructor(
-    private readonly request: Readonly<Request>,
+    private readonly native: Readonly<Request>,
     config?: {
       params?: Record<string, ScalarType>;
       payload?: Record<string, unknown>;
     },
   ) {
-    this.url = new Url(this.request.url);
+    this.url = new Url(this.native.url);
     this.path = this.url.path;
-    this.method = this.request.method.toUpperCase() as RequestMethodType;
-    this.header = new ReadonlyHeader(request.headers);
+    this.method = this.native.method.toUpperCase() as RequestMethodType;
+    this.header = new ReadonlyHeader(native.headers);
     this.userAgent = this.header.getUserAgent();
     this.queries = this.url.queries;
     const params: [string, ScalarType][] = [];
@@ -53,6 +55,13 @@ export class HttpRequest implements IRequest {
     this.referer = this.header.getReferer();
     this.server = this.header.getServer();
     this.bearerToken = this.header.getBearerToken();
+
+    const cookies = getCookies(this.native.headers);
+    const cookiesArray: [string, string][] = [];
+    for (const [key, value] of Object.entries(cookies)) {
+      cookiesArray.push([key, value]);
+    }
+    this.cookies = new ReadonlyCollection(cookiesArray);
   }
 
   public isXMLHttpRequest(): boolean {

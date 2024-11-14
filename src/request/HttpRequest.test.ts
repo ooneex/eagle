@@ -77,4 +77,28 @@ describe('HttpRequest', () => {
     const httpRequest = new HttpRequest(request);
     expect(httpRequest.ip).toBe('192.168.1.1');
   });
+
+  it('should handle cookies', () => {
+    const headers = new Headers({
+      'Cookie': 'session=abc123; theme=dark; user=john',
+    });
+
+    const request = new Request('https://example.com', {
+      headers,
+    });
+
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.cookies.count()).toBe(3);
+    expect(httpRequest.cookies.get('session')).toBe('abc123');
+    expect(httpRequest.cookies.get('theme')).toBe('dark');
+    expect(httpRequest.cookies.get('user')).toBe('john');
+  });
+
+  it('should handle request with no cookies', () => {
+    const request = new Request('https://example.com');
+    const httpRequest = new HttpRequest(request);
+
+    expect(httpRequest.cookies.count()).toBe(0);
+    expect(httpRequest.cookies.get('nonexistent')).toBe(undefined);
+  });
 });
