@@ -89,7 +89,7 @@ export const buildControllerActionParameters = async (
   const params = doc ? doc.findParameters(definition.name, 'action') : [];
 
   for (const param of params) {
-    const type = param.type;
+    const type = param.types[0];
 
     if (['boolean', 'number', 'bigint', 'string'].includes(type)) {
       const name = param.name;

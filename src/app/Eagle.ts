@@ -15,8 +15,6 @@ import {
 } from '@/controller/utils.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
 
-// TODO: add controllers dir for register controllers
-
 export class Eagle implements IEagle {
   public listen(options: Partial<ServerListenParamsType> = {}) {
     Deno.serve({

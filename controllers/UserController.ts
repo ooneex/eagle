@@ -1,8 +1,8 @@
-import { IController, Path } from '@/controller/mod.ts';
+import { Get, IController } from '@/controller/mod.ts';
 import { IResponse } from '@/response/mod.ts';
 import { UserService } from './UserService.ts';
 
-@Path('/users/:id')
+@Get('/users/:id')
 export class UserController implements IController {
   constructor(
     private readonly userService: UserService,

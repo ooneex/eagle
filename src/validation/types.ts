@@ -1,4 +1,10 @@
-export type ValidatorScopeType = 'payload' | 'params' | 'queries' | null;
+export type ValidatorScopeType =
+  | 'payload'
+  | 'params'
+  | 'queries'
+  | 'headers'
+  | 'cookies'
+  | null;
 
 export interface IValidator {
   getScope: () => ValidatorScopeType;

@@ -106,4 +106,9 @@ describe('ReadonlyArrayCollection', () => {
     const values = Array.from(collection.values());
     expect(values).toEqual([1, 2, 3]);
   });
+
+  it('should convert to JSON', () => {
+    const collection = new ReadonlyArrayCollection([1, 2, 3]);
+    expect(collection.toJson()).toEqual([1, 2, 3]);
+  });
 });

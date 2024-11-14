@@ -133,4 +133,12 @@ describe('ReadonlyCollection', () => {
     const noResults = collection.filter((_key, value) => value > 10);
     expect(noResults).toEqual([]);
   });
+
+  it('should convert to JSON', () => {
+    const collection = new ReadonlyCollection([
+      ['a', 1],
+      ['b', 2],
+    ]);
+    expect(collection.toJson()).toEqual({ a: 1, b: 2 });
+  });
 });

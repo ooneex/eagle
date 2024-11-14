@@ -38,6 +38,10 @@ export class ReadonlyArrayCollection<V = unknown>
     return Array.from(this.data).filter(fn);
   }
 
+  public toJson(): V[] {
+    return Array.from(this.data);
+  }
+
   [Symbol.iterator](): IterableIterator<V> {
     return this.data[Symbol.iterator]();
   }
