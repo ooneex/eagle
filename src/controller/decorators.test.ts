@@ -8,7 +8,6 @@ import {
   Ip,
   NOT_FOUND_CONTROLLER_KEY,
   NotFound,
-  Path,
   Post,
   SERVER_EXCEPTION_CONTROLLER_KEY,
   ServerException,
@@ -62,47 +61,6 @@ describe('Controller Decorators', () => {
       const config = ControllerContainer.get(Test3Controller.name);
       expect(config?.methods).toEqual(['GET']);
       expect(config?.paths).toEqual(['/']);
-    });
-  });
-
-  describe('Path Decorator', () => {
-    it('should register path', () => {
-      @Path('/api/v1')
-      class Test4Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const config = ControllerContainer.get(Test4Controller.name);
-      expect(config?.paths).toEqual(['/api/v1']);
-    });
-
-    it('should register multiple paths', () => {
-      @Path('/api/v2')
-      @Path('/api/v1')
-      class Test5Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const config = ControllerContainer.get(Test5Controller.name);
-      expect(config?.paths).toEqual(['/api/v1', '/api/v2']);
-    });
-
-    it('should throw error when used on non-class', () => {
-      expect(() => {
-        // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
-        class Test6Controller implements IController {
-          // @ts-ignore: Testing runtime behavior
-          @Path('/api/v1')
-          action(): IResponse {
-            return {} as IResponse;
-          }
-        }
-      }).toThrow(DecoratorException);
     });
   });
 
@@ -224,7 +182,6 @@ describe('Controller Decorators', () => {
     it('should work with multiple decorators', () => {
       @Host('example.com')
       @Get('/users')
-      @Path('/api')
       class Test14Controller implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -233,7 +190,7 @@ describe('Controller Decorators', () => {
 
       const config = ControllerContainer.get(Test14Controller.name);
       expect(config?.hosts).toEqual(['example.com']);
-      expect(config?.paths).toEqual(['/api', '/users']);
+      expect(config?.paths).toEqual(['/users']);
       expect(config?.methods).toEqual(['GET']);
     });
   });
@@ -257,7 +214,6 @@ describe('Controller Decorators', () => {
     it('should store same controller class for multiple decorators', () => {
       @Host('example.com')
       @Get('/users')
-      @Path('/api')
       class Test16Controller implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -292,21 +248,6 @@ describe('Controller Decorators', () => {
   });
 
   describe('Controller Path Regexp', () => {
-    it('should store path regexp for @Path decorator', () => {
-      @Path('/users/:id')
-      class Test18Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const config = ControllerContainer.get(Test18Controller.name);
-      expect(config?.regexp?.[0]).toBeInstanceOf(RegExp);
-      expect(config?.regexp?.[0].test('/users/123')).toBe(true);
-      expect(config?.regexp?.[0].test('/users/abc')).toBe(true);
-      expect(config?.regexp?.[0].test('/users')).toBe(false);
-    });
-
     it('should store path regexp for method decorators with paths', () => {
       @Get('/posts/:id/comments')
       class Test19Controller implements IController {
@@ -324,7 +265,6 @@ describe('Controller Decorators', () => {
 
     it('should store multiple regexp patterns for combined decorators', () => {
       @Get('/users/:userId/posts/:postId')
-      @Path('/api')
       class Test20Controller implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -332,18 +272,17 @@ describe('Controller Decorators', () => {
       }
 
       const config = ControllerContainer.get(Test20Controller.name);
-      expect(config?.regexp?.length).toBe(2);
-      expect(config?.regexp?.[0].test('/api')).toBe(true);
-      expect(config?.regexp?.[1].test('/users/123/posts/456')).toBe(true);
-      expect(config?.regexp?.[1].test('/users/abc/posts/def')).toBe(true);
-      expect(config?.regexp?.[1].test('/users/posts')).toBe(false);
+      expect(config?.regexp?.length).toBe(1);
+      expect(config?.regexp?.[0].test('/users/123/posts/456')).toBe(true);
+      expect(config?.regexp?.[0].test('/users/abc/posts/def')).toBe(true);
+      expect(config?.regexp?.[0].test('/users/posts')).toBe(false);
     });
   });
 
   describe('Controller Class Name', () => {
     it('should throw error if class name does not end with Controller', () => {
       expect(() => {
-        @Path('/users')
+        @Get('/users')
         // @ts-ignore: Testing runtime behavior
         // deno-lint-ignore no-unused-vars
         class TestClass implements IController {
@@ -356,7 +295,7 @@ describe('Controller Decorators', () => {
 
     it('should not throw error if class name ends with Controller', () => {
       expect(() => {
-        @Path('/users')
+        @Get('/users')
         // @ts-ignore: Testing runtime behavior
         // deno-lint-ignore no-unused-vars
         class Test21Controller implements IController {
@@ -420,26 +359,11 @@ describe('Controller Decorators', () => {
       expect(config?.validators).toContain(testValidator);
     });
 
-    it('should store validators for path decorator', () => {
-      const pathValidator = new TestValidator();
-
-      @Path('/test', [pathValidator])
-      class Test26Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const config = ControllerContainer.get(Test26Controller.name);
-      expect(config?.validators).toContain(pathValidator);
-    });
-
     it('should store multiple validators from different decorators', () => {
       const methodValidator = new TestValidator();
       const pathValidator = new TestValidator();
 
-      @Get('/test', [methodValidator])
-      @Path('/api', [pathValidator])
+      @Get('/test', [methodValidator, pathValidator])
       class Test27Controller implements IController {
         action(): IResponse {
           return {} as IResponse;

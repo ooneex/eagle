@@ -54,29 +54,6 @@ export const Put = (path: string, validators?: IValidator[]) => {
   };
 };
 
-export const Path = (path: string, validators?: IValidator[]) => {
-  return (controller: ControllerType, context: ClassDecoratorContext) => {
-    ensureIsController(context, controller);
-    ensureInitialData(context, controller);
-
-    if (context.name) {
-      const config = ControllerContainer.get(context.name)!;
-      if (!config.paths?.includes(path)) {
-        path = `/${trim(path, '/')}`;
-        const regexp = pathToRegexp(path);
-        config.paths?.push(path);
-        config.regexp?.push(regexp);
-        ControllerContainer.add(context.name, config);
-      }
-
-      if (validators) {
-        config.validators?.push(...validators);
-        ControllerContainer.add(context.name, config);
-      }
-    }
-  };
-};
-
 export const Host = (host: string | RegExp) => {
   return (controller: ControllerType, context: ClassDecoratorContext) => {
     ensureIsController(context, controller);
@@ -151,23 +128,19 @@ const registerMethod = (
 
   if (context.name) {
     const config = ControllerContainer.get(context.name)!;
-    if (!config.methods?.includes(method)) {
-      config.methods?.push(method);
+    config.methods = [method];
+    ControllerContainer.add(context.name, config);
+
+    if (path) {
+      path = `/${trim(path, '/')}`;
+      const regexp = pathToRegexp(path);
+      config.paths = [path];
+      config.regexp = [regexp];
       ControllerContainer.add(context.name, config);
     }
 
-    if (path) {
-      if (!config.paths?.includes(path)) {
-        path = `/${trim(path, '/')}`;
-        const regexp = pathToRegexp(path);
-        config.paths?.push(path);
-        config.regexp?.push(regexp);
-        ControllerContainer.add(context.name, config);
-      }
-    }
-
     if (validators) {
-      config.validators?.push(...validators);
+      config.validators = validators;
       ControllerContainer.add(context.name, config);
     }
   }
