@@ -94,4 +94,76 @@ describe('HttpResponse', () => {
       },
     });
   });
+
+  it('should check isSuccessful status', () => {
+    const response = new HttpResponse();
+    response.json({}, 200);
+    expect(response.isSuccessful()).toBe(true);
+
+    response.json({}, 201);
+    expect(response.isSuccessful()).toBe(true);
+
+    response.json({}, 404);
+    expect(response.isSuccessful()).toBe(false);
+  });
+
+  it('should check isInformational status', () => {
+    const response = new HttpResponse();
+    response.json({}, 100);
+    expect(response.isInformational()).toBe(true);
+
+    response.json({}, 102);
+    expect(response.isInformational()).toBe(true);
+
+    response.json({}, 200);
+    expect(response.isInformational()).toBe(false);
+  });
+
+  it('should check isRedirect status', () => {
+    const response = new HttpResponse();
+    response.json({}, 301);
+    expect(response.isRedirect()).toBe(true);
+
+    response.json({}, 307);
+    expect(response.isRedirect()).toBe(true);
+
+    response.json({}, 200);
+    expect(response.isRedirect()).toBe(false);
+  });
+
+  it('should check isClientError status', () => {
+    const response = new HttpResponse();
+    response.json({}, 400);
+    expect(response.isClientError()).toBe(true);
+
+    response.json({}, 404);
+    expect(response.isClientError()).toBe(true);
+
+    response.json({}, 200);
+    expect(response.isClientError()).toBe(false);
+  });
+
+  it('should check isServerError status', () => {
+    const response = new HttpResponse();
+    response.json({}, 500);
+    expect(response.isServerError()).toBe(true);
+
+    response.json({}, 503);
+    expect(response.isServerError()).toBe(true);
+
+    response.json({}, 200);
+    expect(response.isServerError()).toBe(false);
+  });
+
+  it('should check isError status', () => {
+    const response = new HttpResponse();
+    response.json({}, 400);
+    expect(response.isError()).toBe(true);
+
+    response.json({}, 500);
+    expect(response.isError()).toBe(true);
+
+    response.json({}, 200);
+    expect(response.isError()).toBe(false);
+  });
 });

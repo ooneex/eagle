@@ -1,7 +1,15 @@
 import { Header } from '@/header/Header.ts';
 import { CharsetType, StatusTextType } from '@/http/types.ts';
 import { IResponse } from '@/response/types.ts';
-import { STATUS_TEXT } from '@std/http/status';
+import {
+  isClientErrorStatus,
+  isErrorStatus,
+  isInformationalStatus,
+  isRedirectStatus,
+  isServerErrorStatus,
+  isSuccessfulStatus,
+  STATUS_TEXT,
+} from '@std/http/status';
 
 export class HttpResponse implements IResponse {
   private data: Record<string, unknown> | ReadableStream | null = null;
@@ -100,12 +108,36 @@ export class HttpResponse implements IResponse {
     return Response.redirect(url, status);
   }
 
+  public isSuccessful(): boolean {
+    return isSuccessfulStatus(this.status);
+  }
+
+  public isInformational(): boolean {
+    return isInformationalStatus(this.status);
+  }
+
+  public isRedirect(): boolean {
+    return isRedirectStatus(this.status);
+  }
+
+  public isClientError(): boolean {
+    return isClientErrorStatus(this.status);
+  }
+
+  public isServerError(): boolean {
+    return isServerErrorStatus(this.status);
+  }
+
+  public isError(): boolean {
+    return isErrorStatus(this.status);
+  }
+
   public getData(): Record<string, unknown> {
     return {
       data: this.data,
       message: this.message,
       state: {
-        success: this.status >= 200 && this.status < 300,
+        success: this.isSuccessful(),
         status: this.status,
       },
     };
