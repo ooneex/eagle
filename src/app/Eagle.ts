@@ -4,6 +4,7 @@ import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
+  handleRequestCookiesValidation,
   handleRequestDataValidation,
 } from '@/app/utils.ts';
 import { container } from '@/container/Container.ts';
@@ -35,8 +36,7 @@ export class Eagle implements IEagle {
       const { parameters, request } = builtData;
 
       handleRequestDataValidation(request, definition);
-
-      // TODO: add validation for cookies
+      handleRequestCookiesValidation(request, definition);
 
       const controller = container.get<IController>(
         definition.name,

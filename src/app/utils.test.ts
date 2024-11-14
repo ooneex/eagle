@@ -3,6 +3,7 @@ import {
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
   buildRequest,
+  handleRequestCookiesValidation,
   handleRequestDataValidation,
 } from '@/app/utils.ts';
 import { DocContainer } from '@/doc/container.ts';
@@ -250,6 +251,94 @@ describe('utils', () => {
       };
 
       const result = handleRequestDataValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('handleRequestCookiesValidation', () => {
+    it('should return true when no validators are defined', () => {
+      const mockRequest = {
+        path: '/test',
+        cookies: new Map(),
+      } as any;
+
+      const definition = {
+        name: 'TestController',
+      };
+
+      const result = handleRequestCookiesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should return true when validation passes', () => {
+      const mockRequest = {
+        path: '/test',
+        cookies: new Map([['session', { value: 'abc123' }]]),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'cookies' as ValidatorScopeType,
+        validate: () => ({
+          success: true,
+          details: [],
+        }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestCookiesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should throw ValidationFailedException when validation fails', () => {
+      const mockRequest = {
+        path: '/test',
+        cookies: new Map([['session', { value: '' }]]),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'cookies' as ValidatorScopeType,
+        validate: () => ({
+          success: false,
+          details: [
+            {
+              property: 'session',
+              success: false,
+              message: 'Session is required',
+            },
+          ],
+        }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      expect(() => handleRequestCookiesValidation(mockRequest, definition))
+        .toThrow(ValidationFailedException);
+    });
+
+    it('should skip validation for non-cookie scopes', () => {
+      const mockRequest = {
+        path: '/test',
+        cookies: new Map(),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'payload' as ValidatorScopeType,
+        validate: () => ({ success: false, details: [] }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestCookiesValidation(mockRequest, definition);
       expect(result).toBe(true);
     });
   });

@@ -7,6 +7,7 @@ import { StatusTextType } from '@/http/types.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
 import { IRequest } from '@/request/types.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
+import { ScalarType } from '@/types.ts';
 import { ValidationFailedException } from '@/validation/ValidationFailedException.ts';
 
 export const buildDefaultNotFoundResponse = (req: Request) => {
@@ -125,11 +126,6 @@ export const handleRequestDataValidation = (
     return true;
   }
 
-  const payload = request.payload.toJson();
-  const params = request.params.toJson();
-  const queries = request.queries.toJson();
-  const headers = request.header.toJson();
-
   for (const validator of validators) {
     const scope = validator.getScope();
 
@@ -140,13 +136,13 @@ export const handleRequestDataValidation = (
     }
 
     const data = scope === 'payload'
-      ? payload
+      ? request.payload.toJson()
       : scope === 'params'
-      ? params
+      ? request.params.toJson()
       : scope === 'queries'
-      ? queries
+      ? request.queries.toJson()
       : scope === 'headers'
-      ? headers
+      ? request.header.toJson()
       : null;
 
     if (!data) {
@@ -158,6 +154,49 @@ export const handleRequestDataValidation = (
     if (!result.success) {
       throw new ValidationFailedException(
         `Validation failed for ${definition.name} with ${scope} data`,
+        {
+          path: request.path,
+          scope,
+          validation: {
+            success: result.success,
+            data,
+            errors: result.details.filter((detail) => !detail.success),
+          },
+        },
+      );
+    }
+  }
+
+  return true;
+};
+
+export const handleRequestCookiesValidation = (
+  request: IRequest,
+  definition: StoreControllerValueType,
+): boolean => {
+  const validators = definition.validators;
+
+  if (!validators) {
+    return true;
+  }
+
+  for (const validator of validators) {
+    const scope = validator.getScope();
+
+    if (scope !== 'cookies') {
+      continue;
+    }
+
+    const data: Record<string, ScalarType> = {};
+    for (const [name, cookie] of request.cookies) {
+      data[name] = cookie.value;
+    }
+
+    const result = validator.validate(data);
+
+    if (!result.success) {
+      throw new ValidationFailedException(
+        `Validation failed for ${definition.name} with cookies data`,
         {
           path: request.path,
           scope,

@@ -59,6 +59,7 @@ export class HttpRequest implements IRequest {
     const cookies = getSetCookies(this.native.headers);
     const cookiesArray: [string, Cookie][] = [];
     for (const cookie of cookies) {
+      cookie.value = parseString(`${cookie.value}`);
       cookiesArray.push([cookie.name, cookie]);
     }
     this.cookies = new ReadonlyCollection(cookiesArray);
