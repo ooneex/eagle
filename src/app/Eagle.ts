@@ -54,8 +54,6 @@ export class Eagle implements IEagle {
           );
         }
 
-        // TODO: add validation for response
-
         return response.build();
       } catch (error) {
         const definition = ControllerContainer.get(

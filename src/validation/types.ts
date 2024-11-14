@@ -4,7 +4,6 @@ export type ValidatorScopeType =
   | 'queries'
   | 'headers'
   | 'cookies'
-  | 'response'
   | null;
 
 export interface IValidator {
