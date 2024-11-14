@@ -4,6 +4,7 @@ import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
+  handleRequestDataValidation,
 } from '@/app/utils.ts';
 import { container } from '@/container/Container.ts';
 import { ControllerContainer } from '@/controller/container.ts';
@@ -29,7 +30,13 @@ export class Eagle implements IEagle {
         return buildDefaultNotFoundResponse(req);
       }
 
-      const parameters = await buildControllerActionParameters(req, definition);
+      const builtData = await buildControllerActionParameters(req, definition);
+
+      const { parameters, request } = builtData;
+
+      handleRequestDataValidation(request, definition);
+
+      // TODO: add validation for cookies
 
       const controller = container.get<IController>(
         definition.name,
@@ -47,6 +54,8 @@ export class Eagle implements IEagle {
           );
         }
 
+        // TODO: add validation for response
+
         return response.build();
       } catch (error) {
         const definition = ControllerContainer.get(
@@ -57,10 +66,12 @@ export class Eagle implements IEagle {
           return buildDefaultServerExceptionResponse(error as Error);
         }
 
-        const parameters = await buildControllerActionParameters(
+        const builtData = await buildControllerActionParameters(
           req,
           definition,
         );
+
+        const { parameters } = builtData;
 
         const controller = container.get<IController>(
           definition.name,

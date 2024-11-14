@@ -30,5 +30,6 @@ export interface IResponse {
     status?: StatusCodeType,
   ) => this;
   redirect: (url: string | URL, status?: StatusCodeType) => Response;
+  getData: () => Record<string, unknown>;
   build: () => Response;
 }

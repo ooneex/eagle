@@ -3,11 +3,17 @@ import {
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
   buildRequest,
+  handleRequestDataValidation,
 } from '@/app/utils.ts';
 import { DocContainer } from '@/doc/container.ts';
 import { Exception } from '@/exception/Exception.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
+import { IRequest } from '@/request/mod.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
+import {
+  ValidationFailedException,
+  ValidatorScopeType,
+} from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
 
@@ -116,10 +122,12 @@ describe('utils', () => {
       };
       DocContainer.get = () => mockDocContainer as any;
 
-      const parameters = await buildControllerActionParameters(
+      const builtData = await buildControllerActionParameters(
         mockRequest,
         definition,
       );
+
+      const { parameters } = builtData;
 
       expect(parameters.length).toBe(2);
       expect(parameters[0]).toBeInstanceOf(HttpRequest);
@@ -149,6 +157,100 @@ describe('utils', () => {
           'Dependency UnknownType not found',
         );
       }
+    });
+  });
+
+  describe('handleRequestDataValidation', () => {
+    it('should return true when no validators are defined', () => {
+      const mockRequest = {
+        path: '/test',
+        payload: { toJson: () => ({}) },
+        params: { toJson: () => ({}) },
+        queries: { toJson: () => ({}) },
+        header: { toJson: () => ({}) },
+      } as IRequest;
+
+      const definition = {
+        name: 'TestController',
+        validators: undefined,
+      };
+
+      const result = handleRequestDataValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should validate payload data successfully', () => {
+      const mockRequest = {
+        path: '/test',
+        payload: { toJson: () => ({ name: 'test' }) },
+        params: { toJson: () => ({}) },
+        queries: { toJson: () => ({}) },
+        header: { toJson: () => ({}) },
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'payload' as ValidatorScopeType,
+        validate: () => ({ success: true, details: [] }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestDataValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should throw ValidationFailedException when validation fails', () => {
+      const mockRequest = {
+        path: '/test',
+        payload: { toJson: () => ({ name: '' }) },
+        params: { toJson: () => ({}) },
+        queries: { toJson: () => ({}) },
+        header: { toJson: () => ({}) },
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'payload' as ValidatorScopeType,
+        validate: () => ({
+          success: false,
+          details: [
+            { property: 'name', success: false, message: 'Name is required' },
+          ],
+        }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      expect(() => handleRequestDataValidation(mockRequest, definition))
+        .toThrow(ValidationFailedException);
+    });
+
+    it('should skip validation for unsupported scopes', () => {
+      const mockRequest = {
+        path: '/test',
+        payload: { toJson: () => ({}) },
+        params: { toJson: () => ({}) },
+        queries: { toJson: () => ({}) },
+        header: { toJson: () => ({}) },
+      } as IRequest;
+
+      const mockValidator = {
+        getScope: () => 'unsupported' as ValidatorScopeType,
+        validate: () => ({ success: false, details: [] }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestDataValidation(mockRequest, definition);
+      expect(result).toBe(true);
     });
   });
 });

@@ -7,6 +7,7 @@ import { StatusCodeType } from '@/http/types.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
 import { IRequest } from '@/request/types.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
+import { ValidationFailedException } from '@/validation/ValidationFailedException.ts';
 
 export const buildDefaultNotFoundResponse = (req: Request) => {
   const response = new HttpResponse();
@@ -108,5 +109,67 @@ export const buildControllerActionParameters = async (
     parameters.push(paramsMap[type]);
   }
 
-  return parameters;
+  return {
+    parameters,
+    request: paramsMap.IRequest as IRequest,
+  };
+};
+
+export const handleRequestDataValidation = (
+  request: IRequest,
+  definition: StoreControllerValueType,
+): boolean => {
+  const validators = definition.validators;
+
+  if (!validators) {
+    return true;
+  }
+
+  const payload = request.payload.toJson();
+  const params = request.params.toJson();
+  const queries = request.queries.toJson();
+  const headers = request.header.toJson();
+
+  for (const validator of validators) {
+    const scope = validator.getScope();
+
+    if (
+      !['payload', 'params', 'queries', 'headers'].includes(scope as string)
+    ) {
+      continue;
+    }
+
+    const data = scope === 'payload'
+      ? payload
+      : scope === 'params'
+      ? params
+      : scope === 'queries'
+      ? queries
+      : scope === 'headers'
+      ? headers
+      : null;
+
+    if (!data) {
+      continue;
+    }
+
+    const result = validator.validate(data);
+
+    if (!result.success) {
+      throw new ValidationFailedException(
+        `Validation failed for ${definition.name} with ${scope} data`,
+        {
+          path: request.path,
+          scope,
+          validation: {
+            success: result.success,
+            data,
+            errors: result.details.filter((detail) => !detail.success),
+          },
+        },
+      );
+    }
+  }
+
+  return true;
 };

@@ -100,6 +100,17 @@ export class HttpResponse implements IResponse {
     return Response.redirect(url, status);
   }
 
+  public getData(): Record<string, unknown> {
+    return {
+      data: this.data,
+      message: this.message,
+      state: {
+        success: this.status >= 200 && this.status < 300,
+        status: this.status,
+      },
+    };
+  }
+
   public build(): Response {
     const responseOptions = {
       status: this.status,
@@ -114,17 +125,10 @@ export class HttpResponse implements IResponse {
       );
     }
 
-    const resp = {
-      data: this.data,
-      message: this.message,
-      state: {
-        success: this.status >= 200 && this.status < 300,
-        status: this.status,
-      },
-    };
+    const data = this.getData();
 
     return new Response(
-      this.header.isJson() ? JSON.stringify(resp) : this.content,
+      this.header.isJson() ? JSON.stringify(data) : this.content,
       responseOptions,
     );
   }

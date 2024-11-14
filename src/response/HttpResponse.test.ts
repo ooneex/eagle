@@ -78,4 +78,20 @@ describe('HttpResponse', () => {
     expect(result.status).toBe(307);
     expect(result.headers.get('Location')).toBe('https://example.com/');
   });
+
+  it('should get data', () => {
+    const response = new HttpResponse();
+    const data = { message: 'Hello World' };
+    const result = response.json(data).getData();
+    expect(result).toEqual({
+      data: {
+        message: 'Hello World',
+      },
+      message: null,
+      state: {
+        status: 200,
+        success: true,
+      },
+    });
+  });
 });
