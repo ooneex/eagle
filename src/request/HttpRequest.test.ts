@@ -1,4 +1,5 @@
 import { EnvConfig } from '@/config/mod.ts';
+import { Jwt } from '@/jwt/mod.ts';
 import { HttpRequest } from '@/request/mod.ts';
 import { expect } from '@std/expect';
 import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
@@ -130,7 +131,8 @@ describe('HttpRequest', () => {
 
     Deno.env.delete(EnvConfig.KEYS.jwt.secret);
     const httpRequest = new HttpRequest(request);
-    expect(httpRequest.jwt).toBe(null);
+    expect(httpRequest.jwt?.getSecret()).toBe(null);
+    expect(httpRequest.jwt).toBeInstanceOf(Jwt);
   });
 
   it('should handle JWT with no token', () => {

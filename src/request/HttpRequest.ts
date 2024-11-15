@@ -35,7 +35,6 @@ export class HttpRequest implements IRequest {
     config?: {
       params?: Record<string, ScalarType>;
       payload?: Record<string, unknown>;
-      jwt?: Jwt;
     },
   ) {
     this.url = new Url(this.native.url);
