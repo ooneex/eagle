@@ -29,7 +29,7 @@ export interface IJwt {
   getToken: () => string;
   getPayload: () => JwtPayloadType;
   getHeader: () => JWTHeaderParameters;
-  isValid: () => Promise<boolean>;
+  isValid: () => Promise<boolean> | boolean;
   getSecret: () => string | null;
   getUsername: () => string;
   getRoles: () => ERole[];

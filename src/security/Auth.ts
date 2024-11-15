@@ -19,7 +19,7 @@ export class Auth implements IAuth {
 
     this.user = new User(username, new Role(roles));
 
-    return !this.user.isAnon();
+    return this.user.isUser();
   }
 
   public isAuthenticated(): boolean {
@@ -27,7 +27,7 @@ export class Auth implements IAuth {
       return false;
     }
 
-    return !this.user.isAnon();
+    return this.user.isUser();
   }
 
   public logout(): boolean {
