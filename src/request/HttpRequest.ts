@@ -1,11 +1,12 @@
 import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
 import { IReadonlyCollection } from '@/collection/types.ts';
-import { EnvConfig } from '@/config/EnvConfig.ts';
 import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
 import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import { parseString } from '@/helper/parseString.ts';
 import { Jwt } from '@/jwt/Jwt.ts';
 import { IRequest, RequestMethodType } from '@/request/types.ts';
+import { Auth } from '@/security/Auth.ts';
+import { IAuth } from '@/security/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
 import { Url } from '@/url/Url.ts';
@@ -27,6 +28,7 @@ export class HttpRequest implements IRequest {
   public readonly bearerToken: string | null;
   public readonly cookies: IReadonlyCollection<string, Cookie>;
   public readonly jwt: Jwt | null = null;
+  public readonly auth: IAuth | null = null;
 
   constructor(
     private readonly native: Readonly<Request>,
@@ -60,10 +62,9 @@ export class HttpRequest implements IRequest {
     this.server = this.header.getServer();
     this.bearerToken = this.header.getBearerToken();
 
-    const jwtSecret = Deno.env.get(EnvConfig.KEYS.jwt.secret);
-
-    if (this.bearerToken && jwtSecret) {
-      this.jwt = new Jwt(this.bearerToken, jwtSecret);
+    if (this.bearerToken) {
+      this.jwt = new Jwt(this.bearerToken);
+      this.auth = new Auth();
     }
 
     const cookies = getSetCookies(this.native.headers);

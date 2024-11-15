@@ -1,3 +1,6 @@
+import { ERole } from '@/security/types.ts';
+import { JWTHeaderParameters } from '@jwt';
+
 export type JwtExpiresInType =
   | `${number}s`
   | `${number}m`
@@ -16,4 +19,19 @@ export type JwtDefaultPayloadType = {
   iat?: number | string | Date;
 };
 
-export type JwtPayloadType = JwtDefaultPayloadType & Record<string, unknown>;
+export type JwtPayloadType = JwtDefaultPayloadType & {
+  username?: string;
+  roles?: ERole[];
+  refreshToken?: string;
+} & Record<string, unknown>;
+
+export interface IJwt {
+  getToken: () => string;
+  getPayload: () => JwtPayloadType;
+  getHeader: () => JWTHeaderParameters;
+  isValid: () => Promise<boolean>;
+  getSecret: () => string | null;
+  getUsername: () => string;
+  getRoles: () => ERole[];
+  getRefreshToken: () => IJwt | null;
+}

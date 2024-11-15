@@ -79,6 +79,13 @@ export const buildControllerActionParameters = async (
     IRequest: await buildRequest(req, definition),
     IResponse: new HttpResponse(),
   };
+
+  const jwt = (paramsMap.IRequest as IRequest).jwt;
+
+  if (jwt) {
+    (paramsMap.IRequest as IRequest).auth?.login(jwt);
+  }
+
   paramsMap.MethodType = (paramsMap.IRequest as IRequest).method;
   paramsMap.RequestMethodType = paramsMap.MethodType;
   paramsMap.IUrl = (paramsMap.IRequest as IRequest).url;

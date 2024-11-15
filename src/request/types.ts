@@ -2,6 +2,7 @@ import { IReadonlyCollection } from '@/collection/types.ts';
 import { ControllerMethodType } from '@/controller/types.ts';
 import { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import { Jwt } from '@/jwt/Jwt.ts';
+import { IAuth } from '@/security/types.ts';
 import { ScalarType } from '@/types.ts';
 import { IUrl } from '@/url/types.ts';
 import { Cookie } from '@std/http/cookie';
@@ -9,6 +10,7 @@ import { Cookie } from '@std/http/cookie';
 export type RequestMethodType = ControllerMethodType;
 
 export interface IRequest {
+  auth: IAuth | null;
   path: string;
   url: IUrl;
   method: RequestMethodType;
