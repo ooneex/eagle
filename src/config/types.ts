@@ -1,13 +1,6 @@
 import { AppEnvType } from '@/app/types.ts';
+import { JwtExpiresInType } from '@/jwt/types.ts';
 import { ScalarType } from '@/types.ts';
-
-export type JwtExpiresInType =
-  | `${number}s`
-  | `${number}m`
-  | `${number}h`
-  | `${number}d`
-  | `${number}w`
-  | `${number}y`;
 
 export type EnvConfigType = {
   app: {

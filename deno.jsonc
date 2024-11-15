@@ -10,7 +10,8 @@
     "@/": "./src/",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
-    "@std/http": "jsr:@std/http"
+    "@std/http": "jsr:@std/http",
+    "@jwt": "npm:jose"
   },
   "fmt": {
     "useTabs": false,

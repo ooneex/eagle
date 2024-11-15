@@ -1,6 +1,7 @@
 import { AppEnvType } from '@/app/types.ts';
 import { config } from '@/config/decorators.ts';
-import { EnvConfigType, IConfig, JwtExpiresInType } from '@/config/types.ts';
+import { EnvConfigType, IConfig } from '@/config/types.ts';
+import { JwtExpiresInType } from '@/jwt/types.ts';
 import { ScalarType } from '@/types.ts';
 
 @config()
