@@ -1,8 +1,17 @@
+import { EnvConfig } from '@/config/mod.ts';
 import { HttpRequest } from '@/request/mod.ts';
 import { expect } from '@std/expect';
-import { describe, it } from '@std/testing/bdd';
+import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
 
 describe('HttpRequest', () => {
+  beforeEach(() => {
+    Deno.env.set(EnvConfig.KEYS.jwt.secret, 'secret123');
+  });
+
+  afterEach(() => {
+    Deno.env.delete(EnvConfig.KEYS.jwt.secret);
+  });
+
   it('should create a request with basic properties', () => {
     const headers = new Headers({
       'User-Agent': 'Mozilla/5.0',
@@ -103,5 +112,31 @@ describe('HttpRequest', () => {
     const httpRequest = new HttpRequest(request);
 
     expect(httpRequest.cookies.count()).toBe(0);
+  });
+
+  it('should handle JWT', () => {
+    const request = new Request('https://example.com', {
+      headers: new Headers({ 'Authorization': 'Bearer token123' }),
+    });
+
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.jwt?.getToken()).toBe('token123');
+  });
+
+  it('should handle JWT with no secret', () => {
+    const request = new Request('https://example.com', {
+      headers: new Headers({ 'Authorization': 'Bearer token123' }),
+    });
+
+    Deno.env.delete(EnvConfig.KEYS.jwt.secret);
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.jwt).toBe(null);
+  });
+
+  it('should handle JWT with no token', () => {
+    const request = new Request('https://example.com');
+
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.jwt).toBe(null);
   });
 });
