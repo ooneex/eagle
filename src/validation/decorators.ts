@@ -2,11 +2,12 @@ import { container } from '@/container/Container.ts';
 import { ValidatorDecoratorException } from '@/validation/ValidatorDecoratorException.ts';
 
 export const validator = () => {
-  return (validator: unknown, context: ClassDecoratorContext) => {
-    ensureIsValidator(context, validator);
+  return (validator: any) => {
+    const name = validator.prototype.constructor.name;
+    ensureIsValidator(name, validator);
 
-    if (context.name) {
-      container.add(context.name, validator, {
+    if (name) {
+      container.add(name, validator, {
         scope: 'validator',
         singleton: true,
         instance: false,
@@ -16,11 +17,12 @@ export const validator = () => {
 };
 
 export const assert = () => {
-  return (assert: unknown, context: ClassDecoratorContext) => {
-    ensureIsAssert(context, assert);
+  return (assert: any) => {
+    const name = assert.prototype.constructor.name;
+    ensureIsAssert(name, assert);
 
-    if (context.name) {
-      container.add(context.name, assert, {
+    if (name) {
+      container.add(name, assert, {
         scope: 'assert',
         singleton: true,
         instance: false,
@@ -29,33 +31,22 @@ export const assert = () => {
   };
 };
 
-const ensureIsValidator = (
-  context: ClassDecoratorContext,
-  validator: unknown,
-) => {
+const ensureIsValidator = (name: string, validator: any) => {
   if (
-    context.kind !== 'class' ||
-    !context.name?.endsWith('Validator') ||
-    !(validator as any).prototype.getScope ||
-    !(validator as any).prototype.validate
+    !name?.endsWith('Validator') ||
+    !validator.prototype.getScope ||
+    !validator.prototype.validate
   ) {
     throw new ValidatorDecoratorException(
-      `Validator decorator can only be used on validator classes. ${context.name} must end with Validator keyword and implement IValidator interface.`,
+      `Validator decorator can only be used on validator classes. ${name} must end with Validator keyword and implement IValidator interface.`,
     );
   }
 };
 
-const ensureIsAssert = (
-  context: ClassDecoratorContext,
-  assert: unknown,
-) => {
-  if (
-    context.kind !== 'class' ||
-    !context.name?.startsWith('Assert') ||
-    !(assert as any).prototype.validate
-  ) {
+const ensureIsAssert = (name: string, assert: any) => {
+  if (!name?.startsWith('Assert') || !assert.prototype.validate) {
     throw new ValidatorDecoratorException(
-      `Assert decorator can only be used on assert classes. ${context.name} must start with Assert keyword implement IAssert interface.`,
+      `Assert decorator can only be used on assert classes. ${name} must start with Assert keyword implement IAssert interface.`,
     );
   }
 };

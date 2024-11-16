@@ -3,8 +3,9 @@ import { ServiceDecoratorException } from '@/service/ServiceDecoratorException.t
 import { DataSource } from '@typeorm';
 
 export const database = () => {
-  return (database: any, context: ClassDecoratorContext) => {
-    ensureIsDatabase(context, database);
+  return (database: any) => {
+    const name = database.prototype.constructor.name;
+    ensureIsDatabase(name, database);
 
     const dataSource = new DataSource({
       type: database.getType(),
@@ -16,7 +17,7 @@ export const database = () => {
       subscribers: database.getSubscribers(),
     });
 
-    container.add(context.name!, dataSource, {
+    container.add(name, dataSource, {
       scope: 'database',
       singleton: true,
       instance: true,
@@ -24,13 +25,9 @@ export const database = () => {
   };
 };
 
-const ensureIsDatabase = (
-  context: ClassDecoratorContext,
-  database: any,
-) => {
+const ensureIsDatabase = (name: string, database: any) => {
   if (
-    context.kind !== 'class' ||
-    !context.name?.endsWith('Database') ||
+    !name?.endsWith('Database') ||
     !database.prototype.getType ||
     !database.prototype.getConnectionUrl ||
     !database.prototype.getEntities ||
@@ -38,7 +35,7 @@ const ensureIsDatabase = (
     !database.prototype.logging
   ) {
     throw new ServiceDecoratorException(
-      `Database decorator can only be used on database classes. ${context.name} must end with Database keyword and implement IDatabase interface.`,
+      `Database decorator can only be used on database classes. ${name} must end with Database keyword and implement IDatabase interface.`,
     );
   }
 };

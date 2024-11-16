@@ -2,11 +2,12 @@ import { ConfigDecoratorException } from '@/config/ConfigDecoratorException.ts';
 import { container } from '@/container/Container.ts';
 
 export const config = () => {
-  return (config: unknown, context: ClassDecoratorContext) => {
-    ensureIsConfig(context, config);
+  return (config: any) => {
+    const name = config.prototype.constructor.name;
+    ensureIsConfig(name, config);
 
-    if (context.name) {
-      container.add(context.name, config, {
+    if (name) {
+      container.add(name, config, {
         scope: 'config',
         singleton: true,
         instance: false,
@@ -15,14 +16,13 @@ export const config = () => {
   };
 };
 
-const ensureIsConfig = (context: ClassDecoratorContext, config: unknown) => {
+const ensureIsConfig = (name: string, config: any) => {
   if (
-    context.kind !== 'class' ||
-    !context.name?.endsWith('Config') ||
-    !(config as any).prototype.toJson
+    !name.endsWith('Config') ||
+    !config.prototype.toJson
   ) {
     throw new ConfigDecoratorException(
-      `Config decorator can only be used on config classes. ${context.name} must end with Config keyword and implement IConfig interface.`,
+      `Config decorator can only be used on config classes. ${name} must end with Config keyword and implement IConfig interface.`,
     );
   }
 };
