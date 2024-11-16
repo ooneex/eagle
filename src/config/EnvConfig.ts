@@ -67,6 +67,11 @@ export class EnvConfig implements IConfig {
         public: 'CLOUDFLARE_PUBLIC_ENDPOINT',
       },
     },
+    mailer: {
+      brevo: {
+        key: 'BREVO_API_KEY',
+      },
+    },
     payment: {
       stripe: {
         secret: 'STRIPE_SECRET_KEY',
@@ -142,6 +147,11 @@ export class EnvConfig implements IConfig {
       public: Deno.env.get(EnvConfig.KEYS.storage.cloudflare.public) ?? null,
     },
   };
+  public readonly mailer: EnvConfigType['mailer'] = {
+    brevo: {
+      key: Deno.env.get(EnvConfig.KEYS.mailer.brevo.key) ?? null,
+    },
+  };
   public readonly payment: EnvConfigType['payment'] = {
     stripe: {
       secret: Deno.env.get(EnvConfig.KEYS.payment.stripe.secret) ?? null,
@@ -180,6 +190,7 @@ export class EnvConfig implements IConfig {
         this.storage.cloudflare.endpoint,
       [EnvConfig.KEYS.storage.cloudflare.public]:
         this.storage.cloudflare.public,
+      [EnvConfig.KEYS.mailer.brevo.key]: this.mailer.brevo.key,
       [EnvConfig.KEYS.payment.stripe.secret]: this.payment.stripe.secret,
     };
   }

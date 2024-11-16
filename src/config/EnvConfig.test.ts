@@ -40,6 +40,12 @@ describe('EnvConfig', () => {
   });
 
   it('should return null for undefined environment variables', () => {
+    Deno.env.delete(EnvConfig.KEYS.security.cors);
+    Deno.env.delete(EnvConfig.KEYS.database.url);
+    Deno.env.delete(EnvConfig.KEYS.jwt.refresh.secret);
+    Deno.env.delete(EnvConfig.KEYS.ai.mistral.key);
+    Deno.env.delete(EnvConfig.KEYS.monitoring.sentry.dsn);
+
     expect(envConfig.security.cors).toBe(null);
     expect(envConfig.database.url).toBe(null);
     expect(envConfig.jwt.refresh.secret).toBe(null);

@@ -63,6 +63,11 @@ export type EnvConfigType = {
       public: string | null;
     };
   };
+  mailer: {
+    brevo: {
+      key: string | null;
+    };
+  };
   payment: {
     stripe: {
       secret: string | null;
