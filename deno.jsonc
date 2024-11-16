@@ -13,7 +13,8 @@
     "@std/testing/mock": "jsr:@std/testing/mock",
     "@std/http": "jsr:@std/http",
     "@jwt": "npm:jose",
-    "@aws": "npm:@aws-sdk/client-s3"
+    "@aws": "npm:@aws-sdk/client-s3",
+    "@brevo": "npm:@getbrevo/brevo"
   },
   "fmt": {
     "useTabs": false,

@@ -5,7 +5,9 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "denoland.vscode-deno",
     "cSpell.words": [
+        "getbrevo",
         "repr",
+        "Transac",
         "zaubrik"
     ]
 }
