@@ -1,8 +1,7 @@
 import { File } from '@/file/File.ts';
-import { build } from '@esbuild';
+import { build } from 'esbuild';
 
-// const file = new File(`${Deno.cwd()}/src`);
-const file = new File(`${Deno.cwd()}`);
+const file = new File(`${Deno.cwd()}/src`);
 
 const resources = file.list({
   recursive: true,
@@ -16,6 +15,10 @@ for (const resource of resources) {
     loader: { '.ts': 'ts' },
     write: true,
     allowOverwrite: true,
-    outdir: 'build',
+    platform: 'node',
+    format: 'cjs',
+    outfile: `${Deno.cwd()}/build/${
+      resource.replace(Deno.cwd(), '').replace('.ts', '.js')
+    }`,
   });
 }

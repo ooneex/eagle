@@ -1,8 +1,8 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno run -A --watch app.ts",
-    "test": "deno test -A",
+    "dev": "deno run -A -q --no-clear-screen --watch app.ts",
+    "test": "deno test -A -q",
     "fmt": "deno run -A npm:@biomejs/biome check --write .",
     "lint": "deno run -A npm:@biomejs/biome check ."
   },
@@ -15,12 +15,15 @@
     "@jwt": "npm:jose",
     "@aws": "npm:@aws-sdk/client-s3",
     "@brevo": "npm:@getbrevo/brevo",
-    "@sqlite3": "npm:sqlite3",
-    "@pg": "npm:pg",
-    "@reflect-metadata": "npm:reflect-metadata",
-    "@typeorm": "npm:typeorm",
-    "@typeorm-ts-node-commonjs": "npm:typeorm-ts-node-commonjs",
-    "@esbuild": "npm:esbuild"
+    "sqlite3": "npm:sqlite3",
+    "pg": "npm:pg",
+    "reflect-metadata": "npm:reflect-metadata",
+    "pino": "npm:pino",
+    "pino-pretty": "npm:pino-pretty",
+    "signale": "npm:signale",
+    "typeorm": "npm:typeorm",
+    "typeorm-ts-node-commonjs": "npm:typeorm-ts-node-commonjs",
+    "esbuild": "npm:esbuild"
   },
   "fmt": {
     "useTabs": false,
@@ -30,6 +33,7 @@
     "proseWrap": "preserve"
   },
   "lint": {
+    "exclude": ["build/"],
     "rules": {
       "tags": ["recommended"],
       "exclude": ["no-explicit-any"]

@@ -1,6 +1,6 @@
 import { container } from '@/container/Container.ts';
 import { ServiceDecoratorException } from '@/service/ServiceDecoratorException.ts';
-import { DataSource } from '@typeorm';
+import { DataSource } from 'typeorm';
 
 export const database = () => {
   return (database: any) => {
@@ -17,7 +17,7 @@ export const database = () => {
       subscribers: database.getSubscribers(),
     });
 
-    container.add(name, dataSource, {
+    container.add(name, dataSource.initialize(), {
       scope: 'database',
       singleton: true,
       instance: true,

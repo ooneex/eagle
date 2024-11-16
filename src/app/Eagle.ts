@@ -1,3 +1,4 @@
+import '@/app/build.ts';
 import '@/app/register.ts';
 import { IEagle, ServerListenParamsType } from '@/app/types.ts';
 import {
@@ -15,14 +16,15 @@ import {
   findController,
   SERVER_EXCEPTION_CONTROLLER_KEY,
 } from '@/controller/utils.ts';
+import { Logger } from '@/logger/Logger.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
 
 export class Eagle implements IEagle {
   public listen(options: Partial<ServerListenParamsType> = {}) {
     Deno.serve({
       ...options,
-      onListen({ port }) {
-        console.log(`Server started at http://localhost:${port}`);
+      onListen({ port, hostname }) {
+        Logger.info(`Server started at http://${hostname}:${port}`);
       },
     }, async (req: Request) => {
       const definition = findController(req);
