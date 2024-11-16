@@ -10,8 +10,10 @@
     "@/": "./src/",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
+    "@std/testing/mock": "jsr:@std/testing/mock",
     "@std/http": "jsr:@std/http",
-    "@jwt": "npm:jose"
+    "@jwt": "npm:jose",
+    "@aws": "npm:@aws-sdk/client-s3"
   },
   "fmt": {
     "useTabs": false,
