@@ -4,6 +4,7 @@ export type ContainerScopeType =
   | 'filter'
   | 'service'
   | 'repository'
+  | 'database'
   | 'validator'
   | 'assert'
   | 'dto'

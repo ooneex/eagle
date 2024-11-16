@@ -14,7 +14,13 @@
     "@std/http": "jsr:@std/http",
     "@jwt": "npm:jose",
     "@aws": "npm:@aws-sdk/client-s3",
-    "@brevo": "npm:@getbrevo/brevo"
+    "@brevo": "npm:@getbrevo/brevo",
+    "@sqlite3": "npm:sqlite3",
+    "@pg": "npm:pg",
+    "@reflect-metadata": "npm:reflect-metadata",
+    "@typeorm": "npm:typeorm",
+    "@typeorm-ts-node-commonjs": "npm:typeorm-ts-node-commonjs",
+    "@esbuild": "npm:esbuild"
   },
   "fmt": {
     "useTabs": false,
@@ -32,7 +38,9 @@
   "lock": false,
   "compilerOptions": {
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "nodeModulesDir": "auto"
 }

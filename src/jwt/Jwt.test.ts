@@ -2,7 +2,7 @@ import { EnvConfig } from '@/config/mod.ts';
 import { Jwt } from '@/jwt/mod.ts';
 import { ERole } from '@/security/mod.ts';
 import { expect } from '@std/expect';
-import { beforeEach, describe, it } from '@std/testing/bdd';
+import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
 
 describe('Jwt', () => {
   const secret = 'test-secret-key';
@@ -24,7 +24,7 @@ describe('Jwt', () => {
     Deno.env.set(EnvConfig.KEYS.jwt.secret, secret);
   });
 
-  beforeEach(() => {
+  afterEach(() => {
     Deno.env.delete(EnvConfig.KEYS.jwt.refresh.secret);
   });
 

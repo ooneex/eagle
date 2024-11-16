@@ -7,7 +7,7 @@ const file = new File(Deno.cwd());
 const resources = file.list({
   recursive: true,
   match:
-    /(Controller|Service|Config|Validator|Middleware|Filter|Repository|Dto|Entity|Command)\.ts$/,
+    /(Controller|Service|Config|Validator|Database|Repository|Middleware|Filter|Dto|Command)\.ts$/,
 });
 
 for (const resource of resources) {
