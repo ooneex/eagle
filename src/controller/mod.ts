@@ -1,6 +1,6 @@
-export * from '@/controller/container.ts';
-export { ControllerActionException } from '@/controller/ControllerActionException.ts';
-export { DecoratorException } from '@/controller/DecoratorException.ts';
-export * from '@/controller/decorators.ts';
-export * from '@/controller/types.ts';
-export * from '@/controller/utils.ts';
+export * from './container.ts';
+export { ControllerActionException } from './ControllerActionException.ts';
+export { DecoratorException } from './DecoratorException.ts';
+export * from './decorators.ts';
+export * from './types.ts';
+export * from './utils.ts';

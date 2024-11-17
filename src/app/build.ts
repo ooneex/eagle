@@ -8,7 +8,12 @@ const resources = file.list({
   match: /Entity\.ts$/,
 });
 
-for (const resource of resources) {
+for (
+  const resource of [
+    ...resources,
+    `${Deno.cwd()}/database/sources.ts`,
+  ]
+) {
   await build({
     entryPoints: [resource],
     bundle: true,
