@@ -1,3 +1,3 @@
-export { CloudflareStorageAdapterService } from '@/storage/CloudflareStorageAdapterService.ts';
-export { StorageException } from '@/storage/StorageException.ts';
-export * from '@/storage/types.ts';
+export { CloudflareStorageAdapterService } from './CloudflareStorageAdapterService.ts';
+export { StorageException } from './StorageException.ts';
+export * from './types.ts';

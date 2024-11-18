@@ -1,14 +1,14 @@
-import { container } from '@/container/Container.ts';
-import { ControllerContainer } from '@/controller/container.ts';
-import { DecoratorException } from '@/controller/DecoratorException.ts';
-import { ControllerMethodType } from '@/controller/types.ts';
+import { container } from '../container/Container.ts';
+import { trim } from '../helper/trim.ts';
+import { IValidator } from '../validation/types.ts';
+import { ControllerContainer } from './container.ts';
+import { DecoratorException } from './DecoratorException.ts';
+import { ControllerMethodType } from './types.ts';
 import {
   NOT_FOUND_CONTROLLER_KEY,
   pathToRegexp,
   SERVER_EXCEPTION_CONTROLLER_KEY,
-} from '@/controller/utils.ts';
-import { trim } from '@/helper/trim.ts';
-import { IValidator } from '@/validation/types.ts';
+} from './utils.ts';
 
 type ControllerType = any;
 

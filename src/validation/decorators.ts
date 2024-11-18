@@ -1,5 +1,5 @@
-import { container } from '@/container/Container.ts';
-import { ValidatorDecoratorException } from '@/validation/ValidatorDecoratorException.ts';
+import { container } from '../container/Container.ts';
+import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
 
 export const validator = () => {
   return (validator: any) => {

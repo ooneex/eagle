@@ -1,6 +1,6 @@
-import { DocContainer } from '@/doc/container.ts';
-import { Doc } from '@/doc/Doc.ts';
-import { File } from '@/file/File.ts';
+import { DocContainer } from '../doc/container.ts';
+import { Doc } from '../doc/Doc.ts';
+import { File } from '../file/File.ts';
 
 const file = new File(`${Deno.cwd()}/src`);
 

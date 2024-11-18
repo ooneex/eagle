@@ -1,12 +1,8 @@
-import { container } from '@/container/Container.ts';
-import { DocContainer } from '@/doc/container.ts';
-import { assertMapper } from '@/validation/mapper.ts';
-import {
-  IAssert,
-  IValidator,
-  ValidationResultType,
-} from '@/validation/types.ts';
-import { ValidationException } from '@/validation/ValidationException.ts';
+import { container } from '../container/Container.ts';
+import { DocContainer } from '../doc/container.ts';
+import { assertMapper } from './mapper.ts';
+import { IAssert, IValidator, ValidationResultType } from './types.ts';
+import { ValidationException } from './ValidationException.ts';
 
 export const validate = (
   validator: IValidator,

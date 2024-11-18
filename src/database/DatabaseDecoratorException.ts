@@ -1,4 +1,4 @@
-import { Exception } from '@/exception/Exception.ts';
+import { Exception } from '../exception/Exception.ts';
 
 export class DatabaseDecoratorException<T = unknown> extends Exception<T> {
   constructor(

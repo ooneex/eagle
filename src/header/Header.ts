@@ -1,6 +1,6 @@
-import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
-import { IHeader } from '@/header/types.ts';
-import { CharsetType, HeaderFieldType, MimeType } from '@/http/types.ts';
+import { CharsetType, HeaderFieldType, MimeType } from '../http/types.ts';
+import { ReadonlyHeader } from './ReadonlyHeader.ts';
+import { IHeader } from './types.ts';
 
 export class Header extends ReadonlyHeader implements IHeader {
   constructor(headers?: Headers) {

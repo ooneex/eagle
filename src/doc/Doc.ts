@@ -6,7 +6,7 @@ import {
   MethodDocType,
   MethodParamDocType,
   PropertyDocType,
-} from '@/doc/types.ts';
+} from './types.ts';
 
 export class Doc implements IDoc {
   private docs: ClassDocType[] = [];

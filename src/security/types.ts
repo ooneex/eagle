@@ -1,4 +1,4 @@
-import { IJwt } from '@/jwt/types.ts';
+import { IJwt } from '../jwt/types.ts';
 
 export enum ERole {
   ANON = 'ROLE_ANON',

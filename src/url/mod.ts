@@ -1,2 +1,2 @@
-export * from '@/url/types.ts';
-export { Url } from '@/url/Url.ts';
+export * from './types.ts';
+export { Url } from './Url.ts';

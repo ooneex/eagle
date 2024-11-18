@@ -1,4 +1,4 @@
-import { ExceptionStackType } from '@/exception/types.ts';
+import { ExceptionStackType } from './types.ts';
 
 export class Exception<T = unknown> extends Error {
   public readonly stacks: ExceptionStackType[] = [];

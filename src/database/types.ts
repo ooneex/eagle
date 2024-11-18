@@ -1,5 +1,5 @@
-import { DataSource } from 'typeorm';
+import { DataSource } from 'npm:typeorm';
 
 export interface IDatabase {
-  getDataSource(): DataSource;
+    getDataSource(): DataSource;
 }

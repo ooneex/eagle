@@ -1,4 +1,4 @@
-import { Exception } from '@/exception/Exception.ts';
+import { Exception } from '../exception/Exception.ts';
 
 export class ValidationException<T = unknown> extends Exception<T> {
   constructor(

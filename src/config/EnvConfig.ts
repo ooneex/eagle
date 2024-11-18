@@ -1,8 +1,8 @@
-import { AppEnvType } from '@/app/types.ts';
-import { config } from '@/config/decorators.ts';
-import { EnvConfigType, IConfig } from '@/config/types.ts';
-import { JwtExpiresInType } from '@/jwt/types.ts';
-import { ScalarType } from '@/types.ts';
+import { AppEnvType } from '../app/types.ts';
+import { JwtExpiresInType } from '../jwt/types.ts';
+import { ScalarType } from '../types.ts';
+import { config } from './decorators.ts';
+import { EnvConfigType, IConfig } from './types.ts';
 
 @config()
 export class EnvConfig implements IConfig {

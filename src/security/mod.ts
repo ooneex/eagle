@@ -1,5 +1,5 @@
-export { Auth } from '@/security/Auth.ts';
-export { Role } from '@/security/Role.ts';
-export * from '@/security/types.ts';
-export { User } from '@/security/User.ts';
-export * from '@/security/utils.ts';
+export { Auth } from './Auth.ts';
+export { Role } from './Role.ts';
+export * from './types.ts';
+export { User } from './User.ts';
+export * from './utils.ts';

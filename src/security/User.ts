@@ -1,4 +1,4 @@
-import { IRole } from '@/security/types.ts';
+import { IRole } from './types.ts';
 
 export class User {
   private username: string;

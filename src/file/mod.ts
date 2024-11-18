@@ -1,2 +1,2 @@
-export { File } from '@/file/File.ts';
-export * from '@/file/types.ts';
+export { File } from './File.ts';
+export * from './types.ts';

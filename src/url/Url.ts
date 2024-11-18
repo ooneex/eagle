@@ -1,8 +1,8 @@
-import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
-import { IReadonlyCollection } from '@/collection/types.ts';
-import { parseString, trim } from '@/helper/mod.ts';
-import { ScalarType } from '@/types.ts';
-import { IUrl } from '@/url/types.ts';
+import { ReadonlyCollection } from '../collection/ReadonlyCollection.ts';
+import { IReadonlyCollection } from '../collection/types.ts';
+import { parseString, trim } from '../helper/mod.ts';
+import { ScalarType } from '../types.ts';
+import { IUrl } from './types.ts';
 
 export class Url implements IUrl {
   public readonly native: URL;

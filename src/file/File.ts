@@ -1,4 +1,4 @@
-import { IFile } from '@/file/types.ts';
+import { IFile } from './types.ts';
 
 export class File implements IFile {
   constructor(private readonly path: string) {}

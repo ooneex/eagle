@@ -1,4 +1,4 @@
-import { Exception } from '@/exception/Exception.ts';
+import { Exception } from '../exception/Exception.ts';
 
 export class StorageException<T = unknown> extends Exception<T> {
   constructor(

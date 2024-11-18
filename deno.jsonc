@@ -11,19 +11,8 @@
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
     "@std/testing/mock": "jsr:@std/testing/mock",
-    "@std/http": "jsr:@std/http",
-    "@jwt": "npm:jose",
-    "@aws": "npm:@aws-sdk/client-s3",
-    "@brevo": "npm:@getbrevo/brevo",
     "sqlite3": "npm:sqlite3",
-    "pg": "npm:pg",
-    "reflect-metadata": "npm:reflect-metadata",
-    "pino": "npm:pino",
-    "pino-pretty": "npm:pino-pretty",
-    "signale": "npm:signale",
-    "typeorm": "npm:typeorm",
-    "typeorm-ts-node-commonjs": "npm:typeorm-ts-node-commonjs",
-    "esbuild": "npm:esbuild"
+    "pg": "npm:pg"
   },
   "fmt": {
     "useTabs": false,

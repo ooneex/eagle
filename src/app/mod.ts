@@ -1,2 +1,2 @@
-export { Eagle } from '@/app/Eagle.ts';
-export * from '@/app/types.ts';
+export { Eagle } from './Eagle.ts';
+export * from './types.ts';

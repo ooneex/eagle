@@ -1,23 +1,23 @@
-import '@/app/build.ts';
-import '@/app/register.ts';
-import { IEagle, ServerListenParamsType } from '@/app/types.ts';
+import { container } from '../container/Container.ts';
+import { ControllerContainer } from '../controller/container.ts';
+import { ControllerActionException } from '../controller/ControllerActionException.ts';
+import { IController } from '../controller/types.ts';
+import {
+  findController,
+  SERVER_EXCEPTION_CONTROLLER_KEY,
+} from '../controller/utils.ts';
+import { Logger } from '../logger/Logger.ts';
+import { HttpResponse } from '../response/HttpResponse.ts';
+import './build.ts';
+import './register.ts';
+import { IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
-} from '@/app/utils.ts';
-import { container } from '@/container/Container.ts';
-import { ControllerContainer } from '@/controller/container.ts';
-import { ControllerActionException } from '@/controller/ControllerActionException.ts';
-import { IController } from '@/controller/types.ts';
-import {
-  findController,
-  SERVER_EXCEPTION_CONTROLLER_KEY,
-} from '@/controller/utils.ts';
-import { Logger } from '@/logger/Logger.ts';
-import { HttpResponse } from '@/response/HttpResponse.ts';
+} from './utils.ts';
 
 export class Eagle implements IEagle {
   public listen(options: Partial<ServerListenParamsType> = {}) {

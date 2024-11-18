@@ -1,9 +1,6 @@
-import { ControllerContainer } from '@/controller/container.ts';
-import {
-  ControllerMethodType,
-  StoreControllerValueType,
-} from '@/controller/types.ts';
-import { trim } from '@/helper/trim.ts';
+import { trim } from '../helper/trim.ts';
+import { ControllerContainer } from './container.ts';
+import { ControllerMethodType, StoreControllerValueType } from './types.ts';
 
 export const NOT_FOUND_CONTROLLER_KEY = 'NotFoundController';
 export const SERVER_EXCEPTION_CONTROLLER_KEY = 'ServerExceptionController';

@@ -1,14 +1,14 @@
-import { ControllerActionException } from '@/controller/ControllerActionException.ts';
-import { StoreControllerValueType } from '@/controller/types.ts';
-import { DocContainer } from '@/doc/container.ts';
-import { Exception } from '@/exception/Exception.ts';
-import { trim } from '@/helper/trim.ts';
-import { StatusTextType } from '@/http/types.ts';
-import { HttpRequest } from '@/request/HttpRequest.ts';
-import { IRequest } from '@/request/types.ts';
-import { HttpResponse } from '@/response/HttpResponse.ts';
-import { ScalarType } from '@/types.ts';
-import { ValidationFailedException } from '@/validation/ValidationFailedException.ts';
+import { ControllerActionException } from '../controller/ControllerActionException.ts';
+import { StoreControllerValueType } from '../controller/types.ts';
+import { DocContainer } from '../doc/container.ts';
+import { Exception } from '../exception/Exception.ts';
+import { trim } from '../helper/trim.ts';
+import { StatusTextType } from '../http/types.ts';
+import { HttpRequest } from '../request/HttpRequest.ts';
+import { IRequest } from '../request/types.ts';
+import { HttpResponse } from '../response/HttpResponse.ts';
+import { ScalarType } from '../types.ts';
+import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
 
 export const buildDefaultNotFoundResponse = (req: Request) => {
   const response = new HttpResponse();

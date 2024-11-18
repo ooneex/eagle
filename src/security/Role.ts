@@ -1,5 +1,5 @@
-import { ERole } from '@/security/types.ts';
-import { ROLE_HIERARCHY } from '@/security/utils.ts';
+import { ERole } from './types.ts';
+import { ROLE_HIERARCHY } from './utils.ts';
 
 export class Role {
   private readonly roles: ERole[];

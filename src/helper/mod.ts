@@ -1,2 +1,2 @@
-export { parseString } from '@/helper/parseString.ts';
-export { trim } from '@/helper/trim.ts';
+export { parseString } from './parseString.ts';
+export { trim } from './trim.ts';

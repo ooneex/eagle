@@ -1,258 +1,258 @@
-import { EnvConfig } from '@/config/EnvConfig.ts';
-import { MailerException } from '@/mailer/MailerException.ts';
-import { service } from '@/service/decorators.ts';
-import {
-  CreateSmtpEmail,
-  SendSmtpEmail,
-  SendSmtpEmailAttachmentInner,
-  SendSmtpEmailBccInner,
-  SendSmtpEmailCcInner,
-  SendSmtpEmailMessageVersionsInner,
-  SendSmtpEmailReplyTo,
-  TransactionalEmailsApi,
-  TransactionalEmailsApiApiKeys,
-} from '@brevo';
 import { IncomingMessage } from 'node:http';
+import {
+    CreateSmtpEmail,
+    SendSmtpEmail,
+    SendSmtpEmailAttachmentInner,
+    SendSmtpEmailBccInner,
+    SendSmtpEmailCcInner,
+    SendSmtpEmailMessageVersionsInner,
+    SendSmtpEmailReplyTo,
+    TransactionalEmailsApi,
+    TransactionalEmailsApiApiKeys,
+} from 'npm:@getbrevo/brevo';
+import { EnvConfig } from '../config/EnvConfig.ts';
+import { service } from '../service/decorators.ts';
+import { MailerException } from './MailerException.ts';
 
 export type SenderType = { email: string; name?: string };
 export type ToType = { name?: string; email: string };
 
 @service()
 export class BrevoMailerAdapterService {
-  private client: TransactionalEmailsApi;
-  private sender: SenderType | null = null;
-  private to: ToType[] = [];
-  private bcc: SendSmtpEmailBccInner[] = [];
-  private cc: SendSmtpEmailCcInner[] = [];
-  private htmlContent: string | null = null;
-  private textContent: string | null = null;
-  private subject: string | null = null;
-  private replyTo: SendSmtpEmailReplyTo | null = null;
-  private attachment: SendSmtpEmailAttachmentInner[] = [];
-  private headers: object | null = null;
-  private templateId: number | null = null;
-  private params: object | null = null;
-  private messageVersions: SendSmtpEmailMessageVersionsInner[] = [];
-  private tags: string[] = [];
-  private scheduledAt: Date | null = null;
-  private batchId: string | null = null;
+    private client: TransactionalEmailsApi;
+    private sender: SenderType | null = null;
+    private to: ToType[] = [];
+    private bcc: SendSmtpEmailBccInner[] = [];
+    private cc: SendSmtpEmailCcInner[] = [];
+    private htmlContent: string | null = null;
+    private textContent: string | null = null;
+    private subject: string | null = null;
+    private replyTo: SendSmtpEmailReplyTo | null = null;
+    private attachment: SendSmtpEmailAttachmentInner[] = [];
+    private headers: object | null = null;
+    private templateId: number | null = null;
+    private params: object | null = null;
+    private messageVersions: SendSmtpEmailMessageVersionsInner[] = [];
+    private tags: string[] = [];
+    private scheduledAt: Date | null = null;
+    private batchId: string | null = null;
 
-  constructor() {
-    const key = Deno.env.get(EnvConfig.KEYS.mailer.brevo.key);
+    constructor() {
+        const key = Deno.env.get(EnvConfig.KEYS.mailer.brevo.key);
 
-    if (!key) {
-      throw new MailerException('Mailer credentials are not set');
+        if (!key) {
+            throw new MailerException('Mailer credentials are not set');
+        }
+
+        this.client = new TransactionalEmailsApi();
+
+        this.client.setApiKey(
+            TransactionalEmailsApiApiKeys.apiKey,
+            key,
+        );
     }
 
-    this.client = new TransactionalEmailsApi();
+    public setSender(email: string, name?: string): this {
+        this.sender = { email, name };
 
-    this.client.setApiKey(
-      TransactionalEmailsApiApiKeys.apiKey,
-      key,
-    );
-  }
+        return this;
+    }
 
-  public setSender(email: string, name?: string): this {
-    this.sender = { email, name };
+    public getSender(): SenderType | null {
+        return this.sender;
+    }
 
-    return this;
-  }
+    public setTo(to: ToType[]): this {
+        this.to = to;
 
-  public getSender(): SenderType | null {
-    return this.sender;
-  }
+        return this;
+    }
 
-  public setTo(to: ToType[]): this {
-    this.to = to;
+    public getTo(): ToType[] {
+        return this.to;
+    }
 
-    return this;
-  }
+    public addTo(to: ToType): this {
+        this.to.push(to);
 
-  public getTo(): ToType[] {
-    return this.to;
-  }
+        return this;
+    }
 
-  public addTo(to: ToType): this {
-    this.to.push(to);
+    public setBcc(bcc: SendSmtpEmailBccInner[]): this {
+        this.bcc = bcc;
+        return this;
+    }
 
-    return this;
-  }
+    public getBcc(): SendSmtpEmailBccInner[] {
+        return this.bcc;
+    }
 
-  public setBcc(bcc: SendSmtpEmailBccInner[]): this {
-    this.bcc = bcc;
-    return this;
-  }
+    public addBcc(bcc: SendSmtpEmailBccInner): this {
+        this.bcc.push(bcc);
+        return this;
+    }
 
-  public getBcc(): SendSmtpEmailBccInner[] {
-    return this.bcc;
-  }
+    public setCc(cc: SendSmtpEmailCcInner[]): this {
+        this.cc = cc;
+        return this;
+    }
 
-  public addBcc(bcc: SendSmtpEmailBccInner): this {
-    this.bcc.push(bcc);
-    return this;
-  }
+    public getCc(): SendSmtpEmailCcInner[] {
+        return this.cc;
+    }
 
-  public setCc(cc: SendSmtpEmailCcInner[]): this {
-    this.cc = cc;
-    return this;
-  }
+    public addCc(cc: SendSmtpEmailCcInner): this {
+        this.cc.push(cc);
+        return this;
+    }
 
-  public getCc(): SendSmtpEmailCcInner[] {
-    return this.cc;
-  }
+    public setHtmlContent(content: string): this {
+        this.htmlContent = content;
+        return this;
+    }
 
-  public addCc(cc: SendSmtpEmailCcInner): this {
-    this.cc.push(cc);
-    return this;
-  }
+    public getHtmlContent(): string | null {
+        return this.htmlContent;
+    }
 
-  public setHtmlContent(content: string): this {
-    this.htmlContent = content;
-    return this;
-  }
+    public setTextContent(content: string): this {
+        this.textContent = content;
+        return this;
+    }
 
-  public getHtmlContent(): string | null {
-    return this.htmlContent;
-  }
+    public getTextContent(): string | null {
+        return this.textContent;
+    }
 
-  public setTextContent(content: string): this {
-    this.textContent = content;
-    return this;
-  }
+    public setSubject(subject: string): this {
+        this.subject = subject;
+        return this;
+    }
 
-  public getTextContent(): string | null {
-    return this.textContent;
-  }
+    public getSubject(): string | null {
+        return this.subject;
+    }
 
-  public setSubject(subject: string): this {
-    this.subject = subject;
-    return this;
-  }
+    public setReplyTo(replyTo: SendSmtpEmailReplyTo): this {
+        this.replyTo = replyTo;
+        return this;
+    }
 
-  public getSubject(): string | null {
-    return this.subject;
-  }
+    public getReplyTo(): SendSmtpEmailReplyTo | null {
+        return this.replyTo;
+    }
 
-  public setReplyTo(replyTo: SendSmtpEmailReplyTo): this {
-    this.replyTo = replyTo;
-    return this;
-  }
+    public setAttachment(attachment: SendSmtpEmailAttachmentInner[]): this {
+        this.attachment = attachment;
+        return this;
+    }
 
-  public getReplyTo(): SendSmtpEmailReplyTo | null {
-    return this.replyTo;
-  }
+    public getAttachment(): SendSmtpEmailAttachmentInner[] {
+        return this.attachment;
+    }
 
-  public setAttachment(attachment: SendSmtpEmailAttachmentInner[]): this {
-    this.attachment = attachment;
-    return this;
-  }
+    public addAttachment(attachment: SendSmtpEmailAttachmentInner): this {
+        this.attachment.push(attachment);
+        return this;
+    }
 
-  public getAttachment(): SendSmtpEmailAttachmentInner[] {
-    return this.attachment;
-  }
+    public setHeaders(headers: object): this {
+        this.headers = headers;
+        return this;
+    }
 
-  public addAttachment(attachment: SendSmtpEmailAttachmentInner): this {
-    this.attachment.push(attachment);
-    return this;
-  }
+    public getHeaders(): object | null {
+        return this.headers;
+    }
 
-  public setHeaders(headers: object): this {
-    this.headers = headers;
-    return this;
-  }
+    public setTemplateId(templateId: number): this {
+        this.templateId = templateId;
+        return this;
+    }
 
-  public getHeaders(): object | null {
-    return this.headers;
-  }
+    public getTemplateId(): number | null {
+        return this.templateId;
+    }
 
-  public setTemplateId(templateId: number): this {
-    this.templateId = templateId;
-    return this;
-  }
+    public setParams(params: object): this {
+        this.params = params;
+        return this;
+    }
 
-  public getTemplateId(): number | null {
-    return this.templateId;
-  }
+    public getParams(): object | null {
+        return this.params;
+    }
 
-  public setParams(params: object): this {
-    this.params = params;
-    return this;
-  }
+    public setMessageVersions(
+        versions: SendSmtpEmailMessageVersionsInner[],
+    ): this {
+        this.messageVersions = versions;
+        return this;
+    }
 
-  public getParams(): object | null {
-    return this.params;
-  }
+    public getMessageVersions(): SendSmtpEmailMessageVersionsInner[] {
+        return this.messageVersions;
+    }
 
-  public setMessageVersions(
-    versions: SendSmtpEmailMessageVersionsInner[],
-  ): this {
-    this.messageVersions = versions;
-    return this;
-  }
+    public addMessageVersion(version: SendSmtpEmailMessageVersionsInner): this {
+        this.messageVersions.push(version);
+        return this;
+    }
 
-  public getMessageVersions(): SendSmtpEmailMessageVersionsInner[] {
-    return this.messageVersions;
-  }
+    public setTags(tags: string[]): this {
+        this.tags = tags;
+        return this;
+    }
 
-  public addMessageVersion(version: SendSmtpEmailMessageVersionsInner): this {
-    this.messageVersions.push(version);
-    return this;
-  }
+    public getTags(): string[] {
+        return this.tags;
+    }
 
-  public setTags(tags: string[]): this {
-    this.tags = tags;
-    return this;
-  }
+    public addTag(tag: string): this {
+        this.tags.push(tag);
+        return this;
+    }
 
-  public getTags(): string[] {
-    return this.tags;
-  }
+    public setScheduledAt(date: Date): this {
+        this.scheduledAt = date;
+        return this;
+    }
 
-  public addTag(tag: string): this {
-    this.tags.push(tag);
-    return this;
-  }
+    public getScheduledAt(): Date | null {
+        return this.scheduledAt;
+    }
 
-  public setScheduledAt(date: Date): this {
-    this.scheduledAt = date;
-    return this;
-  }
+    public setBatchId(id: string): this {
+        this.batchId = id;
+        return this;
+    }
 
-  public getScheduledAt(): Date | null {
-    return this.scheduledAt;
-  }
+    public getBatchId(): string | null {
+        return this.batchId;
+    }
 
-  public setBatchId(id: string): this {
-    this.batchId = id;
-    return this;
-  }
+    public async send(): Promise<{
+        response: IncomingMessage;
+        body: CreateSmtpEmail;
+    }> {
+        const sendSmtpEmail = new SendSmtpEmail();
+        sendSmtpEmail.sender = this.sender ?? undefined;
+        sendSmtpEmail.to = this.to ?? undefined;
+        sendSmtpEmail.bcc = this.bcc ?? undefined;
+        sendSmtpEmail.cc = this.cc ?? undefined;
+        sendSmtpEmail.htmlContent = this.htmlContent ?? undefined;
+        sendSmtpEmail.textContent = this.textContent ?? undefined;
+        sendSmtpEmail.subject = this.subject ?? undefined;
+        sendSmtpEmail.replyTo = this.replyTo ?? undefined;
+        sendSmtpEmail.attachment = this.attachment ?? undefined;
+        sendSmtpEmail.headers = this.headers ?? undefined;
+        sendSmtpEmail.templateId = this.templateId ?? undefined;
+        sendSmtpEmail.params = this.params ?? undefined;
+        sendSmtpEmail.messageVersions = this.messageVersions ?? undefined;
+        sendSmtpEmail.tags = this.tags ?? undefined;
+        sendSmtpEmail.scheduledAt = this.scheduledAt ?? undefined;
+        sendSmtpEmail.batchId = this.batchId ?? undefined;
 
-  public getBatchId(): string | null {
-    return this.batchId;
-  }
-
-  public async send(): Promise<{
-    response: IncomingMessage;
-    body: CreateSmtpEmail;
-  }> {
-    const sendSmtpEmail = new SendSmtpEmail();
-    sendSmtpEmail.sender = this.sender ?? undefined;
-    sendSmtpEmail.to = this.to ?? undefined;
-    sendSmtpEmail.bcc = this.bcc ?? undefined;
-    sendSmtpEmail.cc = this.cc ?? undefined;
-    sendSmtpEmail.htmlContent = this.htmlContent ?? undefined;
-    sendSmtpEmail.textContent = this.textContent ?? undefined;
-    sendSmtpEmail.subject = this.subject ?? undefined;
-    sendSmtpEmail.replyTo = this.replyTo ?? undefined;
-    sendSmtpEmail.attachment = this.attachment ?? undefined;
-    sendSmtpEmail.headers = this.headers ?? undefined;
-    sendSmtpEmail.templateId = this.templateId ?? undefined;
-    sendSmtpEmail.params = this.params ?? undefined;
-    sendSmtpEmail.messageVersions = this.messageVersions ?? undefined;
-    sendSmtpEmail.tags = this.tags ?? undefined;
-    sendSmtpEmail.scheduledAt = this.scheduledAt ?? undefined;
-    sendSmtpEmail.batchId = this.batchId ?? undefined;
-
-    return await this.client.sendTransacEmail(sendSmtpEmail);
-  }
+        return await this.client.sendTransacEmail(sendSmtpEmail);
+    }
 }

@@ -1,8 +1,8 @@
-import { Collection } from '@/collection/Collection.ts';
-import { ICollection } from '@/collection/types.ts';
-import { ContainerException } from '@/container/ContainerException.ts';
-import { resolveDependencies } from '@/container/resolve.ts';
-import { ContainerScopeType } from '@/container/types.ts';
+import { Collection } from '../collection/Collection.ts';
+import { ICollection } from '../collection/types.ts';
+import { ContainerException } from './ContainerException.ts';
+import { resolveDependencies } from './resolve.ts';
+import { ContainerScopeType } from './types.ts';
 
 export class Container {
   private store = new Collection<

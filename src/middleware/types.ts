@@ -1,4 +1,4 @@
-import type { Exception } from '@/exception/Exception.ts';
+import type { Exception } from '../exception/Exception.ts';
 
 export interface IMiddleware<Response = unknown> {
   next: (context: { request: Request; response: Response }) => {

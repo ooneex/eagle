@@ -1,5 +1,5 @@
-import { ConfigDecoratorException } from '@/config/ConfigDecoratorException.ts';
-import { container } from '@/container/Container.ts';
+import { container } from '../container/Container.ts';
+import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
 
 export const config = () => {
   return (config: any) => {

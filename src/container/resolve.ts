@@ -1,7 +1,7 @@
-import { container } from '@/container/Container.ts';
-import { ContainerException } from '@/container/ContainerException.ts';
-import { ContainerScopeType } from '@/container/types.ts';
-import { DocContainer } from '@/doc/container.ts';
+import { DocContainer } from '../doc/container.ts';
+import { container } from './Container.ts';
+import { ContainerException } from './ContainerException.ts';
+import { ContainerScopeType } from './types.ts';
 
 export const getDependencies = (
   key: string,

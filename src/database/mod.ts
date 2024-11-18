@@ -1,5 +1,5 @@
-import 'reflect-metadata';
+import 'npm:reflect-metadata';
 
-export * from '@/database/decorators.ts';
-export * from '@/database/types.ts';
-export * from 'typeorm';
+export * from 'npm:typeorm';
+export * from './decorators.ts';
+export * from './types.ts';

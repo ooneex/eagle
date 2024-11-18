@@ -1,5 +1,5 @@
-import { IValidator, ValidatorScopeType } from '@/validation/types.ts';
-import { validate } from '@/validation/validate.ts';
+import { IValidator, ValidatorScopeType } from './types.ts';
+import { validate } from './validate.ts';
 
 export abstract class AbstractValidator implements IValidator {
   abstract getScope(): ValidatorScopeType;

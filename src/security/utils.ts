@@ -1,4 +1,4 @@
-import { ERole } from '@/security/types.ts';
+import { ERole } from './types.ts';
 
 export const ROLE_HIERARCHY: Record<ERole, number> = {
   [ERole.SUPER_ADMIN]: 1,

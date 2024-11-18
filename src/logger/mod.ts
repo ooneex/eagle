@@ -1,1 +1,1 @@
-export * from '@/logger/Logger.ts';
+export * from './Logger.ts';

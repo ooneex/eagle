@@ -1,4 +1,4 @@
-import type { IHeaderChecker } from '@/header/types.ts';
+import type { IHeaderChecker } from './types.ts';
 
 export abstract class HeaderChecker implements IHeaderChecker {
   private headers: Headers;

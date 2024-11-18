@@ -1,2 +1,2 @@
-export { HttpResponse } from '@/response/HttpResponse.ts';
-export * from '@/response/types.ts';
+export { HttpResponse } from './HttpResponse.ts';
+export * from './types.ts';

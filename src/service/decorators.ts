@@ -1,5 +1,5 @@
-import { container } from '@/container/Container.ts';
-import { ServiceDecoratorException } from '@/service/ServiceDecoratorException.ts';
+import { container } from '../container/Container.ts';
+import { ServiceDecoratorException } from './ServiceDecoratorException.ts';
 
 export const service = () => {
   return (service: any) => {

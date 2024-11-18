@@ -1,5 +1,5 @@
-import { IResponse } from '@/response/types.ts';
-import { IValidator } from '@/validation/types.ts';
+import { IResponse } from '../response/types.ts';
+import { IValidator } from '../validation/types.ts';
 
 export interface IController {
   action: (...args: any[]) => IResponse | Promise<IResponse>;

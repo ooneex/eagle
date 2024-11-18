@@ -1,5 +1,5 @@
-import { IAssert } from '@/validation/types.ts';
-import { assert } from '@/validation/decorators.ts';
+import { assert } from '../decorators.ts';
+import { IAssert } from '../types.ts';
 
 @assert()
 export class AssertDateArray implements IAssert {

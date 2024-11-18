@@ -1,7 +1,7 @@
-import { IJwt } from '@/jwt/types.ts';
-import { Role } from '@/security/Role.ts';
-import { IAuth, IUser } from '@/security/types.ts';
-import { User } from '@/security/User.ts';
+import { IJwt } from '../jwt/types.ts';
+import { Role } from '../security/Role.ts';
+import { IAuth, IUser } from '../security/types.ts';
+import { User } from '../security/User.ts';
 
 export class Auth implements IAuth {
   private user: IUser | null = null;
