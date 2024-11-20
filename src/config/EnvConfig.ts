@@ -1,4 +1,5 @@
 import { AppEnvType } from '../app/types.ts';
+import { parseString } from '../helper/parseString.ts';
 import { JwtExpiresInType } from '../jwt/types.ts';
 import { ScalarType } from '../types.ts';
 import { config } from './decorators.ts';
@@ -86,7 +87,9 @@ export class EnvConfig implements IConfig {
       (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ??
       null,
     url: Deno.env.get(EnvConfig.KEYS.app.url) ?? null,
-    port: Number(Deno.env.get(EnvConfig.KEYS.app.port)) ?? null,
+    port:
+      parseString<number>(Deno.env.get(EnvConfig.KEYS.app.port) as string) ??
+        null,
     host: Deno.env.get(EnvConfig.KEYS.app.host) ?? null,
   };
   public readonly security: EnvConfigType['security'] = {

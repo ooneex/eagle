@@ -8,6 +8,7 @@ import { HttpRequest } from '../request/HttpRequest.ts';
 import { IRequest } from '../request/types.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { ScalarType } from '../types.ts';
+import { IValidator } from '../validation/types.ts';
 import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
 
 export const buildDefaultNotFoundResponse = (req: Request) => {
@@ -211,6 +212,40 @@ export const handleRequestCookiesValidation = (
             success: result.success,
             data,
             errors: result.details.filter((detail) => !detail.success),
+          },
+        },
+      );
+    }
+  }
+
+  return true;
+};
+
+export const handleEnvValidation = (
+  validators: IValidator[],
+): boolean => {
+  for (const validator of validators) {
+    const scope = validator.getScope();
+
+    if (scope !== 'env') {
+      continue;
+    }
+
+    const data = Deno.env.toObject();
+    const result = validator.validate(data);
+
+    if (!result.success) {
+      const errors = result.details.filter((detail) => !detail.success);
+      const error = errors[0];
+
+      throw new ValidationFailedException(
+        error.message,
+        {
+          scope,
+          validation: {
+            success: result.success,
+            data,
+            errors,
           },
         },
       );

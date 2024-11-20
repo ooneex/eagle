@@ -1,3 +1,4 @@
+import { parseString } from '../../helper/parseString.ts';
 import { assert } from '../decorators.ts';
 import { IAssert } from '../types.ts';
 
@@ -11,7 +12,13 @@ export class AssertNumberArray implements IAssert {
       };
     }
 
-    const isArrayOfNumbers = value.every((item) => typeof item === 'number');
+    const isArrayOfNumbers = value.every((item) => {
+      if (typeof item === 'string') {
+        item = parseString(item);
+      }
+
+      return typeof item === 'number';
+    });
 
     return {
       success: isArrayOfNumbers,

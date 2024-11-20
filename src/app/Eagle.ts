@@ -9,18 +9,30 @@ import {
 import { Logger } from '../logger/Logger.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { register } from './register.ts';
-import { IEagle, ServerListenParamsType } from './types.ts';
+import { EagleConfigType, IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
+  handleEnvValidation,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
 } from './utils.ts';
 
 export class Eagle implements IEagle {
+  private readonly config?: EagleConfigType;
+
+  constructor(config?: EagleConfigType) {
+    this.config = config;
+  }
+
   public async listen(options: Partial<ServerListenParamsType> = {}) {
     await register(undefined, true);
+
+    if (this.config?.validators) {
+      handleEnvValidation(this.config.validators);
+    }
+
     this.run(options);
   }
 
