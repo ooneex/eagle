@@ -8,7 +8,7 @@ export class Container {
   private store = new Collection<
     ContainerScopeType,
     ICollection<string, {
-      value: unknown;
+      value: any;
       singleton?: boolean;
       instance?: boolean;
     }>
@@ -86,6 +86,10 @@ export class Container {
     this.store.get(scope)!.add(key, { value, singleton, instance });
 
     return this;
+  }
+
+  public getStore(scope: ContainerScopeType) {
+    return this.store.get(scope);
   }
 }
 

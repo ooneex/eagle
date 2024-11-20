@@ -66,4 +66,22 @@ describe('Container', () => {
 
     expect(container).toBeDefined();
   });
+
+  it('should return store for given scope', () => {
+    const container = new Container();
+    class TestClass {}
+
+    container.add('test', TestClass, { scope: 'service' });
+    const store = container.getStore('service');
+
+    expect(store).toBeDefined();
+    expect(store?.has('test')).toBe(true);
+  });
+
+  it('should return undefined for non-existent scope', () => {
+    const container = new Container();
+    const store = container.getStore('service');
+
+    expect(store).toBeUndefined();
+  });
 });
