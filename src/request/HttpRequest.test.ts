@@ -141,4 +141,24 @@ describe('HttpRequest', () => {
     const httpRequest = new HttpRequest(request);
     expect(httpRequest.jwt).toBe(null);
   });
+
+  it('should handle language', () => {
+    const request = new Request('https://example.com', {
+      headers: new Headers({ 'Accept-Language': 'en-GB,en;q=0.8' }),
+    });
+
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.lang?.code).toBe('en');
+    expect(httpRequest.lang?.region).toBe('GB');
+  });
+
+  it('should handle language with no region', () => {
+    const request = new Request('https://example.com', {
+      headers: new Headers({ 'Accept-Language': 'en;q=0.8' }),
+    });
+
+    const httpRequest = new HttpRequest(request);
+    expect(httpRequest.lang?.code).toBe('en');
+    expect(httpRequest.lang?.region).toBe(null);
+  });
 });
