@@ -6,6 +6,8 @@ export type EnvConfigType = {
   app: {
     env: AppEnvType | null;
     url: string | null;
+    port: number | null;
+    host: string | null;
   };
   security: {
     cors: string | null;

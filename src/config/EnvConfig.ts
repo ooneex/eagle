@@ -10,6 +10,8 @@ export class EnvConfig implements IConfig {
     app: {
       env: 'APP_ENV',
       url: 'APP_URL',
+      port: 'APP_PORT',
+      host: 'APP_HOST',
     },
     security: {
       cors: 'CORS_ALLOW_ORIGIN',
@@ -84,6 +86,8 @@ export class EnvConfig implements IConfig {
       (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ??
       null,
     url: Deno.env.get(EnvConfig.KEYS.app.url) ?? null,
+    port: Number(Deno.env.get(EnvConfig.KEYS.app.port)) ?? null,
+    host: Deno.env.get(EnvConfig.KEYS.app.host) ?? null,
   };
   public readonly security: EnvConfigType['security'] = {
     cors: Deno.env.get(EnvConfig.KEYS.security.cors) ?? null,
@@ -162,6 +166,8 @@ export class EnvConfig implements IConfig {
     return {
       [EnvConfig.KEYS.app.env]: this.app.env,
       [EnvConfig.KEYS.app.url]: this.app.url,
+      [EnvConfig.KEYS.app.port]: this.app.port,
+      [EnvConfig.KEYS.app.host]: this.app.host,
       [EnvConfig.KEYS.security.cors]: this.security.cors,
       [EnvConfig.KEYS.database.url]: this.database.url,
       [EnvConfig.KEYS.jwt.secret]: this.jwt.secret,
