@@ -72,7 +72,7 @@ export class Eagle implements IEagle {
           );
         }
 
-        return response.build();
+        return response.build(request);
       } catch (error) {
         const definition = ControllerContainer.get(
           SERVER_EXCEPTION_CONTROLLER_KEY,

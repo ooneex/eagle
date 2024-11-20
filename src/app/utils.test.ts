@@ -27,6 +27,17 @@ describe('utils', () => {
       expect(response.status).toBe(404);
 
       expect(body).toEqual({
+        auth: {
+          isAuthenticated: false,
+          user: {
+            isAdmin: false,
+            isAnon: true,
+            isSuperAdmin: false,
+            isUser: false,
+            roles: [],
+            username: null,
+          },
+        },
         data: {
           path: '/missing-path',
           method: 'GET',
@@ -49,6 +60,17 @@ describe('utils', () => {
       const body = await response.json();
       expect(response.status).toBe(500);
       expect(body).toEqual({
+        auth: {
+          isAuthenticated: false,
+          user: {
+            isAdmin: false,
+            isAnon: true,
+            isSuperAdmin: false,
+            isUser: false,
+            roles: [],
+            username: null,
+          },
+        },
         data: null,
         message: 'Internal Server Error',
         state: { success: false, status: 500 },
@@ -62,6 +84,17 @@ describe('utils', () => {
 
       expect(response.status).toBe(400);
       expect(body).toEqual({
+        auth: {
+          isAuthenticated: false,
+          user: {
+            isAdmin: false,
+            isAnon: true,
+            isSuperAdmin: false,
+            isUser: false,
+            roles: [],
+            username: null,
+          },
+        },
         data: null,
         message: 'Custom error',
         state: { success: false, status: 400 },
