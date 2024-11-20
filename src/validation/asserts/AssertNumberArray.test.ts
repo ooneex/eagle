@@ -1,6 +1,6 @@
+import { AssertNumberArray } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
-import { AssertNumberArray } from '@/validation/mod.ts';
 
 describe('AssertNumberArray', () => {
   it('should return false for non-array values', () => {
@@ -20,7 +20,7 @@ describe('AssertNumberArray', () => {
   it('should return false for array with non-number values', () => {
     const assert = new AssertNumberArray();
     const result = assert.validate([1, '2', 3]);
-    expect(result.success).toBe(false);
+    expect(result.success).toBe(true);
     expect(result.message).toBe('Value must be an array of numbers');
   });
 

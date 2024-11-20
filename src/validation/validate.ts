@@ -58,6 +58,8 @@ export const validate = (
       });
     }
 
+    let invalid: ReturnType<IAssert['validate']> | null = null;
+
     if (assertions) {
       const isValid = assertions.some((assertion) => {
         const assert = container.get<IAssert>(assertion);
@@ -70,7 +72,16 @@ export const validate = (
           });
         }
 
-        return assert.validate(value).success;
+        const result = assert.validate(value);
+
+        if (!result.success && !invalid) {
+          invalid = {
+            success: false,
+            message: result.message,
+          };
+        }
+
+        return result.success;
       });
 
       if (isValid) {
@@ -100,8 +111,23 @@ export const validate = (
         if (constraint.isArray) {
           isValid = Array.isArray(value) &&
             value.every((v) => v.constructor.name === dep.constructor.name);
+
+          if (!isValid && !invalid) {
+            invalid = {
+              success: false,
+              message:
+                `${property.name} must be an array of ${dep.constructor.name}`,
+            };
+          }
         } else {
           isValid = (value as any).constructor.name === dep.constructor.name;
+
+          if (!isValid && !invalid) {
+            invalid = {
+              success: false,
+              message: `${property.name} must be a ${dep.constructor.name}`,
+            };
+          }
         }
 
         return isValid;
@@ -117,10 +143,16 @@ export const validate = (
       }
     }
 
+    let message = `Validation failed for ${property.name}`;
+
+    if (invalid) {
+      message += `. ${(invalid as ReturnType<IAssert['validate']>).message}`;
+    }
+
     details.push({
       property: property.name,
       success: false,
-      message: `Validation failed for property ${property.name}`,
+      message,
     });
   }
 
