@@ -1,16 +1,24 @@
 import { build } from 'npm:esbuild';
 import { File } from '../file/File.ts';
 
+try {
+  await Deno.remove(`${Deno.cwd()}/build`, { recursive: true });
+} catch (_err) {
+  // Trust me, it's already removed
+}
+
 const file = new File(`${Deno.cwd()}/src`);
 
-const resources = file.list({
+let resources = file.list({
   recursive: true,
   match: /Entity\.ts$/,
 });
 
+resources = [...resources, `${Deno.cwd()}/database/sources`];
+
 await build({
   entryPoints: [
-    ...[...resources, `${Deno.cwd()}/database/sources`].map((resource) => ({
+    ...resources.map((resource) => ({
       in: resource,
       out: `${resource.replace(`${Deno.cwd()}/`, '').replace('.ts', '.js')}`,
     })),
@@ -20,6 +28,6 @@ await build({
   write: true,
   allowOverwrite: true,
   platform: 'node',
-  format: 'cjs',
+  format: 'esm',
   outdir: `${Deno.cwd()}/build`,
 });

@@ -8,8 +8,7 @@ import {
 } from '../controller/utils.ts';
 import { Logger } from '../logger/Logger.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
-import './build.ts';
-import './register.ts';
+import { register } from './register.ts';
 import { IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
@@ -20,7 +19,12 @@ import {
 } from './utils.ts';
 
 export class Eagle implements IEagle {
-  public listen(options: Partial<ServerListenParamsType> = {}) {
+  public async listen(options: Partial<ServerListenParamsType> = {}) {
+    await register(undefined, true);
+    this.run(options);
+  }
+
+  private run(options: Partial<ServerListenParamsType> = {}) {
     Deno.serve({
       ...options,
       onListen({ port, hostname }) {
