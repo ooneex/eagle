@@ -1,4 +1,5 @@
 import { IResponse } from '../response/types.ts';
+import { ERole } from '../security/types.ts';
 import { IValidator } from '../validation/types.ts';
 
 export interface IController {
@@ -25,4 +26,5 @@ export type StoreControllerValueType = {
    * No need to decorate those validators with @validator() decorator
    */
   validators?: IValidator[];
+  roles?: ERole[];
 };

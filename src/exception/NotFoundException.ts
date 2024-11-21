@@ -1,3 +1,4 @@
+import { STATUS_CODE } from 'jsr:@std/http/status';
 import { Exception } from './Exception.ts';
 
 export class NotFoundException<T = unknown> extends Exception<T> {
@@ -5,6 +6,6 @@ export class NotFoundException<T = unknown> extends Exception<T> {
     message: string,
     data: Readonly<Record<string, T>> | null = null,
   ) {
-    super(message, 404, data);
+    super(message, STATUS_CODE.NotFound, data);
   }
 }

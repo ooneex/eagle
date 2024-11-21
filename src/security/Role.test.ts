@@ -35,6 +35,13 @@ describe('Role', () => {
       expect(role.hasRole(ERole.ADMIN)).toBe(true);
       expect(role.hasRole(ERole.SUPER_ADMIN)).toBe(false);
     });
+
+    it('should work with Role instance', () => {
+      const role = new Role([ERole.USER, ERole.ADMIN]);
+      const role2 = new Role([ERole.ADMIN]);
+      expect(role.hasRole(role2)).toBe(true);
+      expect(role2.hasRole(role)).toBe(true);
+    });
   });
 
   describe('role-specific checks', () => {

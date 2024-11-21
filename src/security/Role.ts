@@ -1,4 +1,4 @@
-import { ERole } from './types.ts';
+import { ERole, IRole } from './types.ts';
 import { ROLE_HIERARCHY } from './utils.ts';
 
 export class Role {
@@ -12,9 +12,21 @@ export class Role {
     return this.roles;
   }
 
-  public hasRole(role: ERole): boolean {
+  public hasRole(role: ERole | IRole): boolean {
+    if (role instanceof Role) {
+      for (const r of role.getRoles()) {
+        const has = this.roles.some((requiredRole) =>
+          this.checkRole(r, requiredRole)
+        );
+
+        if (has) return true;
+      }
+
+      return false;
+    }
+
     return this.roles.some((requiredRole) =>
-      this.checkRole(role, requiredRole)
+      this.checkRole(role as ERole, requiredRole)
     );
   }
 
