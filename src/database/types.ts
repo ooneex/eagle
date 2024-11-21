@@ -1,7 +1,5 @@
-import { DataSource } from 'npm:typeorm';
-
 export interface IDatabase {
-  getDataSource(): DataSource;
+  getDataSource(): string;
 }
 
 export interface IEntity {
@@ -9,7 +7,7 @@ export interface IEntity {
 }
 
 export interface IRepository<T extends IEntity> {
-  readonly entityManager: DataSource['manager'];
+  readonly entityManager: string;
   get: (id: string | number) => Promise<T | null>;
   getAll: () => Promise<T[]>;
   create: (entity: T) => Promise<T>;
