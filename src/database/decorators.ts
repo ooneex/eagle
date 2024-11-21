@@ -6,12 +6,10 @@ export const database = () => {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name, database);
 
-    const db = new database();
-
-    container.add(name, db, {
+    container.add(name, database, {
       scope: 'database',
       singleton: true,
-      instance: true,
+      instance: false,
     });
   };
 };
