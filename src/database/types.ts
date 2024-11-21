@@ -1,5 +1,7 @@
+import { drizzle } from 'drizzle-orm/node-postgres';
+
 export interface IDatabase {
-  getDataSource(): string;
+  getDataSource(): typeof drizzle;
 }
 
 export interface IEntity {

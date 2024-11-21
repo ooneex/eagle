@@ -11,7 +11,8 @@
     "@/": "./src/",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
-    "@std/testing/mock": "jsr:@std/testing/mock"
+    "@std/testing/mock": "jsr:@std/testing/mock",
+    "drizzle-orm": "npm:drizzle-orm"
   },
   "fmt": {
     "useTabs": false,
@@ -21,7 +22,6 @@
     "proseWrap": "preserve"
   },
   "lint": {
-    "exclude": ["build/"],
     "rules": {
       "tags": ["recommended"],
       "exclude": ["no-explicit-any"]
@@ -30,9 +30,7 @@
   "lock": false,
   "compilerOptions": {
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "noUnusedParameters": true
   },
   "nodeModulesDir": "auto"
 }
