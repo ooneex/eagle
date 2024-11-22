@@ -48,6 +48,7 @@ describe('Role', () => {
     it('should correctly check for SUPER_ADMIN', () => {
       const role = new Role([ERole.SUPER_ADMIN]);
       expect(role.hasSuperAdmin()).toBe(true);
+      expect(role.hasUser()).toBe(true);
     });
 
     it('should correctly check for ADMIN', () => {
@@ -58,11 +59,6 @@ describe('Role', () => {
     it('should correctly check for USER', () => {
       const role = new Role([ERole.USER]);
       expect(role.hasUser()).toBe(true);
-    });
-
-    it('should correctly check for ANON', () => {
-      const role = new Role([ERole.ANON]);
-      expect(role.hasAnon()).toBe(true);
     });
   });
 });

@@ -31,7 +31,6 @@ describe('utils', () => {
           isAuthenticated: false,
           user: {
             isAdmin: false,
-            isAnon: true,
             isSuperAdmin: false,
             isUser: false,
             roles: [],
@@ -64,7 +63,6 @@ describe('utils', () => {
           isAuthenticated: false,
           user: {
             isAdmin: false,
-            isAnon: true,
             isSuperAdmin: false,
             isUser: false,
             roles: [],
@@ -88,7 +86,6 @@ describe('utils', () => {
           isAuthenticated: false,
           user: {
             isAdmin: false,
-            isAnon: true,
             isSuperAdmin: false,
             isUser: false,
             roles: [],

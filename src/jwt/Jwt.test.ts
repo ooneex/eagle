@@ -116,7 +116,7 @@ describe('Jwt', () => {
 
     it('should correctly retrieve roles', async () => {
       const jwt = await Jwt.create();
-      expect(jwt?.getRoles()).toEqual([ERole.ANON]);
+      expect(jwt?.getRoles()).toEqual([]);
     });
 
     it('should correctly retrieve username and roles', async () => {

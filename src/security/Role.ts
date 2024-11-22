@@ -1,7 +1,7 @@
 import { ERole, IRole } from './types.ts';
 import { ROLE_HIERARCHY } from './utils.ts';
 
-export class Role {
+export class Role implements IRole {
   private readonly roles: ERole[];
 
   constructor(roles: ERole[]) {
@@ -40,10 +40,6 @@ export class Role {
 
   public hasUser(): boolean {
     return this.hasRole(ERole.USER);
-  }
-
-  public hasAnon(): boolean {
-    return this.hasRole(ERole.ANON);
   }
 
   private checkRole(role: ERole, requiredRole: ERole): boolean {

@@ -160,6 +160,7 @@ const ensureInitialData = (name: string, controller: ControllerType) => {
       hosts: [],
       ips: [],
       validators: [],
+      roles: [],
     });
 
     container.add(name, controller, {

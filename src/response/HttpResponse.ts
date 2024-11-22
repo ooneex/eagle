@@ -180,7 +180,6 @@ export class HttpResponse implements IResponse {
           isSuperAdmin: user?.isSuperAdmin() ?? false,
           isAdmin: user?.isAdmin() ?? false,
           isUser: user?.isUser() ?? false,
-          isAnon: user?.isAnon() ?? true,
         },
       },
     };

@@ -76,22 +76,24 @@ export const buildControllerActionParameters = async (
   req: Request,
   definition: StoreControllerValueType,
 ) => {
+  const request: IRequest = await buildRequest(req, definition);
+
   const paramsMap: Record<string, unknown> = {
-    IRequest: await buildRequest(req, definition),
+    IRequest: request,
     IResponse: new HttpResponse(),
   };
 
-  const jwt = (paramsMap.IRequest as IRequest).jwt;
+  const jwt = request.jwt;
 
-  if (jwt) {
-    (paramsMap.IRequest as IRequest).auth?.login(jwt);
+  if (jwt && request.auth) {
+    request.auth.login(jwt);
   }
 
-  paramsMap.MethodType = (paramsMap.IRequest as IRequest).method;
+  paramsMap.MethodType = request.method;
   paramsMap.RequestMethodType = paramsMap.MethodType;
-  paramsMap.IUrl = (paramsMap.IRequest as IRequest).url;
-  paramsMap.IReadonlyHeader = (paramsMap.IRequest as IRequest).header;
-  paramsMap.IUserAgent = (paramsMap.IRequest as IRequest).userAgent;
+  paramsMap.IUrl = request.url;
+  paramsMap.IReadonlyHeader = request.header;
+  paramsMap.IUserAgent = request.userAgent;
 
   const parameters: unknown[] = [];
 
@@ -103,7 +105,7 @@ export const buildControllerActionParameters = async (
 
     if (['boolean', 'number', 'bigint', 'string'].includes(type)) {
       const name = param.name;
-      const req = paramsMap.IRequest as IRequest;
+      const req = request;
       parameters.push(req.params.get(name) ?? null);
 
       continue;
@@ -120,7 +122,7 @@ export const buildControllerActionParameters = async (
 
   return {
     parameters,
-    request: paramsMap.IRequest as IRequest,
+    request,
   };
 };
 

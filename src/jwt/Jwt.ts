@@ -52,7 +52,7 @@ export class Jwt implements IJwt {
 
     const token = new jose.SignJWT({
       username: '',
-      roles: [ERole.ANON],
+      roles: [],
       refreshToken: await Jwt.createRefreshToken(),
       ...(config?.data ?? {}),
     })

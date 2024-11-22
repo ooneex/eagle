@@ -1,6 +1,6 @@
-import { IRole } from './types.ts';
+import { IRole, IUser } from './types.ts';
 
-export class User {
+export class User implements IUser {
   private username: string;
   private role: IRole;
 
@@ -29,7 +29,7 @@ export class User {
     return this.role.hasUser();
   }
 
-  public isAnon(): boolean {
-    return this.role.hasAnon();
+  public isGuest(): boolean {
+    return !this.isUser();
   }
 }
