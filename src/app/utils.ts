@@ -1,5 +1,8 @@
+import { container } from '../container/Container.ts';
+import { ControllerContainer } from '../controller/container.ts';
 import { ControllerActionException } from '../controller/ControllerActionException.ts';
-import { StoreControllerValueType } from '../controller/types.ts';
+import { IController, StoreControllerValueType } from '../controller/types.ts';
+import { SERVER_EXCEPTION_CONTROLLER_KEY } from '../controller/utils.ts';
 import { DocContainer } from '../doc/container.ts';
 import { Exception } from '../exception/Exception.ts';
 import { trim } from '../helper/trim.ts';
@@ -255,4 +258,38 @@ export const handleEnvValidation = (
   }
 
   return true;
+};
+
+export const handleServerException = async (req: Request, error: Error) => {
+  const definition = ControllerContainer.get(
+    SERVER_EXCEPTION_CONTROLLER_KEY,
+  ) || null;
+
+  if (!definition) {
+    return buildDefaultServerExceptionResponse(error as Error);
+  }
+
+  const builtData = await buildControllerActionParameters(
+    req,
+    definition,
+  );
+
+  const { parameters } = builtData;
+
+  const controller = container.get<IController>(
+    definition.name,
+  );
+  if (!controller) {
+    return buildDefaultServerExceptionResponse(error as Error);
+  }
+
+  const response = await controller.action(...parameters);
+
+  if (!(response instanceof HttpResponse)) {
+    throw new ControllerActionException(
+      `[${definition.name}] Action must return IResponse`,
+    );
+  }
+
+  return response.build();
 };

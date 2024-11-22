@@ -1,11 +1,7 @@
 import { container } from '../container/Container.ts';
-import { ControllerContainer } from '../controller/container.ts';
 import { ControllerActionException } from '../controller/ControllerActionException.ts';
 import { IController } from '../controller/types.ts';
-import {
-  findController,
-  SERVER_EXCEPTION_CONTROLLER_KEY,
-} from '../controller/utils.ts';
+import { findController } from '../controller/utils.ts';
 import { Logger } from '../logger/Logger.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { register } from './register.ts';
@@ -13,10 +9,10 @@ import { EagleConfigType, IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
-  buildDefaultServerExceptionResponse,
   handleEnvValidation,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
+  handleServerException,
 } from './utils.ts';
 
 export class Eagle implements IEagle {
@@ -74,37 +70,7 @@ export class Eagle implements IEagle {
 
         return response.build(request);
       } catch (error) {
-        const definition = ControllerContainer.get(
-          SERVER_EXCEPTION_CONTROLLER_KEY,
-        ) || null;
-
-        if (!definition) {
-          return buildDefaultServerExceptionResponse(error as Error);
-        }
-
-        const builtData = await buildControllerActionParameters(
-          req,
-          definition,
-        );
-
-        const { parameters } = builtData;
-
-        const controller = container.get<IController>(
-          definition.name,
-        );
-        if (!controller) {
-          return buildDefaultServerExceptionResponse(error as Error);
-        }
-
-        const response = await controller.action(...parameters);
-
-        if (!(response instanceof HttpResponse)) {
-          throw new ControllerActionException(
-            `[${definition.name}] Action must return IResponse`,
-          );
-        }
-
-        return response.build();
+        return handleServerException(req, error as Error);
       }
     });
   }
