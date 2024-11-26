@@ -1,3 +1,4 @@
+import { IMiddleware } from '../middleware/types.ts';
 import { IResponse } from '../response/types.ts';
 import { ERole } from '../security/types.ts';
 import { IValidator } from '../validation/types.ts';
@@ -26,5 +27,9 @@ export type StoreControllerValueType = {
    * No need to decorate those validators with @validator() decorator
    */
   validators?: IValidator[];
+  /**
+   * No need to decorate those validators with @validator() decorator
+   */
+  middlewares?: IMiddleware[];
   roles?: ERole[];
 };

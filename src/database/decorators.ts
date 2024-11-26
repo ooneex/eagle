@@ -4,7 +4,7 @@ import { ServiceDecoratorException } from '../service/ServiceDecoratorException.
 export const database = () => {
   return (database: any) => {
     const name = database.prototype.constructor.name;
-    ensureIsDatabase(name, database);
+    ensureIsDatabase(name);
 
     container.add(name, database, {
       scope: 'database',
@@ -17,7 +17,7 @@ export const database = () => {
 export const repository = () => {
   return (repository: any) => {
     const name = repository.prototype.constructor.name;
-    ensureIsRepository(name, repository);
+    ensureIsRepository(name);
 
     container.add(name, repository, {
       scope: 'repository',
@@ -27,24 +27,18 @@ export const repository = () => {
   };
 };
 
-const ensureIsDatabase = (name: string, database: any) => {
-  if (
-    !name?.endsWith('Database') ||
-    !database.prototype.getDataSource
-  ) {
+const ensureIsDatabase = (name: string) => {
+  if (!name?.endsWith('Database')) {
     throw new ServiceDecoratorException(
-      `Database decorator can only be used on database classes. ${name} must end with Database keyword and implement IDatabase interface.`,
+      `Database decorator can only be used on database classes. ${name} must end with Database keyword.`,
     );
   }
 };
 
-const ensureIsRepository = (name: string, repository: any) => {
-  if (
-    !name?.endsWith('Repository') ||
-    !repository.prototype.getRepository
-  ) {
+const ensureIsRepository = (name: string) => {
+  if (!name?.endsWith('Repository')) {
     throw new ServiceDecoratorException(
-      `Repository decorator can only be used on repository classes. ${name} must end with Repository keyword and implement IRepository interface.`,
+      `Repository decorator can only be used on repository classes. ${name} must end with Repository keyword.`,
     );
   }
 };

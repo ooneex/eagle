@@ -9,7 +9,9 @@ import { EagleConfigType, IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
+  handleControllerMiddlewares,
   handleEnvValidation,
+  handleGlobalMiddlewares,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
   handleServerException,
@@ -47,8 +49,9 @@ export class Eagle implements IEagle {
 
       const builtData = await buildControllerActionParameters(req, definition);
 
-      const { parameters, request } = builtData;
+      const { parameters, request, response } = builtData;
 
+      await handleGlobalMiddlewares(request, response, 'request');
       handleRequestDataValidation(request, definition);
       handleRequestCookiesValidation(request, definition);
 
@@ -59,6 +62,15 @@ export class Eagle implements IEagle {
         return buildDefaultNotFoundResponse(req);
       }
 
+      if (definition.middlewares) {
+        await handleControllerMiddlewares(
+          request,
+          response,
+          'request',
+          definition.middlewares,
+        );
+      }
+
       try {
         const response = await controller.action(...parameters);
 
@@ -67,6 +79,17 @@ export class Eagle implements IEagle {
             `[${definition.name}] Action must return IResponse`,
           );
         }
+
+        if (definition.middlewares) {
+          await handleControllerMiddlewares(
+            request,
+            response,
+            'response',
+            definition.middlewares,
+          );
+        }
+
+        await handleGlobalMiddlewares(request, response, 'response');
 
         return response.build(request);
       } catch (error) {

@@ -7,9 +7,11 @@ import { DocContainer } from '../doc/container.ts';
 import { Exception } from '../exception/Exception.ts';
 import { trim } from '../helper/trim.ts';
 import { StatusTextType } from '../http/types.ts';
+import { IMiddleware, MiddlewareScopeType } from '../middleware/types.ts';
 import { HttpRequest } from '../request/HttpRequest.ts';
 import { IRequest } from '../request/types.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
+import { IResponse } from '../response/types.ts';
 import { ScalarType } from '../types.ts';
 import { IValidator } from '../validation/types.ts';
 import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
@@ -80,10 +82,11 @@ export const buildControllerActionParameters = async (
   definition: StoreControllerValueType,
 ) => {
   const request: IRequest = await buildRequest(req, definition);
+  const response = new HttpResponse();
 
   const paramsMap: Record<string, unknown> = {
     IRequest: request,
-    IResponse: new HttpResponse(),
+    IResponse: response,
   };
 
   const jwt = request.jwt;
@@ -126,6 +129,7 @@ export const buildControllerActionParameters = async (
   return {
     parameters,
     request,
+    response,
   };
 };
 
@@ -260,6 +264,7 @@ export const handleEnvValidation = (
   return true;
 };
 
+// TODO: Make test
 export const handleServerException = async (req: Request, error: Error) => {
   const definition = ControllerContainer.get(
     SERVER_EXCEPTION_CONTROLLER_KEY,
@@ -292,4 +297,52 @@ export const handleServerException = async (req: Request, error: Error) => {
   }
 
   return response.build();
+};
+
+// TODO: Make test
+export const handleGlobalMiddlewares = async (
+  request: IRequest,
+  response: IResponse,
+  scope: MiddlewareScopeType,
+) => {
+  const middlewareStore = container.getStore('middleware');
+  const middlewares = middlewareStore?.filter((_key, m) => {
+    return m.value.getScope() === scope;
+  }) ?? null;
+
+  if (middlewares) {
+    for (
+      const { value } of middlewares.sort((a, b) =>
+        a.value.value.getOrder() - b.value.value.getOrder()
+      )
+    ) {
+      await value.value.execute({
+        request,
+        response,
+      });
+    }
+  }
+};
+
+// TODO: Make test
+export const handleControllerMiddlewares = async (
+  request: IRequest,
+  response: IResponse,
+  scope: MiddlewareScopeType,
+  middlewares: IMiddleware[],
+) => {
+  const filteredMiddlewares = middlewares.filter((m) => {
+    return m.getScope() === scope;
+  }) ?? null;
+
+  if (filteredMiddlewares) {
+    for (
+      const m of filteredMiddlewares.sort((a, b) => a.getOrder() - b.getOrder())
+    ) {
+      await m.execute({
+        request,
+        response,
+      });
+    }
+  }
 };

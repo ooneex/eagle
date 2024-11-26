@@ -118,17 +118,19 @@ export class Doc implements IDoc {
       for (const property of node?.classDef?.properties ?? []) {
         let types: string[] = [];
         if (
-          property.tsType.kind === 'keyword' ||
-          property.tsType.kind === 'typeRef'
+          property.tsType && (
+            property.tsType.kind === 'keyword' ||
+            property.tsType.kind === 'typeRef'
+          )
         ) {
           types = [property.tsType.repr];
         }
 
-        if (property.tsType.kind === 'array') {
+        if (property.tsType && property.tsType.kind === 'array') {
           types = [`${property.tsType.array.repr}[]`];
         }
 
-        if (property.tsType.kind === 'union') {
+        if (property.tsType && property.tsType.kind === 'union') {
           for (const type of property.tsType.union) {
             types.push(type.repr);
           }

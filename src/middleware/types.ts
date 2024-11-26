@@ -1,12 +1,12 @@
-import type { Exception } from '../exception/Exception.ts';
+import { IRequest } from '../request/types.ts';
+import { IResponse } from '../response/types.ts';
 
-export interface IMiddleware<Response = unknown> {
-  next: (context: { request: Request; response: Response }) => {
-    done?: boolean;
-    response?: Response;
-    exception?: Exception;
-  };
+export type MiddlewareScopeType = 'request' | 'response';
 
-  getScope: () => ('request' | 'response' | 'exception')[];
+export interface IMiddleware {
+  execute: (
+    context?: { request?: IRequest; response?: IResponse },
+  ) => IResponse | Promise<IResponse>;
+  getScope: () => MiddlewareScopeType;
   getOrder: () => number;
 }
