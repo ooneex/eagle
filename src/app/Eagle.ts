@@ -25,7 +25,7 @@ export class Eagle implements IEagle {
   }
 
   public async listen(options: Partial<ServerListenParamsType> = {}) {
-    await register(undefined, true);
+    await register();
 
     if (this.config?.validators) {
       handleEnvValidation(this.config.validators);

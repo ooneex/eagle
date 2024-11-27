@@ -89,4 +89,18 @@ describe('File', () => {
     expect(files.length).toBe(2);
     expect(files[0]).toBe(`${testDir}/file1.txt`);
   });
+
+  it('should check if a file exists', async () => {
+    const file = new File(testDir);
+    const exists = await file.exists();
+
+    expect(exists).toBe(true);
+  });
+
+  it('should check if a file does not exist', async () => {
+    const file = new File(`${testDir}/non-existent.txt`);
+    const exists = await file.exists();
+
+    expect(exists).toBe(false);
+  });
 });

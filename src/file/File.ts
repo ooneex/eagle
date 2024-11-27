@@ -43,4 +43,41 @@ export class File implements IFile {
 
     return files;
   }
+
+  public async exists(): Promise<boolean> {
+    try {
+      await Deno.lstat(this.path);
+      return true;
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  // TODO: make test
+  public async read(options?: Deno.ReadFileOptions): Promise<string> {
+    return await Deno.readTextFile(this.path, options);
+  }
+
+  // TODO: make test
+  public async readJson<T = unknown>(
+    options?: Deno.ReadFileOptions,
+  ): Promise<T> {
+    return JSON.parse(await this.read(options));
+  }
+
+  // TODO: make test
+  public async write(
+    data: string,
+    options?: Deno.WriteFileOptions,
+  ): Promise<void> {
+    await Deno.writeTextFile(this.path, data, options);
+  }
+
+  // TODO: make test
+  public async writeJson(
+    data: unknown,
+    options?: Deno.WriteFileOptions,
+  ): Promise<void> {
+    await this.write(JSON.stringify(data), options);
+  }
 }

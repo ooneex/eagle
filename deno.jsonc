@@ -1,11 +1,10 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "dev": "deno run -A -q --no-clear-screen --watch app.ts",
-    "test": "deno test -A -q",
-    "test:watch": "deno test -A -q --watch",
-    "fmt": "deno run -A npm:@biomejs/biome check --write .",
-    "lint": "deno run -A npm:@biomejs/biome check ."
+    "test": "deno test -A",
+    "test:watch": "deno test -A --watch",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
   },
   "imports": {
     "@/": "./src/",
