@@ -5,6 +5,7 @@ import { IController, StoreControllerValueType } from '../controller/types.ts';
 import { SERVER_EXCEPTION_CONTROLLER_KEY } from '../controller/utils.ts';
 import { DocContainer } from '../doc/container.ts';
 import { Exception } from '../exception/Exception.ts';
+import { HeaderChecker } from '../header/HeaderChecker.ts';
 import { trim } from '../helper/trim.ts';
 import { StatusTextType } from '../http/types.ts';
 import { IMiddleware, MiddlewareScopeType } from '../middleware/types.ts';
@@ -67,12 +68,29 @@ export const buildRequest = async (
   }
 
   let payload = {};
+  let formData: FormData | null = null;
 
   try {
-    payload = await req.json();
+    class Checker extends HeaderChecker {
+      constructor(headers: Headers) {
+        super(headers);
+      }
+    }
+
+    const checker = new Checker(req.headers);
+
+    if (checker.isJson()) {
+      payload = await req.json();
+    }
+
+    if (checker.isFormData()) {
+      formData = await req.formData();
+    }
   } catch (_e) {
     // ignore
   }
+
+  console.log(formData);
 
   return new HttpRequest(req, { params, payload });
 };
@@ -264,7 +282,6 @@ export const handleEnvValidation = (
   return true;
 };
 
-// TODO: Make test
 export const handleServerException = async (req: Request, error: Error) => {
   const definition = ControllerContainer.get(
     SERVER_EXCEPTION_CONTROLLER_KEY,
@@ -299,7 +316,6 @@ export const handleServerException = async (req: Request, error: Error) => {
   return response.build();
 };
 
-// TODO: Make test
 export const handleGlobalMiddlewares = async (
   request: IRequest,
   response: IResponse,
@@ -324,7 +340,6 @@ export const handleGlobalMiddlewares = async (
   }
 };
 
-// TODO: Make test
 export const handleControllerMiddlewares = async (
   request: IRequest,
   response: IResponse,
