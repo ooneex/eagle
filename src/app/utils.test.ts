@@ -117,6 +117,7 @@ describe('utils', () => {
       const mockRequest = new Request('http://example.com/api', {
         method: 'POST',
         body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
       });
       const definition = { name: 'TestController', regexp: [] };
 
