@@ -6,13 +6,11 @@ export const validator = () => {
     const name = validator.prototype.constructor.name;
     ensureIsValidator(name, validator);
 
-    if (name) {
-      container.add(name, validator, {
-        scope: 'validator',
-        singleton: true,
-        instance: false,
-      });
-    }
+    container.add(name, validator, {
+      scope: 'validator',
+      singleton: true,
+      instance: false,
+    });
   };
 };
 
@@ -21,13 +19,11 @@ export const assert = () => {
     const name = assert.prototype.constructor.name;
     ensureIsAssert(name, assert);
 
-    if (name) {
-      container.add(name, assert, {
-        scope: 'assert',
-        singleton: true,
-        instance: false,
-      });
-    }
+    container.add(name, assert, {
+      scope: 'assert',
+      singleton: true,
+      instance: false,
+    });
   };
 };
 

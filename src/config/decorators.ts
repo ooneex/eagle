@@ -6,13 +6,11 @@ export const config = () => {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);
 
-    if (name) {
-      container.add(name, config, {
-        scope: 'config',
-        singleton: true,
-        instance: false,
-      });
-    }
+    container.add(name, config, {
+      scope: 'config',
+      singleton: true,
+      instance: false,
+    });
   };
 };
 

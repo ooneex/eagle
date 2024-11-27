@@ -6,13 +6,11 @@ export const middleware = () => {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
 
-    if (name) {
-      container.add(name, new middleware(), {
-        scope: 'middleware',
-        singleton: true,
-        instance: true,
-      });
-    }
+    container.add(name, new middleware(), {
+      scope: 'middleware',
+      singleton: true,
+      instance: true,
+    });
   };
 };
 

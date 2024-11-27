@@ -60,12 +60,10 @@ export const Host = (host: string | RegExp) => {
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
 
-    if (name) {
-      const config = ControllerContainer.get(name)!;
-      if (!config.hosts?.includes(host)) {
-        config.hosts?.push(host);
-        ControllerContainer.add(name, config);
-      }
+    const config = ControllerContainer.get(name)!;
+    if (!config.hosts?.includes(host)) {
+      config.hosts?.push(host);
+      ControllerContainer.add(name, config);
     }
   };
 };
@@ -76,12 +74,10 @@ export const Ip = (ip: string | RegExp) => {
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
 
-    if (name) {
-      const config = ControllerContainer.get(name)!;
-      if (!config.ips?.includes(ip)) {
-        config.ips?.push(ip);
-        ControllerContainer.add(name, config);
-      }
+    const config = ControllerContainer.get(name)!;
+    if (!config.ips?.includes(ip)) {
+      config.ips?.push(ip);
+      ControllerContainer.add(name, config);
     }
   };
 };
@@ -130,23 +126,21 @@ const registerMethod = (
   ensureIsController(name, controller);
   ensureInitialData(name, controller);
 
-  if (name) {
-    const config = ControllerContainer.get(name)!;
-    config.methods = [method];
+  const config = ControllerContainer.get(name)!;
+  config.methods = [method];
+  ControllerContainer.add(name, config);
+
+  if (path) {
+    path = `/${trim(path, '/')}`;
+    const regexp = pathToRegexp(path);
+    config.paths = [path];
+    config.regexp = [regexp];
     ControllerContainer.add(name, config);
+  }
 
-    if (path) {
-      path = `/${trim(path, '/')}`;
-      const regexp = pathToRegexp(path);
-      config.paths = [path];
-      config.regexp = [regexp];
-      ControllerContainer.add(name, config);
-    }
-
-    if (validators) {
-      config.validators = validators;
-      ControllerContainer.add(name, config);
-    }
+  if (validators) {
+    config.validators = validators;
+    ControllerContainer.add(name, config);
   }
 };
 
