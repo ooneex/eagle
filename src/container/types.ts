@@ -11,4 +11,5 @@ export type ContainerScopeType =
   | 'config'
   | 'entity'
   | 'controller'
+  | 'fixture'
   | 'command';

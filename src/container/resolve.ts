@@ -1,7 +1,6 @@
 import { DocContainer } from '../doc/container.ts';
 import { container } from './Container.ts';
 import { ContainerException } from './ContainerException.ts';
-import { ContainerScopeType } from './types.ts';
 
 export const getDependencies = (
   key: string,
@@ -49,7 +48,6 @@ export const getDependencies = (
 
 export const resolveDependencies = (
   key: string,
-  scope?: ContainerScopeType,
 ): unknown[] => {
   const dependencies = getDependencies(key);
 
@@ -58,7 +56,7 @@ export const resolveDependencies = (
   }
 
   const resolvedDependencies = dependencies.map((dependency) =>
-    container.get(dependency, scope)
+    container.get(dependency)
   );
 
   return resolvedDependencies;

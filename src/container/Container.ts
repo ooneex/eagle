@@ -26,7 +26,7 @@ export class Container {
         return Value.value as T;
       }
 
-      const dependencies = resolveDependencies(key, scope);
+      const dependencies = resolveDependencies(key);
       const instance = new (Value.value as any)(...dependencies);
 
       if (Value.singleton) {
@@ -46,7 +46,7 @@ export class Container {
           return Value.value as T;
         }
 
-        const dependencies = resolveDependencies(key, scope);
+        const dependencies = resolveDependencies(key);
         const instance = new (Value.value as any)(...dependencies);
 
         if (Value.singleton) {
@@ -77,13 +77,13 @@ export class Container {
       this.store.add(scope, new Collection());
     }
 
-    if (this.store.get(scope)!.has(key)) {
+    if (this.store.get(scope)?.has(key)) {
       throw new ContainerException(
         `Key '${key}' already exists in scope '${scope}'`,
       );
     }
 
-    this.store.get(scope)!.add(key, { value, singleton, instance });
+    this.store.get(scope)?.add(key, { value, singleton, instance });
 
     return this;
   }
