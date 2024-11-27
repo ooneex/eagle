@@ -37,6 +37,8 @@ export interface IRequestFile {
   originalName: string;
   type: string;
   size: number;
+  extension: string;
+  isImage: boolean;
   getData: () => Promise<ArrayBuffer>;
   getStream: () => ReadableStream<Uint8Array>;
   write: (path: string, options?: Deno.WriteFileOptions) => Promise<void>;
