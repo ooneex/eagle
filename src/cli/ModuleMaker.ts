@@ -31,7 +31,7 @@ export class ModuleMaker {
     await file.write(``);
     file = new File(`${srcDir}/modules.ts`);
     await file.write(
-      `import './${folderName}/${moduleName}Module.ts';`,
+      `import './${folderName}/${moduleName}Module.ts';\n`,
       { append: true },
     );
 

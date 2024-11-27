@@ -3,19 +3,25 @@ import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
 import { outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
-import { AssertName } from '../validation/mod.ts';
+import {
+  AssertName,
+  ValidatorScopes,
+  ValidatorScopeType,
+} from '../validation/mod.ts';
 
-type RepositoryMakerOptionsType = {
+type ValidatorMakerOptionsType = {
   moduleName?: string;
   name?: string;
+  scope?: ValidatorScopeType;
 };
 
-export class RepositoryMaker {
+export class ValidatorMaker {
   public static async execute(
-    options?: RepositoryMakerOptionsType,
+    options?: ValidatorMakerOptionsType,
   ): Promise<void> {
     let moduleName = options?.moduleName ?? null;
-    let repositoryName = options?.name ?? null;
+    let validatorName = options?.name ?? null;
+    let scope = options?.scope ?? null;
     const srcDir = `${Deno.cwd()}/src`;
 
     if (!moduleName) {
@@ -35,54 +41,60 @@ export class RepositoryMaker {
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
-    if (!repositoryName) {
-      repositoryName = (await text({
-        message: 'Repository name',
+    if (!validatorName) {
+      validatorName = (await text({
+        message: 'Validator name',
         validate(value) {
           const result = new AssertName().validate(value);
           if (!result.success) return result.message;
 
-          const repositoryName = toPascalCase(value);
+          const validatorName = toPascalCase(value);
           const file = new File(
-            `${srcDir}/${moduleFolderName}/repositories/${repositoryName}Repository.ts`,
+            `${srcDir}/${moduleFolderName}/validators/${validatorName}Validator.ts`,
           );
 
           if (file.exists()) {
-            return `${repositoryName}Repository already exists!`;
+            return `${validatorName}Validator already exists!`;
           }
         },
       })) as string;
     }
 
-    repositoryName = toPascalCase(repositoryName);
+    validatorName = toPascalCase(validatorName);
+
+    if (!scope) {
+      const options: { value: string; label: string }[] = [];
+      for (const s of ValidatorScopes) {
+        options.push({ value: s, label: s });
+      }
+
+      scope = (await select({
+        message: 'Scope',
+        options,
+      })) as ValidatorScopeType;
+    }
 
     let file = new File(
-      `${srcDir}/${moduleFolderName}/repositories/${repositoryName}Repository.ts`,
+      `${srcDir}/${moduleFolderName}/validators/${validatorName}Validator.ts`,
     );
     await file.write(
-      `import { MainDatabase } from '@/shared/databases/MainDatabase.ts';
-import { repository } from 'eagle/database';
+      `import { AbstractValidator, ValidatorScopeType } from 'eagle/validation';
 
-@repository()
-export class ${repositoryName}Repository {
-  private readonly source;
+export class ${validatorName}Validator extends AbstractValidator {
+  // TODO: Implement validation
 
-  constructor(database: MainDatabase) {
-    this.source = database.getDataSource();
+  public getScope(): ValidatorScopeType {
+    return '${scope}';
   }
-
-  // TODO: Implement repository
 }
 `,
     );
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
-      `import './repositories/${repositoryName}Repository.ts';\n`,
+      `import './validators/${validatorName}Validator.ts';\n`,
       { append: true },
     );
 
-    outro(
-      green(`\u2713 ${repositoryName}Repository created successfully!`),
-    );
+    outro(green(`\u2713 ${validatorName}Validator created successfully!`));
   }
 }

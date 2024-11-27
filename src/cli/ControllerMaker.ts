@@ -105,7 +105,7 @@ export class ${controllerName}Controller implements IController {
 `);
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
-      `import './controllers/${controllerName}Controller.ts';`,
+      `import './controllers/${controllerName}Controller.ts';\n`,
       { append: true },
     );
 

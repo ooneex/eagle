@@ -1,4 +1,4 @@
-export const ValidatorScope = [
+export const ValidatorScopes = [
   'payload',
   'params',
   'queries',
@@ -9,7 +9,7 @@ export const ValidatorScope = [
   'env',
 ] as const;
 
-export type ValidatorScopeType = (typeof ValidatorScope)[number] | null;
+export type ValidatorScopeType = (typeof ValidatorScopes)[number] | null;
 
 export interface IValidator {
   getScope: () => ValidatorScopeType;

@@ -4,6 +4,7 @@ import { ControllerMaker } from './ControllerMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
 import { RepositoryMaker } from './RepositoryMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
+import { ValidatorMaker } from './ValidatorMaker.ts';
 
 intro(bgBrightGreen(black('   Eagle code generator   ')));
 
@@ -33,5 +34,8 @@ switch (componentType) {
     break;
   case 'repository':
     await RepositoryMaker.execute();
+    break;
+  case 'validator':
+    await ValidatorMaker.execute();
     break;
 }

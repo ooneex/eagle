@@ -68,7 +68,7 @@ export class ${serviceName}Service implements IService {
 `);
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
-      `import './services/${serviceName}Service.ts';`,
+      `import './services/${serviceName}Service.ts';\n`,
       { append: true },
     );
 
