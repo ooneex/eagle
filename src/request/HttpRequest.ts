@@ -11,7 +11,13 @@ import { IAuth } from '../security/types.ts';
 import { ScalarType } from '../types.ts';
 import { IUrl } from '../url/types.ts';
 import { Url } from '../url/Url.ts';
-import { IRequest, LanguageType, RequestMethodType } from './types.ts';
+import { RequestFile } from './RequestFile.ts';
+import {
+  IRequest,
+  IRequestFile,
+  LanguageType,
+  RequestMethodType,
+} from './types.ts';
 
 export class HttpRequest implements IRequest {
   public readonly url: IUrl;
@@ -28,6 +34,8 @@ export class HttpRequest implements IRequest {
   public readonly server: string | null;
   public readonly bearerToken: string | null;
   public readonly cookies: IReadonlyCollection<string, Cookie>;
+  public readonly files: IReadonlyCollection<string, IRequestFile>;
+  public readonly form: IReadonlyCollection<string, unknown>;
   public readonly jwt: Jwt | null = null;
   public readonly auth: IAuth | null = null;
   public readonly lang: LanguageType | null = null;
@@ -37,6 +45,7 @@ export class HttpRequest implements IRequest {
     config?: {
       params?: Record<string, ScalarType>;
       payload?: Record<string, unknown>;
+      formData?: FormData | null;
     },
   ) {
     this.url = new Url(this.native.url);
@@ -75,6 +84,24 @@ export class HttpRequest implements IRequest {
       cookiesArray.push([cookie.name, cookie]);
     }
     this.cookies = new ReadonlyCollection(cookiesArray);
+
+    const filesArray: [string, IRequestFile][] = [];
+    if (config?.formData) {
+      for (const [key, value] of config.formData.entries()) {
+        if (value instanceof File) {
+          filesArray.push([key, new RequestFile(value)]);
+        }
+      }
+    }
+    this.files = new ReadonlyCollection(filesArray);
+
+    const formArray: [string, unknown][] = [];
+    for (const [key, value] of config?.formData?.entries() ?? []) {
+      if (!(value instanceof File)) {
+        formArray.push([key, parseString(`${value}`)]);
+      }
+    }
+    this.form = new ReadonlyCollection(formArray);
 
     const languages = parser.parse(this.header.get('Accept-Language'));
     const language = languages[0];

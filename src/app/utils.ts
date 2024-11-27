@@ -90,9 +90,7 @@ export const buildRequest = async (
     // ignore
   }
 
-  console.log(formData);
-
-  return new HttpRequest(req, { params, payload });
+  return new HttpRequest(req, { params, payload, formData });
 };
 
 export const buildControllerActionParameters = async (
