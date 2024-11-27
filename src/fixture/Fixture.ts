@@ -45,7 +45,7 @@ export class Fixture {
     const fixtureCollection: IFixture[] = [];
 
     for (const fixture of FixtureContainer) {
-      const f = container.get<IFixture>(fixture);
+      const f = container.get<IFixture>(fixture, 'fixture');
       if (f) {
         fixtureCollection.push(f);
       }

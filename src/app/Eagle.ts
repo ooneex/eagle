@@ -59,6 +59,7 @@ export class Eagle implements IEagle {
 
       const controller = container.get<IController>(
         definition.name,
+        'controller',
       );
       if (!controller) {
         return buildDefaultNotFoundResponse(req);

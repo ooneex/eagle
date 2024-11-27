@@ -8,7 +8,7 @@ describe('Container', () => {
     class TestClass {}
 
     container.add('test', TestClass, { scope: 'default' });
-    const instance = container.get('test');
+    const instance = container.get('test', 'default');
 
     expect(instance).toBeInstanceOf(TestClass);
   });
@@ -19,8 +19,8 @@ describe('Container', () => {
 
     container.add('test', TestClass, { scope: 'default', singleton: true });
 
-    const instance1 = container.get('test');
-    const instance2 = container.get('test');
+    const instance1 = container.get('test', 'default');
+    const instance2 = container.get('test', 'default');
 
     expect(instance1).toBeInstanceOf(TestClass);
     expect(instance2).toBeInstanceOf(TestClass);

@@ -62,7 +62,7 @@ export const validate = (
 
     if (assertions) {
       const isValid = assertions.some((assertion) => {
-        const assert = container.get<IAssert>(assertion);
+        const assert = container.get<IAssert>(assertion, 'assert');
 
         if (!assert || !assert.validate) {
           throw new ValidationException(`Cannot find ${assertion}`, {

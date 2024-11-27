@@ -16,7 +16,7 @@ describe('Config Decorator', () => {
     }
 
     // Verify the class was registered in the container
-    const instance = container.get<TestConfig>('TestConfig');
+    const instance = container.get<TestConfig>('TestConfig', 'config');
     expect(instance).toBeDefined();
     expect(instance).toBeInstanceOf(TestConfig);
     expect(instance?.value).toBe('test');
@@ -45,8 +45,8 @@ describe('Config Decorator', () => {
       }
     }
 
-    const instance1 = container.get('SingletonConfig');
-    const instance2 = container.get('SingletonConfig');
+    const instance1 = container.get('SingletonConfig', 'config');
+    const instance2 = container.get('SingletonConfig', 'config');
 
     expect(instance1).toBe(instance2);
   });

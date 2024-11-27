@@ -361,6 +361,7 @@ export const handleServerException = async (req: Request, error: Error) => {
 
   const controller = container.get<IController>(
     definition.name,
+    'controller',
   );
   if (!controller) {
     return buildDefaultServerExceptionResponse(error as Error);

@@ -8,7 +8,7 @@ describe('Service Decorator', () => {
     @service()
     // @ts-ignore: This is a test
     class TestService {}
-    const registeredService = container.get('TestService');
+    const registeredService = container.get('TestService', 'service');
     expect(registeredService).toBeDefined();
     expect(registeredService).toBeInstanceOf(TestService);
   });
@@ -37,8 +37,8 @@ describe('Service Decorator', () => {
     // deno-lint-ignore no-unused-vars
     class SingletonService {}
 
-    const instance1 = container.get('SingletonService');
-    const instance2 = container.get('SingletonService');
+    const instance1 = container.get('SingletonService', 'service');
+    const instance2 = container.get('SingletonService', 'service');
 
     expect(instance1).toBe(instance2);
   });

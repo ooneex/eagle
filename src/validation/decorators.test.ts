@@ -18,7 +18,7 @@ describe('validator decorator', () => {
       }
     }
 
-    const registeredValidator = container.get(TestValidator.name);
+    const registeredValidator = container.get(TestValidator.name, 'validator');
     expect(registeredValidator).toBeDefined();
     expect(registeredValidator).toBeInstanceOf(TestValidator);
   });
@@ -31,8 +31,8 @@ describe('validator decorator', () => {
       }
     }
 
-    const instance1 = container.get(SingletonValidator.name);
-    const instance2 = container.get(SingletonValidator.name);
+    const instance1 = container.get(SingletonValidator.name, 'validator');
+    const instance2 = container.get(SingletonValidator.name, 'validator');
 
     expect(instance1).toBe(instance2);
   });
@@ -108,7 +108,7 @@ describe('assert decorator', () => {
       }
     }
 
-    const registeredAssert = container.get(AssertTest.name);
+    const registeredAssert = container.get(AssertTest.name, 'assert');
     expect(registeredAssert).toBeDefined();
     expect(registeredAssert).toBeInstanceOf(AssertTest);
   });
