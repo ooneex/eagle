@@ -14,7 +14,7 @@ import { IRequest } from '../request/types.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { IResponse } from '../response/types.ts';
 import { ScalarType } from '../types.ts';
-import { IValidator } from '../validation/types.ts';
+import { IValidator, ValidatorScopeType } from '../validation/types.ts';
 import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
 
 export const buildDefaultNotFoundResponse = (req: Request) => {
@@ -161,22 +161,38 @@ export const handleRequestDataValidation = (
 
   for (const validator of validators) {
     const scope = validator.getScope();
+    const scopes: ValidatorScopeType[] = [
+      'payload',
+      'params',
+      'queries',
+      'headers',
+      'form',
+    ];
 
-    if (
-      !['payload', 'params', 'queries', 'headers'].includes(scope as string)
-    ) {
+    if (!scopes.includes(scope)) {
       continue;
     }
 
-    const data = scope === 'payload'
-      ? request.payload.toJson()
-      : scope === 'params'
-      ? request.params.toJson()
-      : scope === 'queries'
-      ? request.queries.toJson()
-      : scope === 'headers'
-      ? request.header.toJson()
-      : null;
+    let data;
+    switch (scope) {
+      case 'payload':
+        data = request.payload.toJson();
+        break;
+      case 'params':
+        data = request.params.toJson();
+        break;
+      case 'queries':
+        data = request.queries.toJson();
+        break;
+      case 'headers':
+        data = request.header.toJson();
+        break;
+      case 'form':
+        data = request.form.toJson();
+        break;
+      default:
+        data = null;
+    }
 
     if (!data) {
       continue;
@@ -240,6 +256,53 @@ export const handleRequestCookiesValidation = (
           },
         },
       );
+    }
+  }
+
+  return true;
+};
+
+export const handleRequestFilesValidation = (
+  request: IRequest,
+  definition: StoreControllerValueType,
+): boolean => {
+  const validators = definition.validators;
+
+  if (!validators) {
+    return true;
+  }
+
+  for (const validator of validators) {
+    const scope = validator.getScope();
+
+    if (scope !== 'files') {
+      continue;
+    }
+
+    for (const [name, file] of request.files) {
+      const data = {
+        name: file.name,
+        originalName: file.originalName,
+        type: file.type,
+        size: file.size,
+      };
+
+      const result = validator.validate(data);
+
+      if (!result.success) {
+        throw new ValidationFailedException(
+          `Validation failed for ${definition.name} with ${name} file`,
+          {
+            path: request.path,
+            scope,
+            validation: {
+              success: result.success,
+              data,
+              errors: result.details.filter((detail) => !detail.success),
+            },
+          },
+        );
+      }
     }
   }
 

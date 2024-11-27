@@ -14,6 +14,7 @@ import {
   handleGlobalMiddlewares,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
+  handleRequestFilesValidation,
   handleServerException,
 } from './utils.ts';
 
@@ -54,6 +55,7 @@ export class Eagle implements IEagle {
       await handleGlobalMiddlewares(request, response, 'request');
       handleRequestDataValidation(request, definition);
       handleRequestCookiesValidation(request, definition);
+      handleRequestFilesValidation(request, definition);
 
       const controller = container.get<IController>(
         definition.name,

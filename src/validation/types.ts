@@ -4,6 +4,8 @@ export type ValidatorScopeType =
   | 'queries'
   | 'headers'
   | 'cookies'
+  | 'files'
+  | 'form'
   | 'env'
   | null;
 

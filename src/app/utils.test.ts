@@ -5,6 +5,7 @@ import {
   buildRequest,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
+  handleRequestFilesValidation,
 } from '@/app/utils.ts';
 import { DocContainer } from '@/doc/container.ts';
 import { Exception } from '@/exception/Exception.ts';
@@ -370,6 +371,115 @@ describe('utils', () => {
       };
 
       const result = handleRequestCookiesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('handleRequestFilesValidation', () => {
+    it('should return true when no validators exist', () => {
+      const mockRequest = {
+        path: '/test',
+        files: new Map(),
+      } as any;
+
+      const definition = {
+        name: 'TestController',
+      };
+
+      const result = handleRequestFilesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should validate files successfully', () => {
+      const mockFile = {
+        name: 'test.txt',
+        originalName: 'original.txt',
+        type: 'text/plain',
+        size: 1024,
+      };
+
+      const mockRequest = {
+        path: '/test',
+        files: new Map([['upload', mockFile]]),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'files' as ValidatorScopeType,
+        validate: () => ({
+          success: true,
+          details: [],
+        }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestFilesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should throw ValidationFailedException when validation fails', () => {
+      const mockFile = {
+        name: 'test.txt',
+        originalName: 'original.txt',
+        type: 'text/plain',
+        size: 1024,
+      };
+
+      const mockRequest = {
+        path: '/test',
+        files: new Map([['upload', mockFile]]),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'files' as ValidatorScopeType,
+        validate: () => ({
+          success: false,
+          details: [
+            {
+              property: 'size',
+              success: false,
+              message: 'File too large',
+            },
+          ],
+        }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      expect(() => handleRequestFilesValidation(mockRequest, definition))
+        .toThrow(ValidationFailedException);
+    });
+
+    it('should skip validation for non-files scopes', () => {
+      const mockFile = {
+        name: 'test.txt',
+        originalName: 'original.txt',
+        type: 'text/plain',
+        size: 1024,
+      };
+
+      const mockRequest = {
+        path: '/test',
+        files: new Map([['upload', mockFile]]),
+      } as any;
+
+      const mockValidator = {
+        getScope: () => 'payload' as ValidatorScopeType,
+        validate: () => ({ success: false, details: [] }),
+      };
+
+      const definition = {
+        name: 'TestController',
+        validators: [mockValidator],
+      };
+
+      const result = handleRequestFilesValidation(mockRequest, definition);
       expect(result).toBe(true);
     });
   });

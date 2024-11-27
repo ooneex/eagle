@@ -21,6 +21,8 @@ export interface IRequest {
   payload: IReadonlyCollection<string, unknown>;
   queries: IReadonlyCollection<string, ScalarType>;
   cookies: IReadonlyCollection<string, Cookie>;
+  form: IReadonlyCollection<string, unknown>;
+  files: IReadonlyCollection<string, IRequestFile>;
   ip: string | null;
   host: string | null;
   referer: string | null;
