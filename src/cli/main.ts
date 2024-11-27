@@ -2,6 +2,7 @@ import { bgBrightGreen, black } from 'jsr:@std/fmt/colors';
 import { intro, select } from 'npm:@clack/prompts';
 import { ControllerMaker } from './ControllerMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
+import { RepositoryMaker } from './RepositoryMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
 
 intro(bgBrightGreen(black('   Eagle code generator   ')));
@@ -29,5 +30,8 @@ switch (componentType) {
     break;
   case 'service':
     await ServiceMaker.execute();
+    break;
+  case 'repository':
+    await RepositoryMaker.execute();
     break;
 }

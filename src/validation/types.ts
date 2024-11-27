@@ -1,13 +1,15 @@
-export type ValidatorScopeType =
-  | 'payload'
-  | 'params'
-  | 'queries'
-  | 'headers'
-  | 'cookies'
-  | 'files'
-  | 'form'
-  | 'env'
-  | null;
+export const ValidatorScope = [
+  'payload',
+  'params',
+  'queries',
+  'headers',
+  'cookies',
+  'files',
+  'form',
+  'env',
+] as const;
+
+export type ValidatorScopeType = (typeof ValidatorScope)[number] | null;
 
 export interface IValidator {
   getScope: () => ValidatorScopeType;
