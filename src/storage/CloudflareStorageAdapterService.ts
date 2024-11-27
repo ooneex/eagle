@@ -9,12 +9,12 @@ import { EnvConfig } from '../config/EnvConfig.ts';
 import { MimeType } from '../http/types.ts';
 import { service } from '../service/decorators.ts';
 import { StorageException } from './StorageException.ts';
-import { RegionType } from './types.ts';
+import { CloudflareRegionType } from './types.ts';
 
 @service()
 export class CloudflareStorageAdapterService {
   private client: S3Client;
-  private region: RegionType = 'eu-central-1';
+  private region: CloudflareRegionType = 'eeur';
 
   constructor() {
     const secret = Deno.env.get(
@@ -82,7 +82,7 @@ export class CloudflareStorageAdapterService {
     );
   }
 
-  public setRegion(region: RegionType) {
+  public setRegion(region: CloudflareRegionType) {
     this.region = region;
   }
 

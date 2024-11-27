@@ -8,10 +8,15 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "denoland.vscode-deno",
   "cSpell.words": [
+    "apac",
+    "eeur",
+    "enam",
     "getbrevo",
     "outfile",
     "repr",
     "Transac",
+    "weur",
+    "wnam",
     "zaubrik"
   ]
 }

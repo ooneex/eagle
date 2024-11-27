@@ -1,4 +1,4 @@
-export type RegionType =
+export type AWSRegionType =
   | 'ap-northeast-1'
   | 'ap-northeast-2'
   | 'ap-southeast-1'
@@ -15,3 +15,11 @@ export type RegionType =
   | 'us-west-2'
   | 'sa-east-1'
   | 'ca-central-1';
+
+export type CloudflareRegionType =
+  | 'wnam'
+  | 'enam'
+  | 'weur'
+  | 'eeur'
+  | 'apac'
+  | 'oc';

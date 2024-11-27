@@ -30,7 +30,7 @@ describe('CloudflareAdapterService', () => {
   it('should initialize with correct configuration', () => {
     const mockS3Client = {
       config: {
-        region: 'eu-central-1',
+        region: 'eeur',
       },
     };
 
@@ -38,7 +38,7 @@ describe('CloudflareAdapterService', () => {
     // @ts-ignore - Mock S3 client
     service.client = mockS3Client;
 
-    expect(service.getRegion()).toBe('eu-central-1');
+    expect(service.getRegion()).toBe('eeur');
   });
 
   it('should throw StorageException when credentials are missing', () => {
@@ -51,7 +51,7 @@ describe('CloudflareAdapterService', () => {
 
   it('should set and get region', () => {
     const service = new CloudflareStorageAdapterService();
-    service.setRegion('us-east-1');
-    expect(service.getRegion()).toBe('us-east-1');
+    service.setRegion('eeur');
+    expect(service.getRegion()).toBe('eeur');
   });
 });
