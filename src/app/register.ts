@@ -16,7 +16,7 @@ export const register = async (resources?: string[]) => {
   const cacheDir = `${Deno.cwd()}/var/cache/docs`;
   await Deno.mkdir(cacheDir, { recursive: true });
   const docsJsonFile = new File(`${cacheDir}/docs.json`);
-  if (!(await docsJsonFile.exists())) {
+  if (!(docsJsonFile.exists())) {
     await docsJsonFile.writeJson({});
   }
 
@@ -33,7 +33,7 @@ export const register = async (resources?: string[]) => {
 
     let data: ClassDocType[] = [];
     if (
-      await file.exists() &&
+      file.exists() &&
       jsonCached[resource] === `${stat.mtime?.getTime()}`
     ) {
       data = await file.readJson<ClassDocType[]>();

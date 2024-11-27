@@ -44,17 +44,31 @@ export class File implements IFile {
     return files;
   }
 
-  public async exists(): Promise<boolean> {
+  public exists(): boolean {
     try {
-      await Deno.lstat(this.path);
+      Deno.lstatSync(this.path);
       return true;
     } catch (_e) {
       return false;
     }
   }
 
+  public async createDir(
+    options: Deno.MkdirOptions = { recursive: true },
+  ): Promise<void> {
+    await Deno.mkdir(this.path.replace(/\/[^\/]+$/, ''), options);
+  }
+
+  public createDirSync(options: Deno.MkdirOptions = { recursive: true }): void {
+    Deno.mkdirSync(this.path.replace(/\/[^\/]+$/, ''), options);
+  }
+
   public async read(options?: Deno.ReadFileOptions): Promise<string> {
     return await Deno.readTextFile(this.path, options);
+  }
+
+  public readSync(): string {
+    return Deno.readTextFileSync(this.path);
   }
 
   public async readJson<T = unknown>(
@@ -63,17 +77,39 @@ export class File implements IFile {
     return JSON.parse(await this.read(options));
   }
 
+  public readJsonSync<T = unknown>(): T {
+    return JSON.parse(this.readSync());
+  }
+
   public async write(
     data: string,
     options?: Deno.WriteFileOptions,
   ): Promise<void> {
+    await this.createDir();
     await Deno.writeTextFile(this.path, data, options);
+  }
+
+  public writeSync(
+    data: string,
+    options?: Deno.WriteFileOptions,
+  ): void {
+    this.createDirSync();
+    Deno.writeTextFileSync(this.path, data, options);
   }
 
   public async writeJson(
     data: unknown,
     options?: Deno.WriteFileOptions,
   ): Promise<void> {
+    await this.createDir();
     await this.write(JSON.stringify(data), options);
+  }
+
+  public writeJsonSync(
+    data: unknown,
+    options?: Deno.WriteFileOptions,
+  ): void {
+    this.createDirSync();
+    this.writeSync(JSON.stringify(data), options);
   }
 }

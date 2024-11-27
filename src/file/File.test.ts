@@ -92,14 +92,14 @@ describe('File', () => {
 
   it('should check if a file exists', async () => {
     const file = new File(testDir);
-    const exists = await file.exists();
+    const exists = file.exists();
 
     expect(exists).toBe(true);
   });
 
   it('should check if a file does not exist', async () => {
     const file = new File(`${testDir}/non-existent.txt`);
-    const exists = await file.exists();
+    const exists = file.exists();
 
     expect(exists).toBe(false);
   });
