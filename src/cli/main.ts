@@ -2,6 +2,7 @@ import { bgBrightGreen, black } from 'jsr:@std/fmt/colors';
 import { intro, select } from 'npm:@clack/prompts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
+import { MiddlewareMaker } from './MiddlewareMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
 import { RepositoryMaker } from './RepositoryMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
@@ -41,5 +42,8 @@ switch (componentType) {
     break;
   case 'config':
     await ConfigMaker.execute();
+    break;
+  case 'middleware':
+    await MiddlewareMaker.execute();
     break;
 }
