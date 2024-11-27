@@ -195,6 +195,12 @@ describe('File', () => {
       const files = dir.list();
       expect(files).toEqual([]);
     });
+
+    it('should list directories', () => {
+      const dir = new File(testDir);
+      const files = dir.list({ directory: true });
+      expect(files).toContain(`${testDir}/subdir`);
+    });
   });
 
   describe('readSync', () => {

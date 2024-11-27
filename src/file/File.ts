@@ -7,9 +7,10 @@ export class File implements IFile {
     recursive?: boolean;
     match?: RegExp;
     exclude?: RegExp;
+    directory?: boolean;
   } = {}): string[] {
     const files: string[] = [];
-    const { recursive = false, match, exclude } = options;
+    const { recursive = false, match, exclude, directory = false } = options;
     const path = this.path;
 
     try {
@@ -23,7 +24,19 @@ export class File implements IFile {
           continue;
         }
 
-        if (entry.isFile) {
+        if (entry.isFile && !directory) {
+          if (match && !match.test(entry.name)) {
+            continue;
+          }
+
+          if (exclude && exclude.test(entry.name)) {
+            continue;
+          }
+
+          files.push(fullPath);
+        }
+
+        if (entry.isDirectory && directory) {
           if (match && !match.test(entry.name)) {
             continue;
           }
