@@ -38,8 +38,9 @@ export const register = async (resources?: string[]) => {
     ) {
       data = await file.readJson<ClassDocType[]>();
     } else {
-      const resourceCacheDir = cacheFile.replace(/\/[^\/]+\.json$/, '');
-      await Deno.mkdir(resourceCacheDir, { recursive: true });
+      await Deno.mkdir(cacheFile.replace(/\/[^\/]+\.json$/, ''), {
+        recursive: true,
+      });
 
       const doc = new Doc(resource);
       data = await doc.parse();

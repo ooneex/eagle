@@ -103,4 +103,56 @@ describe('File', () => {
 
     expect(exists).toBe(false);
   });
+
+  describe('read', () => {
+    it('should read a file', async () => {
+      const file = new File(`${testDir}/file1.txt`);
+      const content = await file.read();
+      expect(content).toBe('content');
+    });
+
+    it('should throw error when reading non-existent file', async () => {
+      const file = new File(`${testDir}/non-existent.txt`);
+      await expect(file.read()).rejects.toThrow(Deno.errors.NotFound);
+    });
+  });
+
+  describe('readJson', () => {
+    it('should read a JSON file', async () => {
+      const file = new File(`${testDir}/file2.json`);
+      const content = await file.readJson();
+      expect(content).toEqual({});
+    });
+
+    it('should throw error when reading non-existent file', async () => {
+      const file = new File(`${testDir}/non-existent.json`);
+      await expect(file.readJson()).rejects.toThrow(Deno.errors.NotFound);
+    });
+  });
+
+  describe('write', () => {
+    it('should write to a file', async () => {
+      const file = new File(`${testDir}/new-file.txt`);
+      await file.write('content');
+      const content = await file.read();
+      expect(content).toBe('content');
+    });
+
+    it('should append content to a file', async () => {
+      const file = new File(`${testDir}/append-file.txt`);
+      await file.write('initial content');
+      await file.write(' appended content', { append: true });
+      const content = await file.read();
+      expect(content).toBe('initial content appended content');
+    });
+  });
+
+  describe('writeJson', () => {
+    it('should write a JSON file', async () => {
+      const file = new File(`${testDir}/new-file.json`);
+      await file.writeJson({});
+      const content = await file.readJson();
+      expect(content).toEqual({});
+    });
+  });
 });

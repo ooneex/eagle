@@ -53,19 +53,16 @@ export class File implements IFile {
     }
   }
 
-  // TODO: make test
   public async read(options?: Deno.ReadFileOptions): Promise<string> {
     return await Deno.readTextFile(this.path, options);
   }
 
-  // TODO: make test
   public async readJson<T = unknown>(
     options?: Deno.ReadFileOptions,
   ): Promise<T> {
     return JSON.parse(await this.read(options));
   }
 
-  // TODO: make test
   public async write(
     data: string,
     options?: Deno.WriteFileOptions,
@@ -73,7 +70,6 @@ export class File implements IFile {
     await Deno.writeTextFile(this.path, data, options);
   }
 
-  // TODO: make test
   public async writeJson(
     data: unknown,
     options?: Deno.WriteFileOptions,
