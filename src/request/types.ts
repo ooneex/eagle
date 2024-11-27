@@ -30,6 +30,16 @@ export interface IRequest {
   isXMLHttpRequest: () => boolean;
 }
 
+export interface IRequestFile {
+  name: string;
+  originalName: string;
+  type: string;
+  size: number;
+  getData: () => Promise<ArrayBuffer>;
+  getStream: () => ReadableStream<Uint8Array>;
+  write: (path: string, options?: Deno.WriteFileOptions) => Promise<void>;
+}
+
 export type LanguageType = {
   code: LocaleType;
   region: string | null;
