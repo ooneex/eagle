@@ -75,6 +75,7 @@ export class HttpRequest implements IRequest {
     if (this.bearerToken) {
       this.jwt = new Jwt(this.bearerToken);
       this.auth = new Auth();
+      this.auth.login(this.jwt);
     }
 
     const cookies = getSetCookies(this.native.headers);

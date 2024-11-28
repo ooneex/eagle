@@ -37,10 +37,20 @@ describe('Role', () => {
     });
 
     it('should work with Role instance', () => {
-      const role = new Role([ERole.USER, ERole.ADMIN]);
-      const role2 = new Role([ERole.ADMIN]);
+      const role = new Role([ERole.ADMIN]);
+      const role2 = new Role([ERole.USER]);
       expect(role.hasRole(role2)).toBe(true);
-      expect(role2.hasRole(role)).toBe(true);
+      expect(role2.hasRole(role)).toBe(false);
+
+      const role3 = new Role([ERole.SUPER_ADMIN]);
+      const role4 = new Role([ERole.USER]);
+      expect(role3.hasRole(role4)).toBe(true);
+      expect(role4.hasRole(role3)).toBe(false);
+
+      const multiRole = new Role([ERole.USER, ERole.SUPER_ADMIN]);
+      const adminRole = new Role([ERole.ADMIN]);
+      expect(multiRole.hasRole(adminRole)).toBe(true);
+      expect(adminRole.hasRole(multiRole)).toBe(true);
     });
   });
 

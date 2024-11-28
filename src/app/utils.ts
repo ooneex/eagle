@@ -1,3 +1,4 @@
+import { Role } from '@/security/Role.ts';
 import { container } from '../container/Container.ts';
 import { ControllerContainer } from '../controller/container.ts';
 import { ControllerActionException } from '../controller/ControllerActionException.ts';
@@ -13,6 +14,7 @@ import { HttpRequest } from '../request/HttpRequest.ts';
 import { IRequest } from '../request/types.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { IResponse } from '../response/types.ts';
+import { UnauthorizedException } from '../security/UnauthorizedException.ts';
 import { ScalarType } from '../types.ts';
 import { IValidator, ValidatorScopeType } from '../validation/types.ts';
 import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
@@ -105,12 +107,6 @@ export const buildControllerActionParameters = async (
     IRequest: request,
     IResponse: response,
   };
-
-  const jwt = request.jwt;
-
-  if (jwt && request.auth) {
-    request.auth.login(jwt);
-  }
 
   paramsMap.MethodType = request.method;
   paramsMap.RequestMethodType = paramsMap.MethodType;
@@ -427,4 +423,36 @@ export const handleControllerMiddlewares = async (
       });
     }
   }
+};
+
+export const checkUserPermissionsForController = (
+  request: IRequest,
+  definition: StoreControllerValueType,
+): boolean => {
+  const roles = definition.roles;
+
+  if (!roles || roles.length === 0) {
+    return true;
+  }
+
+  const auth = request.auth;
+  const user = auth?.getUser();
+
+  if (!auth || !auth.isAuthenticated() || !user) {
+    throw new UnauthorizedException('User is not authenticated', {
+      path: request.path,
+      method: request.method,
+    });
+  }
+
+  const userRole = user.getRole();
+
+  if (!userRole.hasRole(new Role(roles))) {
+    throw new UnauthorizedException('Permission denied', {
+      path: request.path,
+      method: request.method,
+    });
+  }
+
+  return true;
 };

@@ -9,6 +9,7 @@ import { EagleConfigType, IEagle, ServerListenParamsType } from './types.ts';
 import {
   buildControllerActionParameters,
   buildDefaultNotFoundResponse,
+  checkUserPermissionsForController,
   handleControllerMiddlewares,
   handleEnvValidation,
   handleGlobalMiddlewares,
@@ -57,6 +58,7 @@ export class Eagle implements IEagle {
         const { parameters, request, response } = builtData;
 
         await handleGlobalMiddlewares(request, response, 'request');
+        checkUserPermissionsForController(request, definition);
         handleRequestDataValidation(request, definition);
         handleRequestCookiesValidation(request, definition);
         handleRequestFilesValidation(request, definition);

@@ -17,7 +17,7 @@ export interface IUser {
 
 export interface IRole {
   getRoles: () => ERole[];
-  hasRole: (role: ERole) => boolean;
+  hasRole: (role: ERole | IRole) => boolean;
   hasSuperAdmin: () => boolean;
   hasAdmin: () => boolean;
   hasUser: () => boolean;
