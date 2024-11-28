@@ -42,40 +42,43 @@ export class Eagle implements IEagle {
         Logger.info(`Server started at http://${hostname}:${port}`);
       },
     }, async (req: Request) => {
-      const definition = findController(req);
-
-      if (!definition) {
-        return buildDefaultNotFoundResponse(req);
-      }
-
-      const builtData = await buildControllerActionParameters(req, definition);
-
-      const { parameters, request, response } = builtData;
-
-      await handleGlobalMiddlewares(request, response, 'request');
-      handleRequestDataValidation(request, definition);
-      handleRequestCookiesValidation(request, definition);
-      handleRequestFilesValidation(request, definition);
-
-      const controller = container.get<IController>(
-        definition.name,
-        'controller',
-      );
-      if (!controller) {
-        return buildDefaultNotFoundResponse(req);
-      }
-
-      if (definition.middlewares) {
-        await handleControllerMiddlewares(
-          request,
-          response,
-          'request',
-          definition.middlewares,
-        );
-      }
-
       try {
-        const response = await controller.action(...parameters);
+        const definition = findController(req);
+
+        if (!definition) {
+          return buildDefaultNotFoundResponse(req);
+        }
+
+        const builtData = await buildControllerActionParameters(
+          req,
+          definition,
+        );
+
+        const { parameters, request, response } = builtData;
+
+        await handleGlobalMiddlewares(request, response, 'request');
+        handleRequestDataValidation(request, definition);
+        handleRequestCookiesValidation(request, definition);
+        handleRequestFilesValidation(request, definition);
+
+        const controller = container.get<IController>(
+          definition.name,
+          'controller',
+        );
+        if (!controller) {
+          return buildDefaultNotFoundResponse(req);
+        }
+
+        if (definition.middlewares) {
+          await handleControllerMiddlewares(
+            request,
+            response,
+            'request',
+            definition.middlewares,
+          );
+        }
+
+        const actionResponse = await controller.action(...parameters);
 
         if (!(response instanceof HttpResponse)) {
           throw new ControllerActionException(
@@ -86,13 +89,13 @@ export class Eagle implements IEagle {
         if (definition.middlewares) {
           await handleControllerMiddlewares(
             request,
-            response,
+            actionResponse,
             'response',
             definition.middlewares,
           );
         }
 
-        await handleGlobalMiddlewares(request, response, 'response');
+        await handleGlobalMiddlewares(request, actionResponse, 'response');
 
         return response.build(request);
       } catch (error) {
