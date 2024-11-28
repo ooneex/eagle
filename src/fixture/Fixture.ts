@@ -53,8 +53,9 @@ export class Fixture {
 
     fixtureCollection.sort((a, b) => a.getOrder() - b.getOrder());
 
+    let data: unknown | undefined = undefined;
     for (const fixture of fixtureCollection) {
-      await fixture.execute();
+      data = await fixture.execute(data);
     }
   }
 }

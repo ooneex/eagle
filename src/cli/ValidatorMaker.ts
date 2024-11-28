@@ -93,8 +93,13 @@ export class ValidatorMaker {
       `${srcDir}/${moduleFolderName}/validators/${validatorName}Validator.ts`,
     );
     await file.write(
-      `import { AbstractValidator, ValidatorScopeType } from 'eagle/validation';
+      `import {
+  AbstractValidator,
+  validator,
+  ValidatorScopeType,
+} from 'eagle/validation';
 
+@validator()
 export class ${validatorName}Validator extends AbstractValidator {
   // TODO: Implement validation
 

@@ -54,8 +54,9 @@ export class FixtureMaker {
 
 @fixture()
 export class ${name}Fixture implements IFixture {
-  public execute(): void {
+  public execute(previousData: unknown): unknown {
     // TODO: Add fixture data here
+    return previousData;
   }
 
   public getOrder(): number {
