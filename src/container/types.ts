@@ -1,15 +1,12 @@
 export type ContainerScopeType =
   | 'default'
   | 'middleware'
-  | 'filter'
   | 'service'
   | 'repository'
   | 'database'
   | 'validator'
   | 'assert'
-  | 'dto'
   | 'config'
-  | 'entity'
   | 'controller'
   | 'fixture'
-  | 'command';
+  | 'permission';

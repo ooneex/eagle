@@ -1,5 +1,6 @@
 import { container } from '../container/Container.ts';
 import { trim } from '../helper/trim.ts';
+import { IMiddleware } from '../middleware/types.ts';
 import { IValidator } from '../validation/types.ts';
 import { ControllerContainer } from './container.ts';
 import { DecoratorException } from './DecoratorException.ts';
@@ -12,45 +13,66 @@ import {
 
 type ControllerType = any;
 
-export const Delete = (path: string, validators?: IValidator[]) => {
+export const Delete = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'DELETE', path, validators);
+    registerMethod(controller, 'DELETE', path, config);
   };
 };
 
-export const Get = (path: string, validators?: IValidator[]) => {
+export const Get = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'GET', path, validators);
+    registerMethod(controller, 'GET', path, config);
   };
 };
 
-export const Head = (path: string, validators?: IValidator[]) => {
+export const Head = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'HEAD', path, validators);
+    registerMethod(controller, 'HEAD', path, config);
   };
 };
 
-export const Options = (path: string, validators?: IValidator[]) => {
+export const Options = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'OPTIONS', path, validators);
+    registerMethod(controller, 'OPTIONS', path, config);
   };
 };
 
-export const Patch = (path: string, validators?: IValidator[]) => {
+export const Patch = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'PATCH', path, validators);
+    registerMethod(controller, 'PATCH', path, config);
   };
 };
 
-export const Post = (path: string, validators?: IValidator[]) => {
+export const Post = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'POST', path, validators);
+    registerMethod(controller, 'POST', path, config);
   };
 };
 
-export const Put = (path: string, validators?: IValidator[]) => {
+export const Put = (
+  path: string,
+  config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
+) => {
   return (controller: ControllerType) => {
-    registerMethod(controller, 'PUT', path, validators);
+    registerMethod(controller, 'PUT', path, config);
   };
 };
 
@@ -120,7 +142,7 @@ const registerMethod = (
   controller: ControllerType,
   method: ControllerMethodType,
   path: string,
-  validators?: IValidator[],
+  options?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
 ) => {
   const name = controller.prototype.constructor.name;
   ensureIsController(name, controller);
@@ -138,8 +160,13 @@ const registerMethod = (
     ControllerContainer.add(name, config);
   }
 
-  if (validators) {
-    config.validators = validators;
+  if (options?.validators) {
+    config.validators = options.validators;
+    ControllerContainer.add(name, config);
+  }
+
+  if (options?.middlewares) {
+    config.middlewares = options.middlewares;
     ControllerContainer.add(name, config);
   }
 };
@@ -154,6 +181,7 @@ const ensureInitialData = (name: string, controller: ControllerType) => {
       hosts: [],
       ips: [],
       validators: [],
+      middlewares: [],
       roles: [],
     });
 

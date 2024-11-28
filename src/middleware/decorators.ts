@@ -6,10 +6,10 @@ export const middleware = () => {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
 
-    container.add(name, new middleware(), {
+    container.add(name, middleware, {
       scope: 'middleware',
       singleton: true,
-      instance: true,
+      instance: false,
     });
   };
 };

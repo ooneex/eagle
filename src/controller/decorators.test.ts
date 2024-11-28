@@ -12,6 +12,7 @@ import {
   SERVER_EXCEPTION_CONTROLLER_KEY,
   ServerException,
 } from '@/controller/mod.ts';
+import { IMiddleware, MiddlewareScopeType } from '@/middleware/mod.ts';
 import { IResponse } from '@/response/mod.ts';
 import { AbstractValidator, ValidatorScopeType } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
@@ -348,7 +349,7 @@ describe('Controller Decorators', () => {
     it('should store validators for method decorators', () => {
       const testValidator = new TestValidator();
 
-      @Get('/test', [testValidator])
+      @Get('/test', { validators: [testValidator] })
       class Test25Controller implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -363,7 +364,7 @@ describe('Controller Decorators', () => {
       const methodValidator = new TestValidator();
       const pathValidator = new TestValidator();
 
-      @Get('/test', [methodValidator, pathValidator])
+      @Get('/test', { validators: [methodValidator, pathValidator] })
       class Test27Controller implements IController {
         action(): IResponse {
           return {} as IResponse;
@@ -374,6 +375,53 @@ describe('Controller Decorators', () => {
       expect(config?.validators).toContain(methodValidator);
       expect(config?.validators).toContain(pathValidator);
       expect(config?.validators?.length).toBe(2);
+    });
+  });
+
+  describe('Controller Middlewares', () => {
+    class TestMiddleware implements IMiddleware {
+      execute(): Promise<void> {
+        return Promise.resolve();
+      }
+
+      getScope(): MiddlewareScopeType {
+        return 'request';
+      }
+
+      getOrder(): number {
+        return 0;
+      }
+    }
+
+    it('should store middlewares for method decorators', () => {
+      const testMiddleware = new TestMiddleware();
+
+      @Get('/test', { middlewares: [testMiddleware] })
+      class Test28Controller implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(Test28Controller.name);
+      expect(config?.middlewares).toContain(testMiddleware);
+    });
+
+    it('should store multiple middlewares from different decorators', () => {
+      const middleware1 = new TestMiddleware();
+      const middleware2 = new TestMiddleware();
+
+      @Get('/test', { middlewares: [middleware1, middleware2] })
+      class Test29Controller implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(Test29Controller.name);
+      expect(config?.middlewares).toContain(middleware1);
+      expect(config?.middlewares).toContain(middleware2);
+      expect(config?.middlewares?.length).toBe(2);
     });
   });
 });
