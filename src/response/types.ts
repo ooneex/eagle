@@ -1,7 +1,7 @@
 import { Cookie } from 'jsr:@std/http/cookie';
 import { IReadonlyArrayCollection } from '../collection/types.ts';
 import { Header } from '../header/Header.ts';
-import { CharsetType, StatusTextType } from '../http/types.ts';
+import { CharsetType, StatusCodeType } from '../http/types.ts';
 import { IRequest } from '../request/types.ts';
 
 export interface IResponse {
@@ -9,31 +9,31 @@ export interface IResponse {
   readonly cookies: IReadonlyArrayCollection<Cookie>;
   text: (
     content: string,
-    status?: StatusTextType,
+    status?: StatusCodeType,
     charset?: CharsetType,
   ) => this;
   html: (
     content: string,
-    status?: StatusTextType,
+    status?: StatusCodeType,
     charset?: CharsetType,
   ) => this;
   json: (
     data: Record<string, unknown>,
-    status?: StatusTextType,
+    status?: StatusCodeType,
     charset?: CharsetType,
   ) => this;
-  stream: (data: string | ReadableStream, status?: StatusTextType) => this;
+  stream: (data: string | ReadableStream, status?: StatusCodeType) => this;
   exception: (
     message: string,
     data?: Record<string, unknown> | null,
-    status?: StatusTextType,
+    status?: StatusCodeType,
   ) => this;
   notFound: (
     message: string,
     data?: Record<string, unknown> | null,
-    status?: StatusTextType,
+    status?: StatusCodeType,
   ) => this;
-  redirect: (url: string | URL, status?: StatusTextType) => Response;
+  redirect: (url: string | URL, status?: StatusCodeType) => Response;
   getData: () => Record<string, unknown>;
   build: (request: IRequest) => Response;
   isSuccessful: () => boolean;
