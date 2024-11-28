@@ -7,6 +7,7 @@ import { FixtureMaker } from './FixtureMaker.ts';
 import { MiddlewareMaker } from './MiddlewareMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
 import { RepositoryMaker } from './RepositoryMaker.ts';
+import { SchemaMaker } from './SchemaMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
 import { ValidatorMaker } from './ValidatorMaker.ts';
 
@@ -42,6 +43,9 @@ switch (componentType) {
     break;
   case 'service':
     await ServiceMaker.execute();
+    break;
+  case 'schema':
+    await SchemaMaker.execute();
     break;
   case 'repository':
     await RepositoryMaker.execute();
