@@ -1,4 +1,3 @@
-import { Role } from '@/security/Role.ts';
 import { container } from '../container/Container.ts';
 import { ControllerContainer } from '../controller/container.ts';
 import { ControllerActionException } from '../controller/ControllerActionException.ts';
@@ -14,6 +13,7 @@ import { HttpRequest } from '../request/HttpRequest.ts';
 import { IRequest } from '../request/types.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { IResponse } from '../response/types.ts';
+import { Role } from '../security/Role.ts';
 import { UnauthorizedException } from '../security/UnauthorizedException.ts';
 import { ScalarType } from '../types.ts';
 import { IValidator, ValidatorScopeType } from '../validation/types.ts';

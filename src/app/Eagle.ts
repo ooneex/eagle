@@ -2,7 +2,6 @@ import { container } from '../container/Container.ts';
 import { ControllerActionException } from '../controller/ControllerActionException.ts';
 import { IController } from '../controller/types.ts';
 import { findController } from '../controller/utils.ts';
-import { Logger } from '../logger/Logger.ts';
 import { HttpResponse } from '../response/HttpResponse.ts';
 import { register } from './register.ts';
 import { EagleConfigType, IEagle, ServerListenParamsType } from './types.ts';
@@ -39,9 +38,6 @@ export class Eagle implements IEagle {
   private run(options: Partial<ServerListenParamsType> = {}) {
     Deno.serve({
       ...options,
-      onListen({ port, hostname }) {
-        Logger.info(`Server started at http://${hostname}:${port}`);
-      },
     }, async (req: Request) => {
       try {
         const definition = findController(req);
