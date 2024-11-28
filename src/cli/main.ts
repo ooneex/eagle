@@ -1,5 +1,6 @@
 import { bgBrightGreen, black } from 'jsr:@std/fmt/colors';
 import { cancel, intro, isCancel, select } from 'npm:@clack/prompts';
+import { AssertMaker } from './AssertMaker.ts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
 import { FixtureMaker } from './FixtureMaker.ts';
@@ -17,8 +18,10 @@ const componentType = await select({
     { value: 'module', label: 'Module' },
     { value: 'controller', label: 'Controller' },
     { value: 'service', label: 'Service' },
+    { value: 'schema', label: 'Schema' },
     { value: 'repository', label: 'Repository' },
     { value: 'validator', label: 'Validator' },
+    { value: 'assert', label: 'Assert' },
     { value: 'config', label: 'Config' },
     { value: 'middleware', label: 'Middleware' },
     { value: 'fixture', label: 'Fixture' },
@@ -45,6 +48,9 @@ switch (componentType) {
     break;
   case 'validator':
     await ValidatorMaker.execute();
+    break;
+  case 'assert':
+    await AssertMaker.execute();
     break;
   case 'config':
     await ConfigMaker.execute();
