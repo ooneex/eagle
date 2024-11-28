@@ -1,4 +1,4 @@
 export interface IFixture {
-  execute: () => Promise<void>;
+  execute: () => Promise<void> | void;
   getOrder: () => number;
 }

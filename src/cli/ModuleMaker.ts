@@ -1,7 +1,7 @@
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { outro, text } from 'npm:@clack/prompts';
+import { cancel, isCancel, outro, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
@@ -11,7 +11,7 @@ export class ModuleMaker {
     let moduleName = '';
     const srcDir = `${Deno.cwd()}/src`;
 
-    await text({
+    moduleName = (await text({
       message: 'Module name',
       placeholder: '',
       initialValue: value ?? '',
@@ -20,12 +20,19 @@ export class ModuleMaker {
         if (!result.success) return result.message;
 
         folderName = toKebabCase(value);
-        moduleName = toPascalCase(`${folderName}`);
+        moduleName = toPascalCase(folderName);
         const file = new File(`${srcDir}/${folderName}/${moduleName}Module.ts`);
 
         if (file.exists()) return `${moduleName} already exists!`;
       },
-    });
+    })) as string;
+
+    if (isCancel(moduleName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
+    moduleName = toPascalCase(moduleName);
 
     let file = new File(`${srcDir}/${folderName}/${moduleName}Module.ts`);
     await file.write(``);

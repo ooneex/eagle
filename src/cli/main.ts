@@ -1,5 +1,5 @@
-import { bgBrightGreen, black } from 'jsr:@std/fmt/colors';
-import { intro, select } from 'npm:@clack/prompts';
+import { bgBrightGreen, black, green } from 'jsr:@std/fmt/colors';
+import { cancel, intro, isCancel, outro, select } from 'npm:@clack/prompts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
 import { MiddlewareMaker } from './MiddlewareMaker.ts';
@@ -21,8 +21,14 @@ const componentType = await select({
     { value: 'config', label: 'Config' },
     { value: 'middleware', label: 'Middleware' },
     { value: 'fixture', label: 'Fixture' },
+    { value: 'exit', label: 'Exit' },
   ],
 });
+
+if (isCancel(componentType)) {
+  cancel('Cancelled!');
+  Deno.exit(0);
+}
 
 switch (componentType) {
   case 'module':
@@ -45,5 +51,8 @@ switch (componentType) {
     break;
   case 'middleware':
     await MiddlewareMaker.execute();
+    break;
+  case 'exit':
+    outro(green('Bye!'));
     break;
 }

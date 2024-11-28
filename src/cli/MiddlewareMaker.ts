@@ -1,7 +1,7 @@
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { outro, select, text } from 'npm:@clack/prompts';
+import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { MiddlewareScopes, MiddlewareScopeType } from '../middleware/types.ts';
 import { AssertName } from '../validation/mod.ts';
@@ -35,6 +35,11 @@ export class MiddlewareMaker {
       })) as string;
     }
 
+    if (isCancel(moduleName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
@@ -57,6 +62,11 @@ export class MiddlewareMaker {
       })) as string;
     }
 
+    if (isCancel(middlewareName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     middlewareName = toPascalCase(middlewareName);
 
     if (!scope) {
@@ -69,6 +79,11 @@ export class MiddlewareMaker {
         message: 'Scope',
         options,
       })) as MiddlewareScopeType;
+    }
+
+    if (isCancel(scope)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
     }
 
     let file = new File(

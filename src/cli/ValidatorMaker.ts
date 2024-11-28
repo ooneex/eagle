@@ -1,7 +1,7 @@
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { outro, select, text } from 'npm:@clack/prompts';
+import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import {
   AssertName,
@@ -38,6 +38,11 @@ export class ValidatorMaker {
       })) as string;
     }
 
+    if (isCancel(moduleName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
@@ -60,6 +65,11 @@ export class ValidatorMaker {
       })) as string;
     }
 
+    if (isCancel(validatorName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     validatorName = toPascalCase(validatorName);
 
     if (!scope) {
@@ -72,6 +82,11 @@ export class ValidatorMaker {
         message: 'Scope',
         options,
       })) as ValidatorScopeType;
+    }
+
+    if (isCancel(scope)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
     }
 
     let file = new File(

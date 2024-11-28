@@ -1,7 +1,7 @@
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { outro, select, text } from 'npm:@clack/prompts';
+import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { ControllerMethodType } from '../controller/types.ts';
 import { File } from '../file/File.ts';
 import { trim } from '../helper/trim.ts';
@@ -38,6 +38,11 @@ export class ControllerMaker {
       })) as string;
     }
 
+    if (isCancel(moduleName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
@@ -60,6 +65,11 @@ export class ControllerMaker {
       })) as string;
     }
 
+    if (isCancel(controllerName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     controllerName = toPascalCase(controllerName);
 
     if (!method) {
@@ -77,6 +87,11 @@ export class ControllerMaker {
       })) as ControllerMethodType;
     }
 
+    if (isCancel(method)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     if (!path) {
       path = (await text({
         message: 'Path',
@@ -87,6 +102,11 @@ export class ControllerMaker {
           }
         },
       })) as string;
+    }
+
+    if (isCancel(path)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
     }
 
     let file = new File(

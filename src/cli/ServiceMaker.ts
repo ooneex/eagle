@@ -1,7 +1,7 @@
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { outro, select, text } from 'npm:@clack/prompts';
+import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
@@ -32,6 +32,11 @@ export class ServiceMaker {
       })) as string;
     }
 
+    if (isCancel(moduleName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
+    }
+
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
@@ -52,6 +57,11 @@ export class ServiceMaker {
           }
         },
       })) as string;
+    }
+
+    if (isCancel(serviceName)) {
+      cancel('Cancelled!');
+      Deno.exit(0);
     }
 
     serviceName = toPascalCase(serviceName);
