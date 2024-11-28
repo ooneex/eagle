@@ -1,6 +1,7 @@
 import { container } from '../container/Container.ts';
 import { trim } from '../helper/trim.ts';
 import { IMiddleware } from '../middleware/types.ts';
+import { ERole } from '../security/types.ts';
 import { IValidator } from '../validation/types.ts';
 import { ControllerContainer } from './container.ts';
 import { DecoratorException } from './DecoratorException.ts';
@@ -104,6 +105,42 @@ export const Ip = (ip: string | RegExp) => {
   };
 };
 
+export const Public = () => {
+  return (controller: ControllerType) => {
+    const name = controller.prototype.constructor.name;
+    ensureIsController(name, controller);
+    ensureInitialData(name, controller);
+
+    const config = ControllerContainer.get(name)!;
+    config.roles = [];
+    ControllerContainer.add(name, config);
+  };
+};
+
+export const Admin = () => {
+  return (controller: ControllerType) => {
+    const name = controller.prototype.constructor.name;
+    ensureIsController(name, controller);
+    ensureInitialData(name, controller);
+
+    const config = ControllerContainer.get(name)!;
+    config.roles = [ERole.ADMIN];
+    ControllerContainer.add(name, config);
+  };
+};
+
+export const SuperAdmin = () => {
+  return (controller: ControllerType) => {
+    const name = controller.prototype.constructor.name;
+    ensureIsController(name, controller);
+    ensureInitialData(name, controller);
+
+    const config = ControllerContainer.get(name)!;
+    config.roles = [ERole.SUPER_ADMIN];
+    ControllerContainer.add(name, config);
+  };
+};
+
 export const NotFound = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -182,7 +219,7 @@ const ensureInitialData = (name: string, controller: ControllerType) => {
       ips: [],
       validators: [],
       middlewares: [],
-      roles: [],
+      roles: [ERole.USER],
     });
 
     container.add(name, controller, {

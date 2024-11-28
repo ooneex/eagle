@@ -113,6 +113,7 @@ export const buildControllerActionParameters = async (
   paramsMap.IUrl = request.url;
   paramsMap.IReadonlyHeader = request.header;
   paramsMap.IUserAgent = request.userAgent;
+  paramsMap.Error = exception;
   paramsMap.Exception = exception;
 
   const parameters: unknown[] = [];

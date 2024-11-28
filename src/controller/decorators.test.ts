@@ -1,5 +1,6 @@
 import { container } from '@/container/mod.ts';
 import {
+  Admin,
   ControllerContainer,
   DecoratorException,
   Get,
@@ -9,11 +10,14 @@ import {
   NOT_FOUND_CONTROLLER_KEY,
   NotFound,
   Post,
+  Public,
   SERVER_EXCEPTION_CONTROLLER_KEY,
   ServerException,
+  SuperAdmin,
 } from '@/controller/mod.ts';
 import { IMiddleware, MiddlewareScopeType } from '@/middleware/mod.ts';
 import { IResponse } from '@/response/mod.ts';
+import { ERole } from '@/security/mod.ts';
 import { AbstractValidator, ValidatorScopeType } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { beforeEach, describe, it } from '@std/testing/bdd';
@@ -142,6 +146,44 @@ describe('Controller Decorators', () => {
 
       const config = ControllerContainer.get(Test11Controller.name);
       expect(config?.ips).toEqual(['192.168.1.1', '10.0.0.1']);
+    });
+  });
+
+  describe('Role Decorators', () => {
+    it('should register public role', () => {
+      @Public()
+      class TestPublicController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestPublicController.name);
+      expect(config?.roles).toEqual([]);
+    });
+
+    it('should register admin role', () => {
+      @Admin()
+      class TestAdminController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestAdminController.name);
+      expect(config?.roles).toEqual([ERole.ADMIN]);
+    });
+
+    it('should register super admin role', () => {
+      @SuperAdmin()
+      class TestSuperAdminController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(TestSuperAdminController.name);
+      expect(config?.roles).toEqual([ERole.SUPER_ADMIN]);
     });
   });
 
