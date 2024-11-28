@@ -40,7 +40,7 @@ export const buildDefaultServerExceptionResponse = (
   let data: Record<string, unknown> | null = null;
 
   if (error instanceof Exception) {
-    status = error.status as StatusCodeType ?? 500;
+    status = error.status as StatusCodeType;
     message = error.message;
     data = error.data;
   }
@@ -96,6 +96,7 @@ export const buildRequest = async (
 export const buildControllerActionParameters = async (
   req: Request,
   definition: StoreControllerValueType,
+  exception?: Exception,
 ) => {
   const request: IRequest = await buildRequest(req, definition);
   const response = new HttpResponse();
@@ -116,6 +117,7 @@ export const buildControllerActionParameters = async (
   paramsMap.IUrl = request.url;
   paramsMap.IReadonlyHeader = request.header;
   paramsMap.IUserAgent = request.userAgent;
+  paramsMap.Exception = exception;
 
   const parameters: unknown[] = [];
 
@@ -352,13 +354,6 @@ export const handleServerException = async (req: Request, error: Error) => {
     return buildDefaultServerExceptionResponse(error as Error);
   }
 
-  const builtData = await buildControllerActionParameters(
-    req,
-    definition,
-  );
-
-  const { parameters } = builtData;
-
   const controller = container.get<IController>(
     definition.name,
     'controller',
@@ -367,11 +362,21 @@ export const handleServerException = async (req: Request, error: Error) => {
     return buildDefaultServerExceptionResponse(error as Error);
   }
 
+  const builtData = await buildControllerActionParameters(
+    req,
+    definition,
+    error as Exception,
+  );
+
+  const { parameters } = builtData;
+
   const response = await controller.action(...parameters);
 
   if (!(response instanceof HttpResponse)) {
-    throw new ControllerActionException(
-      `[${definition.name}] Action must return IResponse`,
+    return buildDefaultServerExceptionResponse(
+      new ControllerActionException(
+        `[${definition.name}] Action must return IResponse`,
+      ),
     );
   }
 
