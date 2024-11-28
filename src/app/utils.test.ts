@@ -3,15 +3,17 @@ import {
   buildDefaultNotFoundResponse,
   buildDefaultServerExceptionResponse,
   buildRequest,
+  checkUserPermissionsForController,
   handleRequestCookiesValidation,
   handleRequestDataValidation,
   handleRequestFilesValidation,
 } from '@/app/utils.ts';
-import { DocContainer } from '@/doc/container.ts';
-import { Exception } from '@/exception/Exception.ts';
-import { HttpRequest } from '@/request/HttpRequest.ts';
-import { IRequest } from '@/request/mod.ts';
-import { HttpResponse } from '@/response/HttpResponse.ts';
+import { StoreControllerValueType } from '@/controller/mod.ts';
+import { DocContainer } from '@/doc/mod.ts';
+import { Exception } from '@/exception/mod.ts';
+import { HttpRequest, IRequest } from '@/request/mod.ts';
+import { HttpResponse } from '@/response/mod.ts';
+import { ERole, UnauthorizedException } from '@/security/mod.ts';
 import {
   ValidationFailedException,
   ValidatorScopeType,
@@ -480,6 +482,97 @@ describe('utils', () => {
       };
 
       const result = handleRequestFilesValidation(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('checkUserPermissionsForController', () => {
+    it('should return true when no roles are defined', () => {
+      const mockRequest = {} as IRequest;
+      const definition = {
+        name: 'TestController',
+      } as StoreControllerValueType;
+
+      const result = checkUserPermissionsForController(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should return true when roles array is empty', () => {
+      const mockRequest = {} as IRequest;
+      const definition: StoreControllerValueType = {
+        name: 'TestController',
+        roles: [],
+      };
+
+      const result = checkUserPermissionsForController(mockRequest, definition);
+      expect(result).toBe(true);
+    });
+
+    it('should throw UnauthorizedException when user is not authenticated', () => {
+      const mockRequest = {
+        path: '/test',
+        method: 'GET',
+        auth: {
+          isAuthenticated: () => false,
+          getUser: () => null,
+        },
+      } as IRequest;
+
+      const definition: StoreControllerValueType = {
+        name: 'TestController',
+        roles: [ERole.ADMIN],
+      };
+
+      expect(() => checkUserPermissionsForController(mockRequest, definition))
+        .toThrow(UnauthorizedException);
+    });
+
+    it('should throw UnauthorizedException when user lacks required role', () => {
+      const mockRequest = {
+        path: '/test',
+        method: 'GET',
+        auth: {
+          isAuthenticated: () => true,
+          getUser: () => ({
+            getRole: () => ({
+              hasRole: () => false,
+            }),
+          }),
+        },
+      };
+
+      const definition: StoreControllerValueType = {
+        name: 'TestController',
+        roles: [ERole.ADMIN],
+      };
+
+      expect(() =>
+        checkUserPermissionsForController(mockRequest as any, definition)
+      )
+        .toThrow(UnauthorizedException);
+    });
+
+    it('should return true when user has required role', () => {
+      const mockRequest = {
+        auth: {
+          isAuthenticated: () => true,
+          getUser: () => ({
+            getRole: () => ({
+              hasRole: () => true,
+            }),
+          }),
+        },
+      };
+
+      const definition: StoreControllerValueType = {
+        name: 'TestController',
+        roles: [ERole.USER],
+      };
+
+      const result = checkUserPermissionsForController(
+        mockRequest as any,
+        definition,
+      );
       expect(result).toBe(true);
     });
   });
