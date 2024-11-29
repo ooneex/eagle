@@ -77,6 +77,9 @@ export class SchemaMaker {
 export const ${schemaName} = pgTable('${toSnakeCase(pluralize(schemaName))}', {
   // TODO: Implement schema
 });
+
+export type ${schemaName}Type = typeof ${schemaName}.$inferSelect;
+export type ${schemaName}MutationType = typeof ${schemaName}.$inferInsert;
 `,
     );
 

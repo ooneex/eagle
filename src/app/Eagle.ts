@@ -39,6 +39,8 @@ export class Eagle implements IEagle {
     Deno.serve({
       ...options,
     }, async (req: Request) => {
+      console.log('req', req);
+
       try {
         const definition = findController(req);
 
