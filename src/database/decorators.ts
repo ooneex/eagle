@@ -1,5 +1,7 @@
+import { DatabaseDecoratorException } from '@/database/DatabaseDecoratorException.ts';
+import { RepositoryDecoratorException } from '@/database/RepositoryDecoratorException.ts';
 import { container } from '../container/Container.ts';
-import { ServiceDecoratorException } from '../service/ServiceDecoratorException.ts';
+import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
 
 export const database = () => {
   return (database: any) => {
@@ -7,6 +9,19 @@ export const database = () => {
     ensureIsDatabase(name);
 
     container.add(name, database, {
+      scope: 'database',
+      singleton: true,
+      instance: false,
+    });
+  };
+};
+
+export const vector = () => {
+  return (vectorDatabase: any) => {
+    const name = vectorDatabase.prototype.constructor.name;
+    ensureIsVectorDatabase(name);
+
+    container.add(name, vectorDatabase, {
       scope: 'database',
       singleton: true,
       instance: false,
@@ -29,15 +44,23 @@ export const repository = () => {
 
 const ensureIsDatabase = (name: string) => {
   if (!name?.endsWith('Database')) {
-    throw new ServiceDecoratorException(
+    throw new DatabaseDecoratorException(
       `Database decorator can only be used on database classes. ${name} must end with Database keyword.`,
+    );
+  }
+};
+
+const ensureIsVectorDatabase = (name: string) => {
+  if (!name?.endsWith('VectorDatabase')) {
+    throw new VectorDatabaseDecoratorException(
+      `VectorDatabase decorator can only be used on vector database classes. ${name} must end with VectorDatabase keyword.`,
     );
   }
 };
 
 const ensureIsRepository = (name: string) => {
   if (!name?.endsWith('Repository')) {
-    throw new ServiceDecoratorException(
+    throw new RepositoryDecoratorException(
       `Repository decorator can only be used on repository classes. ${name} must end with Repository keyword.`,
     );
   }
