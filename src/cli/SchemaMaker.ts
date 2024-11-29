@@ -6,6 +6,7 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import pluralize from 'npm:pluralize';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
+import { repositoryTemplate } from './repository.template.ts';
 
 type SchemaMakerOptionsType = {
   moduleName?: string;
@@ -68,19 +69,36 @@ export class SchemaMaker {
 
     schemaName = toPascalCase(schemaName);
 
-    const file = new File(
+    let file = new File(
       `${srcDir}/${moduleFolderName}/schemas/${schemaName}Schema.ts`,
     );
     await file.write(
-      `import { pgTable } from 'drizzle-orm/pg-core';
+      `import { Base } from '@/shared/schemas/BaseSchema.ts';
+import { pgTable } from 'drizzle-orm/pg-core';
 
 export const ${schemaName} = pgTable('${toSnakeCase(pluralize(schemaName))}', {
-  // TODO: Implement schema
+  ...Base,
 });
 
 export type ${schemaName}Type = typeof ${schemaName}.$inferSelect;
 export type ${schemaName}MutationType = typeof ${schemaName}.$inferInsert;
 `,
+    );
+
+    file = new File(
+      `${srcDir}/${moduleFolderName}/repositories/${schemaName}Repository.ts`,
+    );
+    await file.write(repositoryTemplate(moduleFolderName, schemaName));
+    file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
+    await file.write(
+      `import './repositories/${schemaName}Repository.ts';\n`,
+      { append: true },
+    );
+
+    file = new File(`${srcDir}/shared/databases/schemas.ts`);
+    await file.write(
+      `export { ${schemaName} } from '@/${moduleFolderName}/schemas/${schemaName}Schema.ts';\n`,
+      { append: true },
     );
 
     outro(green(`\u2713 ${schemaName}Schema created successfully!`));

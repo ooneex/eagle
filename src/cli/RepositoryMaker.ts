@@ -4,6 +4,7 @@ import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
 import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
+import { repositoryTemplate } from './repository.template.ts';
 
 type RepositoryMakerOptionsType = {
   moduleName?: string;
@@ -69,22 +70,7 @@ export class RepositoryMaker {
     let file = new File(
       `${srcDir}/${moduleFolderName}/repositories/${repositoryName}Repository.ts`,
     );
-    await file.write(
-      `import { MainDatabase } from '@/shared/databases/MainDatabase.ts';
-import { repository } from 'eagle/database';
-
-@repository()
-export class ${repositoryName}Repository {
-  private readonly source;
-
-  constructor(database: MainDatabase) {
-    this.source = database.getDataSource();
-  }
-
-  // TODO: Implement repository
-}
-`,
-    );
+    await file.write(repositoryTemplate(moduleFolderName, repositoryName));
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
       `import './repositories/${repositoryName}Repository.ts';\n`,
