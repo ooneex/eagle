@@ -4,12 +4,12 @@ import { AssertMaker } from './AssertMaker.ts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
 import { CrudMaker } from './CrudMaker.ts';
-import { FixtureMaker } from './FixtureMaker.ts';
 import { MiddlewareMaker } from './MiddlewareMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
 import { PermissionMaker } from './PermissionMaker.ts';
 import { RepositoryMaker } from './RepositoryMaker.ts';
 import { SchemaMaker } from './SchemaMaker.ts';
+import { SeedMaker } from './SeedMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
 import { ValidatorMaker } from './ValidatorMaker.ts';
 
@@ -22,7 +22,7 @@ const componentType = await select({
     { value: 'config', label: 'Config' },
     { value: 'controller', label: 'Controller' },
     { value: 'crud', label: 'Controller (CRUD)' },
-    { value: 'fixture', label: 'Fixture' },
+    { value: 'seed', label: 'Seed' },
     { value: 'middleware', label: 'Middleware' },
     { value: 'module', label: 'Module' },
     { value: 'permission', label: 'Permission' },
@@ -69,8 +69,8 @@ switch (componentType) {
   case 'middleware':
     await MiddlewareMaker.execute();
     break;
-  case 'fixture':
-    await FixtureMaker.execute();
+  case 'seed':
+    await SeedMaker.execute();
     break;
   case 'permission':
     await PermissionMaker.execute();

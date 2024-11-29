@@ -8,5 +8,5 @@ export type ContainerScopeType =
   | 'assert'
   | 'config'
   | 'controller'
-  | 'fixture'
+  | 'seed'
   | 'permission';

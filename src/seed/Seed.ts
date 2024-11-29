@@ -5,10 +5,10 @@ import { container } from '../container/Container.ts';
 import { DocContainer } from '../doc/container.ts';
 import { Doc } from '../doc/Doc.ts';
 import { File } from '../file/File.ts';
-import { FixtureContainer } from '../fixture/container.ts';
-import { IFixture } from '../fixture/types.ts';
+import { SeedContainer } from './container.ts';
+import { ISeed } from './types.ts';
 
-export class Fixture {
+export class Seed {
   private readonly config?: EagleConfigType;
 
   constructor(config?: EagleConfigType) {
@@ -22,16 +22,16 @@ export class Fixture {
       handleEnvValidation(this.config.validators);
     }
 
-    const file = new File(`${Deno.cwd()}/fixtures`);
-    const fixtures = file.list({
+    const file = new File(`${Deno.cwd()}/seeds`);
+    const seeds = file.list({
       recursive: true,
-      match: /Fixture\.ts$/,
+      match: /Seed\.ts$/,
     });
 
-    for (const fixture of fixtures) {
-      await import(fixture);
+    for (const seed of seeds) {
+      await import(seed);
 
-      const doc = new Doc(fixture);
+      const doc = new Doc(seed);
       const data = await doc.parse();
 
       for (const datum of data) {
@@ -42,10 +42,10 @@ export class Fixture {
       }
     }
 
-    const fixtureCollection: IFixture[] = [];
+    const fixtureCollection: ISeed[] = [];
 
-    for (const fixture of FixtureContainer) {
-      const f = container.get<IFixture>(fixture, 'fixture');
+    for (const seed of SeedContainer) {
+      const f = container.get<ISeed>(seed, 'seed');
       if (f) {
         fixtureCollection.push(f);
       }
