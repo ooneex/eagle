@@ -1,6 +1,8 @@
 export { Auth } from './Auth.ts';
 export * from './decorators.ts';
+export { Permission } from './Permission.ts';
 export { PermissionDecoratorException } from './PermissionDecoratorException.ts';
+export { PermissionException } from './PermissionException.ts';
 export { Role } from './Role.ts';
 export * from './types.ts';
 export { UnauthorizedException } from './UnauthorizedException.ts';

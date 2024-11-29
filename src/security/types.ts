@@ -1,5 +1,10 @@
 import { IJwt } from '../jwt/types.ts';
 
+export interface IPermission {
+  check: (user?: IUser) => boolean;
+  getErrorMessage: (user?: IUser) => string;
+}
+
 export enum ERole {
   USER = 'ROLE_USER',
   ADMIN = 'ROLE_ADMIN',
@@ -7,6 +12,7 @@ export enum ERole {
 }
 
 export interface IUser {
+  getId: () => string | null;
   getUsername: () => string;
   getRole: () => IRole;
   isSuperAdmin: () => boolean;

@@ -51,4 +51,18 @@ describe('User', () => {
     expect(user.isUser()).toBe(false);
     expect(user.isGuest()).toBe(true);
   });
+
+  it('should get user id', () => {
+    const role = new Role([]);
+    const user = new User('test_user', role, '123');
+
+    expect(user.getId()).toBe('123');
+  });
+
+  it('should return null when id is not provided', () => {
+    const role = new Role([]);
+    const user = new User('test_user', role);
+
+    expect(user.getId()).toBeNull();
+  });
 });

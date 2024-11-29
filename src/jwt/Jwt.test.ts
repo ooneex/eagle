@@ -128,6 +128,20 @@ describe('Jwt', () => {
     });
   });
 
+  describe('getId()', () => {
+    it('should return null when id is not set', async () => {
+      const jwt = await Jwt.create();
+      expect(jwt?.getId()).toBeNull();
+    });
+
+    it('should correctly retrieve id when set', async () => {
+      const jwt = await Jwt.create({
+        data: { id: 'test-id' },
+      });
+      expect(jwt?.getId()).toBe('test-id');
+    });
+  });
+
   describe('refresh token', () => {
     it('should return null when refresh token is not set', async () => {
       const jwt = await Jwt.create();

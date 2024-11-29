@@ -16,8 +16,9 @@ export class Auth implements IAuth {
 
     const username = jwt.getUsername();
     const roles = jwt.getRoles();
+    const id = jwt.getId();
 
-    this.user = new User(username, new Role(roles));
+    this.user = new User(username, new Role(roles), id);
 
     return this.user.isUser();
   }

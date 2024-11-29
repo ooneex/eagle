@@ -35,7 +35,7 @@ export class Jwt implements IJwt {
     config?: {
       payload?: JwtDefaultPayloadType;
       data?:
-        & { username?: string; roles?: ERole[] }
+        & { id?: string | null; username?: string; roles?: ERole[] }
         & Record<string, unknown>;
       header?: JWTHeaderParameters;
     },
@@ -123,6 +123,10 @@ export class Jwt implements IJwt {
 
   public getHeader<T = JWTHeaderParameters>(): T {
     return jose.decodeProtectedHeader(this.token) as T;
+  }
+
+  public getId(): string | null {
+    return this.getPayload().id ?? null;
   }
 
   public getPayload(): JwtPayloadType {

@@ -23,6 +23,10 @@ class MockJwt implements IJwt {
     return this.valid;
   }
 
+  getId(): string | null {
+    return '65b7e7c4-331e-402c-ac54-de016a81c886';
+  }
+
   getUsername(): string {
     return this.username;
   }

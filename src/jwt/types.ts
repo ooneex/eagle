@@ -20,6 +20,7 @@ export type JwtDefaultPayloadType = {
 };
 
 export type JwtPayloadType = JwtDefaultPayloadType & {
+  id?: string | null;
   username?: string;
   roles?: ERole[];
   refreshToken?: string;
@@ -31,6 +32,7 @@ export interface IJwt {
   getHeader: () => JWTHeaderParameters;
   isValid: () => Promise<boolean> | boolean;
   getSecret: () => string | null;
+  getId: () => string | null;
   getUsername: () => string;
   getRoles: () => ERole[];
   getRefreshToken: () => IJwt | null;
