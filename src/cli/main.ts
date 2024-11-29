@@ -3,6 +3,7 @@ import { cancel, intro, isCancel, select } from 'npm:@clack/prompts';
 import { AssertMaker } from './AssertMaker.ts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
+import { CrudMaker } from './CrudMaker.ts';
 import { FixtureMaker } from './FixtureMaker.ts';
 import { MiddlewareMaker } from './MiddlewareMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
@@ -20,6 +21,7 @@ const componentType = await select({
     { value: 'assert', label: 'Assert' },
     { value: 'config', label: 'Config' },
     { value: 'controller', label: 'Controller' },
+    { value: 'crud', label: 'Controller (CRUD)' },
     { value: 'fixture', label: 'Fixture' },
     { value: 'middleware', label: 'Middleware' },
     { value: 'module', label: 'Module' },
@@ -42,6 +44,9 @@ switch (componentType) {
     break;
   case 'controller':
     await ControllerMaker.execute();
+    break;
+  case 'crud':
+    await CrudMaker.execute();
     break;
   case 'service':
     await ServiceMaker.execute();
