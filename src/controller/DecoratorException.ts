@@ -1,3 +1,4 @@
+import { STATUS_CODE } from 'jsr:@std/http/status';
 import { Exception } from '../exception/Exception.ts';
 
 export class DecoratorException<T = unknown> extends Exception<T> {
@@ -5,6 +6,6 @@ export class DecoratorException<T = unknown> extends Exception<T> {
     message: string,
     data: Readonly<Record<string, T>> | null = null,
   ) {
-    super(message, 500, data);
+    super(message, STATUS_CODE.InternalServerError, data);
   }
 }
