@@ -9,7 +9,7 @@ export const register = async (resources?: string[]) => {
     resources = file.list({
       recursive: true,
       match:
-        /(Controller|Service|Config|Validator|Database|Repository|Middleware)\.ts$/,
+        /(Controller|Service|Config|Validator|Database|Repository|Middleware|Permission|Seed)\.ts$/,
     });
   }
 
