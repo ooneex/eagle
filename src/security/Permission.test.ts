@@ -86,7 +86,7 @@ describe('Permission', () => {
         getErrorMessage: () => 'Error message',
       };
 
-      expect(permission.can(mockPermission)).toBe(true);
+      expect(permission.with(mockPermission)).toBe(true);
     });
 
     it('should throw PermissionException when permission check fails', () => {
@@ -97,8 +97,10 @@ describe('Permission', () => {
         getErrorMessage: () => 'Custom error message',
       };
 
-      expect(() => permission.can(mockPermission)).toThrow(PermissionException);
-      expect(() => permission.can(mockPermission)).toThrow(
+      expect(() => permission.with(mockPermission)).toThrow(
+        PermissionException,
+      );
+      expect(() => permission.with(mockPermission)).toThrow(
         'Custom error message',
       );
     });

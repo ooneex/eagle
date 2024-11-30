@@ -26,7 +26,7 @@ export class Permission {
     );
   }
 
-  public can(permission: IPermission): boolean {
+  public with(permission: IPermission): boolean {
     if (permission.check(this.user)) {
       return true;
     }
