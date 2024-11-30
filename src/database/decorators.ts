@@ -1,6 +1,6 @@
-import { DatabaseDecoratorException } from '@/database/DatabaseDecoratorException.ts';
-import { RepositoryDecoratorException } from '@/database/RepositoryDecoratorException.ts';
 import { container } from '../container/Container.ts';
+import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
+import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
 import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
 
 export const database = () => {

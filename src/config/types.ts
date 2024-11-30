@@ -14,6 +14,9 @@ export type EnvConfigType = {
   };
   database: {
     url: string | null;
+    vector: {
+      url: string | null;
+    };
   };
   jwt: {
     secret: string | null;

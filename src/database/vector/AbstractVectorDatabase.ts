@@ -44,7 +44,22 @@ export abstract class AbstractVectorDatabase implements IVectorDatabase {
     return docs;
   }
 
-  public getEmbeddings() {
+  public async delete(
+    ids?: string[],
+    options?: { filter?: Metadata },
+  ): Promise<void> {
+    const config = this.getConfig();
+    const embeddings = this.getEmbeddings();
+
+    const vectorStore = await PGVectorStore.initialize(
+      embeddings,
+      getConnection(config.url, config.table),
+    );
+    await vectorStore.delete({ ids, filter: options?.filter });
+    await vectorStore.end();
+  }
+
+  private getEmbeddings() {
     const config = this.getConfig();
 
     if (config.openai) {
