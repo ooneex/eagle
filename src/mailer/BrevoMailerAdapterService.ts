@@ -1,6 +1,4 @@
-import { IncomingMessage } from 'node:http';
 import {
-  CreateSmtpEmail,
   SendSmtpEmail,
   SendSmtpEmailAttachmentInner,
   SendSmtpEmailBccInner,
@@ -13,12 +11,13 @@ import {
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { service } from '../service/decorators.ts';
 import { MailerException } from './MailerException.ts';
+import { BrevoMailerResponseType, IMailer } from './types.ts';
 
 export type SenderType = { email: string; name?: string };
 export type ToType = { name?: string; email: string };
 
 @service()
-export class BrevoMailerAdapterService {
+export class BrevoMailerAdapterService implements IMailer {
   private client: TransactionalEmailsApi;
   private sender: SenderType | null = null;
   private to: ToType[] = [];
@@ -231,10 +230,7 @@ export class BrevoMailerAdapterService {
     return this.batchId;
   }
 
-  public async send(): Promise<{
-    response: IncomingMessage;
-    body: CreateSmtpEmail;
-  }> {
+  public async send<T = BrevoMailerResponseType>(): Promise<T> {
     const sendSmtpEmail = new SendSmtpEmail();
     sendSmtpEmail.sender = this.sender ?? undefined;
     sendSmtpEmail.to = this.to ?? undefined;
@@ -253,6 +249,6 @@ export class BrevoMailerAdapterService {
     sendSmtpEmail.scheduledAt = this.scheduledAt ?? undefined;
     sendSmtpEmail.batchId = this.batchId ?? undefined;
 
-    return await this.client.sendTransacEmail(sendSmtpEmail);
+    return await this.client.sendTransacEmail(sendSmtpEmail) as T;
   }
 }
