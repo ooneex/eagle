@@ -22,7 +22,7 @@ export const vector = () => {
     ensureIsVectorDatabase(name);
 
     container.add(name, vectorDatabase, {
-      scope: 'database',
+      scope: 'vector',
       singleton: true,
       instance: false,
     });
