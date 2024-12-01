@@ -4,6 +4,7 @@ import { AssertMaker } from './AssertMaker.ts';
 import { ConfigMaker } from './ConfigMaker.ts';
 import { ControllerMaker } from './ControllerMaker.ts';
 import { CrudMaker } from './CrudMaker.ts';
+import { MailerMaker } from './MailerMaker.ts';
 import { MiddlewareMaker } from './MiddlewareMaker.ts';
 import { ModuleMaker } from './ModuleMaker.ts';
 import { PermissionMaker } from './PermissionMaker.ts';
@@ -22,6 +23,7 @@ const componentType = await select({
     { value: 'config', label: 'Config' },
     { value: 'controller', label: 'Controller' },
     { value: 'crud', label: 'Controller (CRUD)' },
+    { value: 'mailer', label: 'Mailer' },
     { value: 'middleware', label: 'Middleware' },
     { value: 'module', label: 'Module' },
     { value: 'permission', label: 'Permission' },
@@ -47,6 +49,9 @@ switch (componentType) {
     break;
   case 'crud':
     await CrudMaker.execute();
+    break;
+  case 'mailer':
+    await MailerMaker.execute();
     break;
   case 'service':
     await ServiceMaker.execute();
