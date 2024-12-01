@@ -69,4 +69,40 @@ describe('EnvConfig', () => {
     expect(json[EnvConfig.KEYS.database.url]).toBe(null);
     expect(json[EnvConfig.KEYS.jwt.refresh.secret]).toBe(null);
   });
+
+  it('should have all config keys defined', () => {
+    const configKeys = EnvConfig.KEYS;
+    const envConfig = new EnvConfig();
+    const json = envConfig.toJson();
+
+    // Check that all keys in EnvConfig.KEYS have corresponding values in toJson()
+    const checkNestedKeys = (obj: any, path = '') => {
+      for (const key in obj) {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          checkNestedKeys(obj[key], path ? `${path}.${key}` : key);
+        } else {
+          const envKey = obj[key];
+          expect(json).toHaveProperty(envKey);
+        }
+      }
+    };
+
+    checkNestedKeys(configKeys);
+
+    // Check that all values in toJson() correspond to keys in EnvConfig.KEYS
+    const findKeyInConfig = (searchValue: string, obj: any): boolean => {
+      for (const key in obj) {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          if (findKeyInConfig(searchValue, obj[key])) return true;
+        } else if (obj[key] === searchValue) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    for (const jsonKey of Object.keys(json)) {
+      expect(findKeyInConfig(jsonKey, configKeys)).toBe(true);
+    }
+  });
 });

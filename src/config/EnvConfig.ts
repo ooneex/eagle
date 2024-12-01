@@ -74,6 +74,9 @@ export class EnvConfig implements IConfig {
       },
     },
     mailer: {
+      dev: {
+        url: 'MAILER_DEV_URL',
+      },
       brevo: {
         key: 'BREVO_API_KEY',
       },
@@ -161,6 +164,9 @@ export class EnvConfig implements IConfig {
     },
   };
   public readonly mailer: EnvConfigType['mailer'] = {
+    dev: {
+      url: Deno.env.get(EnvConfig.KEYS.mailer.dev.url) ?? null,
+    },
     brevo: {
       key: Deno.env.get(EnvConfig.KEYS.mailer.brevo.key) ?? null,
     },
@@ -206,6 +212,7 @@ export class EnvConfig implements IConfig {
         this.storage.cloudflare.endpoint,
       [EnvConfig.KEYS.storage.cloudflare.public]:
         this.storage.cloudflare.public,
+      [EnvConfig.KEYS.mailer.dev.url]: this.mailer.dev.url,
       [EnvConfig.KEYS.mailer.brevo.key]: this.mailer.brevo.key,
       [EnvConfig.KEYS.payment.stripe.secret]: this.payment.stripe.secret,
     };

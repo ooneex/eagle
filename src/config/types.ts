@@ -69,6 +69,9 @@ export type EnvConfigType = {
     };
   };
   mailer: {
+    dev: {
+      url: string | null;
+    };
     brevo: {
       key: string | null;
     };
