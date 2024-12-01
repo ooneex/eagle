@@ -7,5 +7,5 @@ export type BrevoMailerResponseType = {
 };
 
 export interface IMailer {
-  send: <T = unknown>() => Promise<T> | T;
+  send: <T = void>() => Promise<T> | T;
 }

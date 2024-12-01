@@ -9,4 +9,5 @@ export type ContainerScopeType =
   | 'config'
   | 'controller'
   | 'seed'
+  | 'mailer'
   | 'permission';
