@@ -1,8 +1,12 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { SeedContainer } from './container.ts';
 import { SeedDecoratorException } from './SeedDecoratorException.ts';
 
-export const seed = () => {
+export const seed = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (seed: any) => {
     const name = seed.prototype.constructor.name;
     ensureIsSeed(name, seed);
@@ -10,8 +14,8 @@ export const seed = () => {
     SeedContainer.add(name);
 
     container.add(name, seed, {
-      scope: 'seed',
-      singleton: true,
+      scope: options?.scope ?? 'seed',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };

@@ -1,14 +1,18 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { MailerDecoratorException } from './MailerDecoratorException.ts';
 
-export const mailer = () => {
+export const mailer = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (mailer: any) => {
     const name = mailer.prototype.constructor.name;
     ensureIsMailer(name, mailer);
 
     container.add(name!, mailer, {
-      scope: 'mailer',
-      singleton: false,
+      scope: options?.scope ?? 'mailer',
+      singleton: options?.singleton ?? false,
       instance: false,
     });
   };

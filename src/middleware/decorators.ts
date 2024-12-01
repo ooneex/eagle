@@ -1,14 +1,18 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { MiddlewareDecoratorException } from './MiddlewareDecoratorException.ts';
 
-export const middleware = () => {
+export const middleware = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (middleware: any) => {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
 
     container.add(name, middleware, {
-      scope: 'middleware',
-      singleton: true,
+      scope: options?.scope ?? 'middleware',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };

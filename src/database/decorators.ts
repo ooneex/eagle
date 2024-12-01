@@ -1,42 +1,52 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
 import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
 
-export const database = () => {
+export const database = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (database: any) => {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name);
 
     container.add(name, database, {
-      scope: 'database',
-      singleton: true,
+      scope: options?.scope ?? 'database',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };
 };
 
-export const vector = () => {
+export const vector = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (vectorDatabase: any) => {
     const name = vectorDatabase.prototype.constructor.name;
     ensureIsVectorDatabase(name);
 
     container.add(name, vectorDatabase, {
-      scope: 'vector',
-      singleton: true,
+      scope: options?.scope ?? 'vector',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };
 };
 
-export const repository = () => {
+export const repository = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (repository: any) => {
     const name = repository.prototype.constructor.name;
     ensureIsRepository(name);
 
     container.add(name, repository, {
-      scope: 'repository',
-      singleton: true,
+      scope: options?.scope ?? 'repository',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };

@@ -1,27 +1,34 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
 
-export const validator = () => {
+export const validator = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (validator: any) => {
     const name = validator.prototype.constructor.name;
     ensureIsValidator(name, validator);
 
     container.add(name, validator, {
-      scope: 'validator',
-      singleton: true,
+      scope: options?.scope ?? 'validator',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };
 };
 
-export const assert = () => {
+export const assert = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (assert: any) => {
     const name = assert.prototype.constructor.name;
     ensureIsAssert(name, assert);
 
     container.add(name, assert, {
-      scope: 'assert',
-      singleton: true,
+      scope: options?.scope ?? 'assert',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };

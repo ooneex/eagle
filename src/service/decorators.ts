@@ -1,14 +1,18 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { ServiceDecoratorException } from './ServiceDecoratorException.ts';
 
-export const service = () => {
+export const service = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (service: any) => {
     const name = service.prototype.constructor.name;
     ensureIsService(name);
 
     container.add(name!, service, {
-      scope: 'service',
-      singleton: true,
+      scope: options?.scope ?? 'service',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };

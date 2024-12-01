@@ -1,14 +1,18 @@
 import { container } from '../container/Container.ts';
+import { ContainerScopeType } from '../container/types.ts';
 import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
 
-export const config = () => {
+export const config = (options?: {
+  scope?: ContainerScopeType;
+  singleton?: boolean;
+}) => {
   return (config: any) => {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);
 
     container.add(name, config, {
-      scope: 'config',
-      singleton: true,
+      scope: options?.scope ?? 'config',
+      singleton: options?.singleton ?? true,
       instance: false,
     });
   };
