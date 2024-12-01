@@ -9,6 +9,7 @@ import {
   S3Client,
 } from 'npm:@aws-sdk/client-s3';
 import { EnvConfig } from '../config/EnvConfig.ts';
+import { storage } from './decorators.ts';
 import { StorageException } from './StorageException.ts';
 import {
   CloudflareRegionType,
@@ -16,6 +17,7 @@ import {
   IStorage,
 } from './types.ts';
 
+@storage()
 export class CloudflareStorage implements IStorage {
   private region: CloudflareRegionType = 'eeur';
 

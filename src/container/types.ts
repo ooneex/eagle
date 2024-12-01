@@ -2,6 +2,7 @@ export type ContainerScopeType =
   | 'default'
   | 'middleware'
   | 'service'
+  | 'storage'
   | 'repository'
   | 'database'
   | 'validator'
