@@ -12,9 +12,10 @@ import { RepositoryMaker } from './RepositoryMaker.ts';
 import { SchemaMaker } from './SchemaMaker.ts';
 import { SeedMaker } from './SeedMaker.ts';
 import { ServiceMaker } from './ServiceMaker.ts';
+import { StorageMaker } from './StorageMaker.ts';
 import { ValidatorMaker } from './ValidatorMaker.ts';
 
-intro(bgBrightGreen(black('   Eagle code generator   ')));
+intro(bgBrightGreen(black('   Eagle project code generator   ')));
 
 const componentType = await select({
   message: 'Component',
@@ -31,6 +32,7 @@ const componentType = await select({
     { value: 'schema', label: 'Schema' },
     { value: 'seed', label: 'Seed' },
     { value: 'service', label: 'Service' },
+    { value: 'storage', label: 'Storage' },
     { value: 'validator', label: 'Validator' },
   ],
 });
@@ -52,6 +54,9 @@ switch (componentType) {
     break;
   case 'mailer':
     await MailerMaker.execute();
+    break;
+  case 'storage':
+    await StorageMaker.execute();
     break;
   case 'service':
     await ServiceMaker.execute();
