@@ -51,6 +51,6 @@ describe('mailer decorator', () => {
 
     const instance1 = container.get('SingletonMailer', 'mailer');
     const instance2 = container.get('SingletonMailer', 'mailer');
-    expect(instance1).toBe(instance2);
+    expect(instance1).not.toBe(instance2);
   });
 });

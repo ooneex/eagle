@@ -9,15 +9,15 @@ import {
   TransactionalEmailsApiApiKeys,
 } from 'npm:@getbrevo/brevo';
 import { EnvConfig } from '../config/EnvConfig.ts';
-import { service } from '../service/decorators.ts';
+import { mailer } from './decorators.ts';
 import { MailerException } from './MailerException.ts';
 import { BrevoMailerResponseType, IMailer } from './types.ts';
 
 export type SenderType = { email: string; name?: string };
 export type ToType = { name?: string; email: string };
 
-@service()
-export class BrevoMailerAdapterService implements IMailer {
+@mailer()
+export class BrevoMailer implements IMailer {
   private client: TransactionalEmailsApi;
   private sender: SenderType | null = null;
   private to: ToType[] = [];

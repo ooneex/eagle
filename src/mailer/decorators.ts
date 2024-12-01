@@ -8,7 +8,7 @@ export const mailer = () => {
 
     container.add(name!, mailer, {
       scope: 'mailer',
-      singleton: true,
+      singleton: false,
       instance: false,
     });
   };
