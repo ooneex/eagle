@@ -13,6 +13,11 @@ export class EnvConfig implements IConfig {
       url: 'APP_URL',
       port: 'APP_PORT',
       host: 'APP_HOST',
+      isLocal: 'isLocal',
+      isTesting: 'isTesting',
+      isDevelopment: 'isDevelopment',
+      isStaging: 'isStaging',
+      isProduction: 'isProduction',
     },
     security: {
       cors: 'CORS_ALLOW_ORIGIN',
@@ -89,14 +94,20 @@ export class EnvConfig implements IConfig {
   };
 
   public readonly app: EnvConfigType['app'] = {
-    env: (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ??
-      (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ??
-      null,
+    env: (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ?? null,
     url: Deno.env.get(EnvConfig.KEYS.app.url) ?? null,
     port:
       parseString<number>(Deno.env.get(EnvConfig.KEYS.app.port) as string) ??
         null,
     host: Deno.env.get(EnvConfig.KEYS.app.host) ?? null,
+    isLocal: (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'local',
+    isTesting: (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'test',
+    isDevelopment:
+      (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'development',
+    isStaging:
+      (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'staging',
+    isProduction:
+      (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'production',
   };
   public readonly security: EnvConfigType['security'] = {
     cors: Deno.env.get(EnvConfig.KEYS.security.cors) ?? null,
@@ -183,6 +194,11 @@ export class EnvConfig implements IConfig {
       [EnvConfig.KEYS.app.url]: this.app.url,
       [EnvConfig.KEYS.app.port]: this.app.port,
       [EnvConfig.KEYS.app.host]: this.app.host,
+      isLocal: this.app.isLocal,
+      isTesting: this.app.isTesting,
+      isDevelopment: this.app.isDevelopment,
+      isStaging: this.app.isStaging,
+      isProduction: this.app.isProduction,
       [EnvConfig.KEYS.security.cors]: this.security.cors,
       [EnvConfig.KEYS.database.url]: this.database.url,
       [EnvConfig.KEYS.database.vector.url]: this.database.vector.url,

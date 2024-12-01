@@ -105,4 +105,50 @@ describe('EnvConfig', () => {
       expect(findKeyInConfig(jsonKey, configKeys)).toBe(true);
     }
   });
+
+  it('should correctly identify environment type', () => {
+    Deno.env.set(EnvConfig.KEYS.app.env, 'local');
+    let envConfig = new EnvConfig();
+    expect(envConfig.app.isLocal).toBe(true);
+    expect(envConfig.app.isTesting).toBe(false);
+    expect(envConfig.app.isDevelopment).toBe(false);
+    expect(envConfig.app.isStaging).toBe(false);
+    expect(envConfig.app.isProduction).toBe(false);
+
+    // Test testing environment
+    Deno.env.set(EnvConfig.KEYS.app.env, 'test');
+    envConfig = new EnvConfig();
+    expect(envConfig.app.isLocal).toBe(false);
+    expect(envConfig.app.isTesting).toBe(true);
+    expect(envConfig.app.isDevelopment).toBe(false);
+    expect(envConfig.app.isStaging).toBe(false);
+    expect(envConfig.app.isProduction).toBe(false);
+
+    // Test development environment
+    Deno.env.set(EnvConfig.KEYS.app.env, 'development');
+    envConfig = new EnvConfig();
+    expect(envConfig.app.isLocal).toBe(false);
+    expect(envConfig.app.isTesting).toBe(false);
+    expect(envConfig.app.isDevelopment).toBe(true);
+    expect(envConfig.app.isStaging).toBe(false);
+    expect(envConfig.app.isProduction).toBe(false);
+
+    // Test staging environment
+    Deno.env.set(EnvConfig.KEYS.app.env, 'staging');
+    envConfig = new EnvConfig();
+    expect(envConfig.app.isLocal).toBe(false);
+    expect(envConfig.app.isTesting).toBe(false);
+    expect(envConfig.app.isDevelopment).toBe(false);
+    expect(envConfig.app.isStaging).toBe(true);
+    expect(envConfig.app.isProduction).toBe(false);
+
+    // Test production environment
+    Deno.env.set(EnvConfig.KEYS.app.env, 'production');
+    envConfig = new EnvConfig();
+    expect(envConfig.app.isLocal).toBe(false);
+    expect(envConfig.app.isTesting).toBe(false);
+    expect(envConfig.app.isDevelopment).toBe(false);
+    expect(envConfig.app.isStaging).toBe(false);
+    expect(envConfig.app.isProduction).toBe(true);
+  });
 });

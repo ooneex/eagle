@@ -8,6 +8,11 @@ export type EnvConfigType = {
     url: string | null;
     port: number | null;
     host: string | null;
+    isLocal: boolean;
+    isTesting: boolean;
+    isDevelopment: boolean;
+    isStaging: boolean;
+    isProduction: boolean;
   };
   security: {
     cors: string | null;
