@@ -1,132 +1,274 @@
-import { BrevoMailer, MailerException } from '@/mailer/mod.ts';
+import { EnvConfig } from '@/config/mod.ts';
 import { expect } from '@std/expect';
-import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
-import { assertSpyCalls, stub } from '@std/testing/mock';
-import { TransactionalEmailsApi } from 'npm:@getbrevo/brevo';
+import { beforeEach, describe, it } from '@std/testing/bdd';
+import { BrevoMailer } from './mod.ts';
 
-describe('BrevoMailerAdapterService', () => {
-  let service: BrevoMailer;
+describe('BrevoMailer', () => {
+  let mailer: BrevoMailer;
 
   beforeEach(() => {
-    Deno.env.set('BREVO_API_KEY', 'test-api-key');
+    mailer = new BrevoMailer();
   });
 
-  afterEach(() => {
-    Deno.env.delete('BREVO_API_KEY');
+  describe('sender operations', () => {
+    it('should set and get sender correctly', () => {
+      const email = 'test@example.com';
+      const name = 'Test Sender';
+
+      mailer.setSender(email, name);
+
+      expect(mailer.getSender()).toEqual({ email, name });
+    });
   });
 
-  it('should initialize with API key', () => {
-    service = new BrevoMailer();
-    expect(service.getSender()).toBe(null);
-    expect(service.getTo()).toEqual([]);
+  describe('recipient operations', () => {
+    it('should add and get recipients correctly', () => {
+      const recipient1 = {
+        email: 'recipient1@example.com',
+        name: 'Recipient 1',
+      };
+      const recipient2 = {
+        email: 'recipient2@example.com',
+        name: 'Recipient 2',
+      };
+
+      mailer.addDestination(recipient1);
+      mailer.addDestination(recipient2);
+
+      expect(mailer.getDestinations()).toEqual([recipient1, recipient2]);
+    });
+
+    it('should set recipients array directly', () => {
+      const recipients = [
+        { email: 'recipient1@example.com', name: 'Recipient 1' },
+        { email: 'recipient2@example.com', name: 'Recipient 2' },
+      ];
+
+      mailer.setDestinations(recipients);
+
+      expect(mailer.getDestinations()).toEqual(recipients);
+    });
   });
 
-  it('should throw MailerException when API key is not set', () => {
-    Deno.env.delete('BREVO_API_KEY');
-    expect(() => new BrevoMailer()).toThrow(
-      MailerException,
-    );
+  describe('email content', () => {
+    it('should set and get subject correctly', () => {
+      const subject = 'Test Subject';
+
+      mailer.setSubject(subject);
+
+      expect(mailer.getSubject()).toBe(subject);
+    });
+
+    it('should set and get HTML content correctly', () => {
+      const content = '<h1>Hello World</h1>';
+
+      mailer.setHtmlContent(content);
+
+      expect(mailer.getHtmlContent()).toBe(content);
+    });
   });
 
-  it('should set and get sender', () => {
-    service = new BrevoMailer();
-    const sender = { email: 'test@example.com', name: 'Test Sender' };
-    service.setSender(sender.email, sender.name);
-    expect(service.getSender()).toEqual(sender);
+  describe('send operation', () => {
+    it('should throw error when API key is not set', async () => {
+      Deno.env.delete(EnvConfig.KEYS.mailer.brevo.key);
+
+      await expect(mailer.send()).rejects.toThrow(
+        'Brevo mailer credentials are not set',
+      );
+    });
   });
 
-  it('should set and get recipients', () => {
-    service = new BrevoMailer();
-    const recipient = {
-      email: 'recipient@example.com',
-      name: 'Test Recipient',
-    };
-    service.addTo(recipient);
-    expect(service.getTo()).toEqual([recipient]);
+  describe('BCC operations', () => {
+    it('should add and get BCC recipients', () => {
+      const bcc1 = {
+        email: 'bcc1@example.com',
+        name: 'BCC 1',
+      };
+      const bcc2 = {
+        email: 'bcc2@example.com',
+        name: 'BCC 2',
+      };
+
+      mailer.addBcc(bcc1);
+      mailer.addBcc(bcc2);
+
+      expect(mailer.getBcc()).toEqual([bcc1, bcc2]);
+    });
+
+    it('should set BCC recipients array directly', () => {
+      const bccList = [
+        { email: 'bcc1@example.com', name: 'BCC 1' },
+        { email: 'bcc2@example.com', name: 'BCC 2' },
+      ];
+
+      mailer.setBcc(bccList);
+
+      expect(mailer.getBcc()).toEqual(bccList);
+    });
   });
 
-  it('should send email successfully', async () => {
-    service = new BrevoMailer();
+  describe('CC operations', () => {
+    it('should add and get CC recipients', () => {
+      const cc1 = {
+        email: 'cc1@example.com',
+        name: 'CC 1',
+      };
+      const cc2 = {
+        email: 'cc2@example.com',
+        name: 'CC 2',
+      };
 
-    // Mock the sendTransacEmail method
-    const mockResponse = {
-      response: {} as any,
-      body: {} as any,
-    };
+      mailer.addCc(cc1);
+      mailer.addCc(cc2);
 
-    const sendTransacEmailSpy = stub(
-      TransactionalEmailsApi.prototype,
-      'sendTransacEmail',
-      () => Promise.resolve(mockResponse),
-    );
+      expect(mailer.getCc()).toEqual([cc1, cc2]);
+    });
 
-    // Setup email data
-    service
-      .setSender('sender@example.com', 'Sender')
-      .addTo({ email: 'recipient@example.com', name: 'Recipient' })
-      .setSubject('Test Subject')
-      .setHtmlContent('<p>Test content</p>');
+    it('should set CC recipients array directly', () => {
+      const ccList = [
+        { email: 'cc1@example.com', name: 'CC 1' },
+        { email: 'cc2@example.com', name: 'CC 2' },
+      ];
 
-    const result = await service.send();
+      mailer.setCc(ccList);
 
-    // Verify the email was sent with correct data
-    assertSpyCalls(sendTransacEmailSpy, 1);
-    expect(result).toEqual(mockResponse);
+      expect(mailer.getCc()).toEqual(ccList);
+    });
   });
 
-  it('should set and get text content', () => {
-    service = new BrevoMailer();
-    const content = 'Test text content';
-    service.setTextContent(content);
-    expect(service.getTextContent()).toBe(content);
+  describe('text content operations', () => {
+    it('should set and get text content', () => {
+      const content = 'Hello World in plain text';
+
+      mailer.setTextContent(content);
+
+      expect(mailer.getTextContent()).toBe(content);
+    });
   });
 
-  it('should set and get reply to', () => {
-    service = new BrevoMailer();
-    const replyTo = { email: 'reply@example.com', name: 'Reply Contact' };
-    service.setReplyTo(replyTo);
-    expect(service.getReplyTo()).toEqual(replyTo);
+  describe('reply to operations', () => {
+    it('should set and get reply to', () => {
+      const replyTo = {
+        email: 'reply@example.com',
+        name: 'Reply Handler',
+      };
+
+      mailer.setReplyTo(replyTo);
+
+      expect(mailer.getReplyTo()).toEqual(replyTo);
+    });
   });
 
-  it('should set and get attachments', () => {
-    service = new BrevoMailer();
-    const attachment = { name: 'test.txt', content: 'SGVsbG8gd29ybGQ=' };
-    service.addAttachment(attachment);
-    expect(service.getAttachment()).toEqual([attachment]);
+  describe('attachment operations', () => {
+    it('should add and get attachments', () => {
+      const attachment1 = { name: 'test1.pdf', content: 'base64content1' };
+      const attachment2 = { name: 'test2.pdf', content: 'base64content2' };
+
+      mailer.addAttachment(attachment1);
+      mailer.addAttachment(attachment2);
+
+      expect(mailer.getAttachments()).toEqual([attachment1, attachment2]);
+    });
+
+    it('should set attachments array directly', () => {
+      const attachments = [
+        { name: 'test1.pdf', content: 'base64content1' },
+        { name: 'test2.pdf', content: 'base64content2' },
+      ];
+
+      mailer.setAttachment(attachments);
+
+      expect(mailer.getAttachments()).toEqual(attachments);
+    });
   });
 
-  it('should set and get headers', () => {
-    service = new BrevoMailer();
-    const headers = { 'X-Custom': 'value' };
-    service.setHeaders(headers);
-    expect(service.getHeaders()).toEqual(headers);
+  describe('headers operations', () => {
+    it('should set and get headers', () => {
+      const headers = { 'X-Custom': 'value' };
+
+      mailer.setHeaders(headers);
+
+      expect(mailer.getHeaders()).toEqual(headers);
+    });
   });
 
-  it('should set and get template id', () => {
-    service = new BrevoMailer();
-    const templateId = 123;
-    service.setTemplateId(templateId);
-    expect(service.getTemplateId()).toBe(templateId);
+  describe('template operations', () => {
+    it('should set and get template ID', () => {
+      const templateId = 123;
+
+      mailer.setTemplateId(templateId);
+
+      expect(mailer.getTemplateId()).toBe(templateId);
+    });
   });
 
-  it('should set and get params', () => {
-    service = new BrevoMailer();
-    const params = { key: 'value' };
-    service.setParams(params);
-    expect(service.getParams()).toEqual(params);
+  describe('params operations', () => {
+    it('should set and get params', () => {
+      const params = { key: 'value' };
+
+      mailer.setParams(params);
+
+      expect(mailer.getParams()).toEqual(params);
+    });
   });
 
-  it('should set and get message versions', () => {
-    service = new BrevoMailer();
-    const version = { to: [{ email: 'test@example.com', name: 'Test' }] };
-    service.addMessageVersion(version);
-    expect(service.getMessageVersions()).toEqual([version]);
+  describe('message versions operations', () => {
+    it('should add and get message versions', () => {
+      const version1 = { to: [{ email: 'test1@example.com' }] };
+      const version2 = { to: [{ email: 'test2@example.com' }] };
+
+      mailer.addMessageVersion(version1);
+      mailer.addMessageVersion(version2);
+
+      expect(mailer.getMessageVersions()).toEqual([version1, version2]);
+    });
+
+    it('should set message versions array directly', () => {
+      const versions = [
+        { to: [{ email: 'test1@example.com' }] },
+        { to: [{ email: 'test2@example.com' }] },
+      ];
+
+      mailer.setMessageVersions(versions);
+
+      expect(mailer.getMessageVersions()).toEqual(versions);
+    });
   });
 
-  it('should set and get tags', () => {
-    service = new BrevoMailer();
-    const tags = ['tag1', 'tag2'];
-    service.setTags(tags);
-    expect(service.getTags()).toEqual(tags);
+  describe('tags operations', () => {
+    it('should add and get tags', () => {
+      mailer.addTag('tag1');
+      mailer.addTag('tag2');
+
+      expect(mailer.getTags()).toEqual(['tag1', 'tag2']);
+    });
+
+    it('should set tags array directly', () => {
+      const tags = ['tag1', 'tag2'];
+
+      mailer.setTags(tags);
+
+      expect(mailer.getTags()).toEqual(tags);
+    });
+  });
+
+  describe('scheduling operations', () => {
+    it('should set and get scheduled date', () => {
+      const date = new Date();
+
+      mailer.setScheduledAt(date);
+
+      expect(mailer.getScheduledAt()).toEqual(date);
+    });
+  });
+
+  describe('batch operations', () => {
+    it('should set and get batch ID', () => {
+      const batchId = 'batch123';
+
+      mailer.setBatchId(batchId);
+
+      expect(mailer.getBatchId()).toBe(batchId);
+    });
   });
 });

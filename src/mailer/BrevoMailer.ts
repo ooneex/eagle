@@ -11,23 +11,24 @@ import {
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { mailer } from './decorators.ts';
 import { MailerException } from './MailerException.ts';
-import { BrevoMailerResponseType, IMailer } from './types.ts';
-
-export type SenderType = { email: string; name?: string };
-export type ToType = { name?: string; email: string };
+import {
+  BrevoMailerResponseType,
+  DestinationType,
+  IMailer,
+  SenderType,
+} from './types.ts';
 
 @mailer()
 export class BrevoMailer implements IMailer {
-  private client: TransactionalEmailsApi;
   private sender: SenderType | null = null;
-  private to: ToType[] = [];
-  private bcc: SendSmtpEmailBccInner[] = [];
+  private to: DestinationType[] = [];
   private cc: SendSmtpEmailCcInner[] = [];
+  private bcc: SendSmtpEmailBccInner[] = [];
   private htmlContent: string | null = null;
   private textContent: string | null = null;
   private subject: string | null = null;
   private replyTo: SendSmtpEmailReplyTo | null = null;
-  private attachment: SendSmtpEmailAttachmentInner[] = [];
+  private attachments: SendSmtpEmailAttachmentInner[] = [];
   private headers: object | null = null;
   private templateId: number | null = null;
   private params: object | null = null;
@@ -35,21 +36,6 @@ export class BrevoMailer implements IMailer {
   private tags: string[] = [];
   private scheduledAt: Date | null = null;
   private batchId: string | null = null;
-
-  constructor() {
-    const key = Deno.env.get(EnvConfig.KEYS.mailer.brevo.key);
-
-    if (!key) {
-      throw new MailerException('Mailer credentials are not set');
-    }
-
-    this.client = new TransactionalEmailsApi();
-
-    this.client.setApiKey(
-      TransactionalEmailsApiApiKeys.apiKey,
-      key,
-    );
-  }
 
   public setSender(email: string, name?: string): this {
     this.sender = { email, name };
@@ -61,17 +47,17 @@ export class BrevoMailer implements IMailer {
     return this.sender;
   }
 
-  public setTo(to: ToType[]): this {
+  public setDestinations(to: DestinationType[]): this {
     this.to = to;
 
     return this;
   }
 
-  public getTo(): ToType[] {
+  public getDestinations(): DestinationType[] {
     return this.to;
   }
 
-  public addTo(to: ToType): this {
+  public addDestination(to: DestinationType): this {
     this.to.push(to);
 
     return this;
@@ -142,16 +128,16 @@ export class BrevoMailer implements IMailer {
   }
 
   public setAttachment(attachment: SendSmtpEmailAttachmentInner[]): this {
-    this.attachment = attachment;
+    this.attachments = attachment;
     return this;
   }
 
-  public getAttachment(): SendSmtpEmailAttachmentInner[] {
-    return this.attachment;
+  public getAttachments(): SendSmtpEmailAttachmentInner[] {
+    return this.attachments;
   }
 
   public addAttachment(attachment: SendSmtpEmailAttachmentInner): this {
-    this.attachment.push(attachment);
+    this.attachments.push(attachment);
     return this;
   }
 
@@ -231,6 +217,19 @@ export class BrevoMailer implements IMailer {
   }
 
   public async send<T = BrevoMailerResponseType>(): Promise<T> {
+    const key = Deno.env.get(EnvConfig.KEYS.mailer.brevo.key);
+
+    if (!key) {
+      throw new MailerException('Brevo mailer credentials are not set');
+    }
+
+    const client = new TransactionalEmailsApi();
+
+    client.setApiKey(
+      TransactionalEmailsApiApiKeys.apiKey,
+      key,
+    );
+
     const sendSmtpEmail = new SendSmtpEmail();
     sendSmtpEmail.sender = this.sender ?? undefined;
     sendSmtpEmail.to = this.to ?? undefined;
@@ -240,7 +239,7 @@ export class BrevoMailer implements IMailer {
     sendSmtpEmail.textContent = this.textContent ?? undefined;
     sendSmtpEmail.subject = this.subject ?? undefined;
     sendSmtpEmail.replyTo = this.replyTo ?? undefined;
-    sendSmtpEmail.attachment = this.attachment ?? undefined;
+    sendSmtpEmail.attachment = this.attachments ?? undefined;
     sendSmtpEmail.headers = this.headers ?? undefined;
     sendSmtpEmail.templateId = this.templateId ?? undefined;
     sendSmtpEmail.params = this.params ?? undefined;
@@ -249,6 +248,6 @@ export class BrevoMailer implements IMailer {
     sendSmtpEmail.scheduledAt = this.scheduledAt ?? undefined;
     sendSmtpEmail.batchId = this.batchId ?? undefined;
 
-    return await this.client.sendTransacEmail(sendSmtpEmail) as T;
+    return await client.sendTransacEmail(sendSmtpEmail) as T;
   }
 }
