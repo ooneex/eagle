@@ -1,7 +1,7 @@
 import { STATUS_CODE } from 'jsr:@std/http/status';
 import { Exception } from '../exception/Exception.ts';
 
-export class StorageException<T = unknown> extends Exception<T> {
+export class StorageDecoratorException<T = unknown> extends Exception<T> {
   constructor(
     message: string,
     data: Readonly<Record<string, T>> | null = null,
