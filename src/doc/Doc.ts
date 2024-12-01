@@ -196,7 +196,6 @@ export class Doc implements IDoc {
     const classes: ClassDocType[] = [];
 
     for (const doc of this.docs) {
-      // Check class criteria
       if (criteria.name) {
         if (criteria.name instanceof RegExp) {
           if (!criteria.name.test(doc.name)) continue;
@@ -205,180 +204,157 @@ export class Doc implements IDoc {
         }
       }
 
+      // Check class-level criteria
       if (
         criteria.isAbstract !== undefined &&
         doc.isAbstract !== criteria.isAbstract
       ) continue;
+
       if (
-        criteria.isDefault !== undefined && doc.isDefault !== criteria.isDefault
+        criteria.isDefault !== undefined &&
+        doc.isDefault !== criteria.isDefault
       ) continue;
+
       if (
         criteria.isExported !== undefined &&
         doc.isExported !== criteria.isExported
       ) continue;
 
-      // Check constructor criteria if specified
-      if (criteria.constructor) {
+      // deno-lint-ignore no-prototype-builtins
+      if (criteria.hasOwnProperty('constructor')) {
         if (!doc.constructor) continue;
 
-        if (criteria.constructor.name) {
-          if (criteria.constructor.name instanceof RegExp) {
-            if (!criteria.constructor.name.test(doc.constructor.name)) continue;
-          } else if (doc.constructor.name !== criteria.constructor.name) {
-            continue;
-          }
-        }
-
         if (
+          // @ts-ignore: trust me
           criteria.constructor.accessibility !== undefined &&
+          // @ts-ignore: trust me
           doc.constructor.accessibility !== criteria.constructor.accessibility
         ) continue;
 
-        // Check constructor parameters if specified
+        // @ts-ignore: trust me
         if (criteria.constructor.parameters) {
-          let paramsMatch = false;
-          for (const param of doc.constructor.parameters) {
-            if (criteria.constructor.parameters.name) {
-              if (criteria.constructor.parameters.name instanceof RegExp) {
-                paramsMatch = criteria.constructor.parameters.name.test(
-                  param.name,
-                );
-              } else {
-                paramsMatch =
-                  param.name === criteria.constructor.parameters.name;
+          // @ts-ignore: trust me
+          const paramCriteria = criteria.constructor.parameters;
+          const hasMatchingParam = doc.constructor.parameters.some((param) => {
+            if (paramCriteria.name) {
+              if (paramCriteria.name instanceof RegExp) {
+                if (!paramCriteria.name.test(param.name)) return false;
+              } else if (param.name !== paramCriteria.name) {
+                return false;
               }
             }
             if (
-              criteria.constructor?.parameters?.types !== undefined &&
-              !param.types.some((type) =>
-                criteria.constructor?.parameters?.types?.includes(type)
-              )
-            ) continue;
+              paramCriteria.isOptional !== undefined &&
+              param.isOptional !== paramCriteria.isOptional
+            ) return false;
             if (
-              criteria.constructor.parameters.isOptional !== undefined &&
-              param.isOptional !== criteria.constructor.parameters.isOptional
-            ) continue;
-            if (
-              criteria.constructor.parameters.isReadonly !== undefined &&
-              param.isReadonly !== criteria.constructor.parameters.isReadonly
-            ) continue;
-            if (
-              criteria.constructor.parameters.accessibility !== undefined &&
-              param.accessibility !==
-                criteria.constructor.parameters.accessibility
-            ) continue;
-          }
-          if (!paramsMatch) continue;
+              paramCriteria.types !== undefined &&
+              !param.types.some((type) => paramCriteria.types?.includes(type))
+            ) return false;
+            return true;
+          });
+          if (!hasMatchingParam) continue;
         }
       }
 
       // Check properties criteria if specified
       if (criteria.properties) {
-        let propertiesMatch = false;
-        for (const property of doc.properties) {
-          if (criteria.properties.name) {
-            if (criteria.properties.name instanceof RegExp) {
-              propertiesMatch = criteria.properties.name.test(property.name);
-            } else {
-              propertiesMatch = property.name === criteria.properties.name;
+        const propCriteria = criteria.properties;
+        const hasMatchingProp = doc.properties.some((prop) => {
+          if (propCriteria.name) {
+            if (propCriteria.name instanceof RegExp) {
+              if (!propCriteria.name.test(prop.name)) return false;
+            } else if (prop.name !== propCriteria.name) {
+              return false;
             }
           }
           if (
-            criteria.properties.types !== undefined &&
-            !property.types.some((type) =>
-              criteria.properties?.types?.includes(type)
-            )
-          ) continue;
+            propCriteria.types !== undefined &&
+            !prop.types.some((type) => propCriteria.types?.includes(type))
+          ) return false;
           if (
-            criteria.properties.isOptional !== undefined &&
-            property.isOptional !== criteria.properties.isOptional
-          ) continue;
+            propCriteria.isOptional !== undefined &&
+            prop.isOptional !== propCriteria.isOptional
+          ) return false;
           if (
-            criteria.properties.isReadonly !== undefined &&
-            property.isReadonly !== criteria.properties.isReadonly
-          ) continue;
+            propCriteria.isReadonly !== undefined &&
+            prop.isReadonly !== propCriteria.isReadonly
+          ) return false;
           if (
-            criteria.properties.accessibility !== undefined &&
-            property.accessibility !== criteria.properties.accessibility
-          ) continue;
+            propCriteria.accessibility !== undefined &&
+            prop.accessibility !== propCriteria.accessibility
+          ) return false;
           if (
-            criteria.properties.isAbstract !== undefined &&
-            property.isAbstract !== criteria.properties.isAbstract
-          ) continue;
+            propCriteria.isAbstract !== undefined &&
+            prop.isAbstract !== propCriteria.isAbstract
+          ) return false;
           if (
-            criteria.properties.isStatic !== undefined &&
-            property.isStatic !== criteria.properties.isStatic
-          ) continue;
-        }
-        if (!propertiesMatch) continue;
+            propCriteria.isStatic !== undefined &&
+            prop.isStatic !== propCriteria.isStatic
+          ) return false;
+          return true;
+        });
+        if (!hasMatchingProp) continue;
       }
 
       // Check methods criteria if specified
       if (criteria.methods) {
-        let methodsMatch = false;
-        for (const method of doc.methods) {
-          if (criteria.methods.name) {
-            if (criteria.methods.name instanceof RegExp) {
-              methodsMatch = criteria.methods.name.test(method.name);
-            } else {
-              methodsMatch = method.name === criteria.methods.name;
+        const methodCriteria = criteria.methods;
+        const hasMatchingMethod = doc.methods.some((method) => {
+          if (methodCriteria.name) {
+            if (methodCriteria.name instanceof RegExp) {
+              if (!methodCriteria.name.test(method.name)) return false;
+            } else if (method.name !== methodCriteria.name) {
+              return false;
             }
           }
           if (
-            criteria.methods.isAbstract !== undefined &&
-            method.isAbstract !== criteria.methods.isAbstract
-          ) continue;
+            methodCriteria.isAsync !== undefined &&
+            method.isAsync !== methodCriteria.isAsync
+          ) return false;
           if (
-            criteria.methods.isStatic !== undefined &&
-            method.isStatic !== criteria.methods.isStatic
-          ) continue;
+            methodCriteria.isAbstract !== undefined &&
+            method.isAbstract !== methodCriteria.isAbstract
+          ) return false;
           if (
-            criteria.methods.isOptional !== undefined &&
-            method.isOptional !== criteria.methods.isOptional
-          ) continue;
+            methodCriteria.isStatic !== undefined &&
+            method.isStatic !== methodCriteria.isStatic
+          ) return false;
           if (
-            criteria.methods.isAsync !== undefined &&
-            method.isAsync !== criteria.methods.isAsync
-          ) continue;
+            methodCriteria.accessibility !== undefined &&
+            method.accessibility !== methodCriteria.accessibility
+          ) return false;
           if (
-            criteria.methods.isGenerator !== undefined &&
-            method.isGenerator !== criteria.methods.isGenerator
-          ) continue;
-          if (
-            criteria.methods.accessibility !== undefined &&
-            method.accessibility !== criteria.methods.accessibility
-          ) continue;
-          if (
-            criteria.methods.returnType !== undefined &&
-            method.returnType !== criteria.methods.returnType
-          ) continue;
+            methodCriteria.returnType !== undefined &&
+            method.returnType !== methodCriteria.returnType
+          ) return false;
 
-          if (criteria.methods.parameters) {
-            for (const param of method.parameters) {
-              if (criteria.methods.parameters.name) {
-                if (criteria.methods.parameters.name instanceof RegExp) {
-                  methodsMatch = criteria.methods.parameters.name.test(
-                    param.name,
-                  );
-                } else {
-                  methodsMatch =
-                    param.name === criteria.methods.parameters.name;
+          // Check method parameters if specified
+          if (methodCriteria.parameters) {
+            const paramCriteria = methodCriteria.parameters;
+            const hasMatchingParam = method.parameters.some((param) => {
+              if (paramCriteria.name) {
+                if (paramCriteria.name instanceof RegExp) {
+                  if (!paramCriteria.name.test(param.name)) return false;
+                } else if (param.name !== paramCriteria.name) {
+                  return false;
                 }
               }
               if (
-                criteria.methods?.parameters?.types !== undefined &&
-                !param.types.some((t) =>
-                  criteria.methods?.parameters?.types?.includes(t)
-                )
-              ) continue;
+                paramCriteria.isOptional !== undefined &&
+                param.isOptional !== paramCriteria.isOptional
+              ) return false;
               if (
-                criteria.methods.parameters.isOptional !== undefined &&
-                param.isOptional !== criteria.methods.parameters.isOptional
-              ) continue;
-            }
+                paramCriteria.types !== undefined &&
+                !param.types.some((type) => paramCriteria.types?.includes(type))
+              ) return false;
+              return true;
+            });
+            if (!hasMatchingParam) return false;
           }
-        }
-        if (!methodsMatch) continue;
+          return true;
+        });
+        if (!hasMatchingMethod) continue;
       }
 
       classes.push(doc);

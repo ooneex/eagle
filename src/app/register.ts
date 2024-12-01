@@ -3,7 +3,7 @@ import { Doc } from '../doc/Doc.ts';
 import { ClassDocType } from '../doc/types.ts';
 import { File } from '../file/File.ts';
 
-export const register = async (resources?: string[]) => {
+export const register = async (resources?: string[], cache?: string) => {
   if (!resources) {
     const file = new File(`${Deno.cwd()}/src`);
     resources = file.list({
@@ -13,7 +13,7 @@ export const register = async (resources?: string[]) => {
     });
   }
 
-  const cacheDir = `${Deno.cwd()}/var/cache/docs`;
+  const cacheDir = `${cache ?? Deno.cwd()}/var/cache/docs`;
   await Deno.mkdir(cacheDir, { recursive: true });
   const docsJsonFile = new File(`${cacheDir}/docs.json`);
   if (!(docsJsonFile.exists())) {

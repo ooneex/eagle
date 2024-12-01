@@ -165,4 +165,34 @@ describe('Doc', () => {
     const params = doc.findParameters('NonExistentClass', 'someMethod');
     expect(params).toEqual([]);
   });
+
+  it('should find classes by name pattern', () => {
+    const testClasses = doc.findClasses({ name: /^Test/ });
+    expect(testClasses.length).toBe(1);
+    expect(testClasses[0].name).toBe('TestClass');
+  });
+
+  it('should find classes by exact name', () => {
+    const foundClass = doc.findClasses({ name: 'TestClass' });
+    expect(foundClass.length).toBe(1);
+    expect(foundClass[0].name).toBe('TestClass');
+  });
+
+  it('should find classes by abstract status', () => {
+    const abstractClasses = doc.findClasses({ isAbstract: true });
+    const nonAbstractClasses = doc.findClasses({ isAbstract: false });
+    expect(abstractClasses.length).toBe(0);
+    expect(nonAbstractClasses.length).toBe(1);
+  });
+
+  it('should find classes by export status', () => {
+    const exportedClasses = doc.findClasses({ isExported: true });
+    expect(exportedClasses.length).toBe(1);
+    expect(exportedClasses[0].name).toBe('TestClass');
+  });
+
+  it('should return empty array when no classes match criteria', () => {
+    const noClasses = doc.findClasses({ name: 'NonExistentClass' });
+    expect(noClasses).toEqual([]);
+  });
 });
