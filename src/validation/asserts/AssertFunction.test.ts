@@ -1,6 +1,6 @@
+import { AssertFunction } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
-import { AssertFunction } from '@/validation/mod.ts';
 
 describe('AssertFunction', () => {
   const assertFunction = new AssertFunction();
@@ -17,7 +17,7 @@ describe('AssertFunction', () => {
 
   it('should return correct error message when validation fails', () => {
     const result = assertFunction.validate('not a function');
-    expect(result.message).toBe('Value must be an array');
+    expect(result.message).toBe('Value must be a function');
   });
 
   it('should handle null/undefined inputs', () => {
