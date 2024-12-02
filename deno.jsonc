@@ -3,7 +3,6 @@
   "tasks": {
     "test": "deno test -A",
     "test:watch": "deno test -A --watch",
-    "test:coverage": "deno test -A --coverage && deno coverage",
     "fmt": "deno fmt",
     "lint": "deno lint",
   },
