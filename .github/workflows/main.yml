@@ -6,29 +6,22 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
-    name: Deploy
+  main:
+    name: Main
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: read
-
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-
+      - name: Format
+        run: deno fmt --check
+      - name: Lint
+        run: deno lint
       - name: Test
-        run: "deno task test"
-
-      # - name: Upload to Deno Deploy
-        # uses: denoland/deployctl@v1
-        # with:
-          # project: "${{ env.DENO_PROJECT_NAME }}"
-          # entrypoint: "main.ts"
-          # root: "."
+        run: deno test --allow-all
