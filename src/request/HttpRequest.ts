@@ -19,27 +19,56 @@ import {
   RequestMethodType,
 } from './types.ts';
 
+/**
+ * Represents an HTTP request with various properties and methods for handling web requests.
+ * Implements the IRequest interface and provides access to request data like URL, headers,
+ * cookies, files, and authentication information.
+ */
 export class HttpRequest implements IRequest {
+  /** The URL object representing the request URL */
   public readonly url: IUrl;
+  /** The path portion of the URL */
   public readonly path: string;
+  /** The HTTP method of the request */
   public readonly method: RequestMethodType;
+  /** The request headers */
   public readonly header: IReadonlyHeader;
+  /** Information about the user agent making the request */
   public readonly userAgent: IUserAgent;
+  /** Collection of URL query parameters */
   public readonly queries: IReadonlyCollection<string, ScalarType>;
+  /** Collection of route parameters */
   public readonly params: IReadonlyCollection<string, ScalarType>;
+  /** Collection of request body payload data */
   public readonly payload: IReadonlyCollection<string, unknown>;
+  /** The IP address of the client */
   public readonly ip: string | null;
+  /** The host header value */
   public readonly host: string | null;
+  /** The referer header value */
   public readonly referer: string | null;
+  /** The server header value */
   public readonly server: string | null;
+  /** The bearer token from the Authorization header */
   public readonly bearerToken: string | null;
+  /** Collection of request cookies */
   public readonly cookies: IReadonlyCollection<string, Cookie>;
+  /** Collection of uploaded files */
   public readonly files: IReadonlyCollection<string, IRequestFile>;
+  /** Collection of form data values */
   public readonly form: IReadonlyCollection<string, unknown>;
+  /** The parsed JWT if a bearer token is present */
   public readonly jwt: Jwt | null = null;
+  /** Authentication information if a bearer token is present */
   public readonly auth: IAuth | null = null;
+  /** The detected language preference from Accept-Language header */
   public readonly lang: LanguageType | null = null;
 
+  /**
+   * Creates a new HttpRequest instance
+   * @param native The underlying Request object
+   * @param config Optional configuration object containing params, payload and formData
+   */
   constructor(
     private readonly native: Readonly<Request>,
     config?: {
@@ -114,6 +143,10 @@ export class HttpRequest implements IRequest {
     }
   }
 
+  /**
+   * Checks if the request is an XMLHttpRequest (AJAX request)
+   * @returns true if the request is an XMLHttpRequest, false otherwise
+   */
   public isXMLHttpRequest(): boolean {
     return this.header.get('X-Requested-With') === 'XMLHttpRequest';
   }

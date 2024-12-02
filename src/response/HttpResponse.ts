@@ -14,16 +14,32 @@ import { CharsetType, StatusCodeType } from '../http/types.ts';
 import { IRequest } from '../request/types.ts';
 import { IResponse } from './types.ts';
 
+/**
+ * HttpResponse class implementing IResponse interface.
+ * Handles HTTP response creation with various content types and status codes.
+ */
 export class HttpResponse implements IResponse {
+  /** Response data as object or stream */
   private data: Record<string, unknown> | ReadableStream | null = null;
+  /** Raw content string */
   private content: string | null = null;
+  /** Response message */
   private message: string | null = null;
+  /** HTTP status code */
   private status: StatusCodeType = 200;
+  /** Response headers */
   public readonly header: Header = new Header();
+  /** Response cookies */
   public readonly cookies: ArrayCollection<Cookie> = new ArrayCollection<
     Cookie
   >();
 
+  /**
+   * Sets plain text response
+   * @param content - Text content
+   * @param status - HTTP status code
+   * @param charset - Character encoding
+   */
   public text(
     content: string,
     status: StatusCodeType = 200,
@@ -39,6 +55,12 @@ export class HttpResponse implements IResponse {
     return this;
   }
 
+  /**
+   * Sets HTML response
+   * @param content - HTML content
+   * @param status - HTTP status code
+   * @param charset - Character encoding
+   */
   public html(
     content: string,
     status: StatusCodeType = 200,
@@ -54,6 +76,12 @@ export class HttpResponse implements IResponse {
     return this;
   }
 
+  /**
+   * Sets JSON response
+   * @param data - Data to serialize as JSON
+   * @param status - HTTP status code
+   * @param charset - Character encoding
+   */
   public json(
     data: Record<string, unknown>,
     status: StatusCodeType = 200,
@@ -69,6 +97,11 @@ export class HttpResponse implements IResponse {
     return this;
   }
 
+  /**
+   * Sets streaming response
+   * @param data - String or ReadableStream to stream
+   * @param status - HTTP status code
+   */
   public stream(
     data: string | ReadableStream,
     status: StatusCodeType = 200,
@@ -83,6 +116,12 @@ export class HttpResponse implements IResponse {
     return this;
   }
 
+  /**
+   * Sets error response
+   * @param message - Error message
+   * @param data - Additional error data
+   * @param status - HTTP status code
+   */
   public exception(
     message: string,
     data: Record<string, unknown> | null = null,
@@ -99,6 +138,12 @@ export class HttpResponse implements IResponse {
     return this;
   }
 
+  /**
+   * Sets 404 not found response
+   * @param message - Error message
+   * @param data - Additional error data
+   * @param status - HTTP status code
+   */
   public notFound(
     message: string,
     data: Record<string, unknown> | null = null,
@@ -107,6 +152,11 @@ export class HttpResponse implements IResponse {
     return this.exception(message, data, status);
   }
 
+  /**
+   * Creates redirect response
+   * @param url - Redirect target URL
+   * @param status - HTTP status code
+   */
   public redirect(
     url: string | URL,
     status: StatusCodeType = 307,
@@ -114,30 +164,37 @@ export class HttpResponse implements IResponse {
     return Response.redirect(url, status);
   }
 
+  /** Checks if response has successful status code */
   public isSuccessful(): boolean {
     return isSuccessfulStatus(this.status);
   }
 
+  /** Checks if response has informational status code */
   public isInformational(): boolean {
     return isInformationalStatus(this.status);
   }
 
+  /** Checks if response has redirect status code */
   public isRedirect(): boolean {
     return isRedirectStatus(this.status);
   }
 
+  /** Checks if response has client error status code */
   public isClientError(): boolean {
     return isClientErrorStatus(this.status);
   }
 
+  /** Checks if response has server error status code */
   public isServerError(): boolean {
     return isServerErrorStatus(this.status);
   }
 
+  /** Checks if response has error status code */
   public isError(): boolean {
     return isErrorStatus(this.status);
   }
 
+  /** Gets response data object */
   public getData(): Record<string, unknown> {
     return {
       data: this.data,
@@ -149,6 +206,10 @@ export class HttpResponse implements IResponse {
     };
   }
 
+  /**
+   * Builds final Response object
+   * @param request - Optional request object for auth info
+   */
   public build(request?: IRequest): Response {
     for (const cookie of this.cookies) {
       setCookie(this.header.native, cookie);

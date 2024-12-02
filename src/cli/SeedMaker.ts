@@ -1,3 +1,6 @@
+/**
+ * Imports required dependencies for seed file creation and manipulation
+ */
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
@@ -5,17 +8,31 @@ import { cancel, isCancel, outro, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { trim } from '../helper/trim.ts';
 
+/**
+ * Options that can be passed to the SeedMaker
+ */
 type SeedMakerOptionsType = {
+  /** Optional name for the seed file */
   name?: string;
 };
 
+/**
+ * Class responsible for creating new seed files
+ */
 export class SeedMaker {
+  /**
+   * Creates a new seed file with boilerplate code
+   *
+   * @param options - Optional configuration options
+   * @returns Promise that resolves when seed file is created
+   */
   public static async execute(
     options?: SeedMakerOptionsType,
   ): Promise<void> {
     let seedName = options?.name ?? null;
     const srcDir = `${Deno.cwd()}/seeds`;
 
+    // If no name provided, prompt for one
     if (!seedName) {
       seedName = (await text({
         message: 'Seed name',
@@ -39,16 +56,19 @@ export class SeedMaker {
       })) as string;
     }
 
+    // Handle cancellation
     if (isCancel(seedName)) {
       cancel('Cancelled!');
       Deno.exit(0);
     }
 
+    // Format the seed name
     const paths = seedName.split('/').map((path) => toKebabCase(path));
     const name = toPascalCase(paths[paths.length - 1]);
     paths[paths.length - 1] = name;
     seedName = paths.join('/');
 
+    // Create and write the seed file
     const file = new File(`${srcDir}/${seedName}Seed.ts`);
     await file.write(`import { seed, ISeed } from 'eagle/seed';
 

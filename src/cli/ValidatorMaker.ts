@@ -9,13 +9,26 @@ import {
   ValidatorScopeType,
 } from '../validation/mod.ts';
 
+/**
+ * Options for creating a new validator
+ */
 type ValidatorMakerOptionsType = {
+  /** Name of the module to create validator in */
   moduleName?: string;
+  /** Name of the validator */
   name?: string;
+  /** Scope of the validator */
   scope?: ValidatorScopeType;
 };
 
+/**
+ * Creates a new validator class file and registers it with a module
+ */
 export class ValidatorMaker {
+  /**
+   * Creates a new validator
+   * @param options Options for creating the validator
+   */
   public static async execute(
     options?: ValidatorMakerOptionsType,
   ): Promise<void> {

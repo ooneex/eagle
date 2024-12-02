@@ -7,6 +7,9 @@ import { File } from '../file/File.ts';
 import { trim } from '../helper/trim.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options that can be passed to the ControllerMaker
+ */
 type ControllerMakerOptionsType = {
   moduleName?: string;
   name?: string;
@@ -14,7 +17,16 @@ type ControllerMakerOptionsType = {
   path?: string;
 };
 
+/**
+ * Class responsible for creating new controllers
+ */
 export class ControllerMaker {
+  /**
+   * Creates a new controller with the given options
+   *
+   * @param options - Configuration options for the controller
+   * @returns Promise that resolves when controller is created
+   */
   public static async execute(
     options?: ControllerMakerOptionsType,
   ): Promise<void> {
@@ -24,6 +36,7 @@ export class ControllerMaker {
     let path = options?.path ?? null;
     const srcDir = `${Deno.cwd()}/src`;
 
+    // If no module specified, prompt user to select one
     if (!moduleName) {
       const modules = new File(srcDir).list({ directory: true });
       const options: { value: string; label: string }[] = [];
@@ -46,6 +59,7 @@ export class ControllerMaker {
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
+    // Prompt for controller name if not provided
     if (!controllerName) {
       controllerName = (await text({
         message: 'Controller name',
@@ -72,6 +86,7 @@ export class ControllerMaker {
 
     controllerName = toPascalCase(controllerName);
 
+    // Prompt for HTTP method if not specified
     if (!method) {
       method = (await select({
         message: 'Method',
@@ -92,6 +107,7 @@ export class ControllerMaker {
       Deno.exit(0);
     }
 
+    // Prompt for route path if not provided
     if (!path) {
       path = (await text({
         message: 'Path',
@@ -109,6 +125,7 @@ export class ControllerMaker {
       Deno.exit(0);
     }
 
+    // Create the controller file
     let file = new File(
       `${srcDir}/${moduleFolderName}/controllers/${controllerName}Controller.ts`,
     );
@@ -123,6 +140,8 @@ export class ${controllerName}Controller implements IController {
   }
 }
 `);
+
+    // Update the module file to import the new controller
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
       `import './controllers/${controllerName}Controller.ts';\n`,

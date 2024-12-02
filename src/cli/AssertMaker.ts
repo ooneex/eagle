@@ -5,12 +5,25 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options for creating a new assertion
+ */
 type AssertMakerOptionsType = {
+  /** Name of the module to create the assertion in */
   moduleName?: string;
+  /** Name of the assertion to create */
   name?: string;
 };
 
+/**
+ * Utility class for creating new assertions
+ */
 export class AssertMaker {
+  /**
+   * Creates a new assertion file in the specified module
+   *
+   * @param options Optional configuration for creating the assertion
+   */
   public static async execute(
     options?: AssertMakerOptionsType,
   ): Promise<void> {

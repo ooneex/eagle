@@ -8,15 +8,31 @@ import {
   PropertyDocType,
 } from './types.ts';
 
+/**
+ * Main documentation class that implements the IDoc interface
+ */
 export class Doc implements IDoc {
+  /** Array of parsed class documentation */
   private docs: ClassDocType[] = [];
 
+  /**
+   * Creates a new Doc instance
+   * @param filePath Optional path to TypeScript file to parse
+   */
   constructor(private readonly filePath?: string) {}
 
+  /**
+   * Sets the documentation array directly
+   * @param docs Array of class documentation to set
+   */
   public setDocs(docs: ClassDocType[]): void {
     this.docs = docs;
   }
 
+  /**
+   * Parses TypeScript file and extracts class documentation
+   * @returns Array of parsed class documentation
+   */
   public async parse(): Promise<ClassDocType[]> {
     if (!this.filePath) {
       return [];
@@ -163,6 +179,11 @@ export class Doc implements IDoc {
     return docs;
   }
 
+  /**
+   * Finds classes matching the given criteria
+   * @param criteria Optional search criteria for filtering classes
+   * @returns Array of matching class documentation
+   */
   public findClasses(
     criteria?:
       & Partial<
@@ -363,6 +384,11 @@ export class Doc implements IDoc {
     return classes;
   }
 
+  /**
+   * Finds constructors matching the given criteria
+   * @param criteria Optional search criteria for filtering constructors
+   * @returns Array of matching constructor documentation
+   */
   public findConstructors(
     criteria?: Partial<Omit<ConstructorDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
@@ -466,6 +492,11 @@ export class Doc implements IDoc {
     return constructors;
   }
 
+  /**
+   * Finds properties matching the given criteria
+   * @param criteria Optional search criteria for filtering properties
+   * @returns Array of matching property documentation
+   */
   public findProperties(
     criteria?: Partial<Omit<PropertyDocType, 'name'>> & {
       name?: string | RegExp;
@@ -550,6 +581,11 @@ export class Doc implements IDoc {
     return properties;
   }
 
+  /**
+   * Finds methods matching the given criteria
+   * @param criteria Optional search criteria for filtering methods
+   * @returns Array of matching method documentation
+   */
   public findMethods(
     criteria?: Partial<Omit<MethodDocType, 'name' | 'parameters'>> & {
       name?: string | RegExp;
@@ -673,6 +709,12 @@ export class Doc implements IDoc {
     return methods;
   }
 
+  /**
+   * Finds parameters for a method in a specific class
+   * @param className Name of the class containing the method
+   * @param methodName Name of the method to find parameters for
+   * @returns Array of parameter documentation for the method
+   */
   public findParameters(
     className: string,
     methodName: string,

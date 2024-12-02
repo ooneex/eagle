@@ -4,6 +4,33 @@ import { assertMapper } from './mapper.ts';
 import { IAssert, IValidator, ValidationResultType } from './types.ts';
 import { ValidationException } from './ValidationException.ts';
 
+/**
+ * Validates data against a validator instance by checking property assertions and constraints
+ *
+ * @param validator - The validator instance to validate against
+ * @param data - Unknown data to validate
+ * @returns ValidationResultType containing success status and validation details
+ *
+ * @example
+ * ```ts
+ * class UserValidator implements IValidator {
+ *   name: string;
+ *   age: number;
+ * }
+ *
+ * const validator = new UserValidator();
+ * const data = { name: "John", age: 25 };
+ *
+ * const result = validate(validator, data);
+ * // {
+ * //   success: true,
+ * //   details: [
+ * //     { property: "name", success: true, message: "" },
+ * //     { property: "age", success: true, message: "" }
+ * //   ]
+ * // }
+ * ```
+ */
 export const validate = (
   validator: IValidator,
   data: unknown,

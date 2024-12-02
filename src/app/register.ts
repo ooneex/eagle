@@ -3,7 +3,24 @@ import { Doc } from '../doc/Doc.ts';
 import { ClassDocType } from '../doc/types.ts';
 import { File } from '../file/File.ts';
 
-export const register = async (resources?: string[], cache?: string) => {
+/**
+ * Registers documentation for the provided resources or scans for TypeScript files matching specific patterns
+ *
+ * @param resources Optional array of resource file paths to generate documentation for
+ * @param cache Optional cache directory path. Defaults to {cwd}/var/cache/docs
+ *
+ * This function:
+ * 1. If no resources provided, scans src directory for TypeScript files matching component patterns
+ * 2. Creates cache directory if it doesn't exist
+ * 3. For each resource:
+ *   - Checks if cached documentation exists and is up to date
+ *   - If not cached or outdated, generates new documentation and caches it
+ *   - Adds parsed documentation to the DocContainer
+ */
+export const register = async (
+  resources?: string[],
+  cache?: string,
+): Promise<void> => {
   if (!resources) {
     const file = new File(`${Deno.cwd()}/src`);
     resources = file.list({

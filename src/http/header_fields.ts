@@ -1,3 +1,11 @@
+/**
+ * A comprehensive list of HTTP header field names supported across browsers and web servers.
+ * This includes standard headers defined in HTTP specifications as well as common
+ * non-standard and vendor-specific header fields.
+ *
+ * The list is maintained as a readonly tuple type to provide type safety when working
+ * with header names in TypeScript.
+ */
 export const HEADER_FIELDS = [
   'A-IM',
   'Accept',

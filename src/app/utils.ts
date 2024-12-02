@@ -19,6 +19,11 @@ import { ScalarType } from '../types.ts';
 import { IValidator, ValidatorScopeType } from '../validation/types.ts';
 import { ValidationFailedException } from '../validation/ValidationFailedException.ts';
 
+/**
+ * Builds a default 404 Not Found response
+ * @param req - The original request
+ * @returns Response object with 404 status and error details
+ */
 export const buildDefaultNotFoundResponse = (req: Request) => {
   const response = new HttpResponse();
   const request = new HttpRequest(req);
@@ -34,6 +39,11 @@ export const buildDefaultNotFoundResponse = (req: Request) => {
   ).build();
 };
 
+/**
+ * Builds a default server error response
+ * @param error - The error that was thrown
+ * @returns Response object with appropriate error status and details
+ */
 export const buildDefaultServerExceptionResponse = (
   error: Error,
 ) => {
@@ -52,6 +62,12 @@ export const buildDefaultServerExceptionResponse = (
   return response.exception(message, data, status).build();
 };
 
+/**
+ * Builds a request object with parsed parameters and payload
+ * @param req - The original request
+ * @param definition - Controller definition metadata
+ * @returns HttpRequest instance with parsed data
+ */
 export const buildRequest = async (
   req: Request,
   definition: StoreControllerValueType,
@@ -95,6 +111,13 @@ export const buildRequest = async (
   return new HttpRequest(req, { params, payload, formData });
 };
 
+/**
+ * Builds parameters for a controller action
+ * @param req - The original request
+ * @param definition - Controller definition metadata
+ * @param exception - Optional exception object
+ * @returns Object containing parameters, request and response
+ */
 export const buildControllerActionParameters = async (
   req: Request,
   definition: StoreControllerValueType,
@@ -148,6 +171,12 @@ export const buildControllerActionParameters = async (
   };
 };
 
+/**
+ * Validates request data against defined validators
+ * @param request - The request object
+ * @param definition - Controller definition metadata
+ * @returns True if validation passes, throws error if fails
+ */
 export const handleRequestDataValidation = (
   request: IRequest,
   definition: StoreControllerValueType,
@@ -218,6 +247,12 @@ export const handleRequestDataValidation = (
   return true;
 };
 
+/**
+ * Validates request cookies against defined validators
+ * @param request - The request object
+ * @param definition - Controller definition metadata
+ * @returns True if validation passes, throws error if fails
+ */
 export const handleRequestCookiesValidation = (
   request: IRequest,
   definition: StoreControllerValueType,
@@ -261,6 +296,12 @@ export const handleRequestCookiesValidation = (
   return true;
 };
 
+/**
+ * Validates uploaded files against defined validators
+ * @param request - The request object
+ * @param definition - Controller definition metadata
+ * @returns True if validation passes, throws error if fails
+ */
 export const handleRequestFilesValidation = (
   request: IRequest,
   definition: StoreControllerValueType,
@@ -308,6 +349,11 @@ export const handleRequestFilesValidation = (
   return true;
 };
 
+/**
+ * Validates environment variables against defined validators
+ * @param validators - Array of validators
+ * @returns True if validation passes, throws error if fails
+ */
 export const handleEnvValidation = (
   validators: IValidator[],
 ): boolean => {
@@ -342,6 +388,12 @@ export const handleEnvValidation = (
   return true;
 };
 
+/**
+ * Handles server exceptions by routing to exception controller
+ * @param req - The original request
+ * @param error - The error that was thrown
+ * @returns Built response from exception controller or default
+ */
 export const handleServerException = async (req: Request, error: Error) => {
   const definition = ControllerContainer.get(
     SERVER_EXCEPTION_CONTROLLER_KEY,
@@ -380,6 +432,12 @@ export const handleServerException = async (req: Request, error: Error) => {
   return response.build();
 };
 
+/**
+ * Executes global middleware for a given scope
+ * @param request - The request object
+ * @param response - The response object
+ * @param scope - Middleware scope to execute
+ */
 export const handleGlobalMiddlewares = async (
   request: IRequest,
   response: IResponse,
@@ -404,6 +462,13 @@ export const handleGlobalMiddlewares = async (
   }
 };
 
+/**
+ * Executes controller-specific middleware for a given scope
+ * @param request - The request object
+ * @param response - The response object
+ * @param scope - Middleware scope to execute
+ * @param middlewares - Array of middleware to execute
+ */
 export const handleControllerMiddlewares = async (
   request: IRequest,
   response: IResponse,
@@ -426,6 +491,12 @@ export const handleControllerMiddlewares = async (
   }
 };
 
+/**
+ * Checks if user has required permissions for a controller
+ * @param request - The request object
+ * @param definition - Controller definition metadata
+ * @returns True if authorized, throws error if not
+ */
 export const checkUserPermissionsForController = (
   request: IRequest,
   definition: StoreControllerValueType,

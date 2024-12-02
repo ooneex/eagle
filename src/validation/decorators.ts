@@ -2,6 +2,30 @@ import { container } from '../container/Container.ts';
 import { ContainerScopeType } from '../container/types.ts';
 import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
 
+/**
+ * Validator decorator for registering validator classes in the container
+ *
+ * @param options Configuration options
+ * @param options.scope Optional container scope type
+ * @param options.singleton Optional flag to make singleton
+ *
+ * @example
+ * ```ts
+ * @validator({
+ *   scope: 'custom',
+ *   singleton: true
+ * })
+ * class UserValidator implements IValidator {
+ *   validate(value: any): boolean {
+ *     // validation logic
+ *   }
+ *
+ *   getScope(): string {
+ *     return 'user';
+ *   }
+ * }
+ * ```
+ */
 export const validator = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -18,6 +42,26 @@ export const validator = (options?: {
   };
 };
 
+/**
+ * Assert decorator for registering assert classes in the container
+ *
+ * @param options Configuration options
+ * @param options.scope Optional container scope type
+ * @param options.singleton Optional flag to make singleton
+ *
+ * @example
+ * ```ts
+ * @assert({
+ *   scope: 'custom',
+ *   singleton: true
+ * })
+ * class AssertEmail implements IAssert {
+ *   validate(value: any): boolean {
+ *     // validation logic
+ *   }
+ * }
+ * ```
+ */
 export const assert = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -34,6 +78,13 @@ export const assert = (options?: {
   };
 };
 
+/**
+ * Ensures a class is a valid validator implementation
+ *
+ * @param name The validator class name
+ * @param validator The validator class
+ * @throws {ValidatorDecoratorException} If validation fails
+ */
 const ensureIsValidator = (name: string, validator: any) => {
   if (
     !name?.endsWith('Validator') ||
@@ -46,6 +97,13 @@ const ensureIsValidator = (name: string, validator: any) => {
   }
 };
 
+/**
+ * Ensures a class is a valid assert implementation
+ *
+ * @param name The assert class name
+ * @param assert The assert class
+ * @throws {ValidatorDecoratorException} If validation fails
+ */
 const ensureIsAssert = (name: string, assert: any) => {
   if (!name?.startsWith('Assert') || !assert.prototype.validate) {
     throw new ValidatorDecoratorException(

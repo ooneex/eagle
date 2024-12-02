@@ -5,12 +5,25 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options for creating a new mailer
+ */
 type MailerMakerOptionsType = {
+  /** Name of the module to create the mailer in */
   moduleName?: string;
+  /** Name of the mailer to create */
   name?: string;
 };
 
+/**
+ * Creates new mailer classes
+ */
 export class MailerMaker {
+  /**
+   * Executes the mailer creation process
+   * @param options Configuration options for creating the mailer
+   * @returns Promise that resolves when mailer is created
+   */
   public static async execute(
     options?: MailerMakerOptionsType,
   ): Promise<void> {

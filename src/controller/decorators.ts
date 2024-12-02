@@ -12,8 +12,14 @@ import {
   SERVER_EXCEPTION_CONTROLLER_KEY,
 } from './utils.ts';
 
+/** Generic controller type */
 type ControllerType = any;
 
+/**
+ * Decorator for DELETE HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Delete = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -23,6 +29,11 @@ export const Delete = (
   };
 };
 
+/**
+ * Decorator for GET HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Get = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -32,6 +43,11 @@ export const Get = (
   };
 };
 
+/**
+ * Decorator for HEAD HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Head = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -41,6 +57,11 @@ export const Head = (
   };
 };
 
+/**
+ * Decorator for OPTIONS HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Options = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -50,6 +71,11 @@ export const Options = (
   };
 };
 
+/**
+ * Decorator for PATCH HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Patch = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -59,6 +85,11 @@ export const Patch = (
   };
 };
 
+/**
+ * Decorator for POST HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Post = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -68,6 +99,11 @@ export const Post = (
   };
 };
 
+/**
+ * Decorator for PUT HTTP method routes
+ * @param path - URL path to handle
+ * @param config - Optional configuration including validators and middlewares
+ */
 export const Put = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
@@ -77,6 +113,10 @@ export const Put = (
   };
 };
 
+/**
+ * Decorator to restrict controller to specific host
+ * @param host - Host string or RegExp to match
+ */
 export const Host = (host: string | RegExp) => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -91,6 +131,10 @@ export const Host = (host: string | RegExp) => {
   };
 };
 
+/**
+ * Decorator to restrict controller to specific IP addresses
+ * @param ip - IP address string or RegExp to match
+ */
 export const Ip = (ip: string | RegExp) => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -105,6 +149,9 @@ export const Ip = (ip: string | RegExp) => {
   };
 };
 
+/**
+ * Decorator to mark controller as publicly accessible
+ */
 export const Public = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -117,6 +164,9 @@ export const Public = () => {
   };
 };
 
+/**
+ * Decorator to restrict controller to admin role
+ */
 export const Admin = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -129,6 +179,9 @@ export const Admin = () => {
   };
 };
 
+/**
+ * Decorator to restrict controller to super admin role
+ */
 export const SuperAdmin = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -141,6 +194,9 @@ export const SuperAdmin = () => {
   };
 };
 
+/**
+ * Decorator to mark controller as not found handler
+ */
 export const NotFound = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -158,6 +214,9 @@ export const NotFound = () => {
   };
 };
 
+/**
+ * Decorator to mark controller as server exception handler
+ */
 export const ServerException = () => {
   return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
@@ -175,6 +234,9 @@ export const ServerException = () => {
   };
 };
 
+/**
+ * Registers an HTTP method handler for a controller
+ */
 const registerMethod = (
   controller: ControllerType,
   method: ControllerMethodType,
@@ -208,6 +270,9 @@ const registerMethod = (
   }
 };
 
+/**
+ * Ensures controller has initial configuration data
+ */
 const ensureInitialData = (name: string, controller: ControllerType) => {
   if (name && !ControllerContainer.has(name)) {
     ControllerContainer.add(name, {
@@ -230,6 +295,9 @@ const ensureInitialData = (name: string, controller: ControllerType) => {
   }
 };
 
+/**
+ * Validates that decorator is applied to a controller class
+ */
 const ensureIsController = (name: string, controller: ControllerType) => {
   if (
     !name?.endsWith('Controller') ||

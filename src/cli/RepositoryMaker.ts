@@ -6,12 +6,27 @@ import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 import { repositoryTemplate } from './repository.template.ts';
 
+/**
+ * Options for creating a new repository
+ */
 type RepositoryMakerOptionsType = {
+  /** Name of the module to create repository in */
   moduleName?: string;
+  /** Name of the repository to create */
   name?: string;
 };
 
+/**
+ * Creates a new repository file and adds it to a module
+ */
 export class RepositoryMaker {
+  /**
+   * Creates a new repository with the given options
+   *
+   * If options are not provided, will prompt user for input
+   *
+   * @param options Optional configuration for repository creation
+   */
   public static async execute(
     options?: RepositoryMakerOptionsType,
   ): Promise<void> {

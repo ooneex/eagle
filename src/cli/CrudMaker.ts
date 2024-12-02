@@ -6,12 +6,26 @@ import pluralize from 'npm:pluralize';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options for creating CRUD resources
+ */
 type CrudMakerOptionsType = {
+  /** Name of the module to create resources in */
   moduleName?: string;
+  /** Name of the controller to create */
   name?: string;
 };
 
+/**
+ * Creates CRUD resources including controllers and route handlers
+ */
 export class CrudMaker {
+  /**
+   * Executes the CRUD resource creation process
+   *
+   * @param options Optional configuration options
+   * @returns Promise that resolves when resources are created
+   */
   public static async execute(
     options?: CrudMakerOptionsType,
   ): Promise<void> {

@@ -4,6 +4,14 @@ import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
 import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
 
+/**
+ * Decorator for database classes.
+ * Adds the database class to the container with specified scope and singleton settings.
+ * Database class names must end with 'Database'.
+ * @param options Configuration options for the database decorator
+ * @param options.scope Container scope type (defaults to 'database')
+ * @param options.singleton Whether the database should be singleton (defaults to true)
+ */
 export const database = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -20,6 +28,14 @@ export const database = (options?: {
   };
 };
 
+/**
+ * Decorator for vector database classes.
+ * Adds the vector database class to the container with specified scope and singleton settings.
+ * Vector database class names must end with 'VectorDatabase'.
+ * @param options Configuration options for the vector database decorator
+ * @param options.scope Container scope type (defaults to 'vector')
+ * @param options.singleton Whether the vector database should be singleton (defaults to true)
+ */
 export const vector = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -36,6 +52,14 @@ export const vector = (options?: {
   };
 };
 
+/**
+ * Decorator for repository classes.
+ * Adds the repository class to the container with specified scope and singleton settings.
+ * Repository class names must end with 'Repository'.
+ * @param options Configuration options for the repository decorator
+ * @param options.scope Container scope type (defaults to 'repository')
+ * @param options.singleton Whether the repository should be singleton (defaults to true)
+ */
 export const repository = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -52,6 +76,11 @@ export const repository = (options?: {
   };
 };
 
+/**
+ * Validates that a database class name ends with 'Database'
+ * @param name The class name to validate
+ * @throws {DatabaseDecoratorException} If the class name doesn't end with 'Database'
+ */
 const ensureIsDatabase = (name: string) => {
   if (!name?.endsWith('Database')) {
     throw new DatabaseDecoratorException(
@@ -60,6 +89,11 @@ const ensureIsDatabase = (name: string) => {
   }
 };
 
+/**
+ * Validates that a vector database class name ends with 'VectorDatabase'
+ * @param name The class name to validate
+ * @throws {VectorDatabaseDecoratorException} If the class name doesn't end with 'VectorDatabase'
+ */
 const ensureIsVectorDatabase = (name: string) => {
   if (!name?.endsWith('VectorDatabase')) {
     throw new VectorDatabaseDecoratorException(
@@ -68,6 +102,11 @@ const ensureIsVectorDatabase = (name: string) => {
   }
 };
 
+/**
+ * Validates that a repository class name ends with 'Repository'
+ * @param name The class name to validate
+ * @throws {RepositoryDecoratorException} If the class name doesn't end with 'Repository'
+ */
 const ensureIsRepository = (name: string) => {
   if (!name?.endsWith('Repository')) {
     throw new RepositoryDecoratorException(

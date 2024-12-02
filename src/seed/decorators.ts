@@ -3,6 +3,13 @@ import { ContainerScopeType } from '../container/types.ts';
 import { SeedContainer } from './container.ts';
 import { SeedDecoratorException } from './SeedDecoratorException.ts';
 
+/**
+ * Decorator factory for seed classes
+ * @param options Configuration options for the seed
+ * @param options.scope Optional scope type for the seed container
+ * @param options.singleton Optional flag to make the seed a singleton
+ * @returns Decorator function that registers the seed class
+ */
 export const seed = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
@@ -21,6 +28,12 @@ export const seed = (options?: {
   };
 };
 
+/**
+ * Validates that a class is a valid seed class
+ * @param name The name of the class
+ * @param seed The seed class to validate
+ * @throws {SeedDecoratorException} If the class does not meet seed requirements
+ */
 const ensureIsSeed = (name: string, seed: any) => {
   if (
     !name.endsWith('Seed') ||

@@ -5,12 +5,25 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options for creating a new service
+ */
 type ServiceMakerOptionsType = {
+  /** The name of the module to create the service in */
   moduleName?: string;
+  /** The name of the service to create */
   name?: string;
 };
 
+/**
+ * Utility class for creating new services
+ */
 export class ServiceMaker {
+  /**
+   * Creates a new service in the specified module
+   *
+   * @param options Options for creating the service
+   */
   public static async execute(
     options?: ServiceMakerOptionsType,
   ): Promise<void> {

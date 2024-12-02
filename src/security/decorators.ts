@@ -1,6 +1,12 @@
 import { container } from '../container/Container.ts';
 import { PermissionDecoratorException } from './PermissionDecoratorException.ts';
 
+/**
+ * Permission decorator factory function.
+ * Creates a decorator that registers a permission class into the container.
+ * The decorated class must end with 'Permission' in its name.
+ * @returns A decorator function that takes a permission class
+ */
 export const permission = () => {
   return (permission: any) => {
     const name = permission.prototype.constructor.name;
@@ -14,6 +20,11 @@ export const permission = () => {
   };
 };
 
+/**
+ * Validates that a permission class name ends with 'Permission'
+ * @param name The class name to validate
+ * @throws PermissionDecoratorException if name doesn't end with 'Permission'
+ */
 const ensureIsPermission = (name: string) => {
   if (!name?.endsWith('Permission')) {
     throw new PermissionDecoratorException(

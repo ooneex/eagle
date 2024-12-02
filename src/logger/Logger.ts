@@ -2,6 +2,10 @@ import { pino } from 'npm:pino';
 import pretty from 'npm:pino-pretty';
 import Signale from 'npm:signale';
 
+/**
+ * Pretty print stream configuration for Pino logger
+ * Colorizes output and formats timestamps
+ */
 const stream = pretty({
   colorize: true,
   ignore: 'pid,hostname',
@@ -9,10 +13,20 @@ const stream = pretty({
   // minimumLevel: "error",
 });
 
+/**
+ * Configured Pino logger instance with pretty printing
+ */
 export const Logger = pino({}, stream);
 
+/**
+ * Configured Signale logger instance for console output
+ */
 export const Console = new Signale.Signale({});
 
+/**
+ * Signale display configuration
+ * Customizes timestamp and label display
+ */
 Console.config({
   displayFilename: false,
   displayTimestamp: true,

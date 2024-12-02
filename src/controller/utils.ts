@@ -2,9 +2,22 @@ import { trim } from '../helper/trim.ts';
 import { ControllerContainer } from './container.ts';
 import { ControllerMethodType, StoreControllerValueType } from './types.ts';
 
+/**
+ * Key used to identify the not found controller
+ */
 export const NOT_FOUND_CONTROLLER_KEY = 'NotFoundController';
+
+/**
+ * Key used to identify the server exception controller
+ */
 export const SERVER_EXCEPTION_CONTROLLER_KEY = 'ServerExceptionController';
 
+/**
+ * Converts a path string with named parameters to a regular expression
+ *
+ * @param path - The path string to convert (e.g. '/users/:id')
+ * @returns A RegExp that can match the path and capture named parameters
+ */
 export const pathToRegexp = (path: string): RegExp => {
   const pattern = path
     .replace(/:([a-zA-Z]+)/g, '(?<$1>[^/]+)')
@@ -13,6 +26,12 @@ export const pathToRegexp = (path: string): RegExp => {
   return new RegExp(`^${pattern}$`);
 };
 
+/**
+ * Finds a matching controller based on the incoming request
+ *
+ * @param req - The incoming HTTP request
+ * @returns The matching controller or null if no match found
+ */
 export const findController = (
   req: Request,
 ): StoreControllerValueType | null => {

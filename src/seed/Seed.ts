@@ -8,13 +8,33 @@ import { File } from '../file/File.ts';
 import { SeedContainer } from './container.ts';
 import { ISeed } from './types.ts';
 
+/**
+ * Seed class responsible for executing database seeding operations
+ * Handles environment validation, seed file discovery, and sequential seed execution
+ */
 export class Seed {
+  /**
+   * Configuration object for the Seed class
+   */
   private readonly config?: EagleConfigType;
 
+  /**
+   * Creates a new Seed instance
+   * @param config Optional configuration for seed execution
+   */
   constructor(config?: EagleConfigType) {
     this.config = config;
   }
 
+  /**
+   * Executes the seeding process
+   * 1. Registers dependencies
+   * 2. Validates environment if configured
+   * 3. Discovers and imports seed files
+   * 4. Parses seed documentation
+   * 5. Builds ordered collection of seeds
+   * 6. Executes seeds sequentially
+   */
   public async run(): Promise<void> {
     await register();
 

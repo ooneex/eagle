@@ -1,6 +1,10 @@
 import { PutObjectCommandInput } from 'npm:@aws-sdk/client-s3';
 import { MimeType } from '../http/types.ts';
 
+/**
+ * Type definition for AWS regions supported by the storage service.
+ * Includes regions across Asia Pacific, Europe, North America, South America, and Canada.
+ */
 export type AWSRegionType =
   | 'ap-northeast-1'
   | 'ap-northeast-2'
@@ -19,6 +23,10 @@ export type AWSRegionType =
   | 'sa-east-1'
   | 'ca-central-1';
 
+/**
+ * Type definition for Cloudflare regions supported by the storage service.
+ * Includes regions across North America, Europe, Asia Pacific, and Oceania.
+ */
 export type CloudflareRegionType =
   | 'wnam'
   | 'enam'
@@ -27,6 +35,11 @@ export type CloudflareRegionType =
   | 'apac'
   | 'oc';
 
+/**
+ * Type definition for Cloudflare storage put operation options.
+ * Extends AWS S3 PutObjectCommandInput, omitting Key, Body and ContentType fields.
+ * Adds optional contentType and Bucket fields.
+ */
 export type CloudflareStoragePutOptionsType =
   & Omit<
     PutObjectCommandInput,
@@ -37,6 +50,14 @@ export type CloudflareStoragePutOptionsType =
     Bucket?: string;
   };
 
+/**
+ * Interface defining the core storage operations.
+ * @interface
+ * Provides methods for:
+ * - get: Retrieve an item from storage
+ * - put: Store an item in storage
+ * - delete: Remove an item from storage
+ */
 export interface IStorage {
   get: <T>(key: string, bucket: string) => Promise<T>;
   put: <T>(

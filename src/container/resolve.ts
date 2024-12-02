@@ -2,6 +2,13 @@ import { DocContainer } from '../doc/container.ts';
 import { container } from './Container.ts';
 import { ContainerException } from './ContainerException.ts';
 
+/**
+ * Gets the dependencies for a given class key by analyzing its constructor parameters
+ *
+ * @param key - The class name to get dependencies for
+ * @returns Array of dependency class names
+ * @throws ContainerException if circular dependencies are detected
+ */
 export const getDependencies = (
   key: string,
 ): string[] => {
@@ -46,6 +53,12 @@ export const getDependencies = (
   return dependencies;
 };
 
+/**
+ * Resolves dependencies for a given class key by getting instances from the container
+ *
+ * @param key - The class name to resolve dependencies for
+ * @returns Array of resolved dependency instances
+ */
 export const resolveDependencies = (
   key: string,
 ): unknown[] => {

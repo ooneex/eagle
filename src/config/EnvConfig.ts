@@ -1,3 +1,8 @@
+/**
+ * Environment configuration management for the application.
+ * Handles loading and access to environment variables across different services.
+ */
+
 import { AppEnvType } from '../app/types.ts';
 import { parseString } from '../helper/parseString.ts';
 import { JwtExpiresInType } from '../jwt/types.ts';
@@ -5,8 +10,16 @@ import { ScalarType } from '../types.ts';
 import { config } from './decorators.ts';
 import { EnvConfigType, IConfig } from './types.ts';
 
+/**
+ * Main configuration class that manages all environment variables
+ * @class EnvConfig
+ * @implements {IConfig}
+ */
 @config()
 export class EnvConfig implements IConfig {
+  /**
+   * Static mapping of all environment variable keys used in the application
+   */
   static KEYS = {
     app: {
       env: 'APP_ENV',
@@ -93,6 +106,9 @@ export class EnvConfig implements IConfig {
     },
   };
 
+  /**
+   * Application environment configuration
+   */
   public readonly app: EnvConfigType['app'] = {
     env: (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) ?? null,
     url: Deno.env.get(EnvConfig.KEYS.app.url) ?? null,
@@ -109,15 +125,27 @@ export class EnvConfig implements IConfig {
     isProduction:
       (Deno.env.get(EnvConfig.KEYS.app.env) as AppEnvType) === 'production',
   };
+
+  /**
+   * Security configuration including CORS settings
+   */
   public readonly security: EnvConfigType['security'] = {
     cors: Deno.env.get(EnvConfig.KEYS.security.cors) ?? null,
   };
+
+  /**
+   * Database connection configuration
+   */
   public readonly database: EnvConfigType['database'] = {
     url: Deno.env.get(EnvConfig.KEYS.database.url) ?? null,
     vector: {
       url: Deno.env.get(EnvConfig.KEYS.database.vector.url) ?? null,
     },
   };
+
+  /**
+   * JWT authentication configuration
+   */
   public readonly jwt: EnvConfigType['jwt'] = {
     secret: Deno.env.get(EnvConfig.KEYS.jwt.secret) ?? null,
     expiresIn:
@@ -129,6 +157,10 @@ export class EnvConfig implements IConfig {
       ) as JwtExpiresInType) ?? null,
     },
   };
+
+  /**
+   * AI service configurations
+   */
   public readonly ai: EnvConfigType['ai'] = {
     openai: {
       key: Deno.env.get(EnvConfig.KEYS.ai.openai.key) ?? null,
@@ -155,12 +187,20 @@ export class EnvConfig implements IConfig {
       model: Deno.env.get(EnvConfig.KEYS.ai.anthropic.model) ?? null,
     },
   };
+
+  /**
+   * Monitoring service configuration
+   */
   public readonly monitoring: EnvConfigType['monitoring'] = {
     sentry: {
       dsn: Deno.env.get(EnvConfig.KEYS.monitoring.sentry.dsn) ?? null,
       token: Deno.env.get(EnvConfig.KEYS.monitoring.sentry.token) ?? null,
     },
   };
+
+  /**
+   * Storage service configuration
+   */
   public readonly storage: EnvConfigType['storage'] = {
     cloudflare: {
       key: {
@@ -174,6 +214,10 @@ export class EnvConfig implements IConfig {
       public: Deno.env.get(EnvConfig.KEYS.storage.cloudflare.public) ?? null,
     },
   };
+
+  /**
+   * Email service configuration
+   */
   public readonly mailer: EnvConfigType['mailer'] = {
     dev: {
       url: Deno.env.get(EnvConfig.KEYS.mailer.dev.url) ?? null,
@@ -182,12 +226,20 @@ export class EnvConfig implements IConfig {
       key: Deno.env.get(EnvConfig.KEYS.mailer.brevo.key) ?? null,
     },
   };
+
+  /**
+   * Payment processing configuration
+   */
   public readonly payment: EnvConfigType['payment'] = {
     stripe: {
       secret: Deno.env.get(EnvConfig.KEYS.payment.stripe.secret) ?? null,
     },
   };
 
+  /**
+   * Converts the configuration to a JSON format
+   * @returns {Record<string, ScalarType | null>} Configuration as JSON
+   */
   public toJson(): Record<string, ScalarType | null> {
     return {
       [EnvConfig.KEYS.app.env]: this.app.env,

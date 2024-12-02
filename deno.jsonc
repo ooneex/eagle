@@ -1,35 +1,35 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
-    "test": "deno test -A --parallel",
+    "test": "deno test -A",
     "test:watch": "deno test -A --watch",
     "test:coverage": "deno test -A --coverage && deno coverage",
     "fmt": "deno fmt",
-    "lint": "deno lint"
+    "lint": "deno lint",
   },
   "imports": {
     "@/": "./src/",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
-    "@std/testing/mock": "jsr:@std/testing/mock"
+    "@std/testing/mock": "jsr:@std/testing/mock",
   },
   "fmt": {
     "useTabs": false,
     "indentWidth": 2,
     "semiColons": true,
     "singleQuote": true,
-    "proseWrap": "preserve"
+    "proseWrap": "preserve",
   },
   "lint": {
     "rules": {
       "tags": ["recommended"],
-      "exclude": ["no-explicit-any"]
-    }
+      "exclude": ["no-explicit-any"],
+    },
   },
   "lock": false,
   "compilerOptions": {
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
   },
-  "nodeModulesDir": "auto"
+  "nodeModulesDir": "auto",
 }

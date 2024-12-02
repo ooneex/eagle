@@ -5,12 +5,25 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options for creating a new config file
+ */
 type ConfigMakerOptionsType = {
+  /** Name of the module to create config in */
   moduleName?: string;
+  /** Name of the config to create */
   name?: string;
 };
 
+/**
+ * Creates new config files for modules
+ */
 export class ConfigMaker {
+  /**
+   * Creates a new config file in the specified module
+   * @param options Configuration options
+   * @returns Promise that resolves when config is created
+   */
   public static async execute(
     options?: ConfigMakerOptionsType,
   ): Promise<void> {

@@ -1,3 +1,6 @@
+/**
+ * Import required dependencies for the permission maker
+ */
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
@@ -5,12 +8,25 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options that can be passed to the permission maker
+ */
 type PermissionMakerOptionsType = {
+  /** Optional module name to create permission in */
   moduleName?: string;
+  /** Optional permission name to create */
   name?: string;
 };
 
+/**
+ * Class for creating permission files in a modular structure
+ */
 export class PermissionMaker {
+  /**
+   * Creates a new permission file with boilerplate code
+   *
+   * @param options - Optional configuration for permission creation
+   */
   public static async execute(
     options?: PermissionMakerOptionsType,
   ): Promise<void> {
@@ -18,6 +34,7 @@ export class PermissionMaker {
     let permissionName = options?.name ?? null;
     const srcDir = `${Deno.cwd()}/src`;
 
+    // If no module name provided, list available modules for selection
     if (!moduleName) {
       const modules = new File(srcDir).list({ directory: true });
       const options: { value: string; label: string }[] = [];
@@ -32,6 +49,7 @@ export class PermissionMaker {
       })) as string;
     }
 
+    // Handle cancellation
     if (isCancel(moduleName)) {
       cancel('Cancelled!');
       Deno.exit(0);
@@ -40,6 +58,7 @@ export class PermissionMaker {
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
+    // If no permission name provided, prompt for one
     if (!permissionName) {
       permissionName = (await text({
         message: 'Permission name',
@@ -59,6 +78,7 @@ export class PermissionMaker {
       })) as string;
     }
 
+    // Handle cancellation
     if (isCancel(permissionName)) {
       cancel('Cancelled!');
       Deno.exit(0);
@@ -66,6 +86,7 @@ export class PermissionMaker {
 
     permissionName = toPascalCase(permissionName);
 
+    // Create and write the permission file
     const file = new File(
       `${srcDir}/${moduleFolderName}/permissions/${permissionName}Permission.ts`,
     );

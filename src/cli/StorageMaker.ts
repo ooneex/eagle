@@ -1,3 +1,6 @@
+/**
+ * Imports required for creating storage classes
+ */
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
@@ -5,12 +8,24 @@ import { cancel, isCancel, outro, select, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Options that can be passed to StorageMaker
+ */
 type StorageMakerOptionsType = {
+  /** Name of the module to create storage in */
   moduleName?: string;
+  /** Name for the new storage class */
   name?: string;
 };
 
+/**
+ * Creates new storage classes with CloudflareStorage implementation
+ */
 export class StorageMaker {
+  /**
+   * Creates a new storage class
+   * @param options Optional configuration for storage creation
+   */
   public static async execute(
     options?: StorageMakerOptionsType,
   ): Promise<void> {
@@ -18,6 +33,7 @@ export class StorageMaker {
     let storageName = options?.name ?? null;
     const srcDir = `${Deno.cwd()}/src`;
 
+    // If no module name provided, show selection prompt
     if (!moduleName) {
       const modules = new File(srcDir).list({ directory: true });
       const options: { value: string; label: string }[] = [];
@@ -40,6 +56,7 @@ export class StorageMaker {
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
+    // If no storage name provided, show text input prompt
     if (!storageName) {
       storageName = (await text({
         message: 'Storage name',
@@ -66,6 +83,7 @@ export class StorageMaker {
 
     storageName = toPascalCase(storageName);
 
+    // Create the storage class file
     let file = new File(
       `${srcDir}/${moduleFolderName}/storages/${storageName}Storage.ts`,
     );
@@ -108,6 +126,8 @@ export class ${storageName}Storage implements IStorage {
   }
 }
 `);
+
+    // Update the module file to import the new storage
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
       `import './storages/${storageName}Storage.ts';\n`,

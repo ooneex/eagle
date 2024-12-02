@@ -1,3 +1,6 @@
+/**
+ * Imports required dependencies for middleware creation
+ */
 import { green } from 'jsr:@std/fmt/colors';
 import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
 import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
@@ -6,13 +9,23 @@ import { File } from '../file/File.ts';
 import { MiddlewareScopes, MiddlewareScopeType } from '../middleware/types.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Type definition for middleware maker options
+ */
 type MiddlewareMakerOptionsType = {
-  moduleName?: string;
-  name?: string;
-  scope?: MiddlewareScopeType;
+  moduleName?: string; // Optional module name
+  name?: string; // Optional middleware name
+  scope?: MiddlewareScopeType; // Optional middleware scope
 };
 
+/**
+ * Class responsible for creating new middleware files
+ */
 export class MiddlewareMaker {
+  /**
+   * Creates a new middleware file with boilerplate code
+   * @param options Optional configuration for middleware creation
+   */
   public static async execute(
     options?: MiddlewareMakerOptionsType,
   ): Promise<void> {
@@ -21,6 +34,7 @@ export class MiddlewareMaker {
     let scope = options?.scope ?? null;
     const srcDir = `${Deno.cwd()}/src`;
 
+    // If no module name provided, show selection prompt
     if (!moduleName) {
       const modules = new File(srcDir).list({ directory: true });
       const options: { value: string; label: string }[] = [];
@@ -43,6 +57,7 @@ export class MiddlewareMaker {
     const moduleFolderName = toKebabCase(moduleName);
     moduleName = toPascalCase(moduleName);
 
+    // If no middleware name provided, show text input prompt
     if (!middlewareName) {
       middlewareName = (await text({
         message: 'Middleware name',
@@ -69,6 +84,7 @@ export class MiddlewareMaker {
 
     middlewareName = toPascalCase(middlewareName);
 
+    // If no scope provided, show selection prompt
     if (!scope) {
       const options: { value: string; label: string }[] = [];
       for (const s of MiddlewareScopes) {
@@ -86,6 +102,7 @@ export class MiddlewareMaker {
       Deno.exit(0);
     }
 
+    // Create middleware file with template
     let file = new File(
       `${srcDir}/${moduleFolderName}/middlewares/${middlewareName}Middleware.ts`,
     );
@@ -111,6 +128,8 @@ export class ${middlewareName}Middleware implements IMiddleware {
 }
 `,
     );
+
+    // Update module file to import new middleware
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);
     await file.write(
       `import './middlewares/${middlewareName}Middleware.ts';\n`,

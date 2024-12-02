@@ -5,12 +5,22 @@ import { cancel, isCancel, outro, text } from 'npm:@clack/prompts';
 import { File } from '../file/File.ts';
 import { AssertName } from '../validation/mod.ts';
 
+/**
+ * Utility class for creating new modules
+ */
 export class ModuleMaker {
+  /**
+   * Creates a new module with the specified name
+   *
+   * @param value Optional initial module name value
+   * @returns Promise that resolves when module is created
+   */
   public static async execute(value?: string): Promise<void> {
     let folderName = '';
     let moduleName = '';
     const srcDir = `${Deno.cwd()}/src`;
 
+    // Prompt for module name
     moduleName = (await text({
       message: 'Module name',
       placeholder: '',
@@ -27,6 +37,7 @@ export class ModuleMaker {
       },
     })) as string;
 
+    // Handle cancellation
     if (isCancel(moduleName)) {
       cancel('Cancelled!');
       Deno.exit(0);
@@ -34,8 +45,11 @@ export class ModuleMaker {
 
     moduleName = toPascalCase(moduleName);
 
+    // Create module file
     let file = new File(`${srcDir}/${folderName}/${moduleName}Module.ts`);
     await file.write(``);
+
+    // Add module import to modules.ts
     file = new File(`${srcDir}/modules.ts`);
     await file.write(
       `import './${folderName}/${moduleName}Module.ts';\n`,

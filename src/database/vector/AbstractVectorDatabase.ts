@@ -9,9 +9,22 @@ import { IVectorDatabase, VectorDatabaseConfigType } from '../types.ts';
 import { getConnection } from './connection.ts';
 import { VectorDatabaseException } from './VectorDatabaseException.ts';
 
+/**
+ * Abstract base class implementing vector database operations
+ */
 export abstract class AbstractVectorDatabase implements IVectorDatabase {
+  /**
+   * Abstract method to get vector database configuration
+   * @returns The vector database configuration
+   */
   public abstract getConfig(): VectorDatabaseConfigType;
 
+  /**
+   * Find similar documents based on a query string
+   * @param query - The search query string
+   * @param options - Search options including number of results and filter
+   * @returns Array of matching documents
+   */
   public async find(
     query: string,
     options?: { k?: number; filter?: Metadata },
@@ -30,6 +43,11 @@ export abstract class AbstractVectorDatabase implements IVectorDatabase {
     return docs;
   }
 
+  /**
+   * Add documents to the vector store
+   * @param docs - Array of documents to add
+   * @returns The added documents
+   */
   public async add(docs: Document[]): Promise<Document[]> {
     const config = this.getConfig();
     const embeddings = this.getEmbeddings();
@@ -44,6 +62,11 @@ export abstract class AbstractVectorDatabase implements IVectorDatabase {
     return docs;
   }
 
+  /**
+   * Delete documents from the vector store
+   * @param ids - Optional array of document IDs to delete
+   * @param options - Delete options including filter
+   */
   public async delete(
     ids?: string[],
     options?: { filter?: Metadata },
@@ -59,6 +82,11 @@ export abstract class AbstractVectorDatabase implements IVectorDatabase {
     await vectorStore.end();
   }
 
+  /**
+   * Get embeddings model instance based on configuration
+   * @returns OpenAI embeddings instance
+   * @throws VectorDatabaseException if embeddings model not configured
+   */
   private getEmbeddings() {
     const config = this.getConfig();
 
