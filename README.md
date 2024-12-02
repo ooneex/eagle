@@ -1,6 +1,6 @@
 # Ooneex Eagle Core
 
-A powerful and flexible Deno API framework designed for building robust web applications with modern best practices and high performance.
+A powerful and flexible Deno framework designed for building robust API with modern best practices and high performance.
 
 ## Features
 
