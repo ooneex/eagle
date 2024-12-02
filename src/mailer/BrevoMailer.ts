@@ -7,7 +7,7 @@ import {
   SendSmtpEmailReplyTo,
   TransactionalEmailsApi,
   TransactionalEmailsApiApiKeys,
-} from 'npm:@getbrevo/brevo';
+} from 'npm:@getbrevo/brevo@2.2.0';
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { mailer } from './decorators.ts';
 import { MailerException } from './MailerException.ts';

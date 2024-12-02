@@ -1,10 +1,10 @@
-import type { Metadata } from 'npm:@langchain/community/vectorstores/neo4j_vector';
-import { PGVectorStore } from 'npm:@langchain/community/vectorstores/pgvector';
+import type { Metadata } from 'npm:@langchain/community@0.3.16/vectorstores/neo4j_vector';
+import { PGVectorStore } from 'npm:@langchain/community@0.3.16/vectorstores/pgvector';
 import type {
   Document,
   DocumentInterface,
-} from 'npm:@langchain/core/documents';
-import { OpenAIEmbeddings } from 'npm:@langchain/openai';
+} from 'npm:@langchain/core@0.3.19/documents';
+import { OpenAIEmbeddings } from 'npm:@langchain/openai@0.3.14';
 import { IVectorDatabase, VectorDatabaseConfigType } from '../types.ts';
 import { getConnection } from './connection.ts';
 import { VectorDatabaseException } from './VectorDatabaseException.ts';

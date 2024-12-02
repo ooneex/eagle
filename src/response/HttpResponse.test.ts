@@ -1,7 +1,7 @@
 import { HttpResponse } from '@/response/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
-import { Cookie } from 'jsr:@std/http/cookie';
+import { Cookie } from 'jsr:@std/http@1.0.10/cookie';
 
 describe('HttpResponse', () => {
   it('should create text response', async () => {

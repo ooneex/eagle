@@ -1,4 +1,4 @@
-import { STATUS_CODE } from 'jsr:@std/http/status';
+import { STATUS_CODE } from 'jsr:@std/http@1.0.10/status';
 import { Exception } from '../exception/Exception.ts';
 
 /**

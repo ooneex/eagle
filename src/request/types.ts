@@ -1,4 +1,4 @@
-import { Cookie } from 'jsr:@std/http/cookie';
+import { Cookie } from 'jsr:@std/http@1.0.10/cookie';
 import { IReadonlyCollection } from '../collection/types.ts';
 import { ControllerMethodType } from '../controller/types.ts';
 import { IReadonlyHeader, IUserAgent } from '../header/types.ts';

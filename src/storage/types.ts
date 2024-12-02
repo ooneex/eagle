@@ -1,4 +1,4 @@
-import { PutObjectCommandInput } from 'npm:@aws-sdk/client-s3';
+import { PutObjectCommandInput } from 'npm:@aws-sdk/client-s3@3.703.0';
 import { MimeType } from '../http/types.ts';
 
 /**

@@ -1,4 +1,4 @@
-import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
+import { toKebabCase } from 'jsr:@std/text@1.0.8/to-kebab-case';
 import { IRequestFile } from './types.ts';
 
 /**

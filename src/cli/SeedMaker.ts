@@ -1,10 +1,10 @@
 /**
  * Imports required dependencies for seed file creation and manipulation
  */
-import { green } from 'jsr:@std/fmt/colors';
-import { toKebabCase } from 'jsr:@std/text/to-kebab-case';
-import { toPascalCase } from 'jsr:@std/text/to-pascal-case';
-import { cancel, isCancel, outro, text } from 'npm:@clack/prompts';
+import { green } from 'jsr:@std/fmt@1.0.3/colors';
+import { toKebabCase } from 'jsr:@std/text@1.0.8/to-kebab-case';
+import { toPascalCase } from 'jsr:@std/text@1.0.8/to-pascal-case';
+import { cancel, isCancel, outro, text } from 'npm:@clack/prompts@0.8.2';
 import { File } from '../file/File.ts';
 import { trim } from '../helper/trim.ts';
 

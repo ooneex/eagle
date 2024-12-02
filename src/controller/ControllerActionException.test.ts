@@ -1,5 +1,5 @@
 import { expect } from 'jsr:@std/expect';
-import { STATUS_CODE } from 'jsr:@std/http/status';
+import { STATUS_CODE } from 'jsr:@std/http@1.0.10/status';
 import { describe, it } from 'jsr:@std/testing/bdd';
 import { ControllerActionException } from './mod.ts';
 

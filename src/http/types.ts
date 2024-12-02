@@ -1,5 +1,5 @@
-import { StatusCode, StatusText } from 'jsr:@std/http/status';
-import { type DB } from 'jsr:@std/media-types';
+import { StatusCode, StatusText } from 'jsr:@std/http@1.0.10/status';
+import { type DB } from 'jsr:@std/media-types@1.1.0';
 import { HEADER_FIELDS } from './header_fields.ts';
 import { HTTP_METHODS } from './methods.ts';
 import { HTTP_PROTOCOLS } from './protocols.ts';

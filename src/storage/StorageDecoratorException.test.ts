@@ -1,7 +1,7 @@
 import { Exception } from '@/exception/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
-import { STATUS_CODE } from 'jsr:@std/http/status';
+import { STATUS_CODE } from 'jsr:@std/http@1.0.10/status';
 import { StorageDecoratorException } from './mod.ts';
 
 describe('StorageDecoratorException', () => {

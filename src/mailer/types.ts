@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'node:http';
-import { CreateSmtpEmail } from 'npm:@getbrevo/brevo';
+import { CreateSmtpEmail } from 'npm:@getbrevo/brevo@2.2.0';
 
 /**
  * Response type for Brevo mailer operations

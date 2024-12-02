@@ -1,5 +1,5 @@
-import type { DistanceStrategy } from 'npm:@langchain/community/vectorstores/pgvector';
-import type { PoolConfig } from 'npm:pg';
+import type { DistanceStrategy } from 'npm:@langchain/community@0.3.16/vectorstores/pgvector';
+import type { PoolConfig } from 'npm:pg@8.13.1';
 
 /**
  * Creates a Postgres connection configuration object for vector storage

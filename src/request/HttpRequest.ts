@@ -1,5 +1,5 @@
-import { Cookie, getSetCookies } from 'jsr:@std/http/cookie';
-import parser from 'npm:accept-language-parser';
+import { Cookie, getSetCookies } from 'jsr:@std/http@1.0.10/cookie';
+import parser from 'npm:accept-language-parser@1.5.0';
 import { ReadonlyCollection } from '../collection/ReadonlyCollection.ts';
 import { IReadonlyCollection } from '../collection/types.ts';
 import { ReadonlyHeader } from '../header/ReadonlyHeader.ts';

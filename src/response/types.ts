@@ -1,4 +1,4 @@
-import { Cookie } from 'jsr:@std/http/cookie';
+import { Cookie } from 'jsr:@std/http@1.0.10/cookie';
 import { IReadonlyArrayCollection } from '../collection/types.ts';
 import { Header } from '../header/Header.ts';
 import { CharsetType, StatusCodeType } from '../http/types.ts';

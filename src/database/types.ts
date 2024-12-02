@@ -1,8 +1,8 @@
-import type { Metadata } from 'npm:@langchain/community/vectorstores/neo4j_vector';
+import type { Metadata } from 'npm:@langchain/community@0.3.16/vectorstores/neo4j_vector';
 import type {
   Document,
   DocumentInterface,
-} from 'npm:@langchain/core/documents';
+} from 'npm:@langchain/core@0.3.19/documents';
 
 /**
  * Configuration type for Vector Database

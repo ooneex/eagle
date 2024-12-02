@@ -1,6 +1,6 @@
-import { pino } from 'npm:pino';
-import pretty from 'npm:pino-pretty';
-import Signale from 'npm:signale';
+import pretty from 'npm:pino-pretty@13.0.0';
+import { pino } from 'npm:pino@9.5.0';
+import Signale from 'npm:signale@1.4.0';
 
 /**
  * Pretty print stream configuration for Pino logger

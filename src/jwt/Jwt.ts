@@ -1,5 +1,5 @@
-import * as jose from 'npm:jose';
-import { JWTHeaderParameters } from 'npm:jose';
+import * as jose from 'npm:jose@5.9.6';
+import { JWTHeaderParameters } from 'npm:jose@5.9.6';
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { ERole } from '../security/types.ts';
 import { IJwt, JwtDefaultPayloadType, JwtPayloadType } from './types.ts';

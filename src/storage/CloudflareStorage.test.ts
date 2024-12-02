@@ -2,7 +2,7 @@ import { EnvConfig } from '@/config/mod.ts';
 import { expect } from '@std/expect';
 import { afterEach, beforeEach, describe, it } from '@std/testing/bdd';
 import { stub } from '@std/testing/mock';
-import { S3Client } from 'npm:@aws-sdk/client-s3';
+import { S3Client } from 'npm:@aws-sdk/client-s3@3.703.0';
 import { CloudflareStorage, StorageException } from './mod.ts';
 
 describe('CloudflareStorage', () => {

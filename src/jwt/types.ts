@@ -1,4 +1,4 @@
-import { JWTHeaderParameters } from 'npm:jose';
+import { JWTHeaderParameters } from 'npm:jose@5.9.6';
 import { ERole } from '../security/types.ts';
 
 /**

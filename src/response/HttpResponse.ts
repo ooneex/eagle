@@ -1,4 +1,4 @@
-import { Cookie, setCookie } from 'jsr:@std/http/cookie';
+import { Cookie, setCookie } from 'jsr:@std/http@1.0.10/cookie';
 import {
   isClientErrorStatus,
   isErrorStatus,
@@ -7,7 +7,7 @@ import {
   isServerErrorStatus,
   isSuccessfulStatus,
   STATUS_TEXT,
-} from 'jsr:@std/http/status';
+} from 'jsr:@std/http@1.0.10/status';
 import { ArrayCollection } from '../collection/mod.ts';
 import { Header } from '../header/Header.ts';
 import { CharsetType, StatusCodeType } from '../http/types.ts';

@@ -1,6 +1,6 @@
 import { Exception } from '@/exception/mod.ts';
 import { expect } from '@std/expect';
-import { STATUS_CODE } from 'jsr:@std/http/status';
+import { STATUS_CODE } from 'jsr:@std/http@1.0.10/status';
 import { ConfigDecoratorException } from './mod.ts';
 
 Deno.test('ConfigDecoratorException - should create instance with message only', () => {

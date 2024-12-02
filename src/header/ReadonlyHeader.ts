@@ -1,4 +1,4 @@
-import { UserAgent } from 'jsr:@std/http/user-agent';
+import { UserAgent } from 'jsr:@std/http@1.0.10/user-agent';
 import {
   CharsetType,
   EncodingType,

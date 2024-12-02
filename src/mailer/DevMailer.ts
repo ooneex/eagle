@@ -1,4 +1,8 @@
-import nodemailer, { Address, Attachment, Headers } from 'npm:nodemailer';
+import nodemailer, {
+  Address,
+  Attachment,
+  Headers,
+} from 'npm:nodemailer@6.9.16';
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { mailer } from './decorators.ts';
 import { MailerException } from './MailerException.ts';
