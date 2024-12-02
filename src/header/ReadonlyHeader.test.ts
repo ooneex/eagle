@@ -109,4 +109,47 @@ describe('ReadonlyHeader', () => {
       });
     });
   });
+
+  describe('header value parsing', () => {
+    it('should handle multiple values in X-Forwarded-For', () => {
+      const header = createHeader([
+        ['X-Forwarded-For', '203.0.113.195, 70.41.3.18, 150.172.238.178'],
+      ]);
+      expect(header.getIp()).toBe('203.0.113.195, 70.41.3.18, 150.172.238.178');
+    });
+
+    it('should handle empty header values', () => {
+      const header = createHeader([
+        ['Content-Type', ''],
+        ['Authorization', ''],
+      ]);
+      expect(header.get('Content-Type')).toBe('');
+      expect(header.getBasicAuth()).toBe(null);
+      expect(header.getBearerToken()).toBe(null);
+    });
+
+    it('should handle case-insensitive header names', () => {
+      const header = createHeader([
+        ['content-type', 'application/json'],
+        ['ACCEPT', 'text/plain'],
+      ]);
+      expect(header.get('Content-Type')).toBe('application/json');
+      expect(header.get('Accept')).toBe('text/plain');
+    });
+
+    it('should return empty object for toJson when no headers exist', () => {
+      const header = createHeader([]);
+      expect(header.toJson()).toEqual({});
+      expect(header.hasData()).toBe(false);
+    });
+
+    it('should handle malformed Authorization headers', () => {
+      const header = createHeader([
+        ['Authorization', 'Basic'],
+        ['Authorization', 'Bearer'],
+      ]);
+      expect(header.getBasicAuth()).toBe(null);
+      expect(header.getBearerToken()).toBe(null);
+    });
+  });
 });

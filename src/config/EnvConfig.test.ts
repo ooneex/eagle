@@ -151,4 +151,81 @@ describe('EnvConfig', () => {
     expect(envConfig.app.isStaging).toBe(false);
     expect(envConfig.app.isProduction).toBe(true);
   });
+
+  it('should handle null values in config', () => {
+    // Clear any existing env vars
+    Deno.env.delete(EnvConfig.KEYS.app.url);
+    Deno.env.delete(EnvConfig.KEYS.app.port);
+    Deno.env.delete(EnvConfig.KEYS.app.host);
+    Deno.env.delete(EnvConfig.KEYS.security.cors);
+    Deno.env.delete(EnvConfig.KEYS.database.url);
+    Deno.env.delete(EnvConfig.KEYS.database.vector.url);
+    Deno.env.delete(EnvConfig.KEYS.jwt.secret);
+    Deno.env.delete(EnvConfig.KEYS.jwt.expiresIn);
+    Deno.env.delete(EnvConfig.KEYS.jwt.refresh.secret);
+    Deno.env.delete(EnvConfig.KEYS.jwt.refresh.expiresIn);
+    Deno.env.delete(EnvConfig.KEYS.ai.openai.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.openai.model);
+    Deno.env.delete(EnvConfig.KEYS.ai.mistral.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.mistral.model);
+    Deno.env.delete(EnvConfig.KEYS.ai.groq.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.groq.model);
+    Deno.env.delete(EnvConfig.KEYS.ai.gemini.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.gemini.model);
+    Deno.env.delete(EnvConfig.KEYS.ai.llama.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.llama.model);
+    Deno.env.delete(EnvConfig.KEYS.ai.anthropic.key);
+    Deno.env.delete(EnvConfig.KEYS.ai.anthropic.model);
+    Deno.env.delete(EnvConfig.KEYS.monitoring.sentry.dsn);
+    Deno.env.delete(EnvConfig.KEYS.monitoring.sentry.token);
+    Deno.env.delete(EnvConfig.KEYS.storage.cloudflare.key.secret);
+    Deno.env.delete(EnvConfig.KEYS.storage.cloudflare.key.access);
+    Deno.env.delete(EnvConfig.KEYS.storage.cloudflare.endpoint);
+    Deno.env.delete(EnvConfig.KEYS.storage.cloudflare.public);
+    Deno.env.delete(EnvConfig.KEYS.mailer.dev.url);
+    Deno.env.delete(EnvConfig.KEYS.mailer.brevo.key);
+    Deno.env.delete(EnvConfig.KEYS.payment.stripe.secret);
+
+    const envConfig = new EnvConfig();
+    const json = envConfig.toJson();
+
+    // Verify all values are null when env vars not set
+    expect(json[EnvConfig.KEYS.app.url]).toBeNull();
+    expect(json[EnvConfig.KEYS.app.port]).toBeNull();
+    expect(json[EnvConfig.KEYS.app.host]).toBeNull();
+    expect(json[EnvConfig.KEYS.security.cors]).toBeNull();
+    expect(json[EnvConfig.KEYS.database.url]).toBeNull();
+    expect(json[EnvConfig.KEYS.database.vector.url]).toBeNull();
+    expect(json[EnvConfig.KEYS.jwt.secret]).toBeNull();
+    expect(json[EnvConfig.KEYS.jwt.expiresIn]).toBeNull();
+    expect(json[EnvConfig.KEYS.jwt.refresh.secret]).toBeNull();
+    expect(json[EnvConfig.KEYS.jwt.refresh.expiresIn]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.openai.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.openai.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.mistral.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.mistral.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.groq.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.groq.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.gemini.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.gemini.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.llama.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.llama.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.anthropic.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.ai.anthropic.model]).toBeNull();
+    expect(json[EnvConfig.KEYS.monitoring.sentry.dsn]).toBeNull();
+    expect(json[EnvConfig.KEYS.monitoring.sentry.token]).toBeNull();
+    expect(json[EnvConfig.KEYS.storage.cloudflare.key.secret]).toBeNull();
+    expect(json[EnvConfig.KEYS.storage.cloudflare.key.access]).toBeNull();
+    expect(json[EnvConfig.KEYS.storage.cloudflare.endpoint]).toBeNull();
+    expect(json[EnvConfig.KEYS.storage.cloudflare.public]).toBeNull();
+    expect(json[EnvConfig.KEYS.mailer.dev.url]).toBeNull();
+    expect(json[EnvConfig.KEYS.mailer.brevo.key]).toBeNull();
+    expect(json[EnvConfig.KEYS.payment.stripe.secret]).toBeNull();
+  });
+
+  it('should parse port number correctly', () => {
+    Deno.env.set(EnvConfig.KEYS.app.port, '3000');
+    const envConfig = new EnvConfig();
+    expect(envConfig.app.port).toBe(3000);
+  });
 });

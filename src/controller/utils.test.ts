@@ -145,4 +145,135 @@ describe('findController', () => {
     expect(result).toBeNull();
     ControllerContainer.clear();
   });
+
+  it('should find controller with matching IP using remote-addr header', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      methods: ['GET'],
+      ips: ['127.0.0.1'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'GET',
+      headers: { 'remote-addr': '127.0.0.1' },
+    });
+    const result = findController(req);
+
+    expect(result).toEqual(mockController);
+    ControllerContainer.clear();
+  });
+
+  it('should find controller with regexp path match', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      regexp: [/^\/users\/\d+$/],
+      methods: ['GET'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users/123', {
+      method: 'GET',
+    });
+    const result = findController(req);
+
+    expect(result).toEqual(mockController);
+    ControllerContainer.clear();
+  });
+
+  it('should find controller with regexp host match', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      methods: ['GET'],
+      hosts: [/^.*\.example\.com$/],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'GET',
+      headers: { 'host': 'api.example.com' },
+    });
+    const result = findController(req);
+
+    expect(result).toEqual(mockController);
+    ControllerContainer.clear();
+  });
+
+  it('should not find controller when path matches but method does not', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      methods: ['GET'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'POST',
+    });
+    const result = findController(req);
+
+    expect(result).toBeNull();
+    ControllerContainer.clear();
+  });
+
+  it('should not find controller when path matches but host does not', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      hosts: ['api.example.com'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'GET',
+      headers: { 'host': 'wrong.example.com' },
+    });
+    const result = findController(req);
+
+    expect(result).toBeNull();
+    ControllerContainer.clear();
+  });
+
+  it('should not find controller when path matches but IP does not', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      ips: ['192.168.1.1'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'GET',
+      headers: { 'x-forwarded-for': '10.0.0.1' },
+    });
+    const result = findController(req);
+
+    expect(result).toBeNull();
+    ControllerContainer.clear();
+  });
+
+  it('should find controller when all conditions match', () => {
+    const mockController: StoreControllerValueType = {
+      name: 'test',
+      paths: ['/users'],
+      methods: ['GET'],
+      hosts: ['api.example.com'],
+      ips: ['192.168.1.1'],
+    };
+    ControllerContainer.add('test', mockController);
+
+    const req = new Request('http://localhost/users', {
+      method: 'GET',
+      headers: {
+        'host': 'api.example.com',
+        'x-forwarded-for': '192.168.1.1',
+      },
+    });
+    const result = findController(req);
+
+    expect(result).toEqual(mockController);
+    ControllerContainer.clear();
+  });
 });

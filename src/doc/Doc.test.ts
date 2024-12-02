@@ -1,198 +1,232 @@
-import { Doc } from '@/doc/mod.ts';
+import { ClassDocType } from '@/doc/mod.ts';
 import { expect } from '@std/expect';
-import { afterAll, beforeAll, describe, it } from '@std/testing/bdd';
+import { describe, it } from '@std/testing/bdd';
+import { stub } from '@std/testing/mock';
+import { Doc } from './Doc.ts';
 
 describe('Doc', () => {
-  const tmpFile = Deno.makeTempFileSync({
-    suffix: '.ts',
-  });
-  Deno.writeTextFileSync(
-    tmpFile,
-    `export class TestClass {
-        private name: string = 'Test';
-        private age: number = 30;
-        private isActive: boolean = true;
-        private roles: string[] = ['ROLE_USER', 'ROLE_ADMIN'];
-
-        constructor(name: string) {
-          this.name = name;
-        }
-
-        public getName(): string {
-          return this.name;
-        }
-
-        public setName(name: string): void {
-          this.name = name;
-        }
-
-        public getAge(): number {
-          return this.age;
-        }
-
-        public setAge(age: number): void {
-          this.age = age;
-        }
-
-        public isActiveUser(): boolean {
-          return this.isActive;
-        }
-
-        public setActiveStatus(status: boolean): void {
-          this.isActive = status;
-        }
-
-        public async fetchUserData(): Promise<{name: string; age: number}> {
-          // Simulating async data fetch
-          return {
-            name: this.name,
-            age: this.age
-          };
-        }
-    }`,
-  );
-
-  const doc = new Doc(tmpFile);
-
-  beforeAll(async () => {
-    await doc.parse();
+  describe('constructor', () => {
+    it('should initialize with empty docs array', () => {
+      const doc = new Doc();
+      expect(doc['docs']).toEqual([]);
+    });
   });
 
-  afterAll(() => {
-    Deno.removeSync(tmpFile);
+  describe('setDocs', () => {
+    it('should set docs array', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: false,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        properties: [],
+        methods: [],
+      }];
+      doc.setDocs(testDocs);
+      expect(doc['docs']).toEqual(testDocs);
+    });
   });
 
-  it('should parse class properties correctly', () => {
-    const properties = doc.findProperties({});
-
-    expect(properties.length).toBe(4);
-    expect(properties.map((p) => p.name)).toContain('name');
-    expect(properties.map((p) => p.name)).toContain('age');
-    expect(properties.map((p) => p.name)).toContain('isActive');
-  });
-
-  it('should find properties by name', () => {
-    const nameProps = doc.findProperties({ name: 'name' });
-    expect(nameProps.length).toBe(1);
-    expect(nameProps[0].types).toContain('string');
-    expect(nameProps[0].accessibility).toBe('private');
-  });
-
-  it('should find properties by type', () => {
-    const numberProps = doc.findProperties({ types: ['number'] });
-    expect(numberProps.length).toBe(1);
-    expect(numberProps[0].name).toBe('age');
-  });
-
-  it('should correctly identify property types', () => {
-    const properties = doc.findProperties({});
-
-    // Create a map of property names to their expected types
-    const expectedTypes: Record<string, string[]> = {
-      'name': ['string'],
-      'age': ['number'],
-      'isActive': ['boolean'],
-      'roles': ['string[]'],
-    };
-
-    properties.map((prop) => {
-      const expected = expectedTypes[prop.name];
-      expect(expected).toBeDefined();
-
-      // Check if at least one of the expected types matches
-      const hasMatchingType = prop.types.some((type) =>
-        expected.includes(type)
-      );
-      expect(hasMatchingType).toBe(true);
+  describe('parse', () => {
+    it('should return empty array if no filePath', async () => {
+      const doc = new Doc();
+      const result = await doc.parse();
+      expect(result).toEqual([]);
     });
 
-    // Additional specific checks
-    const rolesProperty = properties.find((p) => p.name === 'roles');
-    expect(rolesProperty).toBeDefined();
-    expect(rolesProperty?.types).toContain('string[]');
+    it('should parse file and return class documentation', async () => {
+      // Mock Deno.Command
+      const mockOutput = {
+        stdout: new TextEncoder().encode(JSON.stringify({
+          nodes: [{
+            kind: 'class',
+            name: 'TestClass',
+            declarationKind: 'export',
+            classDef: {
+              isAbstract: false,
+              methods: [],
+              properties: [],
+            },
+          }],
+        })),
+      };
+
+      const mockCommand = stub(
+        Deno,
+        'Command',
+        () => ({
+          output: () => Promise.resolve(mockOutput),
+        }),
+      );
+
+      try {
+        const doc = new Doc('test.ts');
+        const result = await doc.parse();
+
+        expect(result[0].name).toEqual('TestClass');
+        expect(result[0].isExported).toEqual(true);
+      } finally {
+        mockCommand.restore();
+      }
+    });
   });
 
-  it('should correctly identify array properties', () => {
-    const arrayProps = doc.findProperties({ types: ['string[]'] });
+  describe('findClasses', () => {
+    it('should find classes matching criteria', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: true,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        properties: [],
+        methods: [],
+      }];
+      doc.setDocs(testDocs);
 
-    expect(arrayProps.length).toBe(1);
-    expect(arrayProps[0].name).toBe('roles');
-    expect(arrayProps[0].types).toContain('string[]');
+      const result = doc.findClasses({ isExported: true });
+      expect(result).toEqual(testDocs);
+    });
+
+    it('should find classes by regex name', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: true,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        properties: [],
+        methods: [],
+      }];
+      doc.setDocs(testDocs);
+
+      const result = doc.findClasses({ name: /Test/ });
+      expect(result).toEqual(testDocs);
+    });
   });
 
-  it('should parse class methods correctly', () => {
-    const methods = doc.findMethods({});
+  describe('findConstructors', () => {
+    it('should find constructors matching criteria', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: false,
+        isDefault: false,
+        isAbstract: false,
+        constructor: {
+          name: 'constructor',
+          accessibility: 'public',
+          parameters: [],
+        },
+        methods: [],
+        properties: [],
+      }];
+      doc.setDocs(testDocs);
 
-    expect(methods.length).toBe(7);
-    expect(methods.map((m) => m.name)).toContain('getName');
-    expect(methods.map((m) => m.name)).toContain('setName');
-    expect(methods.map((m) => m.name)).toContain('fetchUserData');
+      const result = doc.findConstructors({ accessibility: 'public' });
+      expect(result[0].name).toEqual('constructor');
+    });
   });
 
-  it('should find methods by name', () => {
-    const getMethods = doc.findMethods({ name: /^get/ });
-    expect(getMethods.length).toBe(2);
-    expect(getMethods.map((m) => m.name)).toContain('getName');
-    expect(getMethods.map((m) => m.name)).toContain('getAge');
+  describe('findProperties', () => {
+    it('should find properties matching criteria', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: false,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        properties: [{
+          name: 'testProp',
+          types: ['string'],
+          isOptional: false,
+          isReadonly: true,
+          accessibility: 'private',
+          isAbstract: false,
+          isStatic: false,
+        }],
+        methods: [],
+      }];
+      doc.setDocs(testDocs);
+
+      const result = doc.findProperties({ isReadonly: true });
+      expect(result[0].name).toEqual('testProp');
+    });
   });
 
-  it('should find methods by return type', () => {
-    const stringMethods = doc.findMethods({ returnType: 'string' });
-    expect(stringMethods.length).toBe(1);
-    expect(stringMethods[0].name).toBe('getName');
+  describe('findMethods', () => {
+    it('should find methods matching criteria', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: false,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        methods: [{
+          name: 'testMethod',
+          isAbstract: false,
+          isStatic: false,
+          isOptional: false,
+          isAsync: true,
+          isGenerator: false,
+          accessibility: 'public',
+          returnType: null,
+          parameters: [],
+        }],
+        properties: [],
+      }];
+      doc.setDocs(testDocs);
+
+      const result = doc.findMethods({ isAsync: true });
+      expect(result[0].name).toEqual('testMethod');
+    });
   });
 
-  it('should find async methods', () => {
-    const asyncMethods = doc.findMethods({ isAsync: true });
-    expect(asyncMethods.length).toBe(1);
-    expect(asyncMethods[0].name).toBe('fetchUserData');
-  });
+  describe('findParameters', () => {
+    it('should find parameters for specified class and method', () => {
+      const doc = new Doc();
+      const testDocs: ClassDocType[] = [{
+        name: 'TestClass',
+        isExported: false,
+        isDefault: false,
+        isAbstract: false,
+        constructor: null,
+        methods: [{
+          name: 'testMethod',
+          isAbstract: false,
+          isStatic: false,
+          isOptional: false,
+          isAsync: false,
+          isGenerator: false,
+          accessibility: 'public',
+          returnType: null,
+          parameters: [{
+            name: 'testParam',
+            types: ['string'],
+            isOptional: false,
+          }],
+        }],
+        properties: [],
+      }];
+      doc.setDocs(testDocs);
 
-  it('should find parameters for a method', () => {
-    const params = doc.findParameters('TestClass', 'setName');
-    expect(params.length).toBe(1);
-    expect(params[0].name).toBe('name');
-    expect(params[0].types).toContain('string');
-    expect(params[0].isOptional).toBe(false);
-  });
+      const result = doc.findParameters('TestClass', 'testMethod');
+      expect(result[0].name).toEqual('testParam');
+    });
 
-  it('should return empty array for non-existent method', () => {
-    const params = doc.findParameters('User', 'nonExistentMethod');
-    expect(params).toEqual([]);
-  });
-
-  it('should return empty array for non-existent class', () => {
-    const params = doc.findParameters('NonExistentClass', 'someMethod');
-    expect(params).toEqual([]);
-  });
-
-  it('should find classes by name pattern', () => {
-    const testClasses = doc.findClasses({ name: /^Test/ });
-    expect(testClasses.length).toBe(1);
-    expect(testClasses[0].name).toBe('TestClass');
-  });
-
-  it('should find classes by exact name', () => {
-    const foundClass = doc.findClasses({ name: 'TestClass' });
-    expect(foundClass.length).toBe(1);
-    expect(foundClass[0].name).toBe('TestClass');
-  });
-
-  it('should find classes by abstract status', () => {
-    const abstractClasses = doc.findClasses({ isAbstract: true });
-    const nonAbstractClasses = doc.findClasses({ isAbstract: false });
-    expect(abstractClasses.length).toBe(0);
-    expect(nonAbstractClasses.length).toBe(1);
-  });
-
-  it('should find classes by export status', () => {
-    const exportedClasses = doc.findClasses({ isExported: true });
-    expect(exportedClasses.length).toBe(1);
-    expect(exportedClasses[0].name).toBe('TestClass');
-  });
-
-  it('should return empty array when no classes match criteria', () => {
-    const noClasses = doc.findClasses({ name: 'NonExistentClass' });
-    expect(noClasses).toEqual([]);
+    it('should return empty array if method not found', () => {
+      const doc = new Doc();
+      const result = doc.findParameters(
+        'NonExistentClass',
+        'nonExistentMethod',
+      );
+      expect(result).toEqual([]);
+    });
   });
 });

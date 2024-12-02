@@ -74,4 +74,34 @@ describe('Config Decorator', () => {
       }
     }).toThrow(ConfigDecoratorException);
   });
+
+  it('should register config with custom scope', () => {
+    @config({ scope: 'config' })
+    // @ts-ignore: This is a test
+    // deno-lint-ignore no-unused-vars
+    class CustomScopeConfig implements IConfig {
+      public toJson() {
+        return {};
+      }
+    }
+
+    const instance = container.get('CustomScopeConfig', 'config');
+    expect(instance).toBeDefined();
+  });
+
+  it('should register non-singleton config', () => {
+    @config({ singleton: false })
+    // @ts-ignore: This is a test
+    // deno-lint-ignore no-unused-vars
+    class NonSingletonConfig implements IConfig {
+      public toJson() {
+        return {};
+      }
+    }
+
+    const instance1 = container.get('NonSingletonConfig', 'config');
+    const instance2 = container.get('NonSingletonConfig', 'config');
+
+    expect(instance1).not.toBe(instance2);
+  });
 });

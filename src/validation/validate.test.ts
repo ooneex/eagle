@@ -1,14 +1,14 @@
-import { expect } from '@std/expect';
-import { describe, it } from '@std/testing/bdd';
-import {
-  AssertString,
-  AssertUndefined,
-  ValidatorScopeType,
-} from '@/validation/mod.ts';
 import { container } from '@/container/mod.ts';
 import { DocContainer } from '@/doc/container.ts';
-import { ValidationException } from '@/validation/mod.ts';
-import { AbstractValidator } from '@/validation/mod.ts';
+import {
+  AbstractValidator,
+  AssertString,
+  AssertUndefined,
+  ValidationException,
+  ValidatorScopeType,
+} from '@/validation/mod.ts';
+import { expect } from '@std/expect';
+import { describe, it } from '@std/testing/bdd';
 
 class TestValidator extends AbstractValidator {
   prop1!: string;
@@ -149,5 +149,17 @@ describe('validate', () => {
 
     expect(result.success).toBe(false);
     expect(result.details[0].success).toBe(false);
+  });
+
+  it('should throw ValidationException when validator definition not found', () => {
+    const validator = new TestValidator();
+    const data = { prop1: 'test' };
+
+    DocContainer.get = () => undefined;
+
+    expect(() => validator.validate(data)).toThrow(ValidationException);
+    expect(() => validator.validate(data)).toThrow(
+      'Validator definition not found',
+    );
   });
 });

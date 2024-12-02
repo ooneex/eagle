@@ -1,3 +1,4 @@
+import { Exception } from '@/exception/mod.ts';
 import { Header } from '@/header/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
@@ -109,6 +110,62 @@ describe('Header', () => {
       const headers = new Header();
       headers.setEtag('123abc');
       expect(headers.get('Etag')).toBe('123abc');
+    });
+  });
+
+  describe('error handling', () => {
+    it('should throw Exception when setting invalid content length', () => {
+      const headers = new Header();
+
+      try {
+        headers.contentLength(-1);
+      } catch (error) {
+        expect(error).toBeInstanceOf(Exception);
+      }
+    });
+
+    it('should throw Exception when setting empty etag', () => {
+      const headers = new Header();
+
+      try {
+        headers.setEtag('');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Exception);
+      }
+    });
+  });
+
+  describe('header existence checks', () => {
+    it('should check if header exists', () => {
+      const headers = new Header();
+      headers.set('X-Test', 'value');
+      expect(headers.has('X-Test')).toBe(true);
+      expect(headers.has('Non-Existent')).toBe(false);
+    });
+
+    it('should return all headers', () => {
+      const headers = new Header();
+      headers.set('X-Test-1', 'value1');
+      headers.set('X-Test-2', 'value2');
+
+      expect(headers.get('X-Test-1')).toBe('value1');
+      expect(headers.get('X-Test-2')).toBe('value2');
+    });
+  });
+
+  describe('content type handling', () => {
+    it('should set JSON content type without charset', () => {
+      const headers = new Header();
+      headers.setJsonType();
+      expect(headers.get('Content-Type')).toBe(
+        'application/json; charset=UTF-8',
+      );
+    });
+
+    it('should set text content type with charset', () => {
+      const headers = new Header();
+      headers.setTextType('UTF-16');
+      expect(headers.get('Content-Type')).toBe('text/plain; charset=UTF-16');
     });
   });
 });

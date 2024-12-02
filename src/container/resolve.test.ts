@@ -52,4 +52,18 @@ describe('resolve', () => {
       expect(result).toEqual([]);
     });
   });
+
+  it('should throw ContainerException on indirect circular dependency', () => {
+    const callCount = 0;
+    // @ts-ignore: trust me
+    DocContainer.get = (_key: string) => ({
+      findConstructors: () => [{
+        parameters: [
+          { types: [callCount === 0 ? 'DependentClass' : 'TestClass'] },
+        ],
+      }],
+    });
+
+    expect(() => getDependencies('TestClass')).toThrow(ContainerException);
+  });
 });

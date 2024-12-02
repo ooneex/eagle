@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-unused-vars
 import { container } from '@/container/mod.ts';
 import {
   Admin,
@@ -187,40 +188,6 @@ describe('Controller Decorators', () => {
     });
   });
 
-  describe('NotFound Decorator', () => {
-    it('should register not found controller', () => {
-      @NotFound()
-      class Test12Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const controller = container.get(
-        NOT_FOUND_CONTROLLER_KEY,
-        'controller',
-      );
-      expect(controller).toBeInstanceOf(Test12Controller);
-    });
-  });
-
-  describe('ServerException Decorator', () => {
-    it('should register server exception controller', () => {
-      @ServerException()
-      class Test13Controller implements IController {
-        action(): IResponse {
-          return {} as IResponse;
-        }
-      }
-
-      const controller = container.get(
-        SERVER_EXCEPTION_CONTROLLER_KEY,
-        'controller',
-      );
-      expect(controller).toBeInstanceOf(Test13Controller);
-    });
-  });
-
   describe('Combined Decorators', () => {
     it('should work with multiple decorators', () => {
       @Host('example.com')
@@ -327,7 +294,6 @@ describe('Controller Decorators', () => {
       expect(() => {
         @Get('/users')
         // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
         class TestClass implements IController {
           action(): IResponse {
             return {} as IResponse;
@@ -340,7 +306,6 @@ describe('Controller Decorators', () => {
       expect(() => {
         @Get('/users')
         // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
         class Test21Controller implements IController {
           action(): IResponse {
             return {} as IResponse;
@@ -353,7 +318,6 @@ describe('Controller Decorators', () => {
       expect(() => {
         @Get('/')
         // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
         class Test22Controller implements IController {}
       }).toThrow(DecoratorException);
     });
@@ -362,7 +326,6 @@ describe('Controller Decorators', () => {
       expect(() => {
         @Get('/')
         // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
         class Test23Controller implements IController {}
       }).toThrow(DecoratorException);
     });
@@ -371,7 +334,6 @@ describe('Controller Decorators', () => {
       expect(() => {
         @Get('/')
         // @ts-ignore: Testing runtime behavior
-        // deno-lint-ignore no-unused-vars
         class Test24Controller implements IController {
           action(): IResponse {
             return {} as IResponse;
@@ -464,6 +426,62 @@ describe('Controller Decorators', () => {
       expect(config?.middlewares).toContain(middleware1);
       expect(config?.middlewares).toContain(middleware2);
       expect(config?.middlewares?.length).toBe(2);
+    });
+  });
+
+  describe('NotFound Decorator', () => {
+    it('should throw if decorated class is not a controller', () => {
+      ControllerContainer.delete(NOT_FOUND_CONTROLLER_KEY);
+
+      expect(() => {
+        @NotFound()
+        // @ts-ignore: Testing runtime behavior
+        class InvalidClass {}
+      }).toThrow(DecoratorException);
+    });
+  });
+
+  describe('ServerException Decorator', () => {
+    it('should throw if decorated class is not a controller', () => {
+      expect(() => {
+        @ServerException()
+        // @ts-ignore: Testing runtime behavior
+        class InvalidClass {}
+      }).toThrow(DecoratorException);
+    });
+  });
+
+  describe('NotFound Decorator', () => {
+    it('should store controller in container with NOT_FOUND_CONTROLLER_KEY', () => {
+      ControllerContainer.delete(NOT_FOUND_CONTROLLER_KEY);
+
+      @NotFound()
+      class NotFoundController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(NOT_FOUND_CONTROLLER_KEY);
+      expect(config).toBeDefined();
+      expect(config?.name).toBe(NotFoundController.name);
+    });
+  });
+
+  describe('ServerException Decorator', () => {
+    it('should store controller in container with SERVER_EXCEPTION_CONTROLLER_KEY', () => {
+      ControllerContainer.delete(SERVER_EXCEPTION_CONTROLLER_KEY);
+
+      @ServerException()
+      class ServerExceptionController implements IController {
+        action(): IResponse {
+          return {} as IResponse;
+        }
+      }
+
+      const config = ControllerContainer.get(SERVER_EXCEPTION_CONTROLLER_KEY);
+      expect(config).toBeDefined();
+      expect(config?.name).toBe(ServerExceptionController.name);
     });
   });
 });

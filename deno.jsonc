@@ -2,8 +2,8 @@
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "tasks": {
     "test": "deno test -A --parallel",
-    "test:watch": "deno test -A --parallel --watch",
-    "test:coverage": "deno test -A --parallel --coverage && deno coverage",
+    "test:watch": "deno test -A --watch",
+    "test:coverage": "deno test -A --coverage && deno coverage",
     "fmt": "deno fmt",
     "lint": "deno lint"
   },

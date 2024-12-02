@@ -54,4 +54,49 @@ describe('DevMailer', () => {
 
     await expect(mailer.send()).rejects.toThrow(MailerException);
   });
+
+  it('should throw error when sending with invalid mailer URL', async () => {
+    const mailer = new DevMailer();
+
+    await expect(mailer.send()).rejects.toThrow(MailerException);
+  });
+
+  it('should throw error when sending without sender', async () => {
+    const mailer = new DevMailer();
+
+    await expect(mailer.send()).rejects.toThrow(MailerException);
+  });
+
+  it('should throw error when sending without destinations', async () => {
+    const mailer = new DevMailer();
+    mailer.setSender({ name: 'Test', address: 'test@test.com' });
+
+    await expect(mailer.send()).rejects.toThrow(MailerException);
+  });
+
+  it('should throw error when sending without content', async () => {
+    const mailer = new DevMailer();
+    mailer.setSender({ name: 'Test', address: 'test@test.com' });
+    mailer.addDestination({ address: 'test@test.com' });
+
+    await expect(mailer.send()).rejects.toThrow(MailerException);
+  });
+
+  it('should handle fetch errors during send', async () => {
+    const mailer = new DevMailer();
+    mailer.setSender({ name: 'Test', address: 'test@test.com' });
+    mailer.addDestination({ address: 'test@test.com' });
+    mailer.setTextContent('Test content');
+
+    // Stub fetch to simulate network error
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = () => Promise.reject(new Error('Network error'));
+
+    try {
+      await expect(mailer.send()).rejects.toThrow(MailerException);
+    } finally {
+      // Restore original fetch
+      globalThis.fetch = originalFetch;
+    }
+  });
 });
