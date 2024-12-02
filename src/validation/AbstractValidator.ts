@@ -1,4 +1,8 @@
-import { IValidator, ValidatorScopeType } from './types.ts';
+import {
+  IValidator,
+  ValidationResultType,
+  ValidatorScopeType,
+} from './types.ts';
 import { validate } from './validate.ts';
 
 /**
@@ -32,7 +36,7 @@ export abstract class AbstractValidator implements IValidator {
    * const result = validator.validate({foo: 'bar'});
    * ```
    */
-  public validate(data: unknown) {
+  public validate(data: unknown): ValidationResultType {
     return validate(this, data);
   }
 }

@@ -15,7 +15,7 @@ import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecorat
 export const database = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (database: any) => {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name);
@@ -39,7 +39,7 @@ export const database = (options?: {
 export const vector = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (vectorDatabase: any) => {
     const name = vectorDatabase.prototype.constructor.name;
     ensureIsVectorDatabase(name);
@@ -63,7 +63,7 @@ export const vector = (options?: {
 export const repository = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (repository: any) => {
     const name = repository.prototype.constructor.name;
     ensureIsRepository(name);
@@ -81,7 +81,7 @@ export const repository = (options?: {
  * @param name The class name to validate
  * @throws {DatabaseDecoratorException} If the class name doesn't end with 'Database'
  */
-const ensureIsDatabase = (name: string) => {
+const ensureIsDatabase = (name: string): void => {
   if (!name?.endsWith('Database')) {
     throw new DatabaseDecoratorException(
       `Database decorator can only be used on database classes. ${name} must end with Database keyword.`,
@@ -94,7 +94,7 @@ const ensureIsDatabase = (name: string) => {
  * @param name The class name to validate
  * @throws {VectorDatabaseDecoratorException} If the class name doesn't end with 'VectorDatabase'
  */
-const ensureIsVectorDatabase = (name: string) => {
+const ensureIsVectorDatabase = (name: string): void => {
   if (!name?.endsWith('VectorDatabase')) {
     throw new VectorDatabaseDecoratorException(
       `VectorDatabase decorator can only be used on vector database classes. ${name} must end with VectorDatabase keyword.`,
@@ -107,7 +107,7 @@ const ensureIsVectorDatabase = (name: string) => {
  * @param name The class name to validate
  * @throws {RepositoryDecoratorException} If the class name doesn't end with 'Repository'
  */
-const ensureIsRepository = (name: string) => {
+const ensureIsRepository = (name: string): void => {
   if (!name?.endsWith('Repository')) {
     throw new RepositoryDecoratorException(
       `Repository decorator can only be used on repository classes. ${name} must end with Repository keyword.`,

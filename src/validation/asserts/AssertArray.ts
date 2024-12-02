@@ -1,5 +1,5 @@
 import { assert } from '../decorators.ts';
-import { IAssert } from '../types.ts';
+import { AssertValidateReturnType, IAssert } from '../types.ts';
 
 /**
  * A class that validates if a value is an array.
@@ -25,7 +25,7 @@ export class AssertArray implements IAssert {
    * validate('not array'); // { success: false, message: 'Value must be an array' }
    * ```
    */
-  public validate(value: unknown) {
+  public validate(value: unknown): AssertValidateReturnType {
     return {
       success: Array.isArray(value),
       message: 'Value must be an array',

@@ -23,8 +23,8 @@ type ControllerType = any;
 export const Delete = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'DELETE', path, config);
   };
 };
@@ -37,8 +37,8 @@ export const Delete = (
 export const Get = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'GET', path, config);
   };
 };
@@ -51,8 +51,8 @@ export const Get = (
 export const Head = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'HEAD', path, config);
   };
 };
@@ -65,8 +65,8 @@ export const Head = (
 export const Options = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'OPTIONS', path, config);
   };
 };
@@ -79,8 +79,8 @@ export const Options = (
 export const Patch = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'PATCH', path, config);
   };
 };
@@ -93,8 +93,8 @@ export const Patch = (
 export const Post = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'POST', path, config);
   };
 };
@@ -107,8 +107,8 @@ export const Post = (
 export const Put = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
-  return (controller: ControllerType) => {
+): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     registerMethod(controller, 'PUT', path, config);
   };
 };
@@ -117,8 +117,8 @@ export const Put = (
  * Decorator to restrict controller to specific host
  * @param host - Host string or RegExp to match
  */
-export const Host = (host: string | RegExp) => {
-  return (controller: ControllerType) => {
+export const Host = (host: string | RegExp): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -135,8 +135,8 @@ export const Host = (host: string | RegExp) => {
  * Decorator to restrict controller to specific IP addresses
  * @param ip - IP address string or RegExp to match
  */
-export const Ip = (ip: string | RegExp) => {
-  return (controller: ControllerType) => {
+export const Ip = (ip: string | RegExp): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -152,8 +152,8 @@ export const Ip = (ip: string | RegExp) => {
 /**
  * Decorator to mark controller as publicly accessible
  */
-export const Public = () => {
-  return (controller: ControllerType) => {
+export const Public = (): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -167,8 +167,8 @@ export const Public = () => {
 /**
  * Decorator to restrict controller to admin role
  */
-export const Admin = () => {
-  return (controller: ControllerType) => {
+export const Admin = (): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -182,8 +182,8 @@ export const Admin = () => {
 /**
  * Decorator to restrict controller to super admin role
  */
-export const SuperAdmin = () => {
-  return (controller: ControllerType) => {
+export const SuperAdmin = (): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -197,8 +197,8 @@ export const SuperAdmin = () => {
 /**
  * Decorator to mark controller as not found handler
  */
-export const NotFound = () => {
-  return (controller: ControllerType) => {
+export const NotFound = (): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
 
@@ -217,8 +217,8 @@ export const NotFound = () => {
 /**
  * Decorator to mark controller as server exception handler
  */
-export const ServerException = () => {
-  return (controller: ControllerType) => {
+export const ServerException = (): MethodDecorator => {
+  return (controller: ControllerType, _propertyKey: string | symbol) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
 
@@ -242,7 +242,7 @@ const registerMethod = (
   method: ControllerMethodType,
   path: string,
   options?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-) => {
+): void => {
   const name = controller.prototype.constructor.name;
   ensureIsController(name, controller);
   ensureInitialData(name, controller);
@@ -273,7 +273,7 @@ const registerMethod = (
 /**
  * Ensures controller has initial configuration data
  */
-const ensureInitialData = (name: string, controller: ControllerType) => {
+const ensureInitialData = (name: string, controller: ControllerType): void => {
   if (name && !ControllerContainer.has(name)) {
     ControllerContainer.add(name, {
       name,
@@ -298,7 +298,7 @@ const ensureInitialData = (name: string, controller: ControllerType) => {
 /**
  * Validates that decorator is applied to a controller class
  */
-const ensureIsController = (name: string, controller: ControllerType) => {
+const ensureIsController = (name: string, controller: ControllerType): void => {
   if (
     !name?.endsWith('Controller') ||
     !controller.prototype.action

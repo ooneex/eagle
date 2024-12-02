@@ -13,7 +13,7 @@ import { SeedDecoratorException } from './SeedDecoratorException.ts';
 export const seed = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (seed: any) => {
     const name = seed.prototype.constructor.name;
     ensureIsSeed(name, seed);
@@ -34,7 +34,7 @@ export const seed = (options?: {
  * @param seed The seed class to validate
  * @throws {SeedDecoratorException} If the class does not meet seed requirements
  */
-const ensureIsSeed = (name: string, seed: any) => {
+const ensureIsSeed = (name: string, seed: any): void => {
   if (
     !name.endsWith('Seed') ||
     !seed.prototype.execute ||

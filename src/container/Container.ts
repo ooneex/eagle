@@ -113,7 +113,13 @@ export class Container {
    * @param scope - The scope to get the store for
    * @returns The store for the given scope
    */
-  public getStore(scope: ContainerScopeType) {
+  public getStore(scope: ContainerScopeType):
+    | ICollection<string, {
+      value: any;
+      singleton?: boolean;
+      instance?: boolean;
+    }>
+    | undefined {
     return this.store.get(scope);
   }
 }
@@ -121,4 +127,4 @@ export class Container {
 /**
  * Default container instance
  */
-export const container = new Container();
+export const container: Container = new Container();

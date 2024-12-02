@@ -12,7 +12,7 @@ import { ServiceDecoratorException } from './ServiceDecoratorException.ts';
 export const service = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (service: any) => {
     const name = service.prototype.constructor.name;
     ensureIsService(name);
@@ -30,7 +30,7 @@ export const service = (options?: {
  * @param name The class name to validate
  * @throws {ServiceDecoratorException} If the class name doesn't end with 'Service'
  */
-const ensureIsService = (name: string) => {
+const ensureIsService = (name: string): void => {
   if (!name.endsWith('Service')) {
     throw new ServiceDecoratorException(
       `Service decorator can only be used on service classes. ${name} must end with Service keyword.`,

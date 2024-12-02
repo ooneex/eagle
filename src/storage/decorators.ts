@@ -12,7 +12,7 @@ import { StorageDecoratorException } from './StorageDecoratorException.ts';
 export const storage = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (storage: any) => {
     const name = storage.prototype.constructor.name;
     ensureIsStorage(name, storage);
@@ -32,7 +32,7 @@ export const storage = (options?: {
  * @param storage The storage class to validate
  * @throws {StorageDecoratorException} If validation fails
  */
-const ensureIsStorage = (name: string, storage: any) => {
+const ensureIsStorage = (name: string, storage: any): void => {
   if (
     !name.endsWith('Storage') ||
     !storage.prototype.get ||

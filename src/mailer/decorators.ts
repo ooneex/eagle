@@ -14,7 +14,7 @@ import { MailerDecoratorException } from './MailerDecoratorException.ts';
 export const mailer = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (mailer: any) => {
     const name = mailer.prototype.constructor.name;
     ensureIsMailer(name, mailer);
@@ -35,7 +35,7 @@ export const mailer = (options?: {
  * @param mailer The mailer class to validate
  * @throws MailerDecoratorException if validation fails
  */
-const ensureIsMailer = (name: string, mailer: any) => {
+const ensureIsMailer = (name: string, mailer: any): void => {
   if (!name.endsWith('Mailer') || !mailer.prototype.send) {
     throw new MailerDecoratorException(
       `Mailer decorator can only be used on mailer classes. ${name} must end with Mailer keyword and implement IMailer interface.`,

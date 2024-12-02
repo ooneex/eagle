@@ -13,7 +13,7 @@ export class Permission {
    * @returns true if user has permission, throws PermissionException otherwise
    * @throws PermissionException when user lacks required permissions
    */
-  public canManage(id: string) {
+  public canManage(id: string): boolean {
     if (this.user.isAdmin()) {
       return true;
     }

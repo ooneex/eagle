@@ -29,7 +29,7 @@ import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
 export const validator = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (validator: any) => {
     const name = validator.prototype.constructor.name;
     ensureIsValidator(name, validator);
@@ -65,7 +65,7 @@ export const validator = (options?: {
 export const assert = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (assert: any) => {
     const name = assert.prototype.constructor.name;
     ensureIsAssert(name, assert);
@@ -85,7 +85,7 @@ export const assert = (options?: {
  * @param validator The validator class
  * @throws {ValidatorDecoratorException} If validation fails
  */
-const ensureIsValidator = (name: string, validator: any) => {
+const ensureIsValidator = (name: string, validator: any): void => {
   if (
     !name?.endsWith('Validator') ||
     !validator.prototype.getScope ||
@@ -104,7 +104,7 @@ const ensureIsValidator = (name: string, validator: any) => {
  * @param assert The assert class
  * @throws {ValidatorDecoratorException} If validation fails
  */
-const ensureIsAssert = (name: string, assert: any) => {
+const ensureIsAssert = (name: string, assert: any): void => {
   if (!name?.startsWith('Assert') || !assert.prototype.validate) {
     throw new ValidatorDecoratorException(
       `Assert decorator can only be used on assert classes. ${name} must start with Assert keyword implement IAssert interface.`,

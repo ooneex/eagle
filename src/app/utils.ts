@@ -24,7 +24,7 @@ import { ValidationFailedException } from '../validation/ValidationFailedExcepti
  * @param req - The original request
  * @returns Response object with 404 status and error details
  */
-export const buildDefaultNotFoundResponse = (req: Request) => {
+export const buildDefaultNotFoundResponse = (req: Request): Response => {
   const response = new HttpResponse();
   const request = new HttpRequest(req);
 
@@ -46,7 +46,7 @@ export const buildDefaultNotFoundResponse = (req: Request) => {
  */
 export const buildDefaultServerExceptionResponse = (
   error: Error,
-) => {
+): Response => {
   let status: StatusCodeType = 500;
   let message = 'Internal Server Error';
   let data: Record<string, unknown> | null = null;
@@ -71,7 +71,7 @@ export const buildDefaultServerExceptionResponse = (
 export const buildRequest = async (
   req: Request,
   definition: StoreControllerValueType,
-) => {
+): Promise<HttpRequest> => {
   const url = new URL(req.url);
   const path = `/${trim(url.pathname, '/')}`;
 
@@ -122,7 +122,11 @@ export const buildControllerActionParameters = async (
   req: Request,
   definition: StoreControllerValueType,
   exception?: Exception,
-) => {
+): Promise<{
+  parameters: unknown[];
+  request: IRequest;
+  response: IResponse;
+}> => {
   const request: IRequest = await buildRequest(req, definition);
   const response = new HttpResponse();
 
@@ -394,7 +398,10 @@ export const handleEnvValidation = (
  * @param error - The error that was thrown
  * @returns Built response from exception controller or default
  */
-export const handleServerException = async (req: Request, error: Error) => {
+export const handleServerException = async (
+  req: Request,
+  error: Error,
+): Promise<Response> => {
   const definition = ControllerContainer.get(
     SERVER_EXCEPTION_CONTROLLER_KEY,
   ) || null;
@@ -442,7 +449,7 @@ export const handleGlobalMiddlewares = async (
   request: IRequest,
   response: IResponse,
   scope: MiddlewareScopeType,
-) => {
+): Promise<void> => {
   const middlewareStore = container.getStore('middleware');
   const middlewares = middlewareStore?.filter((_key, m) => {
     return m.value.getScope() === scope;
@@ -474,7 +481,7 @@ export const handleControllerMiddlewares = async (
   response: IResponse,
   scope: MiddlewareScopeType,
   middlewares: IMiddleware[],
-) => {
+): Promise<void> => {
   const filteredMiddlewares = middlewares.filter((m) => {
     return m.getScope() === scope;
   }) ?? null;

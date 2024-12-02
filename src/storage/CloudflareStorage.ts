@@ -50,7 +50,7 @@ export class CloudflareStorage implements IStorage {
    * @param bucket Bucket name to check
    * @returns True if bucket exists, false otherwise
    */
-  public async hasBucket(bucket: string) {
+  public async hasBucket(bucket: string): Promise<boolean> {
     try {
       const client = this.getClient();
 
@@ -107,7 +107,7 @@ export class CloudflareStorage implements IStorage {
    * Sets the Cloudflare region
    * @param region Region to set
    */
-  public setRegion(region: CloudflareRegionType) {
+  public setRegion(region: CloudflareRegionType): void {
     this.region = region;
   }
 
@@ -115,7 +115,7 @@ export class CloudflareStorage implements IStorage {
    * Gets the current Cloudflare region
    * @returns Current region
    */
-  public getRegion() {
+  public getRegion(): CloudflareRegionType {
     return this.region;
   }
 
@@ -124,7 +124,7 @@ export class CloudflareStorage implements IStorage {
    * @returns Configured S3Client instance
    * @throws StorageException if credentials are not set
    */
-  private getClient() {
+  private getClient(): S3Client {
     const secret = Deno.env.get(
       EnvConfig.KEYS.storage.cloudflare.key.secret,
     );

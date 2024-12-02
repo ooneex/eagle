@@ -13,7 +13,7 @@ import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
 export const config = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (config: any) => {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);
@@ -33,7 +33,7 @@ export const config = (options?: {
  * @param config The config class
  * @throws {ConfigDecoratorException} If validation fails
  */
-const ensureIsConfig = (name: string, config: any) => {
+const ensureIsConfig = (name: string, config: any): void => {
   if (
     !name.endsWith('Config') ||
     !config.prototype.toJson

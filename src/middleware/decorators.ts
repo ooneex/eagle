@@ -12,7 +12,7 @@ import { MiddlewareDecoratorException } from './MiddlewareDecoratorException.ts'
 export const middleware = (options?: {
   scope?: ContainerScopeType;
   singleton?: boolean;
-}) => {
+}): ClassDecorator => {
   return (middleware: any) => {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
@@ -31,7 +31,7 @@ export const middleware = (options?: {
  * @param validator The middleware class to validate
  * @throws {MiddlewareDecoratorException} If the class is not a valid middleware implementation
  */
-const ensureIsMiddleware = (name: string, validator: any) => {
+const ensureIsMiddleware = (name: string, validator: any): void => {
   if (
     !name?.endsWith('Middleware') ||
     !validator.prototype.execute ||
