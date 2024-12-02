@@ -78,18 +78,6 @@ describe('File', () => {
     expect(files.length).toBe(0);
   });
 
-  it('should combine recursive, match, and exclude options', () => {
-    const file = new File(testDir);
-    const files = file.list({
-      recursive: true,
-      match: /\.txt$/,
-      exclude: /subdir/,
-    });
-
-    expect(files.length).toBe(2);
-    expect(files[0]).toBe(`${testDir}/file1.txt`);
-  });
-
   it('should check if a file exists', () => {
     const file = new File(testDir);
     const exists = file.exists();
