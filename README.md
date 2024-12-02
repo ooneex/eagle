@@ -1,6 +1,6 @@
 # Ooneex Eagle Core
 
-A powerful and flexible Deno web framework designed for building robust web applications with modern best practices and high performance. Built with TypeScript, it provides features like dependency injection, middleware support, request/response validation, controller routing, and exception handling. The framework follows SOLID principles and uses strict typing for reliable code.
+A powerful and flexible Deno API framework designed for building robust web applications with modern best practices and high performance.
 
 ## Features
 
