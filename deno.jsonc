@@ -36,6 +36,16 @@
     "./url": "./src/url/mod.ts",
     "./validation": "./src/validation/mod.ts"
   },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.test.ts"
+    ]
+  },
   "imports": {
     "@/": "./src/",
     "@std/expect": "jsr:@std/expect",
