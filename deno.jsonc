@@ -9,6 +9,7 @@
     "lint": "deno lint"
   },
   "exports": {
+    "./eagle": "./src/mod.ts",
     "./app": "./src/app/mod.ts",
     "./cli": "./src/cli/main.ts",
     "./collection": "./src/collection/mod.ts",

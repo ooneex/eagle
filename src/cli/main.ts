@@ -1,3 +1,44 @@
+/**
+ * CLI module for generating Eagle project components.
+ *
+ * This module provides an interactive command-line interface to scaffold various
+ * components like controllers, services, repositories etc. for Eagle projects.
+ *
+ * @module cli
+ *
+ * @example
+ * ```ts
+ * // Run the CLI generator
+ * deno run -A cli/main.ts
+ *
+ * // Select component type from menu:
+ * // ▪ Assert
+ * // ▪ Config
+ * // ▪ Controller
+ * // etc...
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Generate a controller
+ * > Controller
+ * > Enter name: User
+ * > Select methods: [x] GET [x] POST [ ] PUT [ ] DELETE
+ * > Generated: src/controllers/UserController.ts
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Generate a CRUD controller
+ * > Controller (CRUD)
+ * > Enter name: ProductController
+ * > Generated:
+ * > - src/controllers/ProductController.ts
+ * > - src/services/ProductService.ts
+ * > - src/repositories/ProductRepository.ts
+ * ```
+ */
+
 import { bgBrightGreen, black } from 'jsr:@std/fmt@1.0.3/colors';
 import { cancel, intro, isCancel, select } from 'npm:@clack/prompts@0.8.2';
 import { AssertMaker } from './AssertMaker.ts';

@@ -1,3 +1,27 @@
+/**
+ * Validation module providing robust data validation and assertion utilities.
+ *
+ * @module validation
+ *
+ * @example
+ * ```ts
+ * // Basic validation using decorators
+ * class UserValidation {
+ *   name: string;
+ *   email: string;
+ *   age: number;
+ * }
+ *
+ * // Validate instance
+ * const user = new UserValidation();
+ * const errors = await validate(user);
+ *
+ * if (errors.length > 0) {
+ *   console.log('Validation failed:', errors);
+ * }
+ * ```
+ */
+
 export { AssertArray } from './asserts/AssertArray.ts';
 export { AssertBigint } from './asserts/AssertBigint.ts';
 export { AssertBigintArray } from './asserts/AssertBigintArray.ts';
