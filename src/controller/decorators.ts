@@ -23,8 +23,8 @@ type ControllerType = any;
 export const Delete = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'DELETE', path, config);
   };
 };
@@ -37,8 +37,8 @@ export const Delete = (
 export const Get = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'GET', path, config);
   };
 };
@@ -51,8 +51,8 @@ export const Get = (
 export const Head = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'HEAD', path, config);
   };
 };
@@ -65,8 +65,8 @@ export const Head = (
 export const Options = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'OPTIONS', path, config);
   };
 };
@@ -79,8 +79,8 @@ export const Options = (
 export const Patch = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'PATCH', path, config);
   };
 };
@@ -93,8 +93,8 @@ export const Patch = (
 export const Post = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'POST', path, config);
   };
 };
@@ -107,8 +107,8 @@ export const Post = (
 export const Put = (
   path: string,
   config?: { validators?: IValidator[]; middlewares?: IMiddleware[] },
-): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+): ClassDecorator => {
+  return (controller: ControllerType) => {
     registerMethod(controller, 'PUT', path, config);
   };
 };
@@ -117,8 +117,8 @@ export const Put = (
  * Decorator to restrict controller to specific host
  * @param host - Host string or RegExp to match
  */
-export const Host = (host: string | RegExp): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const Host = (host: string | RegExp): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -135,8 +135,8 @@ export const Host = (host: string | RegExp): MethodDecorator => {
  * Decorator to restrict controller to specific IP addresses
  * @param ip - IP address string or RegExp to match
  */
-export const Ip = (ip: string | RegExp): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const Ip = (ip: string | RegExp): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -152,8 +152,8 @@ export const Ip = (ip: string | RegExp): MethodDecorator => {
 /**
  * Decorator to mark controller as publicly accessible
  */
-export const Public = (): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const Public = (): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -167,8 +167,8 @@ export const Public = (): MethodDecorator => {
 /**
  * Decorator to restrict controller to admin role
  */
-export const Admin = (): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const Admin = (): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -182,8 +182,8 @@ export const Admin = (): MethodDecorator => {
 /**
  * Decorator to restrict controller to super admin role
  */
-export const SuperAdmin = (): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const SuperAdmin = (): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
     ensureInitialData(name, controller);
@@ -197,8 +197,8 @@ export const SuperAdmin = (): MethodDecorator => {
 /**
  * Decorator to mark controller as not found handler
  */
-export const NotFound = (): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const NotFound = (): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
 
@@ -217,8 +217,8 @@ export const NotFound = (): MethodDecorator => {
 /**
  * Decorator to mark controller as server exception handler
  */
-export const ServerException = (): MethodDecorator => {
-  return (controller: ControllerType, _propertyKey: string | symbol) => {
+export const ServerException = (): ClassDecorator => {
+  return (controller: ControllerType) => {
     const name = controller.prototype.constructor.name;
     ensureIsController(name, controller);
 
