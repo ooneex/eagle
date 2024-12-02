@@ -45,7 +45,6 @@ We welcome contributions to Ooneex Eagle Core! Here's how you can help:
 - Add JSDoc comments for public APIs
 - Keep functions small and focused
 - Use proper error handling
-- Follow the repository's EditorConfig settings
 
 ### Testing Guidelines
 
