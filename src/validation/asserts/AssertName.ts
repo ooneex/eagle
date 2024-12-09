@@ -40,7 +40,7 @@ export class AssertName implements IAssert {
     if (!isString.success) return isString;
 
     return {
-      success: /^[a-z][a-z0-9 ]+$/i.test(value as string),
+      success: /^[a-z]+$/i.test(value as string),
       message: 'Value must be a valid name',
     };
   }

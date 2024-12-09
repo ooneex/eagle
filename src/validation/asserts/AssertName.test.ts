@@ -1,6 +1,6 @@
+import { AssertName } from '@/validation/mod.ts';
 import { expect } from '@std/expect';
 import { describe, it } from '@std/testing/bdd';
-import { AssertName } from '../mod.ts';
 
 describe('AssertName', () => {
   const assertName = new AssertName();
@@ -8,9 +8,7 @@ describe('AssertName', () => {
   it('should validate correct names', () => {
     const validNames = [
       'John',
-      'Mary Jane',
-      'Bob123',
-      'Alice Smith',
+      'Alice',
     ];
 
     for (const name of validNames) {

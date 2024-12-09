@@ -38,6 +38,7 @@ export { AssertFunctionArray } from './asserts/AssertFunctionArray.ts';
 export { AssertInt } from './asserts/AssertInt.ts';
 export { AssertIntArray } from './asserts/AssertIntArray.ts';
 export { AssertName } from './asserts/AssertName.ts';
+export { AssertNotEmpty } from './asserts/AssertNotEmpty.ts';
 export { AssertNotNull } from './asserts/AssertNotNull.ts';
 export { AssertNotNullArray } from './asserts/AssertNotNullArray.ts';
 export { AssertNull } from './asserts/AssertNull.ts';
