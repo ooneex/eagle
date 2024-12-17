@@ -49,6 +49,7 @@ export { AssertString } from './asserts/AssertString.ts';
 export { AssertStringArray } from './asserts/AssertStringArray.ts';
 export { AssertUndefined } from './asserts/AssertUndefined.ts';
 export { AssertUndefinedArray } from './asserts/AssertUndefinedArray.ts';
+export { AssertUrl } from './asserts/AssertUrl.ts';
 
 export { AbstractValidator } from './AbstractValidator.ts';
 export * from './decorators.ts';
