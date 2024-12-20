@@ -49,6 +49,7 @@
   },
   "imports": {
     "@/": "./src/",
+    "@aws-sdk/client-s3": "npm:@aws-sdk/client-s3@^3.716.0",
     "@std/expect": "jsr:@std/expect",
     "@std/testing/bdd": "jsr:@std/testing/bdd",
     "@std/testing/mock": "jsr:@std/testing/mock"
