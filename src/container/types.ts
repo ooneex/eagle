@@ -15,5 +15,4 @@ export type ContainerScopeType =
   | 'controller'
   | 'seed'
   | 'mailer'
-  | 'vector'
   | 'permission';

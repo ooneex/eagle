@@ -40,11 +40,6 @@ export type EnvConfigType = {
   database: {
     /** Database URL */
     url: string | null;
-    /** Vector database settings */
-    vector: {
-      /** Vector database URL */
-      url: string | null;
-    };
   };
   /** JWT configuration */
   jwt: {

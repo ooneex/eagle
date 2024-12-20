@@ -159,7 +159,6 @@ describe('EnvConfig', () => {
     Deno.env.delete(EnvConfig.KEYS.app.host);
     Deno.env.delete(EnvConfig.KEYS.security.cors);
     Deno.env.delete(EnvConfig.KEYS.database.url);
-    Deno.env.delete(EnvConfig.KEYS.database.vector.url);
     Deno.env.delete(EnvConfig.KEYS.jwt.secret);
     Deno.env.delete(EnvConfig.KEYS.jwt.expiresIn);
     Deno.env.delete(EnvConfig.KEYS.jwt.refresh.secret);
@@ -195,7 +194,6 @@ describe('EnvConfig', () => {
     expect(json[EnvConfig.KEYS.app.host]).toBeNull();
     expect(json[EnvConfig.KEYS.security.cors]).toBeNull();
     expect(json[EnvConfig.KEYS.database.url]).toBeNull();
-    expect(json[EnvConfig.KEYS.database.vector.url]).toBeNull();
     expect(json[EnvConfig.KEYS.jwt.secret]).toBeNull();
     expect(json[EnvConfig.KEYS.jwt.expiresIn]).toBeNull();
     expect(json[EnvConfig.KEYS.jwt.refresh.secret]).toBeNull();

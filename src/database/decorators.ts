@@ -2,7 +2,6 @@ import { container } from '../container/Container.ts';
 import { ContainerScopeType } from '../container/types.ts';
 import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
-import { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
 
 /**
  * Decorator for database classes.
@@ -22,30 +21,6 @@ export const database = (options?: {
 
     container.add(name, database, {
       scope: options?.scope ?? 'database',
-      singleton: options?.singleton ?? true,
-      instance: false,
-    });
-  };
-};
-
-/**
- * Decorator for vector database classes.
- * Adds the vector database class to the container with specified scope and singleton settings.
- * Vector database class names must end with 'VectorDatabase'.
- * @param options Configuration options for the vector database decorator
- * @param options.scope Container scope type (defaults to 'vector')
- * @param options.singleton Whether the vector database should be singleton (defaults to true)
- */
-export const vector = (options?: {
-  scope?: ContainerScopeType;
-  singleton?: boolean;
-}): ClassDecorator => {
-  return (vectorDatabase: any) => {
-    const name = vectorDatabase.prototype.constructor.name;
-    ensureIsVectorDatabase(name);
-
-    container.add(name, vectorDatabase, {
-      scope: options?.scope ?? 'vector',
       singleton: options?.singleton ?? true,
       instance: false,
     });
@@ -85,19 +60,6 @@ const ensureIsDatabase = (name: string): void => {
   if (!name?.endsWith('Database')) {
     throw new DatabaseDecoratorException(
       `Database decorator can only be used on database classes. ${name} must end with Database keyword.`,
-    );
-  }
-};
-
-/**
- * Validates that a vector database class name ends with 'VectorDatabase'
- * @param name The class name to validate
- * @throws {VectorDatabaseDecoratorException} If the class name doesn't end with 'VectorDatabase'
- */
-const ensureIsVectorDatabase = (name: string): void => {
-  if (!name?.endsWith('VectorDatabase')) {
-    throw new VectorDatabaseDecoratorException(
-      `VectorDatabase decorator can only be used on vector database classes. ${name} must end with VectorDatabase keyword.`,
     );
   }
 };

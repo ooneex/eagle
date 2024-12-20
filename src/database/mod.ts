@@ -1,8 +1,7 @@
 /**
- * Database module providing database connectivity, repositories, and vector database capabilities.
+ * Database module providing database connectivity and repository capabilities.
  *
- * This module handles database connections, repository patterns, and specialized vector database
- * functionality for similarity searches and embeddings.
+ * This module handles database connections and repository patterns.
  *
  * @module database
  *
@@ -18,29 +17,6 @@
  *
  *   async create(data: CreateUserDto) {
  *     return await this.db.insert('users', data);
- *   }
- * }
- * ```
- *
- * @example
- * ```ts
- * // Using vector database for similarity search
- * import { VectorRepository } from 'eagle';
- *
- * @VectorRepository()
- * class DocumentRepository {
- *   async findSimilar(embedding: number[], limit = 10) {
- *     return await this.vectorDb.search('documents', {
- *       vector: embedding,
- *       limit
- *     });
- *   }
- *
- *   async store(document: Document, embedding: number[]) {
- *     return await this.vectorDb.insert('documents', {
- *       ...document,
- *       embedding
- *     });
  *   }
  * }
  * ```
@@ -73,7 +49,3 @@
 export { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 export * from './decorators.ts';
 export { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
-export * from './types.ts';
-export { AbstractVectorDatabase } from './vector/AbstractVectorDatabase.ts';
-export { VectorDatabaseDecoratorException } from './vector/VectorDatabaseDecoratorException.ts';
-export { VectorDatabaseException } from './vector/VectorDatabaseException.ts';

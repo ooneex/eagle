@@ -37,9 +37,6 @@ export class EnvConfig implements IConfig {
     },
     database: {
       url: 'DATABASE_URL',
-      vector: {
-        url: 'VECTOR_DATABASE_URL',
-      },
     },
     jwt: {
       secret: 'JWT_SECRET',
@@ -138,9 +135,6 @@ export class EnvConfig implements IConfig {
    */
   public readonly database: EnvConfigType['database'] = {
     url: Deno.env.get(EnvConfig.KEYS.database.url) ?? null,
-    vector: {
-      url: Deno.env.get(EnvConfig.KEYS.database.vector.url) ?? null,
-    },
   };
 
   /**
@@ -253,7 +247,6 @@ export class EnvConfig implements IConfig {
       isProduction: this.app.isProduction,
       [EnvConfig.KEYS.security.cors]: this.security.cors,
       [EnvConfig.KEYS.database.url]: this.database.url,
-      [EnvConfig.KEYS.database.vector.url]: this.database.vector.url,
       [EnvConfig.KEYS.jwt.secret]: this.jwt.secret,
       [EnvConfig.KEYS.jwt.expiresIn]: this.jwt.expiresIn,
       [EnvConfig.KEYS.jwt.refresh.secret]: this.jwt.refresh.secret,
