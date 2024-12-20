@@ -7,7 +7,7 @@ import {
   PutObjectCommand,
   PutObjectOutput,
   S3Client,
-} from 'npm:@aws-sdk/client-s3@3.703.0';
+} from '@aws-sdk/client-s3';
 import { EnvConfig } from '../config/EnvConfig.ts';
 import { storage } from './decorators.ts';
 import { StorageException } from './StorageException.ts';
