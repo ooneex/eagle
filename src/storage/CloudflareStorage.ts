@@ -25,6 +25,9 @@ export class CloudflareStorage implements IStorage {
   /** Current Cloudflare region */
   private region: CloudflareRegionType = 'eeur';
 
+  /** Public endpoint */
+  private endpoint: string | null = null;
+
   /**
    * Retrieves an object from storage
    * @param key Object key
@@ -120,6 +123,22 @@ export class CloudflareStorage implements IStorage {
   }
 
   /**
+   * Sets the endpoint
+   * @param endpoint Endpoint to set
+   */
+  public setEndpoint(endpoint: string): void {
+    this.endpoint = endpoint;
+  }
+
+  /**
+   * Gets the current endpoint
+   * @returns Current endpoint
+   */
+  public getEndpoint(): string | null {
+    return this.endpoint;
+  }
+
+  /**
    * Creates and returns configured S3 client
    * @returns Configured S3Client instance
    * @throws StorageException if credentials are not set
@@ -132,7 +151,8 @@ export class CloudflareStorage implements IStorage {
       EnvConfig.KEYS.storage.cloudflare.key.access,
     );
     const endpoint = Deno.env.get(
-      EnvConfig.KEYS.storage.cloudflare.endpoint,
+      this.endpoint ||
+        EnvConfig.KEYS.storage.cloudflare.endpoint,
     );
 
     if (!secret || !access || !endpoint) {

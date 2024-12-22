@@ -60,10 +60,15 @@ export type CloudflareStoragePutOptionsType =
  */
 export interface IStorage {
   get: <T>(key: string, bucket: string) => Promise<T>;
+  hasBucket: (bucket: string) => Promise<boolean>;
   put: <T>(
     key: string,
     content: string,
     options?: any,
   ) => Promise<T>;
   delete: <T>(key: string, bucket: string) => Promise<T>;
+  setRegion: (region: CloudflareRegionType) => void;
+  getRegion: () => CloudflareRegionType;
+  setEndpoint: (endpoint: string) => void;
+  getEndpoint: () => string | null;
 }
