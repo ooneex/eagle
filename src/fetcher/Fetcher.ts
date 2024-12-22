@@ -4,7 +4,7 @@ import { type FetcherMethodType } from './types.ts';
 export class Fetcher {
   private method: FetcherMethodType = 'GET';
   private controller = new AbortController();
-  public readonly header = new Header();
+  public readonly header: Header = new Header();
   private path: string;
 
   constructor(path: string) {
