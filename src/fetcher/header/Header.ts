@@ -123,10 +123,16 @@ export class Header extends ReadonlyHeader implements IHeader {
    * Sets the content type of the request.
    */
   public contentType(value: MimeType, charset?: CharsetType): this {
-    this.native.append(
-      'Content-Type',
-      charset ? `${value}; charset=${charset}` : value,
-    );
+    this.add('Content-Type', charset ? `${value}; charset=${charset}` : value);
+
+    return this;
+  }
+
+  /**
+   * Sets the accept type of the request.
+   */
+  public accept(value: MimeType, charset?: CharsetType): this {
+    this.add('Accept', charset ? `${value}; charset=${charset}` : value);
 
     return this;
   }
