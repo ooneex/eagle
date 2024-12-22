@@ -88,8 +88,8 @@ export class ConfigMaker {
     let file = new File(
       `${srcDir}/${moduleFolderName}/config/${configName}Config.ts`,
     );
-    await file.write(`import { config, IConfig } from 'eagle/config';
-import { ScalarType } from 'eagle/types';
+    await file.write(`import { config, IConfig } from '@ooneex/eagle/config';
+import { ScalarType } from '@ooneex/eagle/types';
 
 @config()
 export class ${configName}Config implements IConfig {

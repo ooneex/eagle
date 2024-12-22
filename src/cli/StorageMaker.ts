@@ -98,7 +98,7 @@ export class StorageMaker {
   CloudflareStoragePutOptionsType,
   IStorage,
   storage,
-} from 'eagle/storage';
+} from '@ooneex/eagle/storage';
 import {
   DeleteObjectOutput,
   GetObjectOutput,

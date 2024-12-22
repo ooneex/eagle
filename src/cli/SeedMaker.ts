@@ -70,7 +70,7 @@ export class SeedMaker {
 
     // Create and write the seed file
     const file = new File(`${srcDir}/${seedName}Seed.ts`);
-    await file.write(`import { seed, ISeed } from 'eagle/seed';
+    await file.write(`import { seed, ISeed } from '@ooneex/eagle/seed';
 
 @seed()
 export class ${name}Seed implements ISeed {

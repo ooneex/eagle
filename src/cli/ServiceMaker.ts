@@ -88,7 +88,7 @@ export class ServiceMaker {
     let file = new File(
       `${srcDir}/${moduleFolderName}/services/${serviceName}Service.ts`,
     );
-    await file.write(`import { IService, service } from 'eagle/service';
+    await file.write(`import { IService, service } from '@ooneex/eagle/service';
 
 @service()
 export class ${serviceName}Service implements IService {

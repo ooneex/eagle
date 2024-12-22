@@ -111,9 +111,9 @@ export class CrudMaker {
       }
 
       await file.write(
-        `import { IController, ${method.value} } from 'eagle/controller';
-import { IRequest } from 'eagle/request';
-import { IResponse } from 'eagle/response';
+        `import { IController, ${method.value} } from '@ooneex/eagle/controller';
+import { IRequest } from '@ooneex/eagle/request';
+import { IResponse } from '@ooneex/eagle/response';
 
 @${method.value}('${path}${method.param}')
 export class ${method.name}${controllerName}Controller implements IController {

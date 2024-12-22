@@ -135,9 +135,10 @@ export class ControllerMaker {
     let file = new File(
       `${srcDir}/${moduleFolderName}/controllers/${controllerName}Controller.ts`,
     );
-    await file.write(`import { IController, ${method} } from 'eagle/controller';
-import { IRequest } from 'eagle/request';
-import { IResponse } from 'eagle/response';
+    await file.write(
+      `import { IController, ${method} } from '@ooneex/eagle/controller';
+import { IRequest } from '@ooneex/eagle/request';
+import { IResponse } from '@ooneex/eagle/response';
 
 @${method}('${path}')
 export class ${controllerName}Controller implements IController {
@@ -145,7 +146,8 @@ export class ${controllerName}Controller implements IController {
     return response.json({ params: request.params });
   }
 }
-`);
+`,
+    );
 
     // Update the module file to import the new controller
     file = new File(`${srcDir}/${moduleFolderName}/${moduleName}Module.ts`);

@@ -5,7 +5,7 @@ export const repositoryTemplate = (
   return `import { MainDatabase } from '@/shared/databases/MainDatabase.ts';
 import { ${repositoryName}, ${repositoryName}MutationType, ${repositoryName}Type } from '@/${moduleName}/schemas/${repositoryName}Schema.ts';
 import { and, eq, isNull } from 'drizzle-orm';
-import { repository } from 'eagle/database';
+import { repository } from '@ooneex/eagle/database';
 
 @repository()
 export class ${repositoryName}Repository {

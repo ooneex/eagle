@@ -88,8 +88,8 @@ export class MailerMaker {
     let file = new File(
       `${srcDir}/${moduleFolderName}/mailers/${mailerName}Mailer.ts`,
     );
-    await file.write(`import { EnvConfig } from 'eagle/config';
-import { BrevoMailer, DevMailer, IMailer, mailer } from 'eagle/mailer';
+    await file.write(`import { EnvConfig } from '@ooneex/eagle/config';
+import { BrevoMailer, DevMailer, IMailer, mailer } from '@ooneex/eagle/mailer';
 
 @mailer()
 export class ${mailerName}Mailer implements IMailer {

@@ -116,7 +116,7 @@ export class ValidatorMaker {
   AbstractValidator,
   validator,
   ValidatorScopeType,
-} from 'eagle/validation';
+} from '@ooneex/eagle/validation';
 
 @validator()
 export class ${validatorName}Validator extends AbstractValidator {

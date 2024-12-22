@@ -97,7 +97,7 @@ export class PermissionMaker {
       `${srcDir}/${moduleFolderName}/permissions/${permissionName}Permission.ts`,
     );
     await file.write(
-      `import { IPermission, IUser } from 'eagle/security';
+      `import { IPermission, IUser } from '@ooneex/eagle/security';
 
 export class ${permissionName}Permission implements IPermission {
   public check(user?: IUser): boolean {

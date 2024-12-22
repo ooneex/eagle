@@ -113,9 +113,9 @@ export class MiddlewareMaker {
       `${srcDir}/${moduleFolderName}/middlewares/${middlewareName}Middleware.ts`,
     );
     await file.write(
-      `import { IMiddleware, middleware, MiddlewareScopeType } from 'eagle/middleware';
-import { IRequest } from 'eagle/request';
-import { IResponse } from 'eagle/response';
+      `import { IMiddleware, middleware, MiddlewareScopeType } from '@ooneex/eagle/middleware';
+import { IRequest } from '@ooneex/eagle/request';
+import { IResponse } from '@ooneex/eagle/response';
 
 @middleware()
 export class ${middlewareName}Middleware implements IMiddleware {

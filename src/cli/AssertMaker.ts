@@ -89,7 +89,7 @@ export class AssertMaker {
       `${srcDir}/${moduleFolderName}/validators/asserts/Assert${assertName}.ts`,
     );
     await file.write(
-      `import { assert, IAssert } from 'eagle/validation';
+      `import { assert, IAssert } from '@ooneex/eagle/validation';
 
 @assert()
 export class Assert${assertName} implements IAssert {
