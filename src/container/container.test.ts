@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+import { container } from '@/container';
 import { Container, injectable } from 'inversify';
-import 'reflect-metadata';
-import { container } from './container';
 
 describe('Container', () => {
   it('should be a valid Container instance', () => {
