@@ -92,4 +92,29 @@ describe('Config Decorator', () => {
       }
     }).toThrow(ConfigDecoratorException);
   });
+
+  it('should properly inject dependencies in config classes', () => {
+    @config()
+    class DependencyConfig implements IConfig {
+      public toJson() {
+        return {};
+      }
+    }
+
+    @config()
+    class InjectedConfig implements IConfig {
+      constructor(public dependency: DependencyConfig) {}
+
+      public toJson() {
+        return {};
+      }
+    }
+
+    const instance = container.get<InjectedConfig>(InjectedConfig);
+
+    expect(instance).toBeDefined();
+    expect(instance).toBeInstanceOf(InjectedConfig);
+    expect(instance.dependency).toBeDefined();
+    expect(instance.dependency).toBeInstanceOf(DependencyConfig);
+  });
 });
