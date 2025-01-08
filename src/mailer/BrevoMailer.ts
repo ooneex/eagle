@@ -218,8 +218,8 @@ export class BrevoMailer implements IMailer {
     return this.batchId;
   }
 
-  public async send<T = BrevoMailerResponseType>(): Promise<T> {
-    const key = process.env.BREVO_API_KEY;
+  public async send<T = BrevoMailerResponseType>(key?: string): Promise<T> {
+    key = key ?? process.env.BREVO_API_KEY;
 
     if (!key) {
       throw new MailerException('Brevo mailer credentials are not set');

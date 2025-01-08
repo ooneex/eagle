@@ -142,8 +142,8 @@ export class DevMailer implements IMailer {
     return this.headers;
   }
 
-  public async send<T = void>(): Promise<T> {
-    const url = process.env.DEV_MAILER_URL;
+  public async send<T = void>(url?: string): Promise<T> {
+    url = url ?? process.env.DEV_MAILER_URL;
 
     if (!url) {
       throw new MailerException('Dev mailer url is not set');

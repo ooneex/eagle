@@ -11,5 +11,5 @@ export type SenderType = { email: string; name?: string };
 export type DestinationType = { name?: string; email: string };
 
 export interface IMailer {
-  send: <T = any>() => Promise<T> | T;
+  send: <T = any>(param?: any) => Promise<T> | T;
 }
