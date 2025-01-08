@@ -11,7 +11,13 @@ test.coverage.watch:
 	@bun test --coverage --watch
 
 fmt:
-	@bunx @biomejs/biome check --write .
+	@bun run fmt
 
 lint:
-	@tsc --noEmit && bunx @biomejs/biome check .
+	@bun run lint
+
+login:
+	@bunx npm login
+
+publish:
+	@bun publish --access public

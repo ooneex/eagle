@@ -1,6 +1,6 @@
 # Ooneex Eagle Core
 
-A powerful and flexible Deno framework designed for building robust API with
+A powerful and flexible Bun framework designed for building robust API with
 modern best practices and high performance.
 
 ## Features
@@ -30,13 +30,12 @@ We welcome contributions to Ooneex Eagle Core! Here's how you can help:
 ### Development Setup
 
 1. Fork and clone the repository
-2. [Install Deno](https://deno.land/manual/getting_started/installation) if you
-   haven't already
-3. Run `deno task test` to ensure everything is working
+2. [Install Bun](https://bun.sh/docs/installation) if you haven't already
+3. Run `bun test` to ensure everything is working
 4. Create a new branch for your feature/fix:
    `git checkout -b feature/your-feature-name`
 5. Make your changes and commit them using conventional commits
-6. Run tests and ensure they pass: `deno task test`
+6. Run tests and ensure they pass: `bun test`
 7. Push to your fork and submit a pull request
 8. Follow the pull request template and provide detailed description
 9. Wait for review and address any feedback
@@ -58,10 +57,12 @@ We welcome contributions to Ooneex Eagle Core! Here's how you can help:
 
 ### Useful Commands
 
-- `deno task test` - Run tests
-- `deno task test:watch` - Run tests with watch mode
-- `deno task fmt` - Format code
-- `deno task lint` - Lint code
+- `bun run test` - Run tests
+- `bun run test:watch` - Run tests with watch mode
+- `bun run test:coverage` - Run tests with coverage
+- `bun run test:coverage:watch` - Run tests with coverage and watch mode
+- `bun run fmt` - Format code
+- `bun run lint` - Lint code
 
 ## Issue Guidelines
 

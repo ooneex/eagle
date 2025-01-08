@@ -2,6 +2,25 @@
   "name": "@ooneex/eagle",
   "module": "src/index.ts",
   "type": "module",
+  "version": "0.0.1",
+  "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
+  "scripts": {
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:coverage:watch": "bun test --coverage --watch",
+    "fmt": "bunx @biomejs/biome check --write .",
+    "lint": "tsc --noEmit && bunx @biomejs/biome check ."
+  },
+  "homepage": "https://github.com/ooneex/eagle",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ooneex/eagle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ooneex/eagle/issues"
+  },
+  "keywords": ["bun", "framework", "api", "rest"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/bun": "^1.1.15"
@@ -10,7 +29,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "typedoc": "^0.27.6",
     "ua-parser-js": "^2.0.0"
-  }
+  },
+  "author": "Ooneex",
+  "license": "MIT"
 }
