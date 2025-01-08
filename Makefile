@@ -20,4 +20,6 @@ login:
 	@bunx npm login
 
 publish:
+	@bun run lint
+	@git push
 	@bun publish --access public
