@@ -10,7 +10,8 @@
     "test:coverage": "bun test --coverage",
     "test:coverage:watch": "bun test --coverage --watch",
     "fmt": "bunx @biomejs/biome check --write .",
-    "lint": "tsc --noEmit && bunx @biomejs/biome check ."
+    "lint": "tsc --noEmit && bunx @biomejs/biome check .",
+    "prepare": "husky"
   },
   "homepage": "https://github.com/ooneex/eagle",
   "repository": {
@@ -23,7 +24,8 @@
   "keywords": ["bun", "framework", "api", "rest"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "^1.1.15"
+    "@types/bun": "^1.1.15",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
