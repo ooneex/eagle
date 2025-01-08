@@ -21,5 +21,5 @@ login:
 
 publish:
 	@bun run lint
-	@git push
 	@bun publish --access public
+	@git push
