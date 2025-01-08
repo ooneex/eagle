@@ -6,8 +6,10 @@
 import { ReadonlyArrayCollection } from './ReadonlyArrayCollection.ts';
 import type { IArrayCollection } from './types.ts';
 
-export class ArrayCollection<V = unknown> extends ReadonlyArrayCollection<V>
-  implements IArrayCollection<V> {
+export class ArrayCollection<V = unknown>
+  extends ReadonlyArrayCollection<V>
+  implements IArrayCollection<V>
+{
   /**
    * Adds a value to the collection.
    * @param value The value to add

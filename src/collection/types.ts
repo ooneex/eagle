@@ -22,13 +22,9 @@ export interface IReadonlyCollection<
   /** Returns an iterator over the key-value pairs in the collection */
   entries: () => IterableIterator<[K, V]>;
   /** Finds the first key-value pair that matches the provided predicate */
-  find: (
-    fn: (key: K, value: V) => boolean,
-  ) => { key: K; value: V } | null;
+  find: (fn: (key: K, value: V) => boolean) => { key: K; value: V } | null;
   /** Returns all key-value pairs that match the provided predicate */
-  filter: (
-    fn: (key: K, value: V) => boolean,
-  ) => { key: K; value: V }[];
+  filter: (fn: (key: K, value: V) => boolean) => { key: K; value: V }[];
   /** Makes the collection iterable */
   [Symbol.iterator](): IterableIterator<[K, V]>;
   /** Converts the collection to a plain object */

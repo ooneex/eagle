@@ -1,5 +1,5 @@
-import { Collection } from '@/collection';
 import { describe, expect, it } from 'bun:test';
+import { Collection } from '@/collection';
 
 describe('Collection', () => {
   describe('add', () => {

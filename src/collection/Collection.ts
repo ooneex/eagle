@@ -9,7 +9,8 @@ import type { ICollection } from './types.ts';
  */
 export class Collection<K extends string | number = string, V = unknown>
   extends ReadonlyCollection<K, V>
-  implements ICollection<K, V> {
+  implements ICollection<K, V>
+{
   /**
    * Adds a key-value pair to the collection
    * @param key The key to add

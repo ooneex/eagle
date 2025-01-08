@@ -4,12 +4,13 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest"
+    "@types/bun": "^1.1.15"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "typedoc": "^0.27.6"
+    "typedoc": "^0.27.6",
+    "ua-parser-js": "^2.0.0"
   }
 }

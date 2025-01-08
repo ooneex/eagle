@@ -6,7 +6,8 @@ import type { IReadonlyCollection } from './types.ts';
  * @template V The value type. Defaults to unknown.
  */
 export class ReadonlyCollection<K extends string | number = string, V = unknown>
-  implements IReadonlyCollection<K, V> {
+  implements IReadonlyCollection<K, V>
+{
   /** The underlying Map data structure */
   protected data: Map<K, V>;
 
@@ -85,9 +86,7 @@ export class ReadonlyCollection<K extends string | number = string, V = unknown>
    * @param fn The predicate function
    * @returns Matching entry or null if not found
    */
-  public find(
-    fn: (key: K, value: V) => boolean,
-  ): { key: K; value: V } | null {
+  public find(fn: (key: K, value: V) => boolean): { key: K; value: V } | null {
     for (const [key, value] of this.entries()) {
       if (fn(key, value)) {
         return { key, value };
@@ -101,9 +100,7 @@ export class ReadonlyCollection<K extends string | number = string, V = unknown>
    * @param fn The predicate function
    * @returns Array of matching entries
    */
-  public filter(
-    fn: (key: K, value: V) => boolean,
-  ): { key: K; value: V }[] {
+  public filter(fn: (key: K, value: V) => boolean): { key: K; value: V }[] {
     const results: { key: K; value: V }[] = [];
     for (const [key, value] of this.entries()) {
       if (fn(key, value)) {

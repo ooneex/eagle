@@ -1,5 +1,5 @@
-import { ArrayCollection } from '@/collection';
 import { beforeEach, describe, expect, it } from 'bun:test';
+import { ArrayCollection } from '@/collection';
 
 describe('ArrayCollection', () => {
   let collection: ArrayCollection<string>;
@@ -107,6 +107,36 @@ describe('ArrayCollection', () => {
       const obj = { test: true };
       objectCollection.add(obj);
       expect(objectCollection.has(obj)).toBe(true);
+    });
+  });
+
+  describe('add', () => {
+    it('should add a value to the collection', () => {
+      const collection = new ArrayCollection<string>();
+      collection.add('test');
+      expect(collection.has('test')).toBe(true);
+    });
+
+    it('should return the collection instance for chaining', () => {
+      const collection = new ArrayCollection<string>();
+      const result = collection.add('test');
+      expect(result).toBe(collection);
+    });
+
+    it('should allow adding multiple values', () => {
+      const collection = new ArrayCollection<string>();
+      collection.add('test1');
+      collection.add('test2');
+      expect(collection.count()).toBe(2);
+      expect(collection.has('test1')).toBe(true);
+      expect(collection.has('test2')).toBe(true);
+    });
+
+    it('should not allow adding duplicate values', () => {
+      const collection = new ArrayCollection<string>();
+      collection.add('test');
+      collection.add('test');
+      expect(collection.count()).toBe(1);
     });
   });
 });

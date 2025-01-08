@@ -1,5 +1,5 @@
-import { ReadonlyCollection } from '@/collection';
 import { describe, expect, it } from 'bun:test';
+import { ReadonlyCollection } from '@/collection';
 
 describe('ReadonlyCollection', () => {
   it('should create empty collection', () => {
