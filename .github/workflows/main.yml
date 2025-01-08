@@ -18,5 +18,3 @@ jobs:
         run: bun install
       - name: Run tests
         run: bun run test
-      - name: Publish
-        run: bun publish --access public
