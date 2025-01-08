@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { container } from '@/container';
+import type { MiddlewareScopeType } from '@/middleware';
 import {
   type IMiddleware,
   type MiddlewareContextType,
@@ -7,7 +8,6 @@ import {
   middleware,
 } from '@/middleware';
 import type { HttpResponse } from '@/response';
-import type { ScopeType } from '@/types';
 
 describe('Middleware Decorator', () => {
   it('should register a valid middleware class in the container', () => {
@@ -19,7 +19,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
@@ -42,7 +42,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
@@ -71,7 +71,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
@@ -100,7 +100,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
@@ -149,7 +149,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
@@ -168,7 +168,7 @@ describe('Middleware Decorator', () => {
         return context?.response ?? ({} as HttpResponse);
       }
 
-      public getScope(): ScopeType {
+      public getScope(): MiddlewareScopeType {
         return 'request';
       }
 
