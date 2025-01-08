@@ -1,18 +1,5 @@
 import type { ExceptionStackType } from './types.ts';
 
-/**
- * Custom Exception class that extends the native Error class with additional properties.
- *
- * @template T Type for additional data payload
- *
- * @property {ExceptionStackType[]} stacks - Array of error stack trace entries
- * @property {string | null} file - File where the error occurred
- * @property {number | null} line - Line number where the error occurred
- * @property {number | null} column - Column number where the error occurred
- * @property {Date} date - Timestamp when the error was created
- * @property {number | null} status - HTTP status code or custom error code
- * @property {Readonly<Record<string, T>> | null} data - Additional data payload
- */
 export class Exception<T = unknown> extends Error {
   public readonly stacks: ExceptionStackType[] = [];
   public readonly file: string | null = null;
@@ -22,13 +9,6 @@ export class Exception<T = unknown> extends Error {
   public readonly status: number | null = null;
   public readonly data: Readonly<Record<string, T>> | null = null;
 
-  /**
-   * Creates a new Exception instance.
-   *
-   * @param {string | Error} message - Error message or Error instance
-   * @param {number | null} status - HTTP status code or custom error code
-   * @param {Readonly<Record<string, T>> | null} data - Additional data payload
-   */
   constructor(
     message: string | Error,
     status: number | null = null,
@@ -55,13 +35,6 @@ export class Exception<T = unknown> extends Error {
     this.data = data;
   }
 
-  /**
-   * Parses an error stack trace string into structured stack trace entries.
-   *
-   * @param {string} stack - Raw error stack trace string
-   * @returns {ExceptionStackType[]} Array of parsed stack trace entries
-   * @private
-   */
   private parseStack(stack: string): ExceptionStackType[] {
     const errorStack: ExceptionStackType[] = [];
     const stacks = stack.split(/[\n\r]/) ?? [];

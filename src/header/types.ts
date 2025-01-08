@@ -6,9 +6,6 @@ import type {
   MimeType,
 } from '@/http/types.ts';
 
-/**
- * Type definition for User Agent information including browser, engine, OS, device and CPU details
- */
 export type UserAgentType = {
   browser: {
     name?: string;
@@ -33,18 +30,12 @@ export type UserAgentType = {
   };
 };
 
-/**
- * Type aliases for individual User Agent components
- */
 export type UserAgentBrowserType = UserAgentType['browser'];
 export type UserAgentEngineType = UserAgentType['engine'];
 export type UserAgentOsType = UserAgentType['os'];
 export type UserAgentDeviceType = UserAgentType['device'];
 export type UserAgentCpuType = UserAgentType['cpu'];
 
-/**
- * Interface defining the structure of User Agent information
- */
 export interface IUserAgent {
   readonly browser: UserAgentBrowserType;
   readonly engine: UserAgentEngineType;
@@ -53,9 +44,6 @@ export interface IUserAgent {
   readonly cpu: UserAgentCpuType;
 }
 
-/**
- * Interface for checking HTTP header content types
- */
 export interface IHeaderChecker {
   isBlob: () => boolean;
   isJson: () => boolean;
@@ -65,9 +53,6 @@ export interface IHeaderChecker {
   isHtml: () => boolean;
 }
 
-/**
- * Interface for read-only access to HTTP headers with various getter methods
- */
 export interface IReadonlyHeader extends IHeaderChecker {
   readonly native: Headers;
   get: (name: HeaderFieldType) => string | null;
@@ -99,9 +84,6 @@ export interface IReadonlyHeader extends IHeaderChecker {
   toJson: () => Record<string, string>;
 }
 
-/**
- * Interface extending IReadonlyHeader for full header access
- */
 export interface IHeader extends IReadonlyHeader {
   readonly native: Headers;
 }

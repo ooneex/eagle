@@ -4,37 +4,18 @@ import { parseString, trim } from '@/helper';
 import type { ScalarType } from '@/types.ts';
 import type { IUrl } from './types.ts';
 
-/**
- * Represents a URL with parsed components.
- * Provides access to various parts of a URL including protocol, domain, subdomain,
- * port, path, query parameters, and fragment.
- */
 export class Url implements IUrl {
-  /** The native URL object */
   public readonly native: URL;
-  /** The URL protocol (e.g. 'http', 'https') */
   public readonly protocol: string;
-  /** The subdomain if present, null otherwise */
   public readonly subdomain: string | null;
-  /** The domain name */
   public readonly domain: string;
-  /** The port number, defaults to 80 if not specified */
   public readonly port: number;
-  /** The URL path */
   public readonly path: string;
-  /** Collection of query parameters */
   public readonly queries: IReadonlyCollection<string, ScalarType>;
-  /** The URL fragment (hash) */
   public readonly fragment: string;
-  /** The base URL (protocol + host) */
   public readonly base: string;
-  /** The URL origin */
   public readonly origin: string;
 
-  /**
-   * Creates a new Url instance
-   * @param url - URL string or URL object to parse
-   */
   constructor(url: string | URL) {
     this.native = new URL(url);
 

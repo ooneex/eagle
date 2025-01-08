@@ -1,8 +1,3 @@
-/**
- * Array of common internet and network protocols.
- * Includes transport protocols, application protocols, and internet protocols.
- * Defined as a readonly constant array to prevent modification.
- */
 export const HTTP_PROTOCOLS = [
   'TCP',
   'SMTP',
