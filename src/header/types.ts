@@ -95,7 +95,6 @@ export interface IReadonlyHeader extends IHeaderChecker {
   keys: () => HeaderFieldType[];
   count: () => number;
   hasData: () => boolean;
-  // biome-ignore lint/suspicious/noExplicitAny: trust me
   [Symbol.iterator](): IterableIterator<[HeaderFieldType, any]>;
   toJson: () => Record<string, string>;
 }

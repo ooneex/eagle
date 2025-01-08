@@ -279,7 +279,6 @@ export class ReadonlyHeader extends HeaderChecker implements IReadonlyHeader {
     return headers;
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: trust me
   [Symbol.iterator](): IterableIterator<[HeaderFieldType, any]> {
     // @ts-ignore: trust me
     return this.native[Symbol.iterator]();
