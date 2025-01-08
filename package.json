@@ -2,7 +2,7 @@
   "name": "@ooneex/eagle",
   "module": "src/index.ts",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
