@@ -1,5 +1,5 @@
-import { Random } from '@/random';
 import { describe, expect, it } from 'bun:test';
+import { Random } from '@/random';
 
 describe('Random', () => {
   describe('uuid()', () => {
