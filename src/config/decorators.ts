@@ -1,8 +1,8 @@
 import { container } from '@/container/container.ts';
-import type { DecoratorConfigType } from '@/types.ts';
+import type { DecoratorScopeType } from '@/types.ts';
 import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
 
-export const config = (options?: DecoratorConfigType): ClassDecorator => {
+export const config = (options?: DecoratorScopeType): ClassDecorator => {
   return (config: any) => {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);

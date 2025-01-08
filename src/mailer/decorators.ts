@@ -1,8 +1,8 @@
 import { container } from '@/container/container.ts';
-import type { DecoratorConfigType } from '@/types.ts';
+import type { DecoratorScopeType } from '@/types.ts';
 import { MailerDecoratorException } from './MailerDecoratorException.ts';
 
-export const mailer = (options?: DecoratorConfigType): ClassDecorator => {
+export const mailer = (options?: DecoratorScopeType): ClassDecorator => {
   return (mailer: any) => {
     const name = mailer.prototype.constructor.name;
     ensureIsMailer(name, mailer);

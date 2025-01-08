@@ -1,9 +1,9 @@
 import { container } from '@/container/container.ts';
-import type { DecoratorConfigType } from '@/types.ts';
+import type { DecoratorScopeType } from '@/types.ts';
 import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
 
-export const database = (options?: DecoratorConfigType): ClassDecorator => {
+export const database = (options?: DecoratorScopeType): ClassDecorator => {
   return (database: any) => {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name);
@@ -18,7 +18,7 @@ export const database = (options?: DecoratorConfigType): ClassDecorator => {
   };
 };
 
-export const repository = (options?: DecoratorConfigType): ClassDecorator => {
+export const repository = (options?: DecoratorScopeType): ClassDecorator => {
   return (repository: any) => {
     const name = repository.prototype.constructor.name;
     ensureIsRepository(name);

@@ -1,9 +1,20 @@
-import type { IUrl } from '@/url';
+import type { IRequest } from '@/request/types.ts';
+import type { HttpResponse } from '@/response/HttpResponse.ts';
 
 export type ControllerActionParamType = {
-  url: IUrl;
+  request: IRequest;
+  response: HttpResponse;
 };
 
 export type ControllerActionType = (
   param: ControllerActionParamType,
-) => Promise<void> | void;
+) => Promise<HttpResponse> | HttpResponse;
+
+export type ControllerMethodType =
+  | 'DELETE'
+  | 'GET'
+  | 'HEAD'
+  | 'OPTIONS'
+  | 'PATCH'
+  | 'POST'
+  | 'PUT';
