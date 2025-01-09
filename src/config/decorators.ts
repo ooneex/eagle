@@ -2,7 +2,9 @@ import { container } from '@/container/container.ts';
 import type { DecoratorScopeType } from '@/types.ts';
 import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
 
-export const config = (options?: DecoratorScopeType): ClassDecorator => {
+export const config = (options?: {
+  scope?: DecoratorScopeType;
+}): ClassDecorator => {
   return (config: any) => {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);

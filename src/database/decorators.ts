@@ -3,7 +3,9 @@ import type { DecoratorScopeType } from '@/types.ts';
 import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
 import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
 
-export const database = (options?: DecoratorScopeType): ClassDecorator => {
+export const database = (options?: {
+  scope?: DecoratorScopeType;
+}): ClassDecorator => {
   return (database: any) => {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name);
@@ -18,7 +20,9 @@ export const database = (options?: DecoratorScopeType): ClassDecorator => {
   };
 };
 
-export const repository = (options?: DecoratorScopeType): ClassDecorator => {
+export const repository = (options?: {
+  scope?: DecoratorScopeType;
+}): ClassDecorator => {
   return (repository: any) => {
     const name = repository.prototype.constructor.name;
     ensureIsRepository(name);

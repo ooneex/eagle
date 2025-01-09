@@ -2,7 +2,9 @@ import { container } from '@/container/container.ts';
 import type { DecoratorScopeType } from '@/types.ts';
 import { MiddlewareDecoratorException } from './MiddlewareDecoratorException.ts';
 
-export const middleware = (options?: DecoratorScopeType): ClassDecorator => {
+export const middleware = (options?: {
+  scope?: DecoratorScopeType;
+}): ClassDecorator => {
   return (middleware: any) => {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
