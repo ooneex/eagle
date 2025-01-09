@@ -24,7 +24,8 @@
   "keywords": ["bun", "framework", "api", "rest"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/bun": "^1.1.15",
+    "@types/bun": "^1.1.16",
+    "@types/nodemailer": "^6.4.17",
     "husky": "^9.1.7"
   },
   "peerDependencies": {
@@ -33,7 +34,6 @@
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
     "@types/accept-language-parser": "^1.5.6",
-    "@types/nodemailer": "^6.4.17",
     "accept-language-parser": "^1.5.0",
     "inversify": "^6.2.1",
     "jose": "^5.9.6",
