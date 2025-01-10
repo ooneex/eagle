@@ -126,7 +126,7 @@ export const getCookies = (headers: Headers): Record<string, string> => {
     const c = cookie.split(';');
     for (const kv of c) {
       const [cookieKey, ...cookieVal] = kv.split('=');
-      if (cookieKey === undefined) {
+      if (cookieKey === undefined || cookieKey === '') {
         throw new SyntaxError("Cookie cannot start with '='");
       }
       const key = cookieKey.trim();

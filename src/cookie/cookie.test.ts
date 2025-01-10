@@ -221,4 +221,80 @@ describe('Cookie', () => {
       );
     });
   });
+
+  describe('getSetCookies', () => {
+    it('should get all set-cookie headers', () => {
+      const headers = new Headers();
+      headers.append('Set-Cookie', 'foo=bar');
+      headers.append('Set-Cookie', 'baz=qux; Secure');
+
+      const cookies = getSetCookies(headers);
+      expect(cookies).toEqual([
+        { name: 'foo', value: 'bar' },
+        { name: 'baz', value: 'qux', secure: true },
+      ]);
+    });
+  });
+
+  describe('getCookies', () => {
+    it('should parse cookie header', () => {
+      const headers = new Headers();
+      headers.set('Cookie', 'foo=bar; baz=qux');
+
+      const cookies = getCookies(headers);
+      expect(cookies).toEqual({
+        foo: 'bar',
+        baz: 'qux',
+      });
+    });
+
+    it('should return empty object if no cookie header', () => {
+      const headers = new Headers();
+      const cookies = getCookies(headers);
+      expect(cookies).toEqual({});
+    });
+
+    it('should throw if cookie starts with =', () => {
+      const headers = new Headers();
+      headers.set('Cookie', '=foo');
+
+      expect(() => getCookies(headers)).toThrow("Cookie cannot start with '='");
+    });
+  });
+
+  describe('setCookie', () => {
+    it('should set cookie header', () => {
+      const headers = new Headers();
+      setCookie(headers, {
+        name: 'foo',
+        value: 'bar',
+        secure: true,
+      });
+
+      expect(headers.get('Set-Cookie')).toBe('foo=bar; Secure');
+    });
+  });
+
+  describe('deleteCookie', () => {
+    it('should set cookie with expires in past', () => {
+      const headers = new Headers();
+      deleteCookie(headers, 'foo');
+
+      const cookies = getSetCookies(headers);
+      expect((cookies[0].expires as Date).getTime()).toBe(0);
+      expect(cookies[0].value).toBe('');
+    });
+
+    it('should include provided attributes', () => {
+      const headers = new Headers();
+      deleteCookie(headers, 'foo', {
+        path: '/test',
+        secure: true,
+      });
+
+      expect(headers.get('Set-Cookie')).toBe(
+        'foo=; Secure; Path=/test; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
+      );
+    });
+  });
 });
