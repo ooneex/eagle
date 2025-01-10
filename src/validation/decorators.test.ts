@@ -119,6 +119,7 @@ describe('Validator Decorator', () => {
       }
     }
 
-    expect(ValidatorContainer.get('payload')).toContain(PayloadValidator);
+    const validators = ValidatorContainer.get('payload');
+    expect(validators).toContainEqual({ value: PayloadValidator });
   });
 });

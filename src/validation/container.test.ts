@@ -34,21 +34,31 @@ describe('ValidatorContainer', () => {
   it('should allow adding validators to scopes', () => {
     class TestValidator {}
 
-    ValidatorContainer.get('payload')?.push(TestValidator);
+    ValidatorContainer.get('payload')?.push({ value: TestValidator });
 
-    expect(ValidatorContainer.get('payload')).toContain(TestValidator);
+    expect(ValidatorContainer.get('payload')).toContainEqual({
+      value: TestValidator,
+    });
   });
 
   it('should maintain separate validator lists per scope', () => {
     class TestValidator1 {}
     class TestValidator2 {}
 
-    ValidatorContainer.get('payload')?.push(TestValidator1);
-    ValidatorContainer.get('params')?.push(TestValidator2);
+    ValidatorContainer.get('payload')?.push({ value: TestValidator1 });
+    ValidatorContainer.get('params')?.push({ value: TestValidator2 });
 
-    expect(ValidatorContainer.get('payload')).toContain(TestValidator1);
-    expect(ValidatorContainer.get('payload')).not.toContain(TestValidator2);
-    expect(ValidatorContainer.get('params')).toContain(TestValidator2);
-    expect(ValidatorContainer.get('params')).not.toContain(TestValidator1);
+    expect(ValidatorContainer.get('payload')).toContainEqual({
+      value: TestValidator1,
+    });
+    expect(ValidatorContainer.get('payload')).not.toContainEqual({
+      value: TestValidator2,
+    });
+    expect(ValidatorContainer.get('params')).toContainEqual({
+      value: TestValidator2,
+    });
+    expect(ValidatorContainer.get('params')).not.toContainEqual({
+      value: TestValidator1,
+    });
   });
 });

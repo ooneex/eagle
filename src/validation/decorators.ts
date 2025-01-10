@@ -1,14 +1,15 @@
 import { container } from '@/container/container.ts';
 import type { DecoratorScopeType } from '@/types.ts';
+import type { ValidatorOptions } from 'class-validator';
 import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
 import { ValidatorContainer } from './container.ts';
 import type { ValidatorScopeType } from './types.ts';
 
 export const validator = (
-  on: ValidatorScopeType,
+  dataScope: ValidatorScopeType,
   options?: {
     scope?: DecoratorScopeType;
-  },
+  } & ValidatorOptions,
 ): ClassDecorator => {
   return (validator: any) => {
     const name = validator.prototype.constructor.name;
@@ -22,7 +23,10 @@ export const validator = (
       container.bind(validator).toSelf().inSingletonScope();
     }
 
-    ValidatorContainer.get(on)?.push(validator);
+    // biome-ignore lint/performance/noDelete: trust me
+    delete options?.scope;
+
+    ValidatorContainer.get(dataScope)?.push({ value: validator, options });
   };
 };
 
