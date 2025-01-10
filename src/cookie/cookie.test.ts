@@ -6,6 +6,10 @@ import {
   getSetCookies,
   parseSetCookie,
   setCookie,
+  validateDomain,
+  validateName,
+  validatePath,
+  validateValue,
 } from '@/cookie';
 
 describe('Cookie', () => {
@@ -295,6 +299,129 @@ describe('Cookie', () => {
       expect(headers.get('Set-Cookie')).toBe(
         'foo=; Secure; Path=/test; Expires=Thu, 01 Jan 1970 00:00:00 GMT',
       );
+    });
+  });
+
+  describe('validateName', () => {
+    it('should throw on invalid cookie name', () => {
+      expect(() => validateName('foo=bar')).toThrow(
+        'Invalid cookie name: "foo=bar"',
+      );
+      expect(() => validateName('foo bar')).toThrow(
+        'Invalid cookie name: "foo bar"',
+      );
+    });
+
+    it('should not throw on valid cookie name', () => {
+      expect(() => validateName('foo')).not.toThrow();
+    });
+  });
+
+  describe('validatePath', () => {
+    it('should throw on invalid path characters', () => {
+      expect(() => validatePath('foo;bar')).toThrow(
+        'Cookie path "foo;bar" contains invalid character: ";"',
+      );
+    });
+
+    it('should not throw on valid path', () => {
+      expect(() => validatePath('/foo/bar')).not.toThrow();
+    });
+
+    it('should handle null path', () => {
+      expect(() => validatePath(null)).not.toThrow();
+    });
+  });
+
+  describe('validateValue', () => {
+    it('should throw on invalid characters', () => {
+      expect(() => validateValue('foo', 'bar;')).toThrow(
+        "RFC2616 cookie 'foo' cannot contain character ';'",
+      );
+      expect(() => validateValue('foo', 'bar\xFF')).toThrow(
+        "RFC2616 cookie 'foo' can only have US-ASCII chars as value: It contains 0xff",
+      );
+    });
+
+    it('should handle null value', () => {
+      expect(() => validateValue('foo', null)).not.toThrow();
+    });
+  });
+
+  describe('validateDomain', () => {
+    it('should throw on invalid domain', () => {
+      expect(() => validateDomain('-foo.com')).toThrow(
+        'Invalid first/last char in cookie domain: -foo.com',
+      );
+      expect(() => validateDomain('foo.com-')).toThrow(
+        'Invalid first/last char in cookie domain: foo.com-',
+      );
+      expect(() => validateDomain('foo.com.')).toThrow(
+        'Invalid first/last char in cookie domain: foo.com.',
+      );
+    });
+  });
+
+  describe('parseSetCookie', () => {
+    it('should parse cookie attributes', () => {
+      const cookie = parseSetCookie(
+        'foo=bar; Secure; HttpOnly; SameSite=Strict',
+      );
+      expect(cookie).toEqual({
+        name: 'foo',
+        value: 'bar',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'Strict',
+      });
+    });
+
+    it('should handle unparsed attributes', () => {
+      const cookie = parseSetCookie('foo=bar; unknown=value');
+      expect(cookie?.unparsed).toEqual(['unknown=value']);
+    });
+
+    it('should validate __Secure- prefix requirements', () => {
+      const consoleSpy = spyOn(console, 'warn').mockImplementation(() => {});
+      const cookie = parseSetCookie('__Secure-foo=bar');
+      expect(cookie).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Cookies with names starting with `__Secure-` must be set with the secure flag. Cookie ignored.',
+      );
+      consoleSpy.mockRestore();
+    });
+
+    it('should validate __Host- prefix requirements', () => {
+      const consoleSpy = spyOn(console, 'warn').mockImplementation(() => {});
+
+      let cookie = parseSetCookie(
+        '__Host-foo=bar; Domain=example.com; Secure; Path=/',
+      );
+      expect(cookie).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Cookies with names starting with `__Host-` must not have a domain specified. Cookie ignored.',
+      );
+
+      cookie = parseSetCookie('__Host-foo=bar; Secure; Path=/subdir');
+      expect(cookie).toBeNull();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Cookies with names starting with `__Host-` must have path be `/`. Cookie has been ignored.',
+      );
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('getSetCookies', () => {
+    it('should get all set-cookie headers', () => {
+      const headers = new Headers();
+      headers.append('Set-Cookie', 'foo=bar');
+      headers.append('Set-Cookie', 'baz=qux');
+
+      const cookies = getSetCookies(headers);
+      expect(cookies).toHaveLength(2);
+      expect(cookies[0]).toEqual({ name: 'foo', value: 'bar' });
+      expect(cookies[1]).toEqual({ name: 'baz', value: 'qux' });
     });
   });
 });

@@ -130,4 +130,32 @@ describe('HttpResponse', () => {
       expect(body.data).toEqual({ foo: 'bar' });
     });
   });
+
+  describe('isInformational', () => {
+    it('should return true for informational status codes', () => {
+      const response = new HttpResponse();
+      response.json({}, 100);
+      expect(response.isInformational()).toBe(true);
+    });
+
+    it('should return false for non-informational status codes', () => {
+      const response = new HttpResponse();
+      response.json({}, 200);
+      expect(response.isInformational()).toBe(false);
+    });
+  });
+
+  describe('isRedirect', () => {
+    it('should return true for redirect status codes', () => {
+      const response = new HttpResponse();
+      response.json({}, 301);
+      expect(response.isRedirect()).toBe(true);
+    });
+
+    it('should return false for non-redirect status codes', () => {
+      const response = new HttpResponse();
+      response.json({}, 200);
+      expect(response.isRedirect()).toBe(false);
+    });
+  });
 });
