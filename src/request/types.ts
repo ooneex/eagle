@@ -3,6 +3,7 @@ import type { ControllerMethodType } from '@/controller/types.ts';
 import type { ICookie } from '@/cookie/types.ts';
 import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import type { LocaleType } from '@/locale/locales.ts';
+import type { IStorage } from '@/storage/types.ts';
 import type { ScalarType } from '@/types.ts';
 import type { IUrl } from '@/url/types.ts';
 
@@ -35,9 +36,21 @@ export interface IRequestFile {
   readonly size: number;
   readonly extension: string;
   readonly isImage: boolean;
-  getData(): Promise<ArrayBuffer>;
-  getStream(): ReadableStream<Uint8Array>;
+  readonly isVideo: boolean;
+  readonly isAudio: boolean;
+  readonly isPdf: boolean;
+  readonly isText: boolean;
+  readonly isExcel: boolean;
+  readonly isCsv: boolean;
+  readonly isJson: boolean;
+  readonly isXml: boolean;
+  readonly isHtml: boolean;
+  readonly isSvg: boolean;
+  readAsArrayBuffer(): Promise<ArrayBuffer>;
+  readAsStream(): ReadableStream<Uint8Array>;
+  readAsText(): Promise<string>;
   write(path: string): Promise<void>;
+  store(storage: IStorage): Promise<string>;
 }
 
 export type LanguageType = {

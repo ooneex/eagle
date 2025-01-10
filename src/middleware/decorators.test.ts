@@ -8,16 +8,15 @@ import {
   type MiddlewareValueType,
   middleware,
 } from '@/middleware';
-import type { HttpResponse } from '@/response';
 
 describe('Middleware Decorator', () => {
   it('should register a valid middleware class in the container', () => {
     @middleware({ on: 'request' })
     class TestMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -30,37 +29,23 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'request' })
     class SingleMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
     const instances = container.getAll<SingleMiddleware>(SingleMiddleware);
     expect(instances.length).toBe(1);
-
-    it('should register middleware class in the container only once', () => {
-      @middleware({ on: 'request' })
-      class SingleMiddleware implements IMiddleware {
-        public next(
-          context?: MiddlewareContextType,
-        ): HttpResponse | Promise<HttpResponse> {
-          return context?.response ?? ({} as HttpResponse);
-        }
-      }
-
-      const instances = container.getAll<SingleMiddleware>(SingleMiddleware);
-      expect(instances.length).toBe(1);
-    });
   });
 
   it('should register middleware class with request scope', () => {
     @middleware({ scope: 'request', on: 'request' })
     class RequestScopedMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -79,9 +64,9 @@ describe('Middleware Decorator', () => {
     @middleware({ scope: 'transient', on: 'request' })
     class TransientScopedMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -100,9 +85,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'request' })
     class SingletonScopedMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -141,9 +126,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'request' })
     class DependencyMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -152,9 +137,9 @@ describe('Middleware Decorator', () => {
       constructor(public dependency: DependencyMiddleware) {}
 
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -172,9 +157,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'request' })
     class RequestMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -191,9 +176,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'response' })
     class ResponseMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -210,9 +195,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'kernel:init' })
     class KernelInitMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -229,9 +214,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'kernel:finish' })
     class KernelFinishMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 
@@ -248,9 +233,9 @@ describe('Middleware Decorator', () => {
     @middleware({ on: 'exception' })
     class ExceptionMiddleware implements IMiddleware {
       public next(
-        context?: MiddlewareContextType,
-      ): HttpResponse | Promise<HttpResponse> {
-        return context?.response ?? ({} as HttpResponse);
+        context: MiddlewareContextType,
+      ): MiddlewareContextType | Promise<MiddlewareContextType> {
+        return context;
       }
     }
 

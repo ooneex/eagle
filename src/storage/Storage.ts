@@ -17,10 +17,9 @@ export abstract class AbstractStorage implements IStorage {
   }
 
   public async putFile(key: string, localPath: string): Promise<number> {
-    const s3file: S3File = this.getS3File(key);
     const file = Bun.file(localPath);
 
-    return await s3file.write(file);
+    return await this.put(key, file);
   }
 
   public async put(

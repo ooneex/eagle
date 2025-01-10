@@ -1,12 +1,11 @@
 import type { Collection } from '@/collection/Collection.ts';
 import type { IRequest } from '@/request/types';
 import type { HttpResponse } from '@/response/HttpResponse';
-import type { ScalarType } from '@/types';
 
-export type MiddlewareContextType = {
-  request?: IRequest;
-  response?: HttpResponse;
-  store?: Collection<string, ScalarType | null>;
+export type MiddlewareContextType<T = any> = {
+  request: IRequest;
+  response: HttpResponse;
+  store: Collection<string, T | null>;
 };
 
 export const MiddlewareEvents = [
@@ -21,8 +20,8 @@ export type MiddlewareEventType = (typeof MiddlewareEvents)[number];
 
 export interface IMiddleware {
   next: (
-    context?: MiddlewareContextType,
-  ) => HttpResponse | Promise<HttpResponse>;
+    context: MiddlewareContextType,
+  ) => MiddlewareContextType | Promise<MiddlewareContextType>;
 }
 
 export type MiddlewareValueType = {
