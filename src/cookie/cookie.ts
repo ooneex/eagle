@@ -160,7 +160,7 @@ export const deleteCookie = (
   });
 };
 
-function parseSetCookie(value: string): ICookie | null {
+export function parseSetCookie(value: string): ICookie | null {
   const attrs = value.split(';').map((attr) => {
     const [key, ...values] = attr.trim().split('=');
     // biome-ignore lint/style/noNonNullAssertion: trust me

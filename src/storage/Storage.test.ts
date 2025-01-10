@@ -39,4 +39,15 @@ describe('Storage', () => {
 
     expect(spy).toHaveBeenCalledWith('test.txt');
   });
+
+  it('should get storage options', () => {
+    const options = storage.getOptions();
+
+    expect(options).toEqual({
+      accessKeyId: 'test-key',
+      secretAccessKey: 'test-secret',
+      bucket: 'test-bucket',
+      region: 'test-region',
+    });
+  });
 });
