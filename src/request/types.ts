@@ -1,6 +1,6 @@
 import type { IReadonlyCollection } from '@/collection/types.ts';
 import type { ControllerMethodType } from '@/controller/types.ts';
-import type { ICookie } from '@/cookie/types.ts';
+import type { CookieType } from '@/cookie/types.ts';
 import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import type { LocaleType } from '@/locale/locales.ts';
 import type { IStorage } from '@/storage/types.ts';
@@ -18,7 +18,7 @@ export interface IRequest {
   readonly params: IReadonlyCollection<string, ScalarType>;
   readonly payload: IReadonlyCollection<string, any>;
   readonly queries: IReadonlyCollection<string, ScalarType>;
-  readonly cookies: IReadonlyCollection<string, ICookie>;
+  readonly cookies: IReadonlyCollection<string, CookieType>;
   readonly form: IReadonlyCollection<string, any>;
   readonly files: IReadonlyCollection<string, IRequestFile>;
   readonly ip: string | null;

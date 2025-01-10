@@ -1,5 +1,5 @@
 import { describe, expect, it, spyOn } from 'bun:test';
-import type { ICookie } from '@/cookie';
+import type { CookieType } from '@/cookie';
 import {
   deleteCookie,
   getCookies,
@@ -32,7 +32,7 @@ describe('Cookie', () => {
   describe('setCookie', () => {
     it('should set cookie header', () => {
       const headers = new Headers();
-      const cookie: ICookie = {
+      const cookie: CookieType = {
         name: 'foo',
         value: 'bar',
         secure: true,
@@ -49,7 +49,7 @@ describe('Cookie', () => {
 
     it('should handle __Secure prefix', () => {
       const headers = new Headers();
-      const cookie: ICookie = {
+      const cookie: CookieType = {
         name: '__Secure-foo',
         value: 'bar',
       };
@@ -61,7 +61,7 @@ describe('Cookie', () => {
 
     it('should handle __Host prefix', () => {
       const headers = new Headers();
-      const cookie: ICookie = {
+      const cookie: CookieType = {
         name: '__Host-foo',
         value: 'bar',
       };

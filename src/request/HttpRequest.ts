@@ -1,7 +1,7 @@
 import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
 import type { IReadonlyCollection } from '@/collection/types.ts';
 import { getSetCookies } from '@/cookie/cookie.ts';
-import type { ICookie } from '@/cookie/types.ts';
+import type { CookieType } from '@/cookie/types.ts';
 import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
 import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import { parseString } from '@/helper/parseString.ts';
@@ -32,7 +32,7 @@ export class HttpRequest implements IRequest {
   public readonly referer: string | null;
   public readonly server: string | null;
   public readonly bearerToken: string | null;
-  public readonly cookies: IReadonlyCollection<string, ICookie>;
+  public readonly cookies: IReadonlyCollection<string, CookieType>;
   public readonly files: IReadonlyCollection<string, IRequestFile>;
   public readonly form: IReadonlyCollection<string, unknown>;
   public readonly lang: LanguageType | null = null;
@@ -70,7 +70,7 @@ export class HttpRequest implements IRequest {
     this.bearerToken = this.header.getBearerToken();
 
     const cookies = getSetCookies(this.native.headers);
-    const cookiesArray: [string, ICookie][] = [];
+    const cookiesArray: [string, CookieType][] = [];
     for (const cookie of cookies) {
       cookie.value = parseString(`${cookie.value}`);
       cookiesArray.push([cookie.name, cookie]);

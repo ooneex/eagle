@@ -1,12 +1,12 @@
 import type { IReadonlyArrayCollection } from '@/collection/types.ts';
-import type { ICookie } from '@/cookie/types.ts';
+import type { CookieType } from '@/cookie/types.ts';
 import type { IHeader } from '@/header/types.ts';
 import type { CharsetType, StatusCodeType } from '@/http/types.ts';
 import type { IRequest } from '@/request/types.ts';
 
 export interface IResponse {
   readonly header: IHeader;
-  readonly cookies: IReadonlyArrayCollection<ICookie>;
+  readonly cookies: IReadonlyArrayCollection<CookieType>;
   json: (
     data: Record<string, unknown>,
     status?: StatusCodeType,

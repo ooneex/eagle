@@ -1,9 +1,9 @@
-import type { ICookie } from './types.ts';
+import type { CookieType } from './types.ts';
 
 const FIELD_CONTENT_REGEXP = /^(?=[\x20-\x7E]*$)[^()@<>,;:\\"\[\]?={}\s]+$/;
 
 // biome-ignore lint/suspicious/noShadowRestrictedNames: trust me
-function toString(cookie: ICookie): string {
+export const toString = (cookie: CookieType): string => {
   if (!cookie.name) {
     return '';
   }
@@ -59,15 +59,15 @@ function toString(cookie: ICookie): string {
     out.push(cookie.unparsed.join('; '));
   }
   return out.join('; ');
-}
+};
 
-function validateName(name: string | undefined | null) {
+export const validateName = (name: string | undefined | null) => {
   if (name && !FIELD_CONTENT_REGEXP.test(name)) {
     throw new SyntaxError(`Invalid cookie name: "${name}"`);
   }
-}
+};
 
-function validatePath(path: string | null) {
+export const validatePath = (path: string | null) => {
   if (path === null) {
     return;
   }
@@ -83,9 +83,9 @@ function validatePath(path: string | null) {
       );
     }
   }
-}
+};
 
-function validateValue(name: string, value: string | null) {
+export const validateValue = (name: string, value: string | null) => {
   if (value === null) return;
   for (let i = 0; i < value.length; i++) {
     const c = value.charAt(i);
@@ -107,9 +107,9 @@ function validateValue(name: string, value: string | null) {
       );
     }
   }
-}
+};
 
-function validateDomain(domain: string) {
+export const validateDomain = (domain: string) => {
   const char1 = domain.charAt(0);
   const charN = domain.charAt(domain.length - 1);
   if (char1 === '-' || charN === '.' || charN === '-') {
@@ -117,7 +117,7 @@ function validateDomain(domain: string) {
       `Invalid first/last char in cookie domain: ${domain}`,
     );
   }
-}
+};
 
 export const getCookies = (headers: Headers): Record<string, string> => {
   const cookie = headers.get('Cookie');
@@ -137,7 +137,7 @@ export const getCookies = (headers: Headers): Record<string, string> => {
   return {};
 };
 
-export const setCookie = (headers: Headers, cookie: ICookie) => {
+export const setCookie = (headers: Headers, cookie: CookieType) => {
   const v = toString(cookie);
   if (v) {
     headers.append('Set-Cookie', v);
@@ -148,7 +148,7 @@ export const deleteCookie = (
   headers: Headers,
   name: string,
   attributes?: Pick<
-    ICookie,
+    CookieType,
     'path' | 'domain' | 'secure' | 'httpOnly' | 'partitioned'
   >,
 ) => {
@@ -160,7 +160,7 @@ export const deleteCookie = (
   });
 };
 
-export function parseSetCookie(value: string): ICookie | null {
+export const parseSetCookie = (value: string): CookieType | null => {
   const attrs = value.split(';').map((attr) => {
     const [key, ...values] = attr.trim().split('=');
     // biome-ignore lint/style/noNonNullAssertion: trust me
@@ -171,7 +171,7 @@ export function parseSetCookie(value: string): ICookie | null {
     return null;
   }
 
-  const cookie: ICookie = {
+  const cookie: CookieType = {
     name: attrs[0][0],
     value: attrs[0][1],
   };
@@ -204,7 +204,7 @@ export function parseSetCookie(value: string): ICookie | null {
         cookie.httpOnly = true;
         break;
       case 'samesite':
-        cookie.sameSite = value as NonNullable<ICookie['sameSite']>;
+        cookie.sameSite = value as NonNullable<CookieType['sameSite']>;
         break;
       default:
         if (!Array.isArray(cookie.unparsed)) {
@@ -246,11 +246,11 @@ export function parseSetCookie(value: string): ICookie | null {
     }
   }
   return cookie;
-}
+};
 
-export const getSetCookies = (headers: Headers): ICookie[] => {
+export const getSetCookies = (headers: Headers): CookieType[] => {
   return headers
     .getSetCookie()
     .map(parseSetCookie)
-    .filter(Boolean) as ICookie[];
+    .filter(Boolean) as CookieType[];
 };

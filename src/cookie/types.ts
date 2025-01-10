@@ -1,4 +1,4 @@
-export interface ICookie {
+export type CookieType = {
   name: string;
   value: string;
   expires?: Date | number;
@@ -10,4 +10,4 @@ export interface ICookie {
   partitioned?: boolean;
   sameSite?: 'Strict' | 'Lax' | 'None';
   unparsed?: string[];
-}
+};

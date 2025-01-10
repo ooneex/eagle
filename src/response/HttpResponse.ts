@@ -1,6 +1,6 @@
 import { ArrayCollection } from '@/collection/ArrayCollection.ts';
 import { setCookie } from '@/cookie/cookie.ts';
-import type { ICookie } from '@/cookie/types.ts';
+import type { CookieType } from '@/cookie/types.ts';
 import { Header } from '@/header/Header.ts';
 import {
   STATUS_TEXT,
@@ -20,8 +20,8 @@ export class HttpResponse implements IResponse {
   private message: string | null = null;
   private status: StatusCodeType = 200;
   public readonly header: Header = new Header();
-  public readonly cookies: ArrayCollection<ICookie> =
-    new ArrayCollection<ICookie>();
+  public readonly cookies: ArrayCollection<CookieType> =
+    new ArrayCollection<CookieType>();
 
   public json(
     data: Record<string, unknown>,
