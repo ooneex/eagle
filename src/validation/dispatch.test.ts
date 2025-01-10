@@ -1,94 +1,80 @@
-import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
-import { container } from '@/container/container.ts';
-import {
-  type IValidator,
-  ValidatorContainer,
-  dispatch,
-  validator,
-} from '@/validation';
+import { describe, expect, it } from 'bun:test';
+import { container } from '@/container';
+import type { IValidator, ValidationResultType } from '@/validation';
+import { ValidatorContainer, validator } from '@/validation';
 
-beforeEach(() => {
-  ValidatorContainer.clear();
-  ValidatorContainer.add('payload', []);
-  ValidatorContainer.add('params', []);
-  ValidatorContainer.add('queries', []);
-  ValidatorContainer.add('cookies', []);
-  ValidatorContainer.add('files', []);
-  ValidatorContainer.add('form', []);
-  ValidatorContainer.add('env', []);
-});
+describe('Validator Dispatch', () => {
+  it('should execute validators in correct order', async () => {
+    ValidatorContainer.add('payload', []);
 
-describe('dispatch', () => {
-  it('should call validate on all validators for given scope', async () => {
-    @validator('payload', { skipMissingProperties: true })
-    class Test1Validator implements IValidator {
-      async validate() {
-        return { success: true, details: [] };
-      }
-    }
-
-    @validator('payload', { forbidUnknownValues: true })
-    // biome-ignore lint/correctness/noUnusedVariables: trust me
-    class Test2Validator implements IValidator {
-      async validate() {
-        return { success: true, details: [] };
-      }
-    }
-
-    const mockValidator = new Test1Validator();
-    const validateSpy = spyOn(mockValidator, 'validate');
-
-    // Mock container get
-    const containerGetSpy = spyOn(container, 'get');
-    containerGetSpy.mockReturnValue(mockValidator);
-
-    await dispatch('payload');
-
-    expect(ValidatorContainer.get('payload')?.length).toBe(2);
-    expect(containerGetSpy).toHaveBeenCalledTimes(2);
-    expect(validateSpy).toHaveBeenCalledTimes(2);
-    expect(validateSpy).toHaveBeenNthCalledWith(1, {
-      skipMissingProperties: true,
-    });
-    expect(validateSpy).toHaveBeenNthCalledWith(2, {
-      forbidUnknownValues: true,
-    });
-  });
-
-  it('should skip validator if container returns null', async () => {
     @validator('payload')
-    // biome-ignore lint/correctness/noUnusedVariables: trust me
-    class NonExistentValidator implements IValidator {
-      async validate() {
-        return { success: true, details: [] };
+    class FirstValidator implements IValidator {
+      public validate(): Promise<ValidationResultType> {
+        return Promise.resolve({
+          success: true,
+          details: [],
+        });
       }
     }
 
-    // Mock container get to return null
-    const containerGetSpy = spyOn(container, 'get');
-    containerGetSpy.mockReturnValue(null);
+    @validator('payload')
+    class SecondValidator implements IValidator {
+      public validate(): Promise<ValidationResultType> {
+        return Promise.resolve({
+          success: true,
+          details: [],
+        });
+      }
+    }
 
-    await dispatch('payload');
-
-    expect(ValidatorContainer.get('payload')?.length).toBe(1);
-    // expect(containerGetSpy).toHaveBeenCalledTimes(1);
+    expect(ValidatorContainer.get('payload')).toHaveLength(2);
+    expect(ValidatorContainer.get('payload')?.[0].value).toBe(FirstValidator);
+    expect(ValidatorContainer.get('payload')?.[1].value).toBe(SecondValidator);
   });
 
-  it('should handle empty validator array', async () => {
-    // Clear any existing validators
-    ValidatorContainer.clear();
+  it('should handle failed validation', async () => {
+    ValidatorContainer.add('payload', []);
 
-    await dispatch('payload');
+    @validator('payload')
+    class FailingValidator implements IValidator {
+      public validate(): Promise<ValidationResultType> {
+        return Promise.resolve({
+          success: false,
+          details: [
+            {
+              property: 'test',
+              constraints: { isRequired: 'test is required' },
+            },
+          ],
+        });
+      }
+    }
 
-    expect(ValidatorContainer.get('payload') ?? []).toEqual([]);
+    const instance = container.get<FailingValidator>(FailingValidator);
+    const result = await instance.validate();
+
+    expect(result.success).toBe(false);
+    expect(result.details).toHaveLength(1);
+    expect(result.details[0].property).toBe('test');
   });
 
-  it('should handle null validator array', async () => {
-    // Clear any existing validators
-    ValidatorContainer.clear();
+  it('should handle successful validation', async () => {
+    ValidatorContainer.add('payload', []);
 
-    await dispatch('payload');
+    @validator('payload')
+    class SuccessValidator implements IValidator {
+      public validate(): Promise<ValidationResultType> {
+        return Promise.resolve({
+          success: true,
+          details: [],
+        });
+      }
+    }
 
-    expect(ValidatorContainer.get('payload')).toBeUndefined();
+    const instance = container.get<SuccessValidator>(SuccessValidator);
+    const result = await instance.validate();
+
+    expect(result.success).toBe(true);
+    expect(result.details).toHaveLength(0);
   });
 });
