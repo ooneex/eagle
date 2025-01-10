@@ -1,7 +1,9 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import type { ValidatorOptions } from 'class-validator';
-import { IsString } from 'class-validator';
-import { AbstractValidator } from './AbstractValidator';
+import {
+  AbstractValidator,
+  IsString,
+  type ValidatorOptions,
+} from '@/validation';
 
 class TestValidator extends AbstractValidator {
   @IsString()
