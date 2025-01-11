@@ -4,7 +4,7 @@ import {
   ControllerContainer,
   ControllerDecoratorException,
   type IController,
-  Path,
+  Route,
 } from '@/controller';
 import { ERole } from '@/security';
 
@@ -14,7 +14,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register a valid controller class in the container', () => {
-    @Path('/test', 'GET')
+    @Route('/test', 'GET')
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -34,7 +34,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with multiple paths and methods', () => {
-    @Path(['/test1', '/test2'], ['GET', 'POST'])
+    @Route(['/test1', '/test2'], ['GET', 'POST'])
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class MultiController implements IController {
       public action(): Promise<any> {
@@ -49,7 +49,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with custom name and scope', () => {
-    @Path('/custom', 'GET', { name: 'CustomName', scope: 'singleton' })
+    @Route('/custom', 'GET', { name: 'CustomName', scope: 'singleton' })
     class CustomController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -67,7 +67,7 @@ describe('Controller Decorator', () => {
 
   it('should throw error if class does not implement IController', () => {
     expect(() => {
-      @Path('/invalid', 'GET')
+      @Route('/invalid', 'GET')
       // biome-ignore lint/correctness/noUnusedVariables: test case
       class InvalidClass {}
     }).toThrow(ControllerDecoratorException);
@@ -75,7 +75,7 @@ describe('Controller Decorator', () => {
 
   it('should throw error if class name does not end with Controller', () => {
     expect(() => {
-      @Path('/invalid', 'GET')
+      @Route('/invalid', 'GET')
       // biome-ignore lint/correctness/noUnusedVariables: test case
       class InvalidName implements IController {
         public action(): Promise<any> {
@@ -86,7 +86,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should normalize paths by trimming slashes', () => {
-    @Path('/test/', 'GET')
+    @Route('/test/', 'GET')
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class PathController implements IController {
       public action(): Promise<any> {
@@ -100,7 +100,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should create regexp for paths', () => {
-    @Path('/test/:id', 'GET')
+    @Route('/test/:id', 'GET')
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class RegExpController implements IController {
       public action(): Promise<any> {
@@ -119,7 +119,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should accept array of paths', () => {
-    @Path(['/test1', '/test2/'], 'GET')
+    @Route(['/test1', '/test2/'], 'GET')
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class MultiPathController implements IController {
       public action(): Promise<any> {
@@ -133,7 +133,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should accept array of methods', () => {
-    @Path('/test', ['GET', 'POST'])
+    @Route('/test', ['GET', 'POST'])
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class MultiMethodController implements IController {
       public action(): Promise<any> {
@@ -147,7 +147,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should expand wildcard method to all HTTP methods', () => {
-    @Path('/test', '*')
+    @Route('/test', '*')
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class WildcardMethodController implements IController {
       public action(): Promise<any> {
@@ -169,7 +169,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller in singleton scope when configured', () => {
-    @Path('/test', 'GET', { scope: 'singleton' })
+    @Route('/test', 'GET', { scope: 'singleton' })
     class SingletonController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -182,7 +182,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller in transient scope when configured', () => {
-    @Path('/test', 'GET', { scope: 'transient' })
+    @Route('/test', 'GET', { scope: 'transient' })
     class TransientController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -195,7 +195,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with host restrictions', () => {
-    @Path('/test', 'GET', { hosts: ['example.com', /\.example\.com$/] })
+    @Route('/test', 'GET', { hosts: ['example.com', /\.example\.com$/] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class HostRestrictedController implements IController {
       public action(): Promise<any> {
@@ -209,7 +209,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with IP restrictions', () => {
-    @Path('/test', 'GET', { ips: ['127.0.0.1', /^192\.168\./] })
+    @Route('/test', 'GET', { ips: ['127.0.0.1', /^192\.168\./] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class IpRestrictedController implements IController {
       public action(): Promise<any> {
@@ -226,7 +226,7 @@ describe('Controller Decorator', () => {
     const validator1 = () => true;
     const validator2 = () => true;
 
-    @Path('/test', 'GET', { validators: [validator1, validator2] })
+    @Route('/test', 'GET', { validators: [validator1, validator2] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class ValidatedController implements IController {
       public action(): Promise<any> {
@@ -243,7 +243,7 @@ describe('Controller Decorator', () => {
     const middleware1 = () => true;
     const middleware2 = () => true;
 
-    @Path('/test', 'GET', { middlewares: [middleware1, middleware2] })
+    @Route('/test', 'GET', { middlewares: [middleware1, middleware2] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class MiddlewareController implements IController {
       public action(): Promise<any> {
@@ -257,7 +257,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with role restrictions', () => {
-    @Path('/test', 'GET', { roles: [ERole.ADMIN, ERole.SUPER_ADMIN] })
+    @Route('/test', 'GET', { roles: [ERole.ADMIN, ERole.SUPER_ADMIN] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class RoleRestrictedController implements IController {
       public action(): Promise<any> {

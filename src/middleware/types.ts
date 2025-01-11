@@ -6,6 +6,7 @@ export type MiddlewareContextType<T = any> = {
   request: IRequest;
   response: HttpResponse;
   store: Collection<string, T | null>;
+  exception?: Error;
 };
 
 export const MiddlewareEvents = [
@@ -27,5 +28,5 @@ export interface IMiddleware {
 export type MiddlewareValueType = {
   name: string;
   value: any;
-  order: number;
+  priority: number;
 };

@@ -20,7 +20,7 @@ describe('Middleware Dispatch', () => {
       value: async () => {
         executionOrder.push('first');
       },
-      order: 1,
+      priority: 1,
     };
 
     const secondMiddleware: MiddlewareValueType = {
@@ -28,7 +28,7 @@ describe('Middleware Dispatch', () => {
       value: async () => {
         executionOrder.push('second');
       },
-      order: 2,
+      priority: 2,
     };
 
     MiddlewareContainer.get('request')?.push(firstMiddleware);
@@ -39,7 +39,9 @@ describe('Middleware Dispatch', () => {
 
     // Execute middleware
     const middlewares = MiddlewareContainer.get('request') || [];
-    for (const middleware of middlewares.sort((a, b) => a.order - b.order)) {
+    for (const middleware of middlewares.sort(
+      (a, b) => a.priority - b.priority,
+    )) {
       await middleware.value();
     }
 
@@ -54,7 +56,7 @@ describe('Middleware Dispatch', () => {
       value: async () => {
         throw new Error('Test error');
       },
-      order: 0,
+      priority: 0,
     };
 
     const exceptionMiddleware: MiddlewareValueType = {
@@ -62,7 +64,7 @@ describe('Middleware Dispatch', () => {
       value: async () => {
         exceptionHandled = true;
       },
-      order: 0,
+      priority: 0,
     };
 
     MiddlewareContainer.get('request')?.push(errorMiddleware);

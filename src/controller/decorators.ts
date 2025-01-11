@@ -9,7 +9,7 @@ import type {
   ControllerPathConfigType,
 } from './types.ts';
 
-export const Path = (
+export const Route = (
   path: string | string[],
   method: ControllerMethodType | ControllerMethodType[] | '*',
   config?: Omit<

@@ -11,7 +11,7 @@ export const dispatch = async (
   context: MiddlewareContextType,
 ): Promise<MiddlewareContextType> => {
   const middlewares = (MiddlewareContainer.get(event) ?? []).sort(
-    (a, b) => a.order - b.order,
+    (a, b) => a.priority - b.priority,
   );
 
   for (const middleware of middlewares) {

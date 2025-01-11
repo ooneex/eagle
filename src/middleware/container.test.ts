@@ -32,7 +32,7 @@ describe('MiddlewareContainer', () => {
     const testMiddleware: MiddlewareValueType = {
       name: 'test',
       value: () => {},
-      order: 0,
+      priority: 0,
     };
 
     MiddlewareContainer.get('request')?.push(testMiddleware);
@@ -44,12 +44,12 @@ describe('MiddlewareContainer', () => {
     const testMiddleware1: MiddlewareValueType = {
       name: 'test1',
       value: () => {},
-      order: 0,
+      priority: 0,
     };
     const testMiddleware2: MiddlewareValueType = {
       name: 'test2',
       value: () => {},
-      order: 0,
+      priority: 0,
     };
 
     MiddlewareContainer.get('request')?.push(testMiddleware1);

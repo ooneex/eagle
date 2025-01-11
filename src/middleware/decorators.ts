@@ -7,7 +7,7 @@ import type { MiddlewareEventType } from './types.ts';
 export const middleware = (options: {
   scope?: DecoratorScopeType;
   on: MiddlewareEventType;
-  order?: number;
+  priority?: number;
   name?: string;
 }): ClassDecorator => {
   return (middleware: any) => {
@@ -23,7 +23,7 @@ export const middleware = (options: {
     MiddlewareContainer.get(options.on)?.push({
       name: options.name ?? name,
       value: middleware,
-      order: options?.order ?? 0,
+      priority: options?.priority ?? 0,
     });
   };
 };
