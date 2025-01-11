@@ -32,6 +32,18 @@ describe('Container', () => {
     expect(instance1).toBe(instance2);
   });
 
+  it('should create new instances in transient scope', () => {
+    class TransientClass {}
+    container.bind(TransientClass).toSelf().inTransientScope();
+
+    const instance1 = container.get(TransientClass);
+    const instance2 = container.get(TransientClass);
+
+    expect(instance1).toBeDefined();
+    expect(instance2).toBeDefined();
+    expect(instance1).not.toBe(instance2);
+  });
+
   it('should properly inject dependencies', () => {
     @injectable()
     class DependencyClass {}

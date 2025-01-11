@@ -1,8 +1,7 @@
 import type { Collection } from '@/collection/Collection.ts';
-import type { IMiddleware } from '@/middleware/types.ts';
 import type { IRequest } from '@/request/types.ts';
 import type { HttpResponse } from '@/response/HttpResponse.ts';
-import type { IValidator } from '@/validation/types.ts';
+import type { ERole } from '@/security/types.ts';
 
 export type ControllerActionParamType = {
   request: IRequest;
@@ -29,12 +28,13 @@ export interface IController {
 
 export type ControllerPathConfigType = {
   name: string;
-  value?: IController;
-  methods: ControllerMethodType[];
+  value: any;
   paths: string[];
   regexp?: RegExp[];
+  methods: ControllerMethodType[];
   hosts?: (string | RegExp)[];
   ips?: (string | RegExp)[];
-  validators?: IValidator[];
-  middlewares?: IMiddleware[];
+  validators?: any[];
+  middlewares?: any[];
+  roles?: ERole[];
 };

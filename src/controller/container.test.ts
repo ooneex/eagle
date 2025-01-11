@@ -3,6 +3,7 @@ import {
   ControllerContainer,
   type ControllerPathConfigType,
 } from '@/controller';
+import { HttpResponse } from '@/response/HttpResponse';
 
 describe('ControllerContainer', () => {
   beforeEach(() => {
@@ -13,6 +14,9 @@ describe('ControllerContainer', () => {
   it('should store and retrieve controller values', () => {
     const mockController: ControllerPathConfigType = {
       name: 'testController',
+      value: {
+        action: () => new HttpResponse(),
+      },
       methods: ['GET'],
       paths: ['/test'],
       validators: [],
@@ -31,6 +35,9 @@ describe('ControllerContainer', () => {
   it('should remove controller values', () => {
     const mockController: ControllerPathConfigType = {
       name: 'testController',
+      value: {
+        action: () => new HttpResponse(),
+      },
       methods: ['GET'],
       paths: ['/test'],
       validators: [],
@@ -46,6 +53,9 @@ describe('ControllerContainer', () => {
   it('should clear all controller values', () => {
     const mockController: ControllerPathConfigType = {
       name: 'testController',
+      value: {
+        action: () => new HttpResponse(),
+      },
       methods: ['GET'],
       paths: ['/test'],
       validators: [],
