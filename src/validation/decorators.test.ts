@@ -18,6 +18,13 @@ describe('Validator Decorator', () => {
           details: [],
         });
       }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
     }
 
     const instance = container.get<TestValidator>(TestValidator);
@@ -41,6 +48,10 @@ describe('Validator Decorator', () => {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
       }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
+      }
     }
 
     const payloadInstance = container.get<PayloadValidator>(PayloadValidator);
@@ -62,6 +73,10 @@ describe('Validator Decorator', () => {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
       }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
+      }
     }
 
     const paramsInstance = container.get<ParamsValidator>(ParamsValidator);
@@ -81,6 +96,10 @@ describe('Validator Decorator', () => {
     class QueriesValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
+      }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
       }
     }
 
@@ -102,6 +121,10 @@ describe('Validator Decorator', () => {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
       }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
+      }
     }
 
     const cookiesInstance = container.get<CookiesValidator>(CookiesValidator);
@@ -121,6 +144,10 @@ describe('Validator Decorator', () => {
     class FilesValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
+      }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
       }
     }
 
@@ -142,6 +169,10 @@ describe('Validator Decorator', () => {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
       }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
+      }
     }
 
     const formInstance = container.get<FormValidator>(FormValidator);
@@ -161,6 +192,10 @@ describe('Validator Decorator', () => {
     class EnvValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
         return Promise.resolve({ success: true, details: [] });
+      }
+
+      public validateSync(): ValidationResultType {
+        return { success: true, details: [] };
       }
     }
 

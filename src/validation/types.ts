@@ -17,6 +17,10 @@ export interface IValidator {
     data: Record<string, unknown>,
     validatorOptions?: ValidatorOptions,
   ) => Promise<ValidationResultType> | ValidationResultType;
+  validateSync: (
+    data: Record<string, unknown>,
+    validatorOptions?: ValidatorOptions,
+  ) => ValidationResultType;
 }
 
 export type AssertValidateReturnType = {

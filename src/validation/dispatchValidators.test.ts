@@ -22,6 +22,13 @@ describe('Validator Dispatch', () => {
           details: [],
         });
       }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
     }
 
     @validator('payload')
@@ -31,6 +38,13 @@ describe('Validator Dispatch', () => {
           success: true,
           details: [],
         });
+      }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
       }
     }
 
@@ -55,6 +69,18 @@ describe('Validator Dispatch', () => {
           ],
         });
       }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: false,
+          details: [
+            {
+              property: 'test',
+              constraints: { isRequired: 'test is required' },
+            },
+          ],
+        };
+      }
     }
 
     const instance = container.get<FailingValidator>(FailingValidator);
@@ -76,6 +102,13 @@ describe('Validator Dispatch', () => {
           details: [],
         });
       }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
     }
 
     const instance = container.get<SuccessValidator>(SuccessValidator);
@@ -93,6 +126,13 @@ describe('Validator Dispatch', () => {
     class FailingValidator extends AbstractValidator implements IValidator {
       @IsString()
       public name: string;
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: false,
+          details: [],
+        };
+      }
     }
 
     expect(dispatchValidators('payload', {})).rejects.toThrow(

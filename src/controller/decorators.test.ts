@@ -226,6 +226,13 @@ describe('Controller Decorator', () => {
           details: [],
         };
       }
+
+      public validateSync(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
     }
 
     const validator1: { scope: 'payload'; value: IValidator } = {
@@ -345,6 +352,13 @@ describe('Controller Decorator', () => {
   it('should register validator', () => {
     class TestValidator implements IValidator {
       public validate(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
+
+      public validateSync(): ValidationResultType {
         return {
           success: true,
           details: [],

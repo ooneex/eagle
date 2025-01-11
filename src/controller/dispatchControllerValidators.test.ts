@@ -18,6 +18,7 @@ describe('dispatchControllerValidators', () => {
           scope: 'payload' as ValidatorScopeType,
           value: {
             validate: async () => ({ success: true, details: [] }),
+            validateSync: () => ({ success: true, details: [] }),
           },
         },
       ],
@@ -43,6 +44,10 @@ describe('dispatchControllerValidators', () => {
           scope: 'payload' as ValidatorScopeType,
           value: {
             validate: async () => ({
+              success: false,
+              details: [{ property: 'test', message: 'Invalid data' }],
+            }),
+            validateSync: () => ({
               success: false,
               details: [{ property: 'test', message: 'Invalid data' }],
             }),
@@ -76,6 +81,10 @@ describe('dispatchControllerValidators', () => {
               executedValidators.push('payload');
               return { success: true, details: [] };
             },
+            validateSync: () => {
+              executedValidators.push('payload-sync');
+              return { success: true, details: [] };
+            },
           },
         },
         {
@@ -83,6 +92,10 @@ describe('dispatchControllerValidators', () => {
           value: {
             validate: async () => {
               executedValidators.push('queries');
+              return { success: true, details: [] };
+            },
+            validateSync: () => {
+              executedValidators.push('queries-sync');
               return { success: true, details: [] };
             },
           },
