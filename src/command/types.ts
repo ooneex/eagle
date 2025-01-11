@@ -1,3 +1,5 @@
+import type * as icon from 'log-symbols';
+import type * as colors from './colors.ts';
 import type { ConfirmPrompt } from './prompts/ConfirmPrompt';
 import type { InputPrompt } from './prompts/InputPrompt';
 import type { MultiSelectPrompt } from './prompts/MultiSelectPrompt';
@@ -20,6 +22,8 @@ export type CommandParamType = {
     multiSelect: typeof MultiSelectPrompt;
     task: typeof TaskPrompt;
   };
+  color: typeof colors;
+  icon: typeof icon;
 };
 
 export interface ICommand {

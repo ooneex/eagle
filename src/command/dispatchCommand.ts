@@ -1,5 +1,7 @@
 import { container } from '@/container/container.ts';
 import { log } from '@clack/prompts';
+import * as icon from 'log-symbols';
+import * as colors from './colors.ts';
 import { CommandContainer } from './container.ts';
 import { ConfirmPrompt } from './prompts/ConfirmPrompt.ts';
 import { InputPrompt } from './prompts/InputPrompt.ts';
@@ -13,6 +15,8 @@ export const dispatchCommand = async (commandName: string): Promise<void> => {
   if (!command) {
     return;
   }
+
+  await Bun.$`mkdir -p ${process.cwd()}/src`;
 
   const instance = container.get<ICommand>(command.value);
   await instance.execute({
@@ -31,5 +35,7 @@ export const dispatchCommand = async (commandName: string): Promise<void> => {
       multiSelect: MultiSelectPrompt,
       task: TaskPrompt,
     },
+    color: colors,
+    icon: icon,
   });
 };
