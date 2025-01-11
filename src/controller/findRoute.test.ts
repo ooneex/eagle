@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe('findRoute', () => {
   it('should find a matching route', () => {
-    @Route('/test', 'GET')
+    @Route.path('/test', 'GET')
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -44,7 +44,7 @@ describe('findRoute', () => {
   });
 
   it('should throw ControllerNotFoundException when method not allowed', () => {
-    @Route('/test', 'GET')
+    @Route.path('/test', 'GET')
     // biome-ignore lint/correctness/noUnusedVariables: trust me
     class TestController implements IController {
       public action(): Promise<any> {
@@ -63,7 +63,7 @@ describe('findRoute', () => {
   });
 
   it('should extract path parameters', () => {
-    @Route('/users/:id', 'GET')
+    @Route.path('/users/:id', 'GET')
     // biome-ignore lint/correctness/noUnusedVariables: trust me
     class TestController implements IController {
       public action(): Promise<any> {
@@ -82,7 +82,7 @@ describe('findRoute', () => {
   });
 
   it('should validate host restrictions', () => {
-    @Route('/test', 'GET', { host: ['example.com'] })
+    @Route.path('/test', 'GET', { host: ['example.com'] })
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -109,7 +109,7 @@ describe('findRoute', () => {
   });
 
   it('should validate IP restrictions', () => {
-    @Route('/test', 'GET', { ip: ['127.0.0.1'] })
+    @Route.path('/test', 'GET', { ip: ['127.0.0.1'] })
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();

@@ -14,12 +14,12 @@ export const findRoute = ({
 }: ControllerFindParamType): ControllerFindReturnType => {
   method = method.toUpperCase() as ControllerMethodType;
 
-  const route = ControllerContainer.find((d) => {
+  const route = ControllerContainer.find((_, d) => {
     if (!d.method.includes(method)) {
       return false;
     }
 
-    if (!d.regexp?.some((r) => r.test(path))) {
+    if (!d.regexp?.some((r: RegExp) => r.test(path))) {
       return false;
     }
 
@@ -43,16 +43,16 @@ export const findRoute = ({
   }
 
   const result: ControllerFindReturnType = {
-    name: route.name,
-    value: route.value,
-    path: route.path,
-    regexp: route.regexp ?? [],
-    method: route.method,
-    host: route.host ?? [],
-    ip: route.ip ?? [],
-    validators: route.validators ?? [],
-    middlewares: route.middlewares ?? [],
-    roles: route.roles ?? [],
+    name: route.value.name,
+    value: route.value.value,
+    path: route.value.path,
+    regexp: route.value.regexp ?? [],
+    method: route.value.method,
+    host: route.value.host ?? [],
+    ip: route.value.ip ?? [],
+    validators: route.value.validators ?? [],
+    middlewares: route.value.middlewares ?? [],
+    roles: route.value.roles ?? [],
     params: {},
   };
 

@@ -1,12 +1,16 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
 import { container } from '@/container';
 import {
+  type ActionParamType,
   ControllerContainer,
   ControllerDecoratorException,
   type IController,
   Route,
 } from '@/controller';
+import type { IMiddleware, MiddlewareContextType } from '@/middleware';
+import type { HttpResponse } from '@/response';
 import { ERole } from '@/security';
+import type { IValidator, ValidationResultType } from '@/validation';
 
 describe('Controller Decorator', () => {
   beforeEach(() => {
@@ -14,7 +18,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register a valid controller class in the container', () => {
-    @Route('/test', 'GET')
+    @Route.path('/test', 'GET')
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -25,49 +29,48 @@ describe('Controller Decorator', () => {
     expect(instance).toBeDefined();
     expect(instance).toBeInstanceOf(TestController);
 
-    const controllers = Array.from(ControllerContainer);
+    const controllers = Array.from(ControllerContainer.entries());
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].value).toBe(TestController);
-    expect(controllers[0].path).toEqual(['/test']);
-    expect(controllers[0].method).toEqual(['GET']);
-    expect(controllers[0].name).toBe('TestController');
+    expect(controllers[0][1].value).toBe(TestController);
+    expect(controllers[0][1].path).toEqual(['/test']);
+    expect(controllers[0][1].method).toEqual(['GET']);
+    expect(controllers[0][1].name).toBe('TestController');
   });
 
   it('should register controller with multiple paths and methods', () => {
-    @Route(['/test1', '/test2'], ['GET', 'POST'])
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path(['/test1', '/test2'], ['GET', 'POST'])
     class MultiController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].path).toEqual(['/test1', '/test2']);
-    expect(controllers[0].method).toEqual(['GET', 'POST']);
+    const controller = ControllerContainer.get(MultiController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test1', '/test2']);
+    expect(controller?.method).toEqual(['GET', 'POST']);
   });
 
   it('should register controller with custom name and scope', () => {
-    @Route('/custom', 'GET', { name: 'CustomName', scope: 'singleton' })
+    @Route.path('/custom', 'GET', { name: 'CustomName', scope: 'singleton' })
     class CustomController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].name).toBe('CustomName');
+    const controller = ControllerContainer.get('CustomName');
+    expect(controller).toBeDefined();
+    expect(controller?.name).toBe('CustomName');
 
     const instance1 = container.get<CustomController>(CustomController);
     const instance2 = container.get<CustomController>(CustomController);
-    expect(instance1).toBe(instance2); // Should be same instance due to singleton scope
+    expect(instance1).toBe(instance2);
   });
 
   it('should throw error if class does not implement IController', () => {
     expect(() => {
-      @Route('/invalid', 'GET')
+      @Route.path('/invalid', 'GET')
       // biome-ignore lint/correctness/noUnusedVariables: test case
       class InvalidClass {}
     }).toThrow(ControllerDecoratorException);
@@ -75,7 +78,7 @@ describe('Controller Decorator', () => {
 
   it('should throw error if class name does not end with Controller', () => {
     expect(() => {
-      @Route('/invalid', 'GET')
+      @Route.path('/invalid', 'GET')
       // biome-ignore lint/correctness/noUnusedVariables: test case
       class InvalidName implements IController {
         public action(): Promise<any> {
@@ -86,78 +89,73 @@ describe('Controller Decorator', () => {
   });
 
   it('should normalize paths by trimming slashes', () => {
-    @Route('/test/', 'GET')
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test/', 'GET')
     class PathController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].path).toEqual(['/test']);
+    const controller = ControllerContainer.get(PathController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
   });
 
   it('should create regexp for paths', () => {
-    @Route('/test/:id', 'GET')
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test/:id', 'GET')
     class RegExpController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].regexp).toBeDefined();
-    expect(controllers[0].regexp?.[0]).toBeInstanceOf(RegExp);
-    expect(controllers[0].regexp?.[0].test('/test/123')).toBe(true);
-    expect(controllers[0].regexp?.[0].test('/test/abc')).toBe(true);
-    expect(controllers[0].regexp?.[0].test('/test/')).toBe(false);
-    expect(controllers[0].regexp?.[0].test('/test')).toBe(false);
+    const controller = ControllerContainer.get(RegExpController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.regexp).toBeDefined();
+    expect(controller?.regexp?.[0]).toBeInstanceOf(RegExp);
+    expect(controller?.regexp?.[0].test('/test/123')).toBe(true);
+    expect(controller?.regexp?.[0].test('/test/abc')).toBe(true);
+    expect(controller?.regexp?.[0].test('/test/')).toBe(false);
+    expect(controller?.regexp?.[0].test('/test')).toBe(false);
   });
 
   it('should accept array of paths', () => {
-    @Route(['/test1', '/test2/'], 'GET')
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path(['/test1', '/test2/'], 'GET')
     class MultiPathController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].path).toEqual(['/test1', '/test2']);
+    const controller = ControllerContainer.get(MultiPathController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test1', '/test2']);
   });
 
   it('should accept array of methods', () => {
-    @Route('/test', ['GET', 'POST'])
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test', ['GET', 'POST'])
     class MultiMethodController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].method).toEqual(['GET', 'POST']);
+    const controller = ControllerContainer.get(MultiMethodController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.method).toEqual(['GET', 'POST']);
   });
 
   it('should expand wildcard method to all HTTP methods', () => {
-    @Route('/test', '*')
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test', '*')
     class WildcardMethodController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].method).toEqual([
+    const controller = ControllerContainer.get(WildcardMethodController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.method).toEqual([
       'GET',
       'POST',
       'PUT',
@@ -169,10 +167,10 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller in singleton scope when configured', () => {
-    @Route('/test', 'GET', { scope: 'singleton' })
+    @Route.path('/test', 'GET', { scope: 'singleton' })
     class SingletonController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
@@ -182,10 +180,10 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller in transient scope when configured', () => {
-    @Route('/test', 'GET', { scope: 'transient' })
+    @Route.path('/test', 'GET', { scope: 'transient' })
     class TransientController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
@@ -195,78 +193,101 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with host restrictions', () => {
-    @Route('/test', 'GET', { host: ['example.com', /\.example\.com$/] })
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test', 'GET', { host: ['example.com', /\.example\.com$/] })
     class HostRestrictedController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].host).toEqual(['example.com', /\.example\.com$/]);
+    const controller = ControllerContainer.get(HostRestrictedController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.host).toEqual(['example.com', /\.example\.com$/]);
   });
 
   it('should register controller with IP restrictions', () => {
-    @Route('/test', 'GET', { ip: ['127.0.0.1', /^192\.168\./] })
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test', 'GET', { ip: ['127.0.0.1', /^192\.168\./] })
     class IpRestrictedController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].ip).toEqual(['127.0.0.1', /^192\.168\./]);
+    const controller = ControllerContainer.get(IpRestrictedController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.ip).toEqual(['127.0.0.1', /^192\.168\./]);
   });
 
   it('should register controller with validators', () => {
-    const validator1 = () => true;
-    const validator2 = () => true;
-
-    @Route('/test', 'GET', { validators: [validator1, validator2] })
-    // biome-ignore lint/correctness/noUnusedVariables: test case
-    class ValidatedController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+    class TestValidator implements IValidator {
+      public validate(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].validators).toEqual([validator1, validator2]);
+    const validator1: { scope: 'payload'; value: IValidator } = {
+      scope: 'payload',
+      value: new TestValidator(),
+    };
+    const validator2: { scope: 'payload'; value: IValidator } = {
+      scope: 'payload',
+      value: new TestValidator(),
+    };
+
+    @Route.path('/test', 'GET', { validators: [validator1, validator2] })
+    class ValidatedController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(ValidatedController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.validators).toEqual([validator1, validator2]);
   });
 
   it('should register controller with middlewares', () => {
-    const middleware1 = () => true;
-    const middleware2 = () => true;
-
-    @Route('/test', 'GET', { middlewares: [middleware1, middleware2] })
-    // biome-ignore lint/correctness/noUnusedVariables: test case
-    class MiddlewareController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+    class TestMiddleware implements IMiddleware {
+      public next(context: MiddlewareContextType): MiddlewareContextType {
+        return context;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].middlewares).toEqual([middleware1, middleware2]);
+    const middleware1: { on: 'request'; value: IMiddleware } = {
+      on: 'request',
+      value: new TestMiddleware(),
+    };
+    const middleware2: { on: 'request'; value: IMiddleware } = {
+      on: 'request',
+      value: new TestMiddleware(),
+    };
+
+    @Route.path('/test', 'GET', { middlewares: [middleware1, middleware2] })
+    class MiddlewareController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(MiddlewareController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.middlewares).toEqual([middleware1, middleware2]);
   });
 
   it('should register controller with role restrictions', () => {
-    @Route('/test', 'GET', { roles: [ERole.ADMIN, ERole.SUPER_ADMIN] })
-    // biome-ignore lint/correctness/noUnusedVariables: test case
+    @Route.path('/test', 'GET', { roles: [ERole.ADMIN, ERole.SUPER_ADMIN] })
     class RoleRestrictedController implements IController {
-      public action(): Promise<any> {
-        return Promise.resolve();
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
       }
     }
 
-    const controllers = Array.from(ControllerContainer);
-    expect(controllers).toHaveLength(1);
-    expect(controllers[0].roles).toEqual([ERole.ADMIN, ERole.SUPER_ADMIN]);
+    const controller = ControllerContainer.get(RoleRestrictedController.name);
+
+    expect(controller).toBeDefined();
+    expect(controller?.roles).toEqual([ERole.ADMIN, ERole.SUPER_ADMIN]);
   });
 });

@@ -1,5 +1,7 @@
-import { ArrayCollection } from '@/collection/ArrayCollection.ts';
-import type { ControllerPathConfigType } from './types.ts';
+import { Collection } from '@/collection/Collection.ts';
+import type { ControllerRouteConfigType } from './types.ts';
 
-export const ControllerContainer: ArrayCollection<ControllerPathConfigType> =
-  new ArrayCollection<ControllerPathConfigType>();
+export const ControllerContainer: Collection<
+  string,
+  ControllerRouteConfigType
+> = new Collection<string, ControllerRouteConfigType>();

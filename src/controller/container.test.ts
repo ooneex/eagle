@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
 import {
   ControllerContainer,
-  type ControllerPathConfigType,
+  type ControllerRouteConfigType,
 } from '@/controller';
 import { HttpResponse } from '@/response/HttpResponse';
 
@@ -12,7 +12,7 @@ describe('ControllerContainer', () => {
   });
 
   it('should store and retrieve controller values', () => {
-    const mockController: ControllerPathConfigType = {
+    const mockController: ControllerRouteConfigType = {
       name: 'testController',
       value: {
         action: () => new HttpResponse(),
@@ -24,16 +24,16 @@ describe('ControllerContainer', () => {
     };
 
     // Test setting a value
-    ControllerContainer.add(mockController);
+    ControllerContainer.add(mockController.name, mockController);
 
     // Test getting a value
     expect(
-      ControllerContainer.find((item) => item.name === mockController.name),
-    ).toEqual(mockController);
+      ControllerContainer.find((_, V) => V.name === mockController.name),
+    ).toEqual({ key: mockController.name, value: mockController });
   });
 
   it('should remove controller values', () => {
-    const mockController: ControllerPathConfigType = {
+    const mockController: ControllerRouteConfigType = {
       name: 'testController',
       value: {
         action: () => new HttpResponse(),
@@ -44,14 +44,14 @@ describe('ControllerContainer', () => {
       middlewares: [],
     };
 
-    ControllerContainer.add(mockController);
-    ControllerContainer.delete(mockController);
+    ControllerContainer.add(mockController.name, mockController);
+    ControllerContainer.delete(mockController.name);
 
-    expect(ControllerContainer.has(mockController)).toBe(false);
+    expect(ControllerContainer.has(mockController.name)).toBe(false);
   });
 
   it('should clear all controller values', () => {
-    const mockController: ControllerPathConfigType = {
+    const mockController: ControllerRouteConfigType = {
       name: 'testController',
       value: {
         action: () => new HttpResponse(),
@@ -62,8 +62,11 @@ describe('ControllerContainer', () => {
       middlewares: [],
     };
 
-    ControllerContainer.add(mockController);
-    ControllerContainer.add({ ...mockController, name: 'testController2' });
+    ControllerContainer.add(mockController.name, mockController);
+    ControllerContainer.add('testController2', {
+      ...mockController,
+      name: 'testController2',
+    });
 
     ControllerContainer.clear();
 

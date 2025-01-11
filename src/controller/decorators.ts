@@ -1,19 +1,20 @@
 import { container } from '@/container/container.ts';
 import { pathToRegexp } from '@/helper';
 import { trim } from '@/helper/trim.ts';
+import { ERole } from '@/security/types.ts';
 import type { DecoratorScopeType } from '@/types.ts';
 import { ControllerDecoratorException } from './ControllerDecoratorException.ts';
 import { ControllerContainer } from './container.ts';
 import type {
   ControllerMethodType,
-  ControllerPathConfigType,
+  ControllerRouteConfigType,
 } from './types.ts';
 
-export const Route = (
+const path = (
   path: string | string[],
   method: ControllerMethodType | ControllerMethodType[] | '*',
   config?: Omit<
-    ControllerPathConfigType,
+    ControllerRouteConfigType,
     'name' | 'value' | 'path' | 'regexp' | 'method'
   > & {
     name?: string;
@@ -21,8 +22,9 @@ export const Route = (
   },
 ): ClassDecorator => {
   return (controller: any) => {
-    const name = controller.prototype.constructor.name;
-    ensureIsController(name, controller);
+    ensureIsController(controller);
+    const name = config?.name ?? controller.prototype.constructor.name;
+    ensureInitialData(controller, { name });
 
     if (config?.scope === 'singleton') {
       container.bind(controller).toSelf().inSingletonScope();
@@ -35,6 +37,10 @@ export const Route = (
     // biome-ignore lint/performance/noDelete: trust me
     delete config?.scope;
 
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
     if (method === '*') {
       method = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
     }
@@ -42,22 +48,63 @@ export const Route = (
     const paths = (Array.isArray(path) ? path : [path]).map(
       (p) => `/${trim(p, '/')}`,
     );
+    definition.path = paths;
+    definition.regexp = paths.map(pathToRegexp);
+    definition.method = Array.isArray(method) ? method : [method];
+    if (config?.host) {
+      definition.host = Array.isArray(config.host)
+        ? config.host
+        : [config.host];
+    }
+    if (config?.ip) {
+      definition.ip = Array.isArray(config.ip) ? config.ip : [config.ip];
+    }
 
-    ControllerContainer.add({
-      value: controller,
-      path: paths,
-      method: Array.isArray(method) ? method : [method],
-      ...(config ?? {}),
-      name: config?.name ?? name,
-      regexp: paths.map(pathToRegexp),
-    });
+    if (config?.validators) {
+      definition.validators = config.validators;
+    }
+
+    if (config?.middlewares) {
+      definition.middlewares = config.middlewares;
+    }
+
+    if (config?.roles) {
+      definition.roles = config.roles;
+    }
+
+    ControllerContainer.add(name, definition);
   };
 };
 
-const ensureIsController = (name: string, controller: any): void => {
+export const Route = {
+  path,
+};
+
+const ensureIsController = (controller: any): void => {
+  const name = controller.prototype.constructor.name;
+
   if (!name.endsWith('Controller') || !controller.prototype.action) {
     throw new ControllerDecoratorException(
       `Controller decorator can only be used on controller classes. ${name} must end with Controller keyword and implement IController interface.`,
     );
+  }
+};
+
+const ensureInitialData = (controller: any, config: { name: string }): void => {
+  const name = config.name;
+
+  if (!ControllerContainer.has(name)) {
+    ControllerContainer.add(name, {
+      name,
+      method: [],
+      path: [],
+      regexp: [],
+      host: [],
+      ip: [],
+      validators: [],
+      middlewares: [],
+      roles: [ERole.USER],
+      value: controller,
+    });
   }
 };
