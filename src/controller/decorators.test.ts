@@ -256,12 +256,12 @@ describe('Controller Decorator', () => {
       }
     }
 
-    const middleware1: { on: 'request'; value: IMiddleware } = {
-      on: 'request',
+    const middleware1: { event: 'request'; value: IMiddleware } = {
+      event: 'request',
       value: new TestMiddleware(),
     };
-    const middleware2: { on: 'request'; value: IMiddleware } = {
-      on: 'request',
+    const middleware2: { event: 'request'; value: IMiddleware } = {
+      event: 'request',
       value: new TestMiddleware(),
     };
 
@@ -289,5 +289,56 @@ describe('Controller Decorator', () => {
 
     expect(controller).toBeDefined();
     expect(controller?.roles).toEqual([ERole.ADMIN, ERole.SUPER_ADMIN]);
+  });
+
+  it('should register middleware using middleware decorator', () => {
+    class TestMiddleware implements IMiddleware {
+      public next(context: MiddlewareContextType): MiddlewareContextType {
+        return context;
+      }
+    }
+
+    const middleware = new TestMiddleware();
+
+    @Route.middleware('request', middleware)
+    class MiddlewareDecoratorController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(
+      MiddlewareDecoratorController.name,
+    );
+    expect(controller).toBeDefined();
+    expect(controller?.middlewares).toHaveLength(1);
+    expect(controller?.middlewares?.[0].event).toBe('request');
+    expect(controller?.middlewares?.[0].value).toBe(middleware);
+  });
+
+  it('should register middleware with priority', () => {
+    class TestMiddleware implements IMiddleware {
+      public next(context: MiddlewareContextType): MiddlewareContextType {
+        return context;
+      }
+    }
+
+    const middleware = new TestMiddleware();
+
+    @Route.middleware('response', middleware, { priority: 10 })
+    class PriorityMiddlewareController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(
+      PriorityMiddlewareController.name,
+    );
+    expect(controller).toBeDefined();
+    expect(controller?.middlewares).toHaveLength(1);
+    expect(controller?.middlewares?.[0].event).toBe('response');
+    expect(controller?.middlewares?.[0].value).toBe(middleware);
+    expect(controller?.middlewares?.[0].priority).toBe(10);
   });
 });

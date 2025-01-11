@@ -1,6 +1,7 @@
 import { container } from '@/container/container.ts';
 import { pathToRegexp } from '@/helper';
 import { trim } from '@/helper/trim.ts';
+import type { IMiddleware, MiddlewareEventType } from '@/middleware/types.ts';
 import { ERole } from '@/security/types.ts';
 import type { DecoratorScopeType } from '@/types.ts';
 import { ControllerDecoratorException } from './ControllerDecoratorException.ts';
@@ -76,8 +77,36 @@ const path = (
   };
 };
 
+const middleware = (
+  event: Extract<MiddlewareEventType, 'request' | 'response'>,
+  middleware: IMiddleware,
+  config?: {
+    priority?: number;
+    name?: string;
+  },
+): ClassDecorator => {
+  return (controller: any) => {
+    ensureIsController(controller);
+    const name = config?.name ?? controller.prototype.constructor.name;
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.middlewares.push({
+      event,
+      value: middleware,
+      priority: config?.priority,
+    });
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
 export const Route = {
   path,
+  middleware,
 };
 
 const ensureIsController = (controller: any): void => {

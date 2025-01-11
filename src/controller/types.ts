@@ -42,7 +42,7 @@ export type ControllerRouteConfigType = {
     value: IValidator;
   }[];
   middlewares?: {
-    on: Extract<MiddlewareEventType, 'request' | 'response'>;
+    event: Extract<MiddlewareEventType, 'request' | 'response'>;
     value: IMiddleware;
     priority?: number;
   }[];
