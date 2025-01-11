@@ -341,4 +341,32 @@ describe('Controller Decorator', () => {
     expect(controller?.middlewares?.[0].value).toBe(middleware);
     expect(controller?.middlewares?.[0].priority).toBe(10);
   });
+
+  it('should register validator', () => {
+    class TestValidator implements IValidator {
+      public validate(): ValidationResultType {
+        return {
+          success: true,
+          details: [],
+        };
+      }
+    }
+
+    const validator = new TestValidator();
+
+    @Route.validator('payload', validator)
+    class ValidatorDecoratorController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(
+      ValidatorDecoratorController.name,
+    );
+    expect(controller).toBeDefined();
+    expect(controller?.validators).toHaveLength(1);
+    expect(controller?.validators?.[0].scope).toBe('payload');
+    expect(controller?.validators?.[0].value).toBe(validator);
+  });
 });

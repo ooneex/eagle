@@ -4,6 +4,7 @@ import { trim } from '@/helper/trim.ts';
 import type { IMiddleware, MiddlewareEventType } from '@/middleware/types.ts';
 import { ERole } from '@/security/types.ts';
 import type { DecoratorScopeType } from '@/types.ts';
+import type { IValidator, ValidatorScopeType } from '@/validation/types.ts';
 import { ControllerDecoratorException } from './ControllerDecoratorException.ts';
 import { ControllerContainer } from './container.ts';
 import type {
@@ -104,9 +105,35 @@ const middleware = (
   };
 };
 
+const validator = (
+  scope: ValidatorScopeType,
+  validator: IValidator,
+  config?: {
+    name?: string;
+  },
+): ClassDecorator => {
+  return (controller: any) => {
+    ensureIsController(controller);
+    const name = config?.name ?? controller.prototype.constructor.name;
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.validators.push({
+      scope,
+      value: validator,
+    });
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
 export const Route = {
   path,
   middleware,
+  validator,
 };
 
 const ensureIsController = (controller: any): void => {
