@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'bun:test';
 import { container } from '@/container';
 import type { IValidator, ValidationResultType } from '@/validation';
-import { ValidatorContainer, validator } from '@/validation';
+import {
+  AbstractValidator,
+  V,
+  ValidationFailedException,
+  ValidatorContainer,
+  dispatch,
+  validator,
+} from '@/validation';
 
 describe('Validator Dispatch', () => {
   it('should execute validators in correct order', async () => {
@@ -76,5 +83,21 @@ describe('Validator Dispatch', () => {
 
     expect(result.success).toBe(true);
     expect(result.details).toHaveLength(0);
+  });
+
+  it('should throw ValidationFailedException on failed validation', async () => {
+    ValidatorContainer.add('payload', []);
+
+    @validator('payload')
+    // biome-ignore lint/correctness/noUnusedVariables: trust me
+    class FailingValidator extends AbstractValidator implements IValidator {
+      @V.IsString()
+      public name: string;
+    }
+
+    expect(dispatch('payload', {})).rejects.toThrow(ValidationFailedException);
+    expect(dispatch('payload', {})).rejects.toThrow(
+      'FailingValidator: Validation failed',
+    );
   });
 });

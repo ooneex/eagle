@@ -14,6 +14,7 @@ export type ValidatorScopeType = (typeof ValidatorScopes)[number];
 
 export interface IValidator {
   validate: (
+    data: Record<string, unknown>,
     validatorOptions?: ValidatorOptions,
   ) => Promise<ValidationResultType> | ValidationResultType;
 }

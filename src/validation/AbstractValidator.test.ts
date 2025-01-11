@@ -20,7 +20,9 @@ describe('AbstractValidator', () => {
 
   describe('validate', () => {
     it('should return success true when validation passes', async () => {
-      const result = await validator.validate();
+      const result = await validator.validate({
+        name: 'test',
+      });
 
       expect(result.success).toBe(true);
       expect(result.details).toHaveLength(0);
@@ -28,7 +30,9 @@ describe('AbstractValidator', () => {
 
     it('should return success false when validation fails', async () => {
       validator.name = 123 as any;
-      const result = await validator.validate();
+      const result = await validator.validate({
+        name: 123,
+      });
 
       expect(result.success).toBe(false);
       expect(result.details).toHaveLength(1);
@@ -39,7 +43,7 @@ describe('AbstractValidator', () => {
       const options: V.ValidatorOptions = {
         skipMissingProperties: true,
       };
-      const result = await validator.validate(options);
+      const result = await validator.validate({}, options);
 
       expect(result.success).toBe(true);
     });
