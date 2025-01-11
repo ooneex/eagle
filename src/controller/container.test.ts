@@ -17,8 +17,8 @@ describe('ControllerContainer', () => {
       value: {
         action: () => new HttpResponse(),
       },
-      methods: ['GET'],
-      paths: ['/test'],
+      method: ['GET'],
+      path: ['/test'],
       validators: [],
       middlewares: [],
     };
@@ -38,8 +38,8 @@ describe('ControllerContainer', () => {
       value: {
         action: () => new HttpResponse(),
       },
-      methods: ['GET'],
-      paths: ['/test'],
+      method: ['GET'],
+      path: ['/test'],
       validators: [],
       middlewares: [],
     };
@@ -56,8 +56,8 @@ describe('ControllerContainer', () => {
       value: {
         action: () => new HttpResponse(),
       },
-      methods: ['GET'],
-      paths: ['/test'],
+      method: ['GET'],
+      path: ['/test'],
       validators: [],
       middlewares: [],
     };

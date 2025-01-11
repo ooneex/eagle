@@ -14,7 +14,7 @@ export const Route = (
   method: ControllerMethodType | ControllerMethodType[] | '*',
   config?: Omit<
     ControllerPathConfigType,
-    'name' | 'value' | 'paths' | 'regexp' | 'methods'
+    'name' | 'value' | 'path' | 'regexp' | 'method'
   > & {
     name?: string;
     scope?: DecoratorScopeType;
@@ -45,8 +45,8 @@ export const Route = (
 
     ControllerContainer.add({
       value: controller,
-      paths,
-      methods: Array.isArray(method) ? method : [method],
+      path: paths,
+      method: Array.isArray(method) ? method : [method],
       ...(config ?? {}),
       name: config?.name ?? name,
       regexp: paths.map(pathToRegexp),

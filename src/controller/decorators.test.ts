@@ -28,8 +28,8 @@ describe('Controller Decorator', () => {
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
     expect(controllers[0].value).toBe(TestController);
-    expect(controllers[0].paths).toEqual(['/test']);
-    expect(controllers[0].methods).toEqual(['GET']);
+    expect(controllers[0].path).toEqual(['/test']);
+    expect(controllers[0].method).toEqual(['GET']);
     expect(controllers[0].name).toBe('TestController');
   });
 
@@ -44,8 +44,8 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].paths).toEqual(['/test1', '/test2']);
-    expect(controllers[0].methods).toEqual(['GET', 'POST']);
+    expect(controllers[0].path).toEqual(['/test1', '/test2']);
+    expect(controllers[0].method).toEqual(['GET', 'POST']);
   });
 
   it('should register controller with custom name and scope', () => {
@@ -96,7 +96,7 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].paths).toEqual(['/test']);
+    expect(controllers[0].path).toEqual(['/test']);
   });
 
   it('should create regexp for paths', () => {
@@ -129,7 +129,7 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].paths).toEqual(['/test1', '/test2']);
+    expect(controllers[0].path).toEqual(['/test1', '/test2']);
   });
 
   it('should accept array of methods', () => {
@@ -143,7 +143,7 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].methods).toEqual(['GET', 'POST']);
+    expect(controllers[0].method).toEqual(['GET', 'POST']);
   });
 
   it('should expand wildcard method to all HTTP methods', () => {
@@ -157,7 +157,7 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].methods).toEqual([
+    expect(controllers[0].method).toEqual([
       'GET',
       'POST',
       'PUT',
@@ -195,7 +195,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with host restrictions', () => {
-    @Route('/test', 'GET', { hosts: ['example.com', /\.example\.com$/] })
+    @Route('/test', 'GET', { host: ['example.com', /\.example\.com$/] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class HostRestrictedController implements IController {
       public action(): Promise<any> {
@@ -205,11 +205,11 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].hosts).toEqual(['example.com', /\.example\.com$/]);
+    expect(controllers[0].host).toEqual(['example.com', /\.example\.com$/]);
   });
 
   it('should register controller with IP restrictions', () => {
-    @Route('/test', 'GET', { ips: ['127.0.0.1', /^192\.168\./] })
+    @Route('/test', 'GET', { ip: ['127.0.0.1', /^192\.168\./] })
     // biome-ignore lint/correctness/noUnusedVariables: test case
     class IpRestrictedController implements IController {
       public action(): Promise<any> {
@@ -219,7 +219,7 @@ describe('Controller Decorator', () => {
 
     const controllers = Array.from(ControllerContainer);
     expect(controllers).toHaveLength(1);
-    expect(controllers[0].ips).toEqual(['127.0.0.1', /^192\.168\./]);
+    expect(controllers[0].ip).toEqual(['127.0.0.1', /^192\.168\./]);
   });
 
   it('should register controller with validators', () => {

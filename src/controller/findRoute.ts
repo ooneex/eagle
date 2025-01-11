@@ -15,7 +15,7 @@ export const findRoute = ({
   method = method.toUpperCase() as ControllerMethodType;
 
   const route = ControllerContainer.find((d) => {
-    if (!d.methods.includes(method)) {
+    if (!d.method.includes(method)) {
       return false;
     }
 
@@ -45,11 +45,11 @@ export const findRoute = ({
   const result: ControllerFindReturnType = {
     name: route.name,
     value: route.value,
-    paths: route.paths,
+    path: route.path,
     regexp: route.regexp ?? [],
-    methods: route.methods,
-    hosts: route.hosts ?? [],
-    ips: route.ips ?? [],
+    method: route.method,
+    host: route.host ?? [],
+    ip: route.ip ?? [],
     validators: route.validators ?? [],
     middlewares: route.middlewares ?? [],
     roles: route.roles ?? [],
@@ -75,8 +75,8 @@ export const findRoute = ({
     }
   }
 
-  if (host && result.hosts.length > 0) {
-    const hostMatch = result.hosts.some((h) =>
+  if (host && result.host.length > 0) {
+    const hostMatch = result.host.some((h) =>
       h instanceof RegExp ? h.test(host) : h === host,
     );
 
@@ -88,8 +88,8 @@ export const findRoute = ({
     }
   }
 
-  if (ip && result.ips.length > 0) {
-    const ipMatch = result.ips.some((i) =>
+  if (ip && result.ip.length > 0) {
+    const ipMatch = result.ip.some((i) =>
       i instanceof RegExp ? i.test(ip) : i === ip,
     );
 

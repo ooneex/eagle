@@ -28,8 +28,8 @@ describe('findRoute', () => {
     });
 
     expect(result.name).toBe(TestController.name);
-    expect(result.paths).toEqual(['/test']);
-    expect(result.methods).toEqual(['GET']);
+    expect(result.path).toEqual(['/test']);
+    expect(result.method).toEqual(['GET']);
   });
 
   it('should throw ControllerNotFoundException when route not found', () => {
@@ -82,7 +82,7 @@ describe('findRoute', () => {
   });
 
   it('should validate host restrictions', () => {
-    @Route('/test', 'GET', { hosts: ['example.com'] })
+    @Route('/test', 'GET', { host: ['example.com'] })
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();
@@ -109,7 +109,7 @@ describe('findRoute', () => {
   });
 
   it('should validate IP restrictions', () => {
-    @Route('/test', 'GET', { ips: ['127.0.0.1'] })
+    @Route('/test', 'GET', { ip: ['127.0.0.1'] })
     class TestController implements IController {
       public action(): Promise<any> {
         return Promise.resolve();

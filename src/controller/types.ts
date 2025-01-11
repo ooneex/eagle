@@ -30,11 +30,11 @@ export interface IController {
 export type ControllerPathConfigType = {
   name: string;
   value: any;
-  paths: string[];
+  path: string[];
   regexp?: RegExp[];
-  methods: ControllerMethodType[];
-  hosts?: (string | RegExp)[];
-  ips?: (string | RegExp)[];
+  method: ControllerMethodType[];
+  host?: (string | RegExp)[];
+  ip?: (string | RegExp)[];
   validators?: any[];
   middlewares?: any[];
   roles?: ERole[];
