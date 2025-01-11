@@ -6,7 +6,7 @@ import {
   IsString,
   ValidationFailedException,
   ValidatorContainer,
-  dispatch,
+  dispatchValidators,
   validator,
 } from '@/validation';
 
@@ -95,15 +95,17 @@ describe('Validator Dispatch', () => {
       public name: string;
     }
 
-    expect(dispatch('payload', {})).rejects.toThrow(ValidationFailedException);
-    expect(dispatch('payload', {})).rejects.toThrow(
+    expect(dispatchValidators('payload', {})).rejects.toThrow(
+      ValidationFailedException,
+    );
+    expect(dispatchValidators('payload', {})).rejects.toThrow(
       'FailingValidator: Validation failed',
     );
   });
 
   it('should not throw ValidationFailedException on successful validation', async () => {
-    expect(dispatch('payload', { name: 'Eagle' })).resolves.not.toThrow(
-      ValidationFailedException,
-    );
+    expect(
+      dispatchValidators('payload', { name: 'Eagle' }),
+    ).resolves.not.toThrow(ValidationFailedException);
   });
 });

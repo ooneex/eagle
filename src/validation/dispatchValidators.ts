@@ -3,7 +3,7 @@ import { ValidationFailedException } from './ValidationFailedException.ts';
 import { ValidatorContainer } from './container.ts';
 import type { IValidator, ValidatorScopeType } from './types.ts';
 
-export const dispatch = async (
+export const dispatchValidators = async (
   dataScope: ValidatorScopeType,
   data: Record<string, unknown>,
 ): Promise<void> => {
