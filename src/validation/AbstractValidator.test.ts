@@ -1,8 +1,12 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { AbstractValidator, V } from '@/validation';
+import {
+  AbstractValidator,
+  IsString,
+  type ValidatorOptions,
+} from '@/validation';
 
 class TestValidator extends AbstractValidator {
-  @V.IsString()
+  @IsString()
   public name: string;
 
   constructor(name: string) {
@@ -40,7 +44,7 @@ describe('AbstractValidator', () => {
     });
 
     it('should accept validator options', async () => {
-      const options: V.ValidatorOptions = {
+      const options: ValidatorOptions = {
         skipMissingProperties: true,
       };
       const result = await validator.validate({}, options);

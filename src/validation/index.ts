@@ -1,4 +1,4 @@
-export * as V from 'class-validator';
+export * from 'class-validator';
 export { AbstractValidator } from './AbstractValidator.ts';
 export { ValidatorContainer } from './container.ts';
 export * from './decorators.ts';

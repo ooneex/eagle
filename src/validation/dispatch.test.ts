@@ -3,7 +3,7 @@ import { container } from '@/container';
 import type { IValidator, ValidationResultType } from '@/validation';
 import {
   AbstractValidator,
-  V,
+  IsString,
   ValidationFailedException,
   ValidatorContainer,
   dispatch,
@@ -91,7 +91,7 @@ describe('Validator Dispatch', () => {
     @validator('payload')
     // biome-ignore lint/correctness/noUnusedVariables: trust me
     class FailingValidator extends AbstractValidator implements IValidator {
-      @V.IsString()
+      @IsString()
       public name: string;
     }
 
