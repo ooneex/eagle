@@ -100,4 +100,10 @@ describe('Validator Dispatch', () => {
       'FailingValidator: Validation failed',
     );
   });
+
+  it('should not throw ValidationFailedException on successful validation', async () => {
+    expect(dispatch('payload', { name: 'Eagle' })).resolves.not.toThrow(
+      ValidationFailedException,
+    );
+  });
 });
