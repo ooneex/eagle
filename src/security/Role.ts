@@ -31,7 +31,7 @@ export class Role implements IRole {
   }
 
   public isSuperAdmin(): boolean {
-    return this.has(ERole.SUPER_ADMIN);
+    return this.has(ERole.MASTER);
   }
 
   public isAdmin(): boolean {

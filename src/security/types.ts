@@ -6,7 +6,7 @@ export interface IPermission {
 export enum ERole {
   USER = 1,
   ADMIN = 2,
-  SUPER_ADMIN = 3,
+  MASTER = 3,
 }
 
 export interface IUser {

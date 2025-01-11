@@ -17,7 +17,7 @@ describe('Role', () => {
     });
 
     it('should return true when user has higher role', () => {
-      const role = new Role([ERole.SUPER_ADMIN]);
+      const role = new Role([ERole.MASTER]);
       expect(role.has(ERole.ADMIN)).toBe(true);
       expect(role.has(ERole.USER)).toBe(true);
     });
@@ -25,14 +25,14 @@ describe('Role', () => {
     it('should return false when user has lower role', () => {
       const role = new Role([ERole.USER]);
       expect(role.has(ERole.ADMIN)).toBe(false);
-      expect(role.has(ERole.SUPER_ADMIN)).toBe(false);
+      expect(role.has(ERole.MASTER)).toBe(false);
     });
 
     it('should work with multiple roles', () => {
       const role = new Role([ERole.USER, ERole.ADMIN]);
       expect(role.has(ERole.USER)).toBe(true);
       expect(role.has(ERole.ADMIN)).toBe(true);
-      expect(role.has(ERole.SUPER_ADMIN)).toBe(false);
+      expect(role.has(ERole.MASTER)).toBe(false);
     });
 
     it('should work with Role instance', () => {
@@ -41,12 +41,12 @@ describe('Role', () => {
       expect(role.has(role2)).toBe(true);
       expect(role2.has(role)).toBe(false);
 
-      const role3 = new Role([ERole.SUPER_ADMIN]);
+      const role3 = new Role([ERole.MASTER]);
       const role4 = new Role([ERole.USER]);
       expect(role3.has(role4)).toBe(true);
       expect(role4.has(role3)).toBe(false);
 
-      const multiRole = new Role([ERole.USER, ERole.SUPER_ADMIN]);
+      const multiRole = new Role([ERole.USER, ERole.MASTER]);
       const adminRole = new Role([ERole.ADMIN]);
       expect(multiRole.has(adminRole)).toBe(true);
       expect(adminRole.has(multiRole)).toBe(true);
@@ -55,7 +55,7 @@ describe('Role', () => {
 
   describe('role-specific checks', () => {
     it('should correctly check for SUPER_ADMIN', () => {
-      const role = new Role([ERole.SUPER_ADMIN]);
+      const role = new Role([ERole.MASTER]);
       expect(role.isSuperAdmin()).toBe(true);
       expect(role.isUser()).toBe(true);
     });

@@ -52,7 +52,9 @@ const path = (
     );
     definition.path = paths;
     definition.regexp = paths.map(pathToRegexp);
-    definition.method = Array.isArray(method) ? method : [method];
+    definition.method = (Array.isArray(method) ? method : [method]).map(
+      (m) => m.toUpperCase() as ControllerMethodType,
+    );
     if (config?.host) {
       definition.host = Array.isArray(config.host)
         ? config.host
@@ -130,10 +132,112 @@ const validator = (
   };
 };
 
+const host = (
+  host: (string | RegExp) | (string | RegExp)[],
+  config?: {
+    name?: string;
+  },
+): ClassDecorator => {
+  return (controller: any) => {
+    ensureIsController(controller);
+    const name = config?.name ?? controller.prototype.constructor.name;
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.host.push(...(Array.isArray(host) ? host : [host]));
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
+const ip = (
+  ip: (string | RegExp) | (string | RegExp)[],
+  config?: {
+    name?: string;
+  },
+): ClassDecorator => {
+  return (controller: any) => {
+    ensureIsController(controller);
+    const name = config?.name ?? controller.prototype.constructor.name;
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.ip.push(...(Array.isArray(ip) ? ip : [ip]));
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
+const setRole = (roles: ERole[]) => {
+  return (config?: {
+    name?: string;
+  }): ClassDecorator => {
+    return (controller: any) => {
+      ensureIsController(controller);
+      const name = config?.name ?? controller.prototype.constructor.name;
+      ensureInitialData(controller, { name });
+
+      const definition = ControllerContainer.get(
+        name,
+      ) as Required<ControllerRouteConfigType>;
+
+      definition.roles = roles;
+
+      ControllerContainer.add(name, definition);
+    };
+  };
+};
+
+const setMethod = (methods: ControllerMethodType[]) => {
+  return (
+    path: string,
+    config?: {
+      name?: string;
+    },
+  ): ClassDecorator => {
+    return (controller: any) => {
+      ensureIsController(controller);
+      const name = config?.name ?? controller.prototype.constructor.name;
+      ensureInitialData(controller, { name });
+
+      const definition = ControllerContainer.get(
+        name,
+      ) as Required<ControllerRouteConfigType>;
+
+      definition.path = [path];
+      definition.regexp = [pathToRegexp(path)];
+      definition.method = methods;
+
+      ControllerContainer.add(name, definition);
+    };
+  };
+};
+
 export const Route = {
   path,
+  host,
+  ip,
   middleware,
   validator,
+  delete: setMethod(['DELETE']),
+  head: setMethod(['HEAD']),
+  get: setMethod(['GET']),
+  options: setMethod(['OPTIONS']),
+  patch: setMethod(['PATCH']),
+  post: setMethod(['POST']),
+  put: setMethod(['PUT']),
+  role: {
+    public: setRole([]),
+    user: setRole([ERole.USER]),
+    admin: setRole([ERole.ADMIN]),
+    master: setRole([ERole.MASTER]),
+  },
 };
 
 const ensureIsController = (controller: any): void => {

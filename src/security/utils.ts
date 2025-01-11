@@ -7,7 +7,7 @@ import { ERole } from './types.ts';
  * 3 = Lowest privilege (USER)
  */
 export const ROLE_HIERARCHY: Record<ERole, number> = {
-  [ERole.SUPER_ADMIN]: 1,
+  [ERole.MASTER]: 1,
   [ERole.ADMIN]: 2,
   [ERole.USER]: 3,
 };

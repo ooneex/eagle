@@ -278,7 +278,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register controller with role restrictions', () => {
-    @Route.path('/test', 'GET', { roles: [ERole.ADMIN, ERole.SUPER_ADMIN] })
+    @Route.path('/test', 'GET', { roles: [ERole.ADMIN, ERole.MASTER] })
     class RoleRestrictedController implements IController {
       public action({ response }: ActionParamType): HttpResponse {
         return response;
@@ -288,7 +288,7 @@ describe('Controller Decorator', () => {
     const controller = ControllerContainer.get(RoleRestrictedController.name);
 
     expect(controller).toBeDefined();
-    expect(controller?.roles).toEqual([ERole.ADMIN, ERole.SUPER_ADMIN]);
+    expect(controller?.roles).toEqual([ERole.ADMIN, ERole.MASTER]);
   });
 
   it('should register middleware using middleware decorator', () => {
@@ -368,5 +368,181 @@ describe('Controller Decorator', () => {
     expect(controller?.validators).toHaveLength(1);
     expect(controller?.validators?.[0].scope).toBe('payload');
     expect(controller?.validators?.[0].value).toBe(validator);
+  });
+
+  it('should register DELETE decorator', () => {
+    @Route.delete('/test')
+    class DeleteController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(DeleteController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['DELETE']);
+  });
+
+  it('should register HEAD decorator', () => {
+    @Route.head('/test')
+    class HeadController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(HeadController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['HEAD']);
+  });
+
+  it('should register OPTIONS decorator', () => {
+    @Route.options('/test')
+    class OptionsController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(OptionsController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['OPTIONS']);
+  });
+
+  it('should register PATCH decorator', () => {
+    @Route.patch('/test')
+    class PatchController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(PatchController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['PATCH']);
+  });
+
+  it('should register POST decorator', () => {
+    @Route.post('/test')
+    class PostController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(PostController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['POST']);
+  });
+
+  it('should register PUT decorator', () => {
+    @Route.put('/test')
+    class PutController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(PutController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['PUT']);
+  });
+
+  it('should register GET decorator', () => {
+    @Route.get('/test')
+    class GetController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(GetController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual(['/test']);
+    expect(controller?.method).toEqual(['GET']);
+  });
+
+  it('should register host decorator', () => {
+    @Route.host('example.com')
+    class HostController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(HostController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.host).toEqual(['example.com']);
+  });
+
+  it('should register ip decorator', () => {
+    @Route.ip('127.0.0.1')
+    class IpController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(IpController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.ip).toEqual(['127.0.0.1']);
+  });
+
+  it('should register public role decorator', () => {
+    @Route.role.public()
+    class PublicController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(PublicController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.roles).toEqual([]);
+  });
+
+  it('should register user role decorator', () => {
+    @Route.role.user()
+    class UserController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(UserController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.roles).toEqual([ERole.USER]);
+  });
+
+  it('should register admin role decorator', () => {
+    @Route.role.admin()
+    class AdminController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(AdminController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.roles).toEqual([ERole.ADMIN]);
+  });
+
+  it('should register master role decorator', () => {
+    @Route.role.master()
+    class MasterController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(MasterController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.roles).toEqual([ERole.MASTER]);
   });
 });

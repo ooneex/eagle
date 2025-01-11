@@ -15,7 +15,7 @@ export const findRoute = ({
   method = method.toUpperCase() as ControllerMethodType;
 
   const route = ControllerContainer.find((_, d) => {
-    if (!d.method.includes(method)) {
+    if (!d.method.includes(method.toUpperCase() as ControllerMethodType)) {
       return false;
     }
 
