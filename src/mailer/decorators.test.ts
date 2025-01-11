@@ -18,21 +18,6 @@ describe('Mailer Decorator', () => {
     expect(instance).toBeInstanceOf(TestMailer);
   });
 
-  it('should register mailer class with request scope', () => {
-    @mailer({ scope: 'request' })
-    class RequestScopedMailer implements IMailer {
-      public async send<T = boolean>(): Promise<T> {
-        return true as T;
-      }
-    }
-
-    const instance1 = container.get<RequestScopedMailer>(RequestScopedMailer);
-    const instance2 = container.get<RequestScopedMailer>(RequestScopedMailer);
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
-  });
-
   it('should register mailer class with transient scope', () => {
     @mailer({ scope: 'transient' })
     class TransientScopedMailer implements IMailer {

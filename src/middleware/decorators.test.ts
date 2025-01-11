@@ -39,27 +39,6 @@ describe('Middleware Decorator', () => {
     expect(instances.length).toBe(1);
   });
 
-  it('should register middleware class with request scope', () => {
-    @middleware({ scope: 'request', on: 'request' })
-    class RequestScopedMiddleware implements IMiddleware {
-      public next(
-        context: MiddlewareContextType,
-      ): MiddlewareContextType | Promise<MiddlewareContextType> {
-        return context;
-      }
-    }
-
-    const instance1 = container.get<RequestScopedMiddleware>(
-      RequestScopedMiddleware,
-    );
-    const instance2 = container.get<RequestScopedMiddleware>(
-      RequestScopedMiddleware,
-    );
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
-  });
-
   it('should register middleware class with transient scope', () => {
     @middleware({ scope: 'transient', on: 'request' })
     class TransientScopedMiddleware implements IMiddleware {

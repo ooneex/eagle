@@ -9,9 +9,7 @@ export const config = (options?: {
     const name = config.prototype.constructor.name;
     ensureIsConfig(name, config);
 
-    if (options?.scope === 'request') {
-      container.bind(config).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(config).toSelf().inTransientScope();
     } else {
       container.bind(config).toSelf().inSingletonScope();

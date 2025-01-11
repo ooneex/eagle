@@ -21,23 +21,6 @@ describe('database decorator', () => {
     expect(instance1).toBe(instance2);
   });
 
-  it('should register database class with request scope when specified', () => {
-    @database({ scope: 'request' })
-    class RequestScopedDatabase {
-      public connect() {}
-    }
-
-    const instance1 = container.get<RequestScopedDatabase>(
-      RequestScopedDatabase,
-    );
-    const instance2 = container.get<RequestScopedDatabase>(
-      RequestScopedDatabase,
-    );
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
-  });
-
   it('should register database class with transient scope when specified', () => {
     @database({ scope: 'transient' })
     class TransientScopedDatabase {
@@ -100,23 +83,6 @@ describe('database decorator', () => {
     expect(instance1).toBeDefined();
     expect(instance2).toBeDefined();
     expect(instance1).toBe(instance2);
-  });
-
-  it('should register repository class with request scope when specified', () => {
-    @repository({ scope: 'request' })
-    class RequestScopedRepository {
-      public find() {}
-    }
-
-    const instance1 = container.get<RequestScopedRepository>(
-      RequestScopedRepository,
-    );
-    const instance2 = container.get<RequestScopedRepository>(
-      RequestScopedRepository,
-    );
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
   });
 
   it('should register repository class with transient scope when specified', () => {

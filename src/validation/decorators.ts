@@ -15,9 +15,7 @@ export const validator = (
     const name = validator.prototype.constructor.name;
     ensureIsValidator(name, validator);
 
-    if (options?.scope === 'request') {
-      container.bind(validator).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(validator).toSelf().inTransientScope();
     } else {
       container.bind(validator).toSelf().inSingletonScope();

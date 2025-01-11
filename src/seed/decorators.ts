@@ -11,9 +11,7 @@ export const seed = (options?: {
     const name = seed.prototype.constructor.name;
     ensureIsSeed(name, seed);
 
-    if (options?.scope === 'request') {
-      container.bind(seed).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(seed).toSelf().inTransientScope();
     } else {
       container.bind(seed).toSelf().inSingletonScope();

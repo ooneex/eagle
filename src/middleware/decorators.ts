@@ -14,9 +14,7 @@ export const middleware = (options: {
     const name = middleware.prototype.constructor.name;
     ensureIsMiddleware(name, middleware);
 
-    if (options?.scope === 'request') {
-      container.bind(middleware).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(middleware).toSelf().inTransientScope();
     } else {
       container.bind(middleware).toSelf().inSingletonScope();

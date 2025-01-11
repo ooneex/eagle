@@ -25,19 +25,6 @@ describe('Validator Decorator', () => {
     expect(instance).toBeInstanceOf(TestValidator);
   });
 
-  it('should register a valid validator class in the container with scope', () => {
-    @validator('payload', { scope: 'request' })
-    class TestValidator implements IValidator {
-      public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
-      }
-    }
-
-    const instance = container.get<TestValidator>(TestValidator);
-    expect(instance).toBeDefined();
-    expect(instance).toBeInstanceOf(TestValidator);
-  });
-
   it('should throw an error if the class is not a validator', () => {
     expect(() => {
       @validator('payload')

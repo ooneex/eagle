@@ -25,21 +25,6 @@ describe('Seed Decorator', () => {
     expect(instance).toBeInstanceOf(TestSeed);
   });
 
-  it('should register seed class with request scope', () => {
-    @seed({ scope: 'request' })
-    class RequestScopedSeed implements ISeed {
-      public async execute<T = unknown>(previousData?: T): Promise<T> {
-        return previousData as T;
-      }
-    }
-
-    const instance1 = container.get<RequestScopedSeed>(RequestScopedSeed);
-    const instance2 = container.get<RequestScopedSeed>(RequestScopedSeed);
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
-  });
-
   it('should register seed class with transient scope', () => {
     @seed({ scope: 'transient' })
     class TransientScopedSeed implements ISeed {

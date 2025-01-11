@@ -53,37 +53,6 @@ describe('storage decorator', () => {
 
   it('should allow configuring scope', () => {
     expect(() => {
-      @storage({ scope: 'request' })
-      // biome-ignore lint/correctness/noUnusedVariables: trust me
-      class RequestScopedStorage {
-        getOptions() {
-          return {};
-        }
-        exists() {
-          return Promise.resolve(true);
-        }
-        delete() {
-          return Promise.resolve();
-        }
-        putFile() {
-          return Promise.resolve(0);
-        }
-        put() {
-          return Promise.resolve(0);
-        }
-        getAsJson() {
-          return Promise.resolve({});
-        }
-        getAsArrayBuffer() {
-          return Promise.resolve(new ArrayBuffer(0));
-        }
-        getAsStream() {
-          return new ReadableStream();
-        }
-      }
-    }).not.toThrow();
-
-    expect(() => {
       @storage({ scope: 'transient' })
       // biome-ignore lint/correctness/noUnusedVariables: trust me
       class TransientScopedStorage {

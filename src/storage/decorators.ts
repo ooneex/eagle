@@ -9,9 +9,7 @@ export const storage = (options?: {
     const name = storage.prototype.constructor.name;
     ensureIsStorage(name, storage);
 
-    if (options?.scope === 'request') {
-      container.bind(storage).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(storage).toSelf().inTransientScope();
     } else {
       container.bind(storage).toSelf().inSingletonScope();

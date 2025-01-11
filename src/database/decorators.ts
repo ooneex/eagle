@@ -10,9 +10,7 @@ export const database = (options?: {
     const name = database.prototype.constructor.name;
     ensureIsDatabase(name);
 
-    if (options?.scope === 'request') {
-      container.bind(database).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(database).toSelf().inTransientScope();
     } else {
       container.bind(database).toSelf().inSingletonScope();
@@ -27,9 +25,7 @@ export const repository = (options?: {
     const name = repository.prototype.constructor.name;
     ensureIsRepository(name);
 
-    if (options?.scope === 'request') {
-      container.bind(repository).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(repository).toSelf().inTransientScope();
     } else {
       container.bind(repository).toSelf().inSingletonScope();

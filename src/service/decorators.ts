@@ -9,9 +9,7 @@ export const service = (options?: {
     const name = service.prototype.constructor.name;
     ensureIsService(name);
 
-    if (options?.scope === 'request') {
-      container.bind(service).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(service).toSelf().inTransientScope();
     } else {
       container.bind(service).toSelf().inSingletonScope();

@@ -9,9 +9,7 @@ export const mailer = (options?: {
     const name = mailer.prototype.constructor.name;
     ensureIsMailer(name, mailer);
 
-    if (options?.scope === 'request') {
-      container.bind(mailer).toSelf().inRequestScope();
-    } else if (options?.scope === 'transient') {
+    if (options?.scope === 'transient') {
       container.bind(mailer).toSelf().inTransientScope();
     } else {
       container.bind(mailer).toSelf().inSingletonScope();

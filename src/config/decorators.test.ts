@@ -20,21 +20,6 @@ describe('Config Decorator', () => {
     expect(instance.value).toBe('test');
   });
 
-  it('should register config class with request scope', () => {
-    @config({ scope: 'request' })
-    class RequestScopedConfig implements IConfig {
-      public toJson() {
-        return {};
-      }
-    }
-
-    const instance1 = container.get<RequestScopedConfig>(RequestScopedConfig);
-    const instance2 = container.get<RequestScopedConfig>(RequestScopedConfig);
-    expect(instance1).toBeDefined();
-    expect(instance2).toBeDefined();
-    expect(instance1).not.toBe(instance2);
-  });
-
   it('should register config class with transient scope', () => {
     @config({ scope: 'transient' })
     class TransientScopedConfig implements IConfig {
