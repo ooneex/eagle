@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { MiddlewareContainer } from './container';
-import type { MiddlewareValueType } from './types';
+import { MiddlewareContainer } from './container.ts';
+import type { MiddlewareValueType } from './types.ts';
 
 beforeEach(() => {
   MiddlewareContainer.clear();

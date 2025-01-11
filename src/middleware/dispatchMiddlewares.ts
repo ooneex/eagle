@@ -6,7 +6,7 @@ import type {
   MiddlewareEventType,
 } from './types.ts';
 
-export const dispatch = async (
+export const dispatchMiddlewares = async (
   event: MiddlewareEventType,
   context: MiddlewareContextType,
 ): Promise<MiddlewareContextType> => {
