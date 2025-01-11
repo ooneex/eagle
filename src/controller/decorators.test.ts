@@ -51,23 +51,6 @@ describe('Controller Decorator', () => {
     expect(controller?.method).toEqual(['GET', 'POST']);
   });
 
-  it('should register controller with custom name and scope', () => {
-    @Route.path('/custom', 'GET', { name: 'CustomName', scope: 'singleton' })
-    class CustomController implements IController {
-      public action({ response }: ActionParamType): HttpResponse {
-        return response;
-      }
-    }
-
-    const controller = ControllerContainer.get('CustomName');
-    expect(controller).toBeDefined();
-    expect(controller?.name).toBe('CustomName');
-
-    const instance1 = container.get<CustomController>(CustomController);
-    const instance2 = container.get<CustomController>(CustomController);
-    expect(instance1).toBe(instance2);
-  });
-
   it('should throw error if class does not implement IController', () => {
     expect(() => {
       @Route.path('/invalid', 'GET')

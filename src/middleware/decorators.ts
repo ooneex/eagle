@@ -8,7 +8,6 @@ export const middleware = (options: {
   scope?: DecoratorScopeType;
   on: MiddlewareEventType;
   priority?: number;
-  name?: string;
 }): ClassDecorator => {
   return (middleware: any) => {
     const name = middleware.prototype.constructor.name;
@@ -21,7 +20,7 @@ export const middleware = (options: {
     }
 
     MiddlewareContainer.get(options.on)?.push({
-      name: options.name ?? name,
+      name,
       value: middleware,
       priority: options?.priority ?? 0,
     });

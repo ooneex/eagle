@@ -19,13 +19,12 @@ const path = (
     ControllerRouteConfigType,
     'name' | 'value' | 'path' | 'regexp' | 'method'
   > & {
-    name?: string;
     scope?: DecoratorScopeType;
   },
 ): ClassDecorator => {
   return (controller: any) => {
     ensureIsController(controller);
-    const name = config?.name ?? controller.prototype.constructor.name;
+    const name = controller.prototype.constructor.name;
     ensureInitialData(controller, { name });
 
     if (config?.scope === 'singleton') {
@@ -85,12 +84,11 @@ const middleware = (
   middleware: IMiddleware,
   config?: {
     priority?: number;
-    name?: string;
   },
 ): ClassDecorator => {
   return (controller: any) => {
     ensureIsController(controller);
-    const name = config?.name ?? controller.prototype.constructor.name;
+    const name = controller.prototype.constructor.name;
     ensureInitialData(controller, { name });
 
     const definition = ControllerContainer.get(
@@ -110,13 +108,10 @@ const middleware = (
 const validator = (
   scope: ValidatorScopeType,
   validator: IValidator,
-  config?: {
-    name?: string;
-  },
 ): ClassDecorator => {
   return (controller: any) => {
     ensureIsController(controller);
-    const name = config?.name ?? controller.prototype.constructor.name;
+    const name = controller.prototype.constructor.name;
     ensureInitialData(controller, { name });
 
     const definition = ControllerContainer.get(
@@ -134,13 +129,10 @@ const validator = (
 
 const host = (
   host: (string | RegExp) | (string | RegExp)[],
-  config?: {
-    name?: string;
-  },
 ): ClassDecorator => {
   return (controller: any) => {
     ensureIsController(controller);
-    const name = config?.name ?? controller.prototype.constructor.name;
+    const name = controller.prototype.constructor.name;
     ensureInitialData(controller, { name });
 
     const definition = ControllerContainer.get(
@@ -153,15 +145,10 @@ const host = (
   };
 };
 
-const ip = (
-  ip: (string | RegExp) | (string | RegExp)[],
-  config?: {
-    name?: string;
-  },
-): ClassDecorator => {
+const ip = (ip: (string | RegExp) | (string | RegExp)[]): ClassDecorator => {
   return (controller: any) => {
     ensureIsController(controller);
-    const name = config?.name ?? controller.prototype.constructor.name;
+    const name = controller.prototype.constructor.name;
     ensureInitialData(controller, { name });
 
     const definition = ControllerContainer.get(
@@ -175,12 +162,10 @@ const ip = (
 };
 
 const setRole = (roles: ERole[]) => {
-  return (config?: {
-    name?: string;
-  }): ClassDecorator => {
+  return (): ClassDecorator => {
     return (controller: any) => {
       ensureIsController(controller);
-      const name = config?.name ?? controller.prototype.constructor.name;
+      const name = controller.prototype.constructor.name;
       ensureInitialData(controller, { name });
 
       const definition = ControllerContainer.get(
@@ -195,15 +180,10 @@ const setRole = (roles: ERole[]) => {
 };
 
 const setMethod = (methods: ControllerMethodType[]) => {
-  return (
-    path: string,
-    config?: {
-      name?: string;
-    },
-  ): ClassDecorator => {
+  return (path: string): ClassDecorator => {
     return (controller: any) => {
       ensureIsController(controller);
-      const name = config?.name ?? controller.prototype.constructor.name;
+      const name = controller.prototype.constructor.name;
       ensureInitialData(controller, { name });
 
       const definition = ControllerContainer.get(
