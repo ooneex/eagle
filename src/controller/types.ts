@@ -1,16 +1,14 @@
-import type { Collection } from '@/collection/Collection.ts';
-import type { IMiddleware, MiddlewareEventType } from '@/middleware/types.ts';
-import type { IRequest } from '@/request/types.ts';
+import type {
+  IMiddleware,
+  MiddlewareContextType,
+  MiddlewareEventType,
+} from '@/middleware/types.ts';
 import type { HttpResponse } from '@/response/HttpResponse.ts';
 import type { ERole } from '@/security/types.ts';
 import type { ScalarType } from '@/types.ts';
 import type { IValidator, ValidatorScopeType } from '@/validation/types.ts';
 
-export type ActionParamType = {
-  request: IRequest;
-  response: HttpResponse;
-  store: Collection<string, any>;
-};
+export type ActionParamType = MiddlewareContextType;
 
 export type ControllerActionType = (
   context: ActionParamType,

@@ -2,10 +2,10 @@ import type { Collection } from '@/collection/Collection.ts';
 import type { IRequest } from '@/request/types';
 import type { HttpResponse } from '@/response/HttpResponse';
 
-export type MiddlewareContextType<T = any> = {
+export type MiddlewareContextType = {
   request: IRequest;
   response: HttpResponse;
-  store: Collection<string, T | null>;
+  store: Collection<string, any>;
   exception?: Error;
 };
 
