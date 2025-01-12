@@ -55,7 +55,7 @@ export const dispatchCommand = async (commandName: string): Promise<void> => {
       mailer: 'emails',
       middleware: 'middlewares',
       permission: 'permissions',
-      storage: 'storages',
+      storage: 'storage',
       validation: 'validations',
       entity: 'entities',
       schema: 'schemas',

@@ -10,4 +10,5 @@ export * from './maker/middleware/MiddlewareMakerCommand.ts';
 export * from './maker/module/ModuleMakerCommand.ts';
 export * from './maker/seed/SeedMakerCommand.ts';
 export * from './maker/service/ServiceMakerCommand.ts';
+export * from './maker/storage/StorageMakerCommand.ts';
 export * from './types.ts';
