@@ -42,6 +42,7 @@ export const createConfig = async (config: {
 @config()
 export class ${configName} implements IConfig {
   public toJson(): Record<string, ScalarType | null> {
+    // code goes here
     return {};
   }
 }

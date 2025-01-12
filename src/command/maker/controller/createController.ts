@@ -51,6 +51,7 @@ export const createController = async (config: {
 @Route.role.${config.role}()
 export class ${controllerName} implements IController {
   public action({ response, request }: ActionParamType): HttpResponse {
+    // code goes here
     return response.json({ params: request.params.toJson() });
   }
 }

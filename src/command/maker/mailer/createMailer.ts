@@ -42,6 +42,7 @@ export const createMailer = async (config: {
 @mailer()
 export class ${mailerName} implements IMailer {
   public async send<T = boolean>(): Promise<T> {
+    // code goes here
     return true as T;
   }
 }

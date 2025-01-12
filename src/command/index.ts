@@ -6,5 +6,6 @@ export * from './dispatchCommand.ts';
 export * from './maker/config/ConfigMakerCommand.ts';
 export * from './maker/controller/ControllerMakerCommand.ts';
 export * from './maker/mailer/MailerMakerCommand.ts';
+export * from './maker/middleware/MiddlewareMakerCommand.ts';
 export * from './maker/module/ModuleMakerCommand.ts';
 export * from './types.ts';
