@@ -3,9 +3,9 @@ import { container } from '@/container';
 import type { IValidator, ValidationResultType } from '@/validation';
 import {
   AbstractValidator,
-  IsString,
   ValidationFailedException,
   ValidatorContainer,
+  cv,
   dispatchValidators,
   validator,
 } from '@/validation';
@@ -138,7 +138,7 @@ describe('Validator Dispatch', () => {
     @validator('payload')
     // biome-ignore lint/correctness/noUnusedVariables: trust me
     class FailingValidator extends AbstractValidator implements IValidator {
-      @IsString()
+      @cv.IsString()
       public name: string;
 
       public validateSync(): ValidationResultType {

@@ -1,12 +1,12 @@
 import { command } from '@/command/decorators.ts';
 import type { CommandParamType, ICommand } from '@/command/types.ts';
-import { IsNotEmpty, IsString } from '@/validation';
+import { cv } from '@/validation';
 import { AbstractValidator } from '@/validation/AbstractValidator.ts';
 import { createConfig } from './createConfig.ts';
 
 class ConfigValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
+  @cv.IsString()
+  @cv.IsNotEmpty()
   value: string;
 }
 

@@ -1,12 +1,12 @@
 import { command } from '@/command/decorators.ts';
 import type { CommandParamType, ICommand } from '@/command/types.ts';
-import { IsNotEmpty, IsString } from '@/validation';
+import { cv } from '@/validation';
 import { AbstractValidator } from '@/validation/AbstractValidator.ts';
 import { createMiddleware } from './createMiddleware.ts';
 
 class MiddlewareValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
+  @cv.IsString()
+  @cv.IsNotEmpty()
   value: string;
 }
 
@@ -23,7 +23,7 @@ export class MiddlewareMakerCommand implements ICommand {
     file,
     icon,
   }: CommandParamType): Promise<void> {
-    const config = await prompt.input('Enter the middleware name', {
+    const middleware = await prompt.input('Enter the middleware name', {
       placeholder: 'e.g. module/middleware',
       validator: (value) => {
         const result = new MiddlewareValidator().validateSync({ value });
@@ -35,23 +35,23 @@ export class MiddlewareMakerCommand implements ICommand {
           return 'Middleware name must be in the format of module/middleware';
         }
 
-        let [moduleFolder, configName] = value.split('/');
+        let [moduleFolder, middlewareName] = value.split('/');
 
         moduleFolder = toKebabCase(moduleFolder);
-        const folderName = toKebabCase(configName);
-        configName = toPascalCase(configName);
-        const fileName = `${directory.src}/${moduleFolder}/${folderName}/${configName}Middleware.ts`;
+        const folderName = toKebabCase(middlewareName);
+        middlewareName = toPascalCase(middlewareName);
+        const fileName = `${directory.src}/${moduleFolder}/${folderName}/${middlewareName}Middleware.ts`;
         if (file.exists(fileName))
-          return `${configName}Middleware already exists`;
+          return `${middlewareName}Middleware already exists`;
       },
     });
 
-    if (isCanceled(config)) {
-      log.error(color.red('Config creation canceled'));
+    if (isCanceled(middleware)) {
+      log.error(color.red('Middleware creation canceled'));
       return;
     }
 
-    const [module, name] = config.split('/');
+    const [module, name] = middleware.split('/');
 
     const { middlewareName, moduleName, moduleFolder } = await createMiddleware(
       {
