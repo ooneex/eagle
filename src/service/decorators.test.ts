@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { ServiceDecoratorException, service } from '@/service';
+import { container } from '@/container';
+import { type IService, ServiceDecoratorException, service } from '@/service';
+import type { ScalarType } from '@/types';
 
 describe('service decorator', () => {
   it('should throw error if class name does not end with Service', () => {
@@ -24,5 +26,18 @@ describe('service decorator', () => {
       // biome-ignore lint/correctness/noUnusedVariables: trust me
       class ValidService {}
     }).not.toThrow();
+  });
+
+  it('should register services', () => {
+    @service()
+    class TestService implements IService {
+      public toJson(): Record<string, ScalarType | null> {
+        return {};
+      }
+    }
+
+    const instance = container.get<TestService>(TestService);
+    expect(instance).toBeDefined();
+    expect(instance).toBeInstanceOf(TestService);
   });
 });

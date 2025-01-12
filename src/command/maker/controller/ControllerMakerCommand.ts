@@ -118,7 +118,7 @@ export class ControllerMakerCommand implements ICommand {
       color.reset(
         color.dim(
           `${icon.success} ${moduleFolder}/${directory.controller}/${controllerName}.ts was created
-${icon.success} ${moduleFolder}/${directory.controller}/${controllerName}.ts was imported to ${moduleFolder}/${moduleName}.ts`,
+${icon.success} ${directory.controller}/${controllerName}.ts was imported to ${moduleFolder}/${moduleName}.ts`,
         ),
       ),
     );

@@ -63,7 +63,7 @@ export class ConfigMakerCommand implements ICommand {
     log.message(
       color.reset(
         color.dim(`${icon.success} ${moduleFolder}/${directory.config}/${configName}.ts was created
-${icon.success} ${moduleFolder}/${directory.config}/${configName}.ts was imported to ${moduleFolder}/${moduleName}.ts`),
+${icon.success} ${directory.config}/${configName}.ts was imported to ${moduleFolder}/${moduleName}.ts`),
       ),
     );
   }

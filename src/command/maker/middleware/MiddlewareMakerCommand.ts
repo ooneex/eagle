@@ -66,7 +66,7 @@ export class MiddlewareMakerCommand implements ICommand {
     log.message(
       color.reset(
         color.dim(`${icon.success} ${moduleFolder}/${directory.middleware}/${middlewareName}.ts was created
-${icon.success} ${moduleFolder}/${directory.middleware}/${middlewareName}.ts was imported to ${moduleFolder}/${moduleName}.ts`),
+${icon.success} ${directory.middleware}/${middlewareName}.ts was imported to ${moduleFolder}/${moduleName}.ts`),
       ),
     );
   }

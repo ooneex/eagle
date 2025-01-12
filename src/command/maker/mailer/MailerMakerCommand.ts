@@ -64,7 +64,7 @@ export class MailerMakerCommand implements ICommand {
       color.reset(
         color.dim(
           `${icon.success} ${moduleFolder}/${directory.mailer}/${mailerName}.ts was created
-${icon.success} ${moduleFolder}/${directory.mailer}/${mailerName}.ts was imported to ${moduleFolder}/${moduleName}.ts`,
+${icon.success} ${directory.mailer}/${mailerName}.ts was imported to ${moduleFolder}/${moduleName}.ts`,
         ),
       ),
     );
