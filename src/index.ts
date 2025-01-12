@@ -1,4 +1,5 @@
 export * from './collection';
+export * from './command';
 export * from './config';
 export * from './container';
 export * from './controller';
@@ -16,6 +17,8 @@ export * from './request';
 export * from './response';
 export * from './security';
 export * from './seed';
+export * from './service';
+export * from './storage';
 export * from './types';
 export * from './url';
 export * from './validation';
