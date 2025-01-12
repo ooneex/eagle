@@ -24,8 +24,7 @@ export class ConfigMakerCommand implements ICommand {
     icon,
   }: CommandParamType): Promise<void> {
     const config = await prompt.input('Enter the config name', {
-      placeholder:
-        'myModule/myConfig, my-module/my-config, my_module/my_config, module/config',
+      placeholder: 'e.g. module/config',
       validator: (value) => {
         const result = new ConfigValidator().validateSync({ value });
         if (!result.success) {
@@ -33,7 +32,7 @@ export class ConfigMakerCommand implements ICommand {
         }
 
         if (value.split('/').length !== 2) {
-          return 'Config name must be in the format of myModule/myConfig';
+          return 'Config name must be in the format of module/config';
         }
 
         let [moduleFolder, configName] = value.split('/');

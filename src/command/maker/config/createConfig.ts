@@ -13,7 +13,7 @@ export const createConfig = async (config: {
   moduleName: string;
   moduleFolder: string;
 }> => {
-  const { folderName: moduleFolder, moduleName } = await createModule({
+  const { moduleFolder, moduleName } = await createModule({
     name: config.moduleName,
     srcDir: config.srcDir,
   });
@@ -37,7 +37,7 @@ export const createConfig = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.configDir}/${configName}.ts`;
-  const content = `import { config, IConfig, type ScalarType } from '@ooneex/eagle';
+  const content = `import { IConfig, type ScalarType, config } from '@ooneex/eagle';
 
 @config()
 export class ${configName} implements IConfig {

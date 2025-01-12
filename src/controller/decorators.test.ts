@@ -458,8 +458,8 @@ describe('Controller Decorator', () => {
   it('should register GET decorator', () => {
     @Route.get('/test')
     class GetController implements IController {
-      public action({ response }: ActionParamType): HttpResponse {
-        return response;
+      public action({ response, request }: ActionParamType): HttpResponse {
+        return response.json({ params: request.params.toJson() });
       }
     }
 
@@ -496,7 +496,7 @@ describe('Controller Decorator', () => {
   });
 
   it('should register public role decorator', () => {
-    @Route.role.public()
+    @Route.role.anonymous()
     class PublicController implements IController {
       public action({ response }: ActionParamType): HttpResponse {
         return response;

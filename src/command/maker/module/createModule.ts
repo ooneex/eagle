@@ -5,17 +5,17 @@ export const createModule = async (config: {
   name: string;
   srcDir: string;
 }): Promise<{
-  folderName: string;
+  moduleFolder: string;
   moduleName: string;
 }> => {
-  const folderName = toKebabCase(config.name);
-  const moduleName = `${toPascalCase(folderName)}Module`;
-  const fileName = `${config.srcDir}/${folderName}/${moduleName}.ts`;
+  const moduleFolder = toKebabCase(config.name);
+  const moduleName = `${toPascalCase(moduleFolder)}Module`;
+  const fileName = `${config.srcDir}/${moduleFolder}/${moduleName}.ts`;
 
-  await Bun.$`mkdir -p ${config.srcDir}/${folderName}`;
+  await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}`;
   await Bun.file(fileName).write('');
 
-  const importContent = `import './${folderName}/${moduleName}.ts';`;
+  const importContent = `import './${moduleFolder}/${moduleName}.ts';`;
   const rootModuleFile = Bun.file(`${config.srcDir}/RootModule.ts`);
 
   if (await rootModuleFile.exists()) {
@@ -27,5 +27,5 @@ export const createModule = async (config: {
     await rootModuleFile.write(`${importContent}\n`);
   }
 
-  return { folderName, moduleName };
+  return { moduleFolder, moduleName };
 };

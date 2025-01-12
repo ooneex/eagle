@@ -43,7 +43,7 @@ export class ModuleMakerCommand implements ICommand {
       return;
     }
 
-    const { folderName, moduleName } = await createModule({
+    const { moduleFolder: folderName, moduleName } = await createModule({
       name: module,
       srcDir: directory.src,
     });

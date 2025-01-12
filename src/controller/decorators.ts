@@ -213,7 +213,7 @@ export const Route = {
   post: setMethod(['POST']),
   put: setMethod(['PUT']),
   role: {
-    public: setRole([]),
+    anonymous: setRole([]),
     user: setRole([ERole.USER]),
     admin: setRole([ERole.ADMIN]),
     master: setRole([ERole.MASTER]),
