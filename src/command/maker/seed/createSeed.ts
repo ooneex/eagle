@@ -11,7 +11,7 @@ export const createSeed = async (config: {
   seedName: string;
 }> => {
   const seedFolder = toKebabCase(config.folder);
-  const seedName = toPascalCase(`${config.folder}_${config.name}_Seed`);
+  const seedName = `${toPascalCase(config.folder)}${toPascalCase(config.name)}Seed`;
 
   await Bun.$`mkdir -p ${config.cwd}/${config.seedDir}/${seedFolder}`;
   const importContent = `import './${seedFolder}/${seedName}.ts';`;

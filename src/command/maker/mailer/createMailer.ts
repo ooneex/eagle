@@ -19,7 +19,7 @@ export const createMailer = async (config: {
   });
 
   const mailerFolder = toKebabCase(config.name);
-  const mailerName = `${toPascalCase(mailerFolder)}Mailer`;
+  const mailerName = `${toPascalCase(config.moduleName)}${toPascalCase(mailerFolder)}Mailer`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.mailerDir}`;
   const importContent = `import './${config.mailerDir}/${mailerName}.ts';`;

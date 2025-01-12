@@ -19,7 +19,7 @@ export const createConfig = async (config: {
   });
 
   const configFolder = toKebabCase(config.name);
-  const configName = `${toPascalCase(configFolder)}Config`;
+  const configName = `${toPascalCase(config.moduleName)}${toPascalCase(configFolder)}Config`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.configDir}`;
   const importContent = `import './${config.configDir}/${configName}.ts';`;

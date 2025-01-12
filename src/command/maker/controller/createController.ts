@@ -22,7 +22,7 @@ export const createController = async (config: {
   });
 
   const controllerFolder = toKebabCase(config.name);
-  const controllerName = `${toPascalCase(controllerFolder)}Controller`;
+  const controllerName = `${toPascalCase(config.moduleName)}${toPascalCase(controllerFolder)}Controller`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.controllerDir}`;
   const importContent = `import './${config.controllerDir}/${controllerName}.ts';`;

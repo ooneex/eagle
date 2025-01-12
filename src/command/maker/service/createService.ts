@@ -19,7 +19,7 @@ export const createService = async (config: {
   });
 
   const serviceFolder = toKebabCase(config.name);
-  const serviceName = `${toPascalCase(serviceFolder)}Service`;
+  const serviceName = `${toPascalCase(config.moduleName)}${toPascalCase(serviceFolder)}Service`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.serviceDir}`;
   const importContent = `import './${config.serviceDir}/${serviceName}.ts';`;
