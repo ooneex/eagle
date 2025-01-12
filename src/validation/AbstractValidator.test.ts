@@ -33,7 +33,6 @@ describe('AbstractValidator', () => {
     });
 
     it('should return success false when validation fails', async () => {
-      validator.name = 123 as any;
       const result = await validator.validate({
         name: 123,
       });
@@ -48,6 +47,36 @@ describe('AbstractValidator', () => {
         skipMissingProperties: true,
       };
       const result = await validator.validate({}, options);
+
+      expect(result.success).toBe(true);
+    });
+  });
+
+  describe('validateSync', () => {
+    it('should return success true when validation passes', () => {
+      const result = validator.validateSync({
+        name: 'test',
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.details).toHaveLength(0);
+    });
+
+    it('should return success false when validation fails', () => {
+      const result = validator.validateSync({
+        name: 123,
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.details).toHaveLength(1);
+      expect(result.details[0].property).toBe('name');
+    });
+
+    it('should accept validator options', () => {
+      const options: ValidatorOptions = {
+        skipMissingProperties: true,
+      };
+      const result = validator.validateSync({}, options);
 
       expect(result.success).toBe(true);
     });

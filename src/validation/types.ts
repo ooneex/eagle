@@ -31,5 +31,10 @@ export type AssertValidateReturnType = {
 
 export type ValidationResultType = {
   success: boolean;
-  details: ValidationError[];
+  logs: ValidationError[];
+  details: {
+    property: string;
+    value: string;
+    constraints: { name: string; message: string }[];
+  }[];
 };

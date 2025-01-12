@@ -20,6 +20,7 @@ describe('Validator Dispatch', () => {
         return Promise.resolve({
           success: true,
           details: [],
+          logs: [],
         });
       }
 
@@ -27,6 +28,7 @@ describe('Validator Dispatch', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }
@@ -37,6 +39,7 @@ describe('Validator Dispatch', () => {
         return Promise.resolve({
           success: true,
           details: [],
+          logs: [],
         });
       }
 
@@ -44,6 +47,7 @@ describe('Validator Dispatch', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }
@@ -64,9 +68,13 @@ describe('Validator Dispatch', () => {
           details: [
             {
               property: 'test',
-              constraints: { isRequired: 'test is required' },
+              value: 'test',
+              constraints: [
+                { name: 'isRequired', message: 'test is required' },
+              ],
             },
           ],
+          logs: [],
         });
       }
 
@@ -76,9 +84,13 @@ describe('Validator Dispatch', () => {
           details: [
             {
               property: 'test',
-              constraints: { isRequired: 'test is required' },
+              value: 'test',
+              constraints: [
+                { name: 'isRequired', message: 'test is required' },
+              ],
             },
           ],
+          logs: [],
         };
       }
     }
@@ -100,6 +112,7 @@ describe('Validator Dispatch', () => {
         return Promise.resolve({
           success: true,
           details: [],
+          logs: [],
         });
       }
 
@@ -107,6 +120,7 @@ describe('Validator Dispatch', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }
@@ -131,6 +145,7 @@ describe('Validator Dispatch', () => {
         return {
           success: false,
           details: [],
+          logs: [],
         };
       }
     }

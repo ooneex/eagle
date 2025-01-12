@@ -1,4 +1,10 @@
-import { type ValidatorOptions, validate, validateSync } from 'class-validator';
+import {
+  type ValidationError,
+  type ValidatorOptions,
+  validate,
+  validateSync,
+} from 'class-validator';
+
 import type { IValidator, ValidationResultType } from './types.ts';
 
 export abstract class AbstractValidator implements IValidator {
@@ -11,10 +17,7 @@ export abstract class AbstractValidator implements IValidator {
     }
 
     const errors = await validate(this, validatorOptions);
-    return {
-      success: errors.length === 0,
-      details: errors,
-    };
+    return this.parseResult(errors);
   }
 
   public validateSync(
@@ -26,9 +29,23 @@ export abstract class AbstractValidator implements IValidator {
     }
 
     const errors = validateSync(this, validatorOptions);
+    return this.parseResult(errors);
+  }
+
+  private parseResult(errors: ValidationError[]): ValidationResultType {
     return {
       success: errors.length === 0,
-      details: errors,
+      logs: errors,
+      details: errors.map((error) => ({
+        property: error.property,
+        value: error.value,
+        constraints: Object.entries(error.constraints ?? {}).map(
+          ([key, value]) => ({
+            name: key,
+            message: value,
+          }),
+        ),
+      })),
     };
   }
 }

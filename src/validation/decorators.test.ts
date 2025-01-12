@@ -16,6 +16,7 @@ describe('Validator Decorator', () => {
         return Promise.resolve({
           success: true,
           details: [],
+          logs: [],
         });
       }
 
@@ -23,6 +24,7 @@ describe('Validator Decorator', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }
@@ -46,11 +48,11 @@ describe('Validator Decorator', () => {
     @validator('payload')
     class PayloadValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -71,11 +73,11 @@ describe('Validator Decorator', () => {
     @validator('params')
     class ParamsValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -95,11 +97,11 @@ describe('Validator Decorator', () => {
     @validator('queries')
     class QueriesValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -119,11 +121,11 @@ describe('Validator Decorator', () => {
     @validator('cookies')
     class CookiesValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -143,11 +145,11 @@ describe('Validator Decorator', () => {
     @validator('files')
     class FilesValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -167,11 +169,11 @@ describe('Validator Decorator', () => {
     @validator('form')
     class FormValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 
@@ -191,11 +193,11 @@ describe('Validator Decorator', () => {
     @validator('env')
     class EnvValidator implements IValidator {
       public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [] });
+        return Promise.resolve({ success: true, details: [], logs: [] });
       }
 
       public validateSync(): ValidationResultType {
-        return { success: true, details: [] };
+        return { success: true, details: [], logs: [] };
       }
     }
 

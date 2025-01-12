@@ -17,8 +17,8 @@ describe('dispatchControllerValidators', () => {
         {
           scope: 'payload' as ValidatorScopeType,
           value: {
-            validate: async () => ({ success: true, details: [] }),
-            validateSync: () => ({ success: true, details: [] }),
+            validate: async () => ({ success: true, details: [], logs: [] }),
+            validateSync: () => ({ success: true, details: [], logs: [] }),
           },
         },
       ],
@@ -45,11 +45,25 @@ describe('dispatchControllerValidators', () => {
           value: {
             validate: async () => ({
               success: false,
-              details: [{ property: 'test', message: 'Invalid data' }],
+              details: [
+                {
+                  property: 'test',
+                  value: 'test',
+                  constraints: [{ name: 'test', message: 'Invalid data' }],
+                },
+              ],
+              logs: [],
             }),
             validateSync: () => ({
               success: false,
-              details: [{ property: 'test', message: 'Invalid data' }],
+              details: [
+                {
+                  property: 'test',
+                  value: 'test',
+                  constraints: [{ name: 'test', message: 'Invalid data' }],
+                },
+              ],
+              logs: [],
             }),
           },
         },
@@ -79,11 +93,11 @@ describe('dispatchControllerValidators', () => {
           value: {
             validate: async () => {
               executedValidators.push('payload');
-              return { success: true, details: [] };
+              return { success: true, details: [], logs: [] };
             },
             validateSync: () => {
               executedValidators.push('payload-sync');
-              return { success: true, details: [] };
+              return { success: true, details: [], logs: [] };
             },
           },
         },
@@ -92,11 +106,11 @@ describe('dispatchControllerValidators', () => {
           value: {
             validate: async () => {
               executedValidators.push('queries');
-              return { success: true, details: [] };
+              return { success: true, details: [], logs: [] };
             },
             validateSync: () => {
               executedValidators.push('queries-sync');
-              return { success: true, details: [] };
+              return { success: true, details: [], logs: [] };
             },
           },
         },

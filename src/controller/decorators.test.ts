@@ -207,6 +207,7 @@ describe('Controller Decorator', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
 
@@ -214,6 +215,7 @@ describe('Controller Decorator', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }
@@ -338,6 +340,7 @@ describe('Controller Decorator', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
 
@@ -345,6 +348,7 @@ describe('Controller Decorator', () => {
         return {
           success: true,
           details: [],
+          logs: [],
         };
       }
     }

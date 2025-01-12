@@ -7,5 +7,5 @@ export * from './maker/ConfigMakerCommand.ts';
 export * from './maker/ControllerMakerCommand.ts';
 export * from './maker/MailerMakerCommand.ts';
 export * from './maker/MiddlewareMakerCommand.ts';
-export * from './maker/ModuleMakerCommand.ts';
+export * from './maker/module/ModuleMakerCommand.ts';
 export * from './types.ts';
