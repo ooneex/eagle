@@ -41,10 +41,10 @@ export const createValidator = async (config: {
 
 @validator('payload')
 export class ${validatorName} extends AbstractValidator {
-  @cv.IsString()
+  @IsString()
   public name: string;
 
-  @cv.IsNumber()
+  @IsNumber()
   public age: number;
 }
 `;

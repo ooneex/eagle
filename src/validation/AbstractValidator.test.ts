@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { AbstractValidator, cv } from '@/validation';
+import { AbstractValidator, IsString } from '@/validation';
 
 interface ValidatorOptions {
   skipMissingProperties?: boolean;
 }
 
 class TestValidator extends AbstractValidator {
-  @cv.IsString()
+  @IsString()
   public name: string;
 
   constructor(name: string) {
