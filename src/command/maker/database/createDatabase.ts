@@ -38,7 +38,7 @@ export const createDatabase = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.databaseDir}/${databaseName}.ts`;
-  const content = `import { database } from '@ooneex/eagle';
+  const content = `import { database } from '@ooneex/eagle/database';
 import {
   DataSource,
   type EntityManager,

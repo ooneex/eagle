@@ -39,7 +39,7 @@ export const createEntity = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.entityDir}/${entityName}.ts`;
-  const content = `import { Random } from '@ooneex/eagle';
+  const content = `import { Random } from '@ooneex/eagle/random';
 import { BaseEntity } from '@/shared/SharedModule.ts';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 

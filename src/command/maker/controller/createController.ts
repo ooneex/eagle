@@ -40,17 +40,13 @@ export const createController = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.controllerDir}/${controllerName}.ts`;
-  const content = `import {
-  type ActionParamType,
-  type HttpResponse,
-  type IController,
-  Route,
-} from '@ooneex/eagle';
+  const content = `import type { IResponse } from '@ooneex/eagle/response';
+import { type ActionParamType, type IController, Route } from '@ooneex/eagle/controller';
 
 @Route.${config.method.toLowerCase()}('${config.path}')
 @Route.role.${config.role}()
 export class ${controllerName} implements IController {
-  public action({ response, request }: ActionParamType): HttpResponse {
+  public action({ response, request }: ActionParamType): IResponse {
     // code goes here
     return response.json({ params: request.params.toJson() });
   }

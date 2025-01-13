@@ -37,7 +37,7 @@ export const createStorage = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.storageDir}/${storageName}.ts`;
-  const content = `import { AbstractStorage, storage } from '@ooneex/eagle';
+  const content = `import { AbstractStorage, storage } from '@ooneex/eagle/storage';
 import type { S3Options } from 'bun';
 
 @storage()

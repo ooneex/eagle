@@ -37,7 +37,7 @@ export const createMailer = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.mailerDir}/${mailerName}.ts`;
-  const content = `import { type IMailer, mailer } from '@ooneex/eagle';
+  const content = `import { type IMailer, mailer } from '@ooneex/eagle/mailer';
 
 @mailer()
 export class ${mailerName} implements IMailer {
