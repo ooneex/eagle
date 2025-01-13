@@ -19,7 +19,7 @@ export const dispatchCommand = async (commandName: string): Promise<void> => {
     return;
   }
 
-  const cwd = `${process.cwd()}/sapphire`;
+  const cwd = `${process.cwd()}`;
   const src = `${cwd}/src`;
 
   const instance = container.get<ICommand>(command.value);
