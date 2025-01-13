@@ -161,7 +161,7 @@ const ip = (ip: (string | RegExp) | (string | RegExp)[]): ClassDecorator => {
   };
 };
 
-const setRole = (roles: ERole[]) => {
+const setRole = (roles: ERole[]): (() => ClassDecorator) => {
   return (): ClassDecorator => {
     return (controller: any) => {
       ensureIsController(controller);
@@ -179,7 +179,9 @@ const setRole = (roles: ERole[]) => {
   };
 };
 
-const setMethod = (methods: ControllerMethodType[]) => {
+const setMethod = (
+  methods: ControllerMethodType[],
+): ((path: string) => ClassDecorator) => {
   return (path: string): ClassDecorator => {
     return (controller: any) => {
       ensureIsController(controller);
@@ -199,7 +201,7 @@ const setMethod = (methods: ControllerMethodType[]) => {
   };
 };
 
-export const Route = {
+export const Route: Record<string, any> = {
   path,
   host,
   ip,
