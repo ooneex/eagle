@@ -4,7 +4,7 @@ import type { HTTP_METHODS } from './methods.ts';
 import type { HTTP_PROTOCOLS } from './protocols.ts';
 import type { StatusCode, StatusText } from './status.ts';
 
-export type MimeType = keyof typeof DB;
+export type MimeType = keyof DB;
 
 export type MethodType = (typeof HTTP_METHODS)[number];
 

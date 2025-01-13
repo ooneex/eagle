@@ -36,6 +36,7 @@
     "@clack/prompts": "^0.9.1",
     "@getbrevo/brevo": "^2.2.0",
     "@std/http": "npm:@jsr/std__http@1.0.10",
+    "@std/media-types": "npm:@jsr/std__media-types@1.1.0",
     "@std/text": "npm:@jsr/std__text@1.0.10",
     "@types/accept-language-parser": "^1.5.6",
     "accept-language-parser": "^1.5.0",
