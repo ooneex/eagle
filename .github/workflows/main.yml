@@ -23,9 +23,5 @@ jobs:
         run: bun install
       - name: Run tests
         run: bun run test
-      - name: Install Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
       - name: Publish
-        run: deno publish
+        run: bunx jsr publish
