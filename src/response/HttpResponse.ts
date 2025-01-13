@@ -1,6 +1,4 @@
 import { ArrayCollection } from '@/collection/ArrayCollection.ts';
-import { setCookie } from '@/cookie/cookie.ts';
-import type { CookieType } from '@/cookie/types.ts';
 import { Header } from '@/header/Header.ts';
 import {
   STATUS_TEXT,
@@ -13,6 +11,7 @@ import {
 } from '@/http/status.ts';
 import type { CharsetType, StatusCodeType } from '@/http/types.ts';
 import type { IRequest } from '@/request/types.ts';
+import { type Cookie as CookieType, setCookie } from '@std/http/cookie';
 import type { IResponse } from './types.ts';
 
 export class HttpResponse implements IResponse {

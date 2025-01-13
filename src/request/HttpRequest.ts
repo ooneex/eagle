@@ -1,7 +1,5 @@
 import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
 import type { IReadonlyCollection } from '@/collection/types.ts';
-import { getSetCookies } from '@/cookie/cookie.ts';
-import type { CookieType } from '@/cookie/types.ts';
 import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
 import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
 import { parseString } from '@/helper/parseString.ts';
@@ -9,6 +7,7 @@ import type { LocaleType } from '@/locale/locales.ts';
 import type { ScalarType } from '@/types.ts';
 import { Url } from '@/url/Url.ts';
 import type { IUrl } from '@/url/types.ts';
+import { type Cookie as CookieType, getSetCookies } from '@std/http/cookie';
 import parser from 'accept-language-parser';
 import { RequestFile } from './RequestFile.ts';
 import type {
