@@ -34,7 +34,6 @@ export type CommandParamType = {
     seeds: string;
     database: string;
     commands: string;
-    migrations: string;
     config: string;
     controller: string;
     repository: string;
@@ -45,7 +44,6 @@ export type CommandParamType = {
     storage: string;
     validation: string;
     entity: string;
-    schema: string;
   };
   isCanceled: typeof isCancel;
   toPascalCase: typeof toPascalCase;

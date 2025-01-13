@@ -26,6 +26,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/bun": "^1.1.16",
     "@types/nodemailer": "^6.4.17",
+    "@types/pluralize": "^0.0.33",
     "husky": "^9.1.7"
   },
   "peerDependencies": {
@@ -42,6 +43,7 @@
     "log-symbols": "^7.0.0",
     "nanoid": "^5.0.9",
     "nodemailer": "^6.9.16",
+    "pluralize": "^8.0.0",
     "reflect-metadata": "^0.2.2",
     "ua-parser-js": "^2.0.0"
   },
