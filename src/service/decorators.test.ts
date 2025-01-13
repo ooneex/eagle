@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { container } from '@/container';
-import { type IService, ServiceDecoratorException, service } from '@/service';
+import { ServiceDecoratorException, service } from '@/service';
 import type { ScalarType } from '@/types';
 
 describe('service decorator', () => {
@@ -30,7 +30,7 @@ describe('service decorator', () => {
 
   it('should register services', () => {
     @service()
-    class TestService implements IService {
+    class TestService {
       public toJson(): Record<string, ScalarType | null> {
         return {};
       }

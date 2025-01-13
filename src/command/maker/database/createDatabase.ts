@@ -38,7 +38,7 @@ export const createDatabase = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.databaseDir}/${databaseName}.ts`;
-  const content = `import { type IDatabase, database } from '@ooneex/eagle';
+  const content = `import { database } from '@ooneex/eagle';
 import {
   DataSource,
   type EntityManager,
@@ -48,7 +48,7 @@ import {
 } from 'typeorm';
 
 @database()
-export class ${databaseName} implements IDatabase {
+export class ${databaseName} {
   private async getSource(database?: string): Promise<DataSource> {
     return await new DataSource({
       type: 'sqlite',
