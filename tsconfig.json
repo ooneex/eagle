@@ -29,7 +29,6 @@
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "types": ["bun-types"]
+    "strictPropertyInitialization": false
   }
 }
