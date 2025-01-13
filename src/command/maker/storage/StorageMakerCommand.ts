@@ -23,7 +23,7 @@ export class StorageMakerCommand implements ICommand {
     file,
     icon,
   }: CommandParamType): Promise<void> {
-    const config = await prompt.input('Enter the storage name', {
+    const storage = await prompt.input('Enter the storage name', {
       placeholder: 'e.g. module/storage',
       validator: (value) => {
         const result = new StorageValidator().validateSync({ value });
@@ -46,12 +46,12 @@ export class StorageMakerCommand implements ICommand {
       },
     });
 
-    if (isCanceled(config)) {
+    if (isCanceled(storage)) {
       log.error(color.red('Storage creation canceled'));
       return;
     }
 
-    const [module, name] = config.split('/');
+    const [module, name] = storage.split('/');
 
     const { storageName, moduleName, moduleFolder } = await createStorage({
       name,

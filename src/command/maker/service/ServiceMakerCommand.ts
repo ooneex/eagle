@@ -23,7 +23,7 @@ export class ServiceMakerCommand implements ICommand {
     file,
     icon,
   }: CommandParamType): Promise<void> {
-    const config = await prompt.input('Enter the service name', {
+    const service = await prompt.input('Enter the service name', {
       placeholder: 'e.g. module/service',
       validator: (value) => {
         const result = new ServiceValidator().validateSync({ value });
@@ -46,12 +46,12 @@ export class ServiceMakerCommand implements ICommand {
       },
     });
 
-    if (isCanceled(config)) {
-      log.error(color.red('Config creation canceled'));
+    if (isCanceled(service)) {
+      log.error(color.red('Service creation canceled'));
       return;
     }
 
-    const [module, name] = config.split('/');
+    const [module, name] = service.split('/');
 
     const { serviceName, moduleName, moduleFolder } = await createService({
       name,

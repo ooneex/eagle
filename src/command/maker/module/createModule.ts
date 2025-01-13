@@ -10,10 +10,8 @@ export const createModule = async (config: {
 }> => {
   const moduleFolder = toKebabCase(config.name);
   const moduleName = `${toPascalCase(moduleFolder)}Module`;
-  const fileName = `${config.srcDir}/${moduleFolder}/${moduleName}.ts`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}`;
-  await Bun.file(fileName).write('');
 
   const importContent = `import './${moduleFolder}/${moduleName}.ts';`;
   const rootModuleFile = Bun.file(`${config.srcDir}/RootModule.ts`);
