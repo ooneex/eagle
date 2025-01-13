@@ -1,5 +1,4 @@
-import { type BunFile, S3Client, type S3File, type S3Options } from 'bun';
-import type { IStorage } from './types.ts';
+import type { BunFile, IStorage, S3File, S3Options } from './types.ts';
 
 export abstract class AbstractStorage implements IStorage {
   public abstract getOptions(): S3Options;
@@ -58,8 +57,8 @@ export abstract class AbstractStorage implements IStorage {
     return s3file.stream();
   }
 
-  private getClient(): S3Client {
-    return new S3Client(this.getOptions());
+  private getClient(): typeof Bun.S3Client {
+    return new Bun.S3Client(this.getOptions());
   }
 
   private getS3File(path: string): S3File {

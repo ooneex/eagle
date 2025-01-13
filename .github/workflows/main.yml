@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    name: build-app
     runs-on: ubuntu-latest
     env:
       HUSKY: 0

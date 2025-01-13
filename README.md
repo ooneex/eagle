@@ -1,4 +1,4 @@
-# Ooneex Eagle Core
+# Eagle Core
 
 A powerful and flexible Bun framework designed for building robust API with
 modern best practices and high performance.

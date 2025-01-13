@@ -1,5 +1,7 @@
 import type { BunFile, S3File, S3Options } from 'bun';
 
+export type { BunFile, S3File, S3Options };
+
 export interface IStorage {
   getOptions(): S3Options;
   exists(key: string): Promise<boolean>;
