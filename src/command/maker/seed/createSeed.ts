@@ -14,7 +14,7 @@ export const createSeed = async (config: {
   const seedName = `${toPascalCase(config.folder)}${toPascalCase(config.name)}Seed`;
 
   await Bun.$`mkdir -p ${config.cwd}/${config.seedDir}/${seedFolder}`;
-  const importContent = `import './${seedFolder}/${seedName}.ts';`;
+  const importContent = `export { ${seedName} } from './${seedFolder}/${seedName}.ts';`;
   const rootModuleFile = Bun.file(`${config.cwd}/${config.seedDir}/root.ts`);
 
   if (await rootModuleFile.exists()) {

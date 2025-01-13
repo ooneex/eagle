@@ -22,7 +22,7 @@ export const createValidator = async (config: {
   const validatorName = `${toPascalCase(config.moduleName)}${toPascalCase(validatorFolder)}Validator`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.validationDir}`;
-  const importContent = `import './${config.validationDir}/${validatorName}.ts';`;
+  const importContent = `export { ${validatorName} } from './${config.validationDir}/${validatorName}.ts';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

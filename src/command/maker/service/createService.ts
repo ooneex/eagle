@@ -22,7 +22,7 @@ export const createService = async (config: {
   const serviceName = `${toPascalCase(config.moduleName)}${toPascalCase(serviceFolder)}Service`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.serviceDir}`;
-  const importContent = `import './${config.serviceDir}/${serviceName}.ts';`;
+  const importContent = `export { ${serviceName} } from './${config.serviceDir}/${serviceName}.ts';`;
   const serviceModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

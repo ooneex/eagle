@@ -22,7 +22,7 @@ export const createStorage = async (config: {
   const storageName = `${toPascalCase(config.moduleName)}${toPascalCase(storageFolder)}Storage`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.storageDir}`;
-  const importContent = `import './${config.storageDir}/${storageName}.ts';`;
+  const importContent = `export { ${storageName} } from './${config.storageDir}/${storageName}.ts';`;
   const storageModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );
