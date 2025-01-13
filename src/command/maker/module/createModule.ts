@@ -1,5 +1,5 @@
-import { toKebabCase } from '@/helper/toKebabCase.ts';
-import { toPascalCase } from '@/helper/toPascalCase.ts';
+import { toKebabCase } from '@std/text/to-kebab-case';
+import { toPascalCase } from '@std/text/to-pascal-case';
 
 export const createModule = async (config: {
   name: string;

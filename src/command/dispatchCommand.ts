@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import { container } from '@/container/container.ts';
-import { toKebabCase } from '@/helper/toKebabCase.ts';
-import { toPascalCase } from '@/helper/toPascalCase.ts';
 import { isCancel, log } from '@clack/prompts';
+import { toKebabCase } from '@std/text/to-kebab-case';
+import { toPascalCase } from '@std/text/to-pascal-case';
 import * as icon from 'log-symbols';
 import * as colors from './colors.ts';
 import { CommandContainer } from './container.ts';

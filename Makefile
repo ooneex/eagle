@@ -21,6 +21,6 @@ login:
 
 publish:
 	@bun run lint
-	@bunx jsr publish
+	@bunx jsr publish --allow-dirty
 	# @bun publish --access public
 	@git push

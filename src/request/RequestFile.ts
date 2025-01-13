@@ -1,6 +1,6 @@
-import { toKebabCase } from '@/helper/toKebabCase.ts';
 import { Random } from '@/random/Random.ts';
 import type { IStorage } from '@/storage/types.ts';
+import { toKebabCase } from '@std/text/to-kebab-case';
 import type { IRequestFile } from './types.ts';
 
 export class RequestFile implements IRequestFile {
