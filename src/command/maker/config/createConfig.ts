@@ -37,7 +37,7 @@ export const createConfig = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.configDir}/${configName}.ts`;
-  const content = `import { IConfig, type ScalarType, config } from '@ooneex/eagle';
+  const content = `import { type IConfig, type ScalarType, config } from '@ooneex/eagle';
 
 @config()
 export class ${configName} implements IConfig {
