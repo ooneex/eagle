@@ -1,7 +1,7 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "name": "@ooneex/eagle",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "exports": {
     "./collection": "./src/collection/index.ts",
     "./command": "./src/command/index.ts",
@@ -23,12 +23,15 @@
     "./security": "./src/security/index.ts",
     "./seed": "./src/seed/index.ts",
     "./service": "./src/service/index.ts",
-    "./storage": "./src/storage/index.ts",
+    // "./storage": "./src/storage/index.ts",
     "./url": "./src/url/index.ts",
     "./validation": "./src/validation/index.ts"
   },
   "publish": {
     "include": ["LICENSE", "README.md", "src/**/*.ts"],
     "exclude": ["src/**/*.test.ts"]
+  },
+  "imports": {
+    "@/": "./src/"
   }
 }
