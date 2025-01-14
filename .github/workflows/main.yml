@@ -25,7 +25,7 @@ jobs:
       - name: Build types
         run: tsc --emitDeclarationOnly --project tsconfig.types.json
       - name: Build source files
-        run: bun run build.ts
+        run: bun build.ts
       - name: Setup Node
         uses: actions/setup-node@v2
         with:

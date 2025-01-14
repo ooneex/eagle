@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -54,5 +54,5 @@
   },
   "author": "Ooneex",
   "license": "MIT",
-  "files": ["dist/*.js", "dist/*.d.ts"]
+  "files": ["dist/**/*.js", "dist/**/*.d.ts"]
 }
