@@ -13,6 +13,7 @@ export class Command {
         name: toKebabCase(c.name)
           .replaceAll('-', ' ')
           .replace(/^\w/, (c) => c.toUpperCase()),
+        description: c.description,
       }))
       .sort();
 
