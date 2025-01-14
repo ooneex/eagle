@@ -1,8 +1,9 @@
 {
   "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
   "name": "@ooneex/eagle",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "exports": {
+    "./mod": "./src/index.ts",
     "./collection": "./src/collection/index.ts",
     "./command": "./src/command/index.ts",
     "./config": "./src/config/index.ts",
