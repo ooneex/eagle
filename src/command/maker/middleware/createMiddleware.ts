@@ -41,7 +41,7 @@ export const createMiddleware = async (config: {
   type IMiddleware,
   type MiddlewareContextType,
   middleware,
-} from '@ooneex/eagle/middleware';
+} from '@ooneex/eagle';
 
 @middleware({ on: 'request' })
 export class ${middlewareName} implements IMiddleware {

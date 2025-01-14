@@ -37,7 +37,7 @@ export const createService = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.serviceDir}/${serviceName}.ts`;
-  const content = `import { service } from '@ooneex/eagle/service';
+  const content = `import { service } from '@ooneex/eagle';
 
 @service()
 export class ${serviceName} {

@@ -29,8 +29,7 @@ export const createCommand = async (config: {
   }
 
   const fileName = `${config.cwd}/${config.commandDir}/${commandFolder}/${commandName}.ts`;
-  const content = `import type { ScalarType } from '@ooneex/eagle';
-  import { type ICommand, type CommandParamType, command } from '@ooneex/eagle/command';
+  const content = `import { type ScalarType, type ICommand, type CommandParamType, command } from '@ooneex/eagle';
 
 @command('${commandName} description')
 export class ${commandName} implements ICommand {

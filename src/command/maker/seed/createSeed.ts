@@ -27,7 +27,7 @@ export const createSeed = async (config: {
   }
 
   const fileName = `${config.cwd}/${config.seedDir}/${seedFolder}/${seedName}.ts`;
-  const content = `import { type ISeed, seed } from '@ooneex/eagle/seed';
+  const content = `import { type ISeed, seed } from '@ooneex/eagle';
 
 @seed({ order: 1 })
 export class ${seedName} implements ISeed {

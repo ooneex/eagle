@@ -37,7 +37,7 @@ export const createValidator = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.validationDir}/${validatorName}.ts`;
-  const content = `import { AbstractValidator, validator, IsNumber, IsString } from '@ooneex/eagle/validation';
+  const content = `import { AbstractValidator, validator, IsNumber, IsString } from '@ooneex/eagle';
 
 @validator('payload')
 export class ${validatorName} extends AbstractValidator {

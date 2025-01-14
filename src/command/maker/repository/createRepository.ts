@@ -38,7 +38,7 @@ export const createRepository = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.repositoryDir}/${repositoryName}.ts`;
-  const content = `import { repository } from '@ooneex/eagle/database';
+  const content = `import { repository } from '@ooneex/eagle';
 import type { MainDatabase } from '@/shared/SharedModule.ts';
 import { ${entityName} } from '@/${moduleFolder}/${moduleName}.ts';
 import type { FindOptionsWhere } from 'typeorm';
