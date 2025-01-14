@@ -13,24 +13,26 @@ export class Command {
       .map((c) => c.name)
       .sort();
 
-    // @ts-ignore
-    const result = await inquirer.prompt([
-      {
-        type: 'search-list',
-        message: 'Select a command',
-        name: 'command',
-        choices: commands,
-      },
-    ]);
+    inquirer
+      // @ts-ignore
+      .prompt([
+        {
+          type: 'search-list',
+          message: 'Select a command',
+          name: 'command',
+          choices: commands,
+        },
+      ])
+      .then(async (result) => {
+        intro(
+          bgBrightGreen(
+            black(`   ${toKebabCase(result.command).replace('-', ' ')}   `),
+          ),
+        );
 
-    intro(
-      bgBrightGreen(
-        black(`   ${toKebabCase(result.command).replace('-', ' ')}   `),
-      ),
-    );
+        await dispatchCommand(result.command as string);
 
-    await dispatchCommand(result.command as string);
-
-    outro(bgBrightBlue(black('   Thanks for using Eagle!   ')));
+        outro(bgBrightBlue(black('   Thanks for using Eagle!   ')));
+      });
   }
 }
