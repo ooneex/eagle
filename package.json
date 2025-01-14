@@ -2,9 +2,9 @@
   "name": "@ooneex/eagle",
   "module": "src/index.ts",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "version": "0.0.18",
+  "main": "dist/src/index.js",
+  "types": "dist/types/index.d.ts",
+  "version": "0.0.19",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -54,5 +54,103 @@
   },
   "author": "Ooneex",
   "license": "MIT",
-  "files": ["dist/*.js", "dist/*.d.ts"]
+  "files": ["dist/*.js", "dist/*.d.ts"],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/src/index.js"
+    },
+    "./validation": {
+      "types": "./dist/types/validation/index.d.ts",
+      "import": "./dist/src/validation/index.js"
+    },
+    "./header": {
+      "types": "./dist/types/header/index.d.ts",
+      "import": "./dist/src/header/index.js"
+    },
+    "./exception": {
+      "types": "./dist/types/exception/index.d.ts",
+      "import": "./dist/src/exception/index.js"
+    },
+    "./helper": {
+      "types": "./dist/types/helper/index.d.ts",
+      "import": "./dist/src/helper/index.js"
+    },
+    "./random": {
+      "types": "./dist/types/random/index.d.ts",
+      "import": "./dist/src/random/index.js"
+    },
+    "./service": {
+      "types": "./dist/types/service/index.d.ts",
+      "import": "./dist/src/service/index.js"
+    },
+    "./command": {
+      "types": "./dist/types/command/index.d.ts",
+      "import": "./dist/src/command/index.js"
+    },
+    "./request": {
+      "types": "./dist/types/request/index.d.ts",
+      "import": "./dist/src/request/index.js"
+    },
+    "./http": {
+      "types": "./dist/types/http/index.d.ts",
+      "import": "./dist/src/http/index.js"
+    },
+    "./container": {
+      "types": "./dist/types/container/index.d.ts",
+      "import": "./dist/src/container/index.js"
+    },
+    "./controller": {
+      "types": "./dist/types/controller/index.d.ts",
+      "import": "./dist/src/controller/index.js"
+    },
+    "./storage": {
+      "types": "./dist/types/storage/index.d.ts",
+      "import": "./dist/src/storage/index.js"
+    },
+    "./url": {
+      "types": "./dist/types/url/index.d.ts",
+      "import": "./dist/src/url/index.js"
+    },
+    "./mailer": {
+      "types": "./dist/types/mailer/index.d.ts",
+      "import": "./dist/src/mailer/index.js"
+    },
+    "./security": {
+      "types": "./dist/types/security/index.d.ts",
+      "import": "./dist/src/security/index.js"
+    },
+    "./config": {
+      "types": "./dist/types/config/index.d.ts",
+      "import": "./dist/src/config/index.js"
+    },
+    "./response": {
+      "types": "./dist/types/response/index.d.ts",
+      "import": "./dist/src/response/index.js"
+    },
+    "./locale": {
+      "types": "./dist/types/locale/index.d.ts",
+      "import": "./dist/src/locale/index.js"
+    },
+    "./collection": {
+      "types": "./dist/types/collection/index.d.ts",
+      "import": "./dist/src/collection/index.js"
+    },
+    "./seed": {
+      "types": "./dist/types/seed/index.d.ts",
+      "import": "./dist/src/seed/index.js"
+    },
+    "./database": {
+      "types": "./dist/types/database/index.d.ts",
+      "import": "./dist/src/database/index.js"
+    },
+    "./middleware": {
+      "types": "./dist/types/middleware/index.d.ts",
+      "import": "./dist/src/middleware/index.js"
+    },
+    "./jwt": {
+      "types": "./dist/types/jwt/index.d.ts",
+      "import": "./dist/src/jwt/index.js"
+    }
+  }
 }

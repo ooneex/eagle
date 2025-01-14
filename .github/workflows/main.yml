@@ -22,17 +22,15 @@ jobs:
         run: bun install
       - name: Run tests
         run: bun run test
-      - name: Build
-        run: bun build --target=node ./src/index.ts --outfile=dist/index.js
+      - name: Build types
+        run: tsc --emitDeclarationOnly --project tsconfig.types.json
+      - name: Build source files
+        run: bun run build.ts
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: Build types
-        run: tsc --emitDeclarationOnly --project tsconfig.types.json
-      - name: Clean
-        run: bun clean.ts
       - name: Publish package on NPM 📦
         run: npm publish
         env:

@@ -20,6 +20,6 @@ login:
 	@bunx npm login
 
 publish:
-	@bun build --target=node ./src/index.ts --outfile=dist/index.js
+	# @bun build ./src/index.ts --outdir ./dist --splitting --minify --format esm --target bun
 	@tsc --emitDeclarationOnly --project tsconfig.types.json
-	# @bun publish --access public
+	@bun build.ts
