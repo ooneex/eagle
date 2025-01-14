@@ -1,9 +1,11 @@
 import { intro, outro } from '@clack/prompts';
+import { toKebabCase } from '@std/text';
+import inquirer from 'inquirer';
 import { bgBrightBlue, bgBrightGreen, black } from './colors.ts';
 import { CommandContainer } from './container.ts';
 import { dispatchCommand } from './dispatchCommand.ts';
 
-const { AutoComplete } = require('enquirer');
+inquirer.registerPrompt('search-list', require('inquirer-search-list'));
 
 export class Command {
   public async execute(): Promise<void> {
@@ -11,23 +13,23 @@ export class Command {
       .map((c) => c.name)
       .sort();
 
-    console.info(commands);
+    // @ts-ignore
+    const result = await inquirer.prompt([
+      {
+        type: 'search-list',
+        message: 'Select a command',
+        name: 'command',
+        choices: commands,
+      },
+    ]);
 
-    const prompt = new AutoComplete({
-      name: 'command',
-      message: 'Select a command',
-      // limit: 10,
-      // initial: 2,
-      choices: commands,
-    });
+    intro(
+      bgBrightGreen(
+        black(`   ${toKebabCase(result.command).replace('-', ' ')}   `),
+      ),
+    );
 
-    const command = await prompt.run();
-
-    console.info(command);
-
-    intro(bgBrightGreen(black(`   ${command}   `)));
-
-    await dispatchCommand(command as string);
+    await dispatchCommand(result.command as string);
 
     outro(bgBrightBlue(black('   Thanks for using Eagle!   ')));
   }
