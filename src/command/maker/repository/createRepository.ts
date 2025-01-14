@@ -1,5 +1,6 @@
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
+import { createDatabase } from '../database/createDatabase.ts';
 import { createModule } from '../module/createModule.ts';
 
 export const createRepository = async (config: {
@@ -7,6 +8,7 @@ export const createRepository = async (config: {
   moduleName: string;
   srcDir: string;
   repositoryDir: string;
+  databaseDir: string;
 }): Promise<{
   repositoryFolder: string;
   repositoryName: string;
@@ -16,6 +18,13 @@ export const createRepository = async (config: {
   const { moduleFolder, moduleName } = await createModule({
     name: config.moduleName,
     srcDir: config.srcDir,
+  });
+
+  await createDatabase({
+    name: config.name,
+    moduleName: 'shared',
+    srcDir: config.srcDir,
+    databaseDir: config.databaseDir,
   });
 
   const repositoryFolder = toKebabCase(config.name);

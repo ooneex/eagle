@@ -1,5 +1,7 @@
+import { toSnakeCase } from '@std/text';
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
+import pluralize from 'pluralize';
 import { createModule } from '../module/createModule.ts';
 import { createRepository } from '../repository/createRepository.ts';
 
@@ -9,6 +11,7 @@ export const createEntity = async (config: {
   srcDir: string;
   entityDir: string;
   repositoryDir: string;
+  databaseDir: string;
 }): Promise<{
   entityFolder: string;
   entityName: string;
@@ -43,7 +46,7 @@ export const createEntity = async (config: {
 import { BaseEntity } from '@/shared/SharedModule.ts';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity('${pluralize(toSnakeCase(config.name))}')
 export class ${entityName} extends BaseEntity {
   @PrimaryColumn('varchar', { length: 15 })
   id: string = Random.nanoid(15);
@@ -60,6 +63,7 @@ export class ${entityName} extends BaseEntity {
     moduleName: config.moduleName,
     srcDir: config.srcDir,
     repositoryDir: config.repositoryDir,
+    databaseDir: config.databaseDir,
   });
 
   return { entityFolder, entityName, moduleName, moduleFolder };

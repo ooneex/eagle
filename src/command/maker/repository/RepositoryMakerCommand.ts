@@ -59,6 +59,7 @@ export class RepositoryMakerCommand implements ICommand {
         moduleName: module,
         srcDir: directory.src,
         repositoryDir: directory.repository,
+        databaseDir: directory.database,
       },
     );
 

@@ -58,6 +58,7 @@ export class EntityMakerCommand implements ICommand {
       srcDir: directory.src,
       entityDir: directory.entity,
       repositoryDir: directory.repository,
+      databaseDir: directory.database,
     });
 
     log.success(color.green(`${entityName} created`));
