@@ -1,6 +1,5 @@
 import { container } from '@/container/container.ts';
 import type { DecoratorScopeType } from '@/types.ts';
-import { injectable } from 'inversify';
 import { CommandDecoratorException } from './CommandDecoratorException.ts';
 import { CommandContainer } from './container.ts';
 
@@ -11,8 +10,6 @@ export const command = (
   return (command: any) => {
     const commandName = command.prototype.constructor.name;
     ensureIsCommand(commandName, command);
-
-    injectable()(command);
 
     if (scope === 'transient') {
       container.bind(command).toSelf().inTransientScope();

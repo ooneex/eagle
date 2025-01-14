@@ -1,6 +1,5 @@
 import { container } from '@/container/container.ts';
 import type { DecoratorScopeType } from '@/types.ts';
-import { injectable } from 'inversify';
 import { ServiceDecoratorException } from './ServiceDecoratorException.ts';
 
 export const service = (options?: {
@@ -9,8 +8,6 @@ export const service = (options?: {
   return (service: any) => {
     const name = service.prototype.constructor.name;
     ensureIsService(name);
-
-    injectable()(service);
 
     if (options?.scope === 'transient') {
       container.bind(service).toSelf().inTransientScope();
