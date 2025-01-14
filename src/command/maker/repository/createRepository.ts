@@ -21,7 +21,7 @@ export const createRepository = async (config: {
   });
 
   await createDatabase({
-    name: config.name,
+    name: 'default',
     moduleName: 'shared',
     srcDir: config.srcDir,
     databaseDir: config.databaseDir,
@@ -48,13 +48,13 @@ export const createRepository = async (config: {
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.repositoryDir}/${repositoryName}.ts`;
   const content = `import { repository } from '@ooneex/eagle';
-import type { MainDatabase } from '@/shared/SharedModule.ts';
+import type { DefaultDatabase } from '@/shared/SharedModule.ts';
 import { ${entityName} } from '@/${moduleFolder}/${moduleName}.ts';
 import type { FindOptionsWhere } from 'typeorm';
 
 @repository()
 export class ${repositoryName} {
-  constructor(private readonly database: MainDatabase) {}
+  constructor(private readonly database: DefaultDatabase) {}
 
   public async find(id: string): Promise<${entityName} | null> {
     const userRepository = await this.database.getRepository(${entityName});
