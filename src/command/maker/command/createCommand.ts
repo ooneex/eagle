@@ -3,15 +3,15 @@ import { toPascalCase } from '@std/text/to-pascal-case';
 
 export const createCommand = async (config: {
   name: string;
-  moduleName: string;
+  folderName: string;
   cwd: string;
   commandDir: string;
 }): Promise<{
   commandFolder: string;
   commandName: string;
 }> => {
-  const commandFolder = toKebabCase(config.name);
-  const commandName = `${toPascalCase(config.moduleName)}${toPascalCase(commandFolder)}Command`;
+  const commandFolder = toKebabCase(config.folderName);
+  const commandName = `${toPascalCase(config.folderName)}${toPascalCase(config.name)}Command`;
 
   await Bun.$`mkdir -p ${config.cwd}/${config.commandDir}/${commandFolder}`;
   const importContent = `export { ${commandName} } from './${commandFolder}/${commandName}.ts';`;

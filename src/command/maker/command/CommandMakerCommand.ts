@@ -55,7 +55,7 @@ export class CommandMakerCommand implements ICommand {
 
     const { commandName, commandFolder } = await createCommand({
       name,
-      moduleName: module,
+      folderName: module,
       cwd: directory.cwd,
       commandDir: directory.commands,
     });
