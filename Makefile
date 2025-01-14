@@ -20,8 +20,6 @@ login:
 	@bunx npm login
 
 publish:
-	@bun run lint
 	@bun build --target=node ./src/index.ts --outfile=dist/index.js
-	@tsc
-	@bun publish --access public
-	@git push
+	@tsc --emitDeclarationOnly --project tsconfig.types.json
+	# @bun publish --access public

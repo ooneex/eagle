@@ -12,6 +12,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
+    "composite": true,
 
     // Best practices
     "strict": true,
@@ -29,8 +30,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-
-    "declaration": true,
 
     "outDir": "./dist",
     "rootDir": "./src",
