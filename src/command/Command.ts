@@ -2,21 +2,30 @@ import { intro, outro } from '@clack/prompts';
 import { bgBrightBlue, bgBrightGreen, black } from './colors.ts';
 import { CommandContainer } from './container.ts';
 import { dispatchCommand } from './dispatchCommand.ts';
-import { SelectPrompt } from './prompts/SelectPrompt.ts';
+
+const { AutoComplete } = require('enquirer');
 
 export class Command {
   public async execute(): Promise<void> {
-    console.info(process.cwd());
-
-    console.info('\n');
-
-    intro(bgBrightGreen(black('   Eagle command runner   ')));
-
     const commands = CommandContainer.toJson()
-      .map((c) => ({ value: c.name, label: c.name.replace(/Command$/, '') }))
-      .sort((a, b) => a.label.localeCompare(b.label));
+      .map((c) => c.name)
+      .sort();
 
-    const command = await SelectPrompt('Select a command', commands);
+    console.info(commands);
+
+    const prompt = new AutoComplete({
+      name: 'command',
+      message: 'Select a command',
+      // limit: 10,
+      // initial: 2,
+      choices: commands,
+    });
+
+    const command = await prompt.run();
+
+    console.info(command);
+
+    intro(bgBrightGreen(black(`   ${command}   `)));
 
     await dispatchCommand(command as string);
 
