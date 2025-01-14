@@ -60,5 +60,5 @@ export type CommandParamType = {
 };
 
 export interface ICommand {
-  execute(params: CommandParamType): Promise<void>;
+  execute(context: CommandParamType): Promise<void>;
 }

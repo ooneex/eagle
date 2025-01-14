@@ -3,6 +3,7 @@ export * from './CommandDecoratorException.ts';
 export * from './container.ts';
 export * from './decorators.ts';
 export * from './dispatchCommand.ts';
+export * from './maker/command/CommandMakerCommand.ts';
 export * from './maker/config/ConfigMakerCommand.ts';
 export * from './maker/controller/ControllerMakerCommand.ts';
 export * from './maker/database/DatabaseMakerCommand.ts';
