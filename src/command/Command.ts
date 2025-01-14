@@ -1,38 +1,30 @@
 import { intro, outro } from '@clack/prompts';
 import { toKebabCase } from '@std/text';
-import inquirer from 'inquirer';
+import autocomplete from 'inquirer-autocomplete-standalone';
 import { bgBrightBlue, bgBrightGreen, black } from './colors.ts';
 import { CommandContainer } from './container.ts';
 import { dispatchCommand } from './dispatchCommand.ts';
 
-inquirer.registerPrompt('search-list', require('inquirer-search-list'));
-
 export class Command {
   public async execute(): Promise<void> {
     const commands = CommandContainer.toJson()
-      .map((c) => c.name)
+      .map((c) => ({
+        value: c.name,
+        description: c.name,
+      }))
       .sort();
 
-    inquirer
-      // @ts-ignore
-      .prompt([
-        {
-          type: 'search-list',
-          message: 'Select a command',
-          name: 'command',
-          choices: commands,
-        },
-      ])
-      .then(async (result) => {
-        intro(
-          bgBrightGreen(
-            black(`   ${toKebabCase(result.command).replace('-', ' ')}   `),
-          ),
-        );
+    const answer = await autocomplete({
+      message: 'Select a command',
+      source: async () => commands,
+    });
 
-        await dispatchCommand(result.command as string);
+    intro(
+      bgBrightGreen(black(`   ${toKebabCase(answer).replace('-', ' ')}   `)),
+    );
 
-        outro(bgBrightBlue(black('   Thanks for using Eagle!   ')));
-      });
+    await dispatchCommand(answer);
+
+    outro(bgBrightBlue(black('   Thanks for using Eagle!   ')));
   }
 }

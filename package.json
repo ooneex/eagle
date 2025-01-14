@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -32,7 +32,7 @@
     "@types/pluralize": "^0.0.33",
     "husky": "^9.1.7",
     "inquirer": "^12.3.2",
-    "inquirer-search-list": "^1.2.6",
+    "inquirer-autocomplete-standalone": "^0.8.1",
     "log-symbols": "^7.0.0",
     "nodemailer": "^6.9.16"
   },
