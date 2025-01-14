@@ -38,7 +38,7 @@ await Bun.build({
   minify: false,
   format: 'esm',
   target: 'bun',
-  root: '.',
+  sourcemap: 'inline',
   naming: '[dir]/[name].[ext]',
 });
 
