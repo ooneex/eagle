@@ -23,12 +23,18 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
 
-    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
-  }
+    "strictPropertyInitialization": false,
+
+    "declaration": true,
+
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./"
+  },
+  "include": ["src/**/*.ts"]
 }

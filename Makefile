@@ -21,6 +21,7 @@ login:
 
 publish:
 	@bun run lint
-	@bunx jsr publish --allow-dirty
-	# @bun publish --access public
+	@bun build --target=node ./src/index.ts --outfile=dist/index.js
+	@tsc
+	@bun publish --access public
 	@git push

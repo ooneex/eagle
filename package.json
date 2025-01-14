@@ -2,7 +2,9 @@
   "name": "@ooneex/eagle",
   "module": "src/index.ts",
   "type": "module",
-  "version": "0.0.11",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "version": "0.0.17",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -51,5 +53,6 @@
     "ua-parser-js": "^2.0.0"
   },
   "author": "Ooneex",
-  "license": "MIT"
+  "license": "MIT",
+  "files": ["dist"]
 }
