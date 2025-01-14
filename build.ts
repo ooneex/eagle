@@ -35,7 +35,7 @@ await Bun.build({
   entrypoints: sourceFiles,
   outdir: './dist',
   splitting: true,
-  minify: true,
+  minify: false,
   format: 'esm',
   target: 'bun',
   root: '.',
