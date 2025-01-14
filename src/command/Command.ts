@@ -1,5 +1,5 @@
 import { intro, outro } from '@clack/prompts';
-import { toKebabCase, toPascalCase } from '@std/text';
+import { toKebabCase } from '@std/text';
 import autocomplete, { Separator } from 'inquirer-autocomplete-standalone';
 import { bgBrightBlue, bgBrightGreen, black } from './colors.ts';
 import { CommandContainer } from './container.ts';
@@ -33,7 +33,11 @@ export class Command {
 
     intro(
       bgBrightGreen(
-        black(`   ${toPascalCase(answer).replaceAll('-', ' ')}   `),
+        black(
+          `   ${toKebabCase(answer)
+            .replaceAll('-', ' ')
+            .replace(/^\w/, (c) => c.toUpperCase())}   `,
+        ),
       ),
     );
 

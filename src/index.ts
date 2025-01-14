@@ -19,5 +19,6 @@ export * from './security/index.ts';
 export * from './seed/index.ts';
 export * from './service/index.ts';
 export * from './storage/index.ts';
+export * from './types.ts';
 export * from './url/index.ts';
 export * from './validation/index.ts';
