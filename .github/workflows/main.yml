@@ -22,7 +22,14 @@ jobs:
         run: bun install
       - name: Run tests
         run: bun run test
-      - name: Publish
-        run: bun build --target=node ./src/index.ts --outfile=dist/index.js && tsc && bun publish --access public
+      - name: Build
+        run: bun build --target=node ./src/index.ts --outfile=dist/index.js && tsc
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Publish package on NPM 📦
+        run: npm ci && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
