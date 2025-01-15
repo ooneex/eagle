@@ -1,6 +1,7 @@
 import type { IReadonlyCollection } from '@/collection/types.ts';
 import type { ControllerMethodType } from '@/controller/types.ts';
 import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
+import type { MimeType } from '@/http/types.ts';
 import type { LocaleType } from '@/locale/locales.ts';
 import type { IStorage } from '@/storage/types.ts';
 import type { ScalarType } from '@/types.ts';
@@ -32,7 +33,7 @@ export interface IRequest {
 export interface IRequestFile {
   readonly name: string;
   readonly originalName: string;
-  readonly type: string;
+  readonly type: MimeType;
   readonly size: number;
   readonly extension: string;
   readonly isImage: boolean;

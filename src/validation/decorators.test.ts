@@ -186,28 +186,4 @@ describe('Validator Decorator', () => {
     expect(formValidators).toHaveLength(1);
     expect(formValidators?.[0].value).toBe(FormValidator);
   });
-
-  it('should register validator class with the correct env data scope', () => {
-    ValidatorContainer.add('env', []);
-
-    @validator('env')
-    class EnvValidator implements IValidator {
-      public validate(): Promise<ValidationResultType> {
-        return Promise.resolve({ success: true, details: [], logs: [] });
-      }
-
-      public validateSync(): ValidationResultType {
-        return { success: true, details: [], logs: [] };
-      }
-    }
-
-    const envInstance = container.get<EnvValidator>(EnvValidator);
-    expect(envInstance).toBeDefined();
-    expect(envInstance).toBeInstanceOf(EnvValidator);
-
-    const envValidators = ValidatorContainer.get('env');
-    expect(envValidators).toBeDefined();
-    expect(envValidators).toHaveLength(1);
-    expect(envValidators?.[0].value).toBe(EnvValidator);
-  });
 });

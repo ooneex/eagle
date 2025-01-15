@@ -7,7 +7,6 @@ export const ValidatorScopes = [
   'cookies',
   'files',
   'form',
-  'env',
 ] as const;
 
 export type ValidatorScopeType = (typeof ValidatorScopes)[number];

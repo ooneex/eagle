@@ -123,6 +123,13 @@ describe('HttpRequest', () => {
     const uploadedFile = request.files.get('file');
     expect(uploadedFile?.originalName).toBe('test.txt');
     expect(uploadedFile?.name).toBeDefined();
-    expect(uploadedFile?.type).toBe('text/plain;charset=utf-8');
+    expect(uploadedFile?.type).toBe('text/plain');
+  });
+
+  it('should parse ip correctly', () => {
+    const request = new HttpRequest(new Request('http://localhost:3000'), {
+      ip: '127.0.0.1',
+    });
+    expect(request.ip).toBe('127.0.0.1');
   });
 });

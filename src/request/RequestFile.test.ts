@@ -1,4 +1,5 @@
 import { describe, expect, it, mock, spyOn } from 'bun:test';
+import type { MimeType } from '@/http';
 import { RequestFile } from '@/request';
 
 describe('RequestFile', () => {
@@ -10,7 +11,7 @@ describe('RequestFile', () => {
 
     expect(requestFile.extension).toBe('txt');
     expect(requestFile.originalName).toBe('test-file.txt');
-    expect(requestFile.type).toBe('text/plain;charset=utf-8');
+    expect(requestFile.type).toBe('text/plain' as MimeType);
     expect(requestFile.size).toBe(12);
     expect(requestFile.name).toMatch(/^[A-Za-z0-9_-]{15}\.txt$/);
     expect(requestFile.isImage).toBe(false);

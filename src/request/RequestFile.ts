@@ -1,3 +1,4 @@
+import type { MimeType } from '@/http/types.ts';
 import { Random } from '@/random/Random.ts';
 import type { IStorage } from '@/storage/types.ts';
 import { toKebabCase } from '@std/text/to-kebab-case';
@@ -6,7 +7,7 @@ import type { IRequestFile } from './types.ts';
 export class RequestFile implements IRequestFile {
   public readonly name: string;
   public readonly originalName: string;
-  public readonly type: string;
+  public readonly type: MimeType;
   public readonly size: number;
   public readonly extension: string;
   public readonly isImage: boolean;
@@ -28,7 +29,7 @@ export class RequestFile implements IRequestFile {
       this.native.name.replace(/\.[0-9a-z]*$/i, ''),
     );
     this.originalName = `${this.originalName}.${this.extension}`;
-    this.type = this.native.type;
+    this.type = this.native.type.replace(/;*charset=.*$/, '') as MimeType;
     this.size = this.native.size;
     const id = Random.nanoid(15);
     this.name = `${id}.${this.extension}`;

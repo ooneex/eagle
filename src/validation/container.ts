@@ -15,5 +15,4 @@ export const ValidatorContainer: Collection<
   ['cookies', []],
   ['files', []],
   ['form', []],
-  ['env', []],
 ]);

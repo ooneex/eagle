@@ -42,6 +42,7 @@ export class HttpRequest implements IRequest {
       params?: Record<string, ScalarType>;
       payload?: Record<string, unknown>;
       formData?: FormData | null;
+      ip?: string | null;
     },
   ) {
     this.url = new Url(this.native.url);
@@ -62,7 +63,7 @@ export class HttpRequest implements IRequest {
     }
     this.payload = new ReadonlyCollection(payload);
 
-    this.ip = this.header.getIp();
+    this.ip = config?.ip ?? this.header.getIp();
     this.host = this.header.getHost();
     this.referer = this.header.getReferer();
     this.server = this.header.getServer();

@@ -546,4 +546,52 @@ describe('Controller Decorator', () => {
     expect(controller).toBeDefined();
     expect(controller?.roles).toEqual([ERole.MASTER]);
   });
+
+  it('should register notFound decorator', () => {
+    @Route.notFound()
+    class NotFoundController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(NotFoundController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual([]);
+    expect(controller?.method).toEqual([]);
+
+    expect(() => {
+      @Route.notFound()
+      // biome-ignore lint/correctness/noUnusedVariables: test case
+      class InvalidController {
+        public action({ response }: ActionParamType): HttpResponse {
+          return response;
+        }
+      }
+    }).toThrow(ControllerDecoratorException);
+  });
+
+  it('should register serverException decorator', () => {
+    @Route.serverException()
+    class ServerExceptionController implements IController {
+      public action({ response }: ActionParamType): HttpResponse {
+        return response;
+      }
+    }
+
+    const controller = ControllerContainer.get(ServerExceptionController.name);
+    expect(controller).toBeDefined();
+    expect(controller?.path).toEqual([]);
+    expect(controller?.method).toEqual([]);
+
+    expect(() => {
+      @Route.serverException()
+      // biome-ignore lint/correctness/noUnusedVariables: test case
+      class InvalidController {
+        public action({ response }: ActionParamType): HttpResponse {
+          return response;
+        }
+      }
+    }).toThrow(ControllerDecoratorException);
+  });
 });

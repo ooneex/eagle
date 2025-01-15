@@ -1,5 +1,6 @@
 export * from 'class-validator';
 export { AbstractValidator } from './AbstractValidator.ts';
+export * from './asserts/IsFile.ts';
 export { ValidatorContainer } from './container.ts';
 export * from './decorators.ts';
 export { dispatchValidators } from './dispatchValidators.ts';

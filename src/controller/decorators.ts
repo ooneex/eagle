@@ -179,6 +179,66 @@ const setRole = (roles: ERole[]): (() => ClassDecorator) => {
   };
 };
 
+const notFound = (): ClassDecorator => {
+  return (controller: any) => {
+    const name = 'NotFoundController';
+
+    if (
+      controller.prototype.constructor.name !== 'NotFoundController' ||
+      !controller.prototype.action
+    ) {
+      throw new ControllerDecoratorException(
+        'NotFound decorator can only be used on NotFoundController class and implement IController interface.',
+      );
+    }
+
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.path = [];
+    definition.regexp = [];
+    definition.method = [];
+    definition.roles = [];
+    definition.middlewares = [];
+    definition.validators = [];
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
+const serverException = (): ClassDecorator => {
+  return (controller: any) => {
+    const name = 'ServerExceptionController';
+
+    if (
+      controller.prototype.constructor.name !== 'ServerExceptionController' ||
+      !controller.prototype.action
+    ) {
+      throw new ControllerDecoratorException(
+        'ServerException decorator can only be used on ServerExceptionController class and implement IController interface.',
+      );
+    }
+
+    ensureInitialData(controller, { name });
+
+    const definition = ControllerContainer.get(
+      name,
+    ) as Required<ControllerRouteConfigType>;
+
+    definition.path = [];
+    definition.regexp = [];
+    definition.method = [];
+    definition.roles = [];
+    definition.middlewares = [];
+    definition.validators = [];
+
+    ControllerContainer.add(name, definition);
+  };
+};
+
 const setMethod = (
   methods: ControllerMethodType[],
 ): ((path: string) => ClassDecorator) => {
@@ -214,6 +274,8 @@ export const Route: Record<string, any> = {
   patch: setMethod(['PATCH']),
   post: setMethod(['POST']),
   put: setMethod(['PUT']),
+  notFound,
+  serverException,
   role: {
     anonymous: setRole([]),
     user: setRole([ERole.USER]),

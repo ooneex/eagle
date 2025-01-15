@@ -21,7 +21,6 @@ describe('ValidatorContainer', () => {
       'cookies',
       'files',
       'form',
-      'env',
     ];
 
     scopes.map((scope) => {
