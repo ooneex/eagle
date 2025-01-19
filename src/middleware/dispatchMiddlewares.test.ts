@@ -47,42 +47,4 @@ describe('Middleware Dispatch', () => {
 
     expect(executionOrder).toEqual(['first', 'second']);
   });
-
-  it('should execute exception middleware on error', async () => {
-    let exceptionHandled = false;
-
-    const errorMiddleware: MiddlewareValueType = {
-      name: 'error',
-      value: async () => {
-        throw new Error('Test error');
-      },
-      priority: 0,
-    };
-
-    const exceptionMiddleware: MiddlewareValueType = {
-      name: 'exception',
-      value: async () => {
-        exceptionHandled = true;
-      },
-      priority: 0,
-    };
-
-    MiddlewareContainer.get('request')?.push(errorMiddleware);
-    MiddlewareContainer.get('exception')?.push(exceptionMiddleware);
-
-    const requestMiddlewares = MiddlewareContainer.get('request') || [];
-    const exceptionMiddlewares = MiddlewareContainer.get('exception') || [];
-
-    try {
-      for (const middleware of requestMiddlewares) {
-        await middleware.value();
-      }
-    } catch (_error) {
-      for (const middleware of exceptionMiddlewares) {
-        await middleware.value();
-      }
-    }
-
-    expect(exceptionHandled).toBe(true);
-  });
 });

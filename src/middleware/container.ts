@@ -7,7 +7,4 @@ export const MiddlewareContainer: Collection<
 > = new Collection<MiddlewareEventType, MiddlewareValueType[]>([
   ['request', []],
   ['response', []],
-  ['exception', []],
-  ['kernel:init', []],
-  ['kernel:finish', []],
 ]);

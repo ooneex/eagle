@@ -1,8 +1,11 @@
 import { Collection } from '@/collection/Collection.ts';
 import { container } from '@/container/container.ts';
-import { dispatchControllerMiddlewares } from '@/controller/dispatchControllerMiddlewares';
+import { ControllerNotFoundException } from '@/controller/ControllerNotFoundException.ts';
+import { ControllerContainer } from '@/controller/container.ts';
+import { dispatchControllerMiddlewares } from '@/controller/dispatchControllerMiddlewares.ts';
 import { findRoute } from '@/controller/findRoute.ts';
 import type { IController } from '@/controller/types.ts';
+import { Exception } from '@/exception/Exception.ts';
 import { HeaderChecker } from '@/header/HeaderChecker.ts';
 import { dispatchMiddlewares } from '@/middleware/dispatchMiddlewares.ts';
 import type { MiddlewareContextType } from '@/middleware/types.ts';
@@ -81,6 +84,7 @@ export const ServerHandler = async (
       context,
       routeConfig,
     });
+    // TODO: check user roles
     await dispatchValidators('payload', context.request.payload.toJson());
     await dispatchValidators('params', context.request.params.toJson());
     await dispatchValidators('queries', context.request.queries.toJson());
@@ -94,9 +98,32 @@ export const ServerHandler = async (
       routeConfig,
     });
     context = await dispatchMiddlewares('response', context);
-  } catch (_e) {
-    // return response.error(e);
-  }
+    return context.response;
+  } catch (e) {
+    if (e instanceof ControllerNotFoundException) {
+      const def = ControllerContainer.get<{ value: IController }>(
+        'NotFoundController',
+      );
+      if (!def) {
+        return context.response.notFound(e.message, e.data);
+      }
+      const controller = def.value;
+      context.response = await controller.action(context);
+      return context.response;
+    }
 
-  return context.response;
+    if (e instanceof Exception) {
+      const def = ControllerContainer.get<{ value: IController }>(
+        'ServerExceptionController',
+      );
+      if (!def) {
+        return context.response.exception(e.message, e.data);
+      }
+      const controller = def.value;
+      context.response = await controller.action(context);
+      return context.response;
+    }
+
+    return response.exception((e as Error).message);
+  }
 };

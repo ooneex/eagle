@@ -13,13 +13,7 @@ beforeEach(() => {
 
 describe('MiddlewareContainer', () => {
   it('should initialize with empty arrays for all events', () => {
-    const events: MiddlewareEventType[] = [
-      'request',
-      'response',
-      'exception',
-      'kernel:init',
-      'kernel:finish',
-    ];
+    const events: MiddlewareEventType[] = ['request', 'response'];
 
     events.map((event) => {
       const middlewares = MiddlewareContainer.get(event);

@@ -204,6 +204,7 @@ const notFound = (): ClassDecorator => {
     definition.roles = [];
     definition.middlewares = [];
     definition.validators = [];
+    definition.value = new controller();
 
     ControllerContainer.add(name, definition);
   };
@@ -234,6 +235,7 @@ const serverException = (): ClassDecorator => {
     definition.roles = [];
     definition.middlewares = [];
     definition.validators = [];
+    definition.value = new controller();
 
     ControllerContainer.add(name, definition);
   };
