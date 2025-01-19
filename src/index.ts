@@ -1,3 +1,4 @@
+export * from './app/index.ts';
 export * from './collection/index.ts';
 export * from './command/index.ts';
 export * from './config/index.ts';
