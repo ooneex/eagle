@@ -12,16 +12,15 @@ import { dispatchMiddlewares } from '@/middleware/dispatchMiddlewares.ts';
 import type { MiddlewareContextType } from '@/middleware/types.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
-import type { IResponse } from '@/response/types.ts';
 import { Role } from '@/security/Role';
 import { UnauthorizedException } from '@/security/UnauthorizedException.ts';
 import { dispatchValidators } from '@/validation/dispatchValidators.ts';
 import type { Server } from 'bun';
 
-export const ServerHandler = async (
+export const handler = async (
   req: Request,
   server: Server,
-): Promise<IResponse> => {
+): Promise<Response> => {
   let payload = {};
   let formData: FormData | null = null;
   const ip = server.requestIP(req)?.address ?? null;
@@ -112,18 +111,20 @@ export const ServerHandler = async (
       routeConfig,
     });
     context = await dispatchMiddlewares('response', context);
-    return context.response;
+    return context.response.build(context.request);
   } catch (e) {
     if (e instanceof ControllerNotFoundException) {
       const def = ControllerContainer.get<{ value: IController }>(
         'NotFoundController',
       );
       if (!def) {
-        return context.response.notFound(e.message, e.data);
+        return context.response
+          .notFound(e.message, e.data)
+          .build(context.request);
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response;
+      return context.response.build(context.request);
     }
 
     if (e instanceof Exception) {
@@ -131,17 +132,15 @@ export const ServerHandler = async (
         'ServerExceptionController',
       );
       if (!def) {
-        return context.response.exception(
-          e.message,
-          e.data,
-          e.status as StatusCodeType,
-        );
+        return context.response
+          .exception(e.message, e.data, e.status as StatusCodeType)
+          .build(context.request);
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response;
+      return context.response.build(context.request);
     }
 
-    return response.exception((e as Error).message);
+    return response.exception((e as Error).message).build(context.request);
   }
 };
