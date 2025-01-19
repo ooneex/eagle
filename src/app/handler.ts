@@ -7,22 +7,16 @@ import { findRoute } from '@/controller/findRoute.ts';
 import type { IController } from '@/controller/types.ts';
 import { Exception } from '@/exception/Exception.ts';
 import { HeaderChecker } from '@/header/HeaderChecker.ts';
+import type { StatusCodeType } from '@/http/types.ts';
 import { dispatchMiddlewares } from '@/middleware/dispatchMiddlewares.ts';
 import type { MiddlewareContextType } from '@/middleware/types.ts';
 import { HttpRequest } from '@/request/HttpRequest.ts';
 import { HttpResponse } from '@/response/HttpResponse.ts';
 import type { IResponse } from '@/response/types.ts';
+import { Role } from '@/security/Role';
+import { UnauthorizedException } from '@/security/UnauthorizedException.ts';
 import { dispatchValidators } from '@/validation/dispatchValidators.ts';
 import type { Server } from 'bun';
-
-Bun.serve({
-  fetch(req) {
-    const url = new URL(req.url);
-    if (url.pathname === '/') return new Response('Home page!');
-    if (url.pathname === '/blog') return new Response('Blog!');
-    return new Response('404!');
-  },
-});
 
 export const ServerHandler = async (
   req: Request,
@@ -84,7 +78,27 @@ export const ServerHandler = async (
       context,
       routeConfig,
     });
-    // TODO: check user roles
+
+    if (context.user) {
+      const user = context.user;
+      const role = new Role(routeConfig.roles ?? []);
+      if (!user.getRole().has(role)) {
+        throw new UnauthorizedException(
+          'User does not have the required roles',
+          {
+            user: {
+              id: user.getId(),
+              username: user.getUsername(),
+              roles: user.getRole(),
+            },
+            route: {
+              roles: routeConfig.roles,
+            },
+          },
+        );
+      }
+    }
+
     await dispatchValidators('payload', context.request.payload.toJson());
     await dispatchValidators('params', context.request.params.toJson());
     await dispatchValidators('queries', context.request.queries.toJson());
@@ -117,7 +131,11 @@ export const ServerHandler = async (
         'ServerExceptionController',
       );
       if (!def) {
-        return context.response.exception(e.message, e.data);
+        return context.response.exception(
+          e.message,
+          e.data,
+          e.status as StatusCodeType,
+        );
       }
       const controller = def.value;
       context.response = await controller.action(context);
