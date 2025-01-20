@@ -1,6 +1,6 @@
-import type { Cookie as CookieType } from '@std/http/cookie';
 import type { IReadonlyArrayCollection } from '../collection/types';
 import type { IHeader } from '../header/types';
+import type { Cookie as CookieType } from '../http/cookie';
 import type { CharsetType, StatusCodeType } from '../http/types';
 import type { IRequest } from '../request/types';
 

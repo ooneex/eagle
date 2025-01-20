@@ -1,5 +1,5 @@
-import { STATUS_CODE } from '@std/http/status';
 import { Exception } from '../exception/Exception';
+import { STATUS_CODE } from '../http/status';
 
 export class ConfigDecoratorException<T = unknown> extends Exception<T> {
   constructor(

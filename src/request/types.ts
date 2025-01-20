@@ -1,7 +1,7 @@
-import type { Cookie as CookieType } from '@std/http/cookie';
 import type { IReadonlyCollection } from '../collection/types';
 import type { ControllerMethodType } from '../controller/types';
 import type { IReadonlyHeader, IUserAgent } from '../header/types';
+import type { Cookie as CookieType } from '../http/cookie';
 import type { MimeType } from '../http/types';
 import type { LocaleType } from '../locale/locales';
 import type { IStorage } from '../storage/types';

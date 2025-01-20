@@ -1,10 +1,10 @@
-import { type Cookie as CookieType, getSetCookies } from '@std/http/cookie';
 import parser from 'accept-language-parser';
 import { ReadonlyCollection } from '../collection/ReadonlyCollection';
 import type { IReadonlyCollection } from '../collection/types';
 import { ReadonlyHeader } from '../header/ReadonlyHeader';
 import type { IReadonlyHeader, IUserAgent } from '../header/types';
 import { parseString } from '../helper/parseString';
+import { type Cookie as CookieType, getSetCookies } from '../http/cookie';
 import type { LocaleType } from '../locale/locales';
 import type { ScalarType } from '../types';
 import { Url } from '../url/Url';

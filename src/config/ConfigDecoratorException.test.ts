@@ -1,6 +1,6 @@
 import { describe, expect } from 'bun:test';
-import { STATUS_CODE } from '@std/http/status';
 import { Exception } from '../exception';
+import { STATUS_CODE } from '../http/status';
 import { ConfigDecoratorException } from './ConfigDecoratorException';
 
 describe('ConfigDecoratorException - should create instance with message only', () => {

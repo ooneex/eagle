@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@std/http/status';
+import { STATUS_CODE } from '../http/status';
 
 import { ControllerNotFoundException } from './ControllerNotFoundException';
 

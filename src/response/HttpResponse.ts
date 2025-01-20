@@ -1,6 +1,6 @@
-import { type Cookie as CookieType, setCookie } from '@std/http/cookie';
 import { ArrayCollection } from '../collection/ArrayCollection';
 import { Header } from '../header/Header';
+import { type Cookie as CookieType, setCookie } from '../http/cookie';
 import {
   STATUS_TEXT,
   isClientErrorStatus,
