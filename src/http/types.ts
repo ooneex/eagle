@@ -1,8 +1,8 @@
-import type { DB } from './db.ts';
-import type { HEADER_FIELDS } from './header_fields.ts';
-import type { HTTP_METHODS } from './methods.ts';
-import type { HTTP_PROTOCOLS } from './protocols.ts';
-import type { StatusCode, StatusText } from './status.ts';
+import type { DB } from './db';
+import type { HEADER_FIELDS } from './header_fields';
+import type { HTTP_METHODS } from './methods';
+import type { HTTP_PROTOCOLS } from './protocols';
+import type { StatusCode, StatusText } from './status';
 
 export type MimeType = keyof DB;
 

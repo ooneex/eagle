@@ -1,9 +1,9 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
 import type { ValidatorOptions } from 'class-validator';
-import { ValidatorDecoratorException } from './ValidatorDecoratorException.ts';
-import { ValidatorContainer } from './container.ts';
-import type { ValidatorScopeType } from './types.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { ValidatorDecoratorException } from './ValidatorDecoratorException';
+import { ValidatorContainer } from './container';
+import type { ValidatorScopeType } from './types';
 
 export const validator = (
   dataScope: ValidatorScopeType,

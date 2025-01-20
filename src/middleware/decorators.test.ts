@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import {
-  type IMiddleware,
-  MiddlewareContainer,
-  type MiddlewareContextType,
-  MiddlewareDecoratorException,
-  type MiddlewareValueType,
-  middleware,
-} from '@/middleware';
+import { container } from '../container';
+import { MiddlewareDecoratorException } from './MiddlewareDecoratorException';
+import { MiddlewareContainer } from './container';
+import { middleware } from './decorators';
+import type {
+  IMiddleware,
+  MiddlewareContextType,
+  MiddlewareValueType,
+} from './types';
 
 describe('Middleware Decorator', () => {
   it('should register a valid middleware class in the container', () => {

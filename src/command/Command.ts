@@ -1,9 +1,9 @@
 import { intro, outro } from '@clack/prompts';
 import { toKebabCase } from '@std/text';
 import autocomplete, { Separator } from 'inquirer-autocomplete-standalone';
-import { bgBrightBlue, bgBrightGreen, black } from './colors.ts';
-import { CommandContainer } from './container.ts';
-import { dispatchCommand } from './dispatchCommand.ts';
+import { bgBrightBlue, bgBrightGreen, black } from './colors';
+import { CommandContainer } from './container';
+import { dispatchCommand } from './dispatchCommand';
 
 export class Command {
   public async execute(): Promise<void> {

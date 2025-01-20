@@ -1,8 +1,8 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { MiddlewareDecoratorException } from './MiddlewareDecoratorException.ts';
-import { MiddlewareContainer } from './container.ts';
-import type { MiddlewareEventType } from './types.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { MiddlewareDecoratorException } from './MiddlewareDecoratorException';
+import { MiddlewareContainer } from './container';
+import type { MiddlewareEventType } from './types';
 
 export const middleware = (options: {
   scope?: DecoratorScopeType;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { MailerDecoratorException } from '@/mailer';
+import { STATUS_CODE } from '../http/status';
+import { MailerDecoratorException } from './MailerDecoratorException';
 
 describe('MailerDecoratorException', () => {
   it('should create exception with default values', () => {

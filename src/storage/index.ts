@@ -1,5 +1,5 @@
-export * from './decorators.ts';
-export { AbstractStorage } from './Storage.ts';
-export { StorageDecoratorException } from './StorageDecoratorException.ts';
-export { StorageException } from './StorageException.ts';
-export * from './types.ts';
+export * from './decorators';
+export { AbstractStorage } from './Storage';
+export { StorageDecoratorException } from './StorageDecoratorException';
+export { StorageException } from './StorageException';
+export * from './types';

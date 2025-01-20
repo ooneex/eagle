@@ -1,4 +1,4 @@
-import { ERole } from './types.ts';
+import { ERole } from './types';
 
 /**
  * Defines the hierarchy of user roles in the system.

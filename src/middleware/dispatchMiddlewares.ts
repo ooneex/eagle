@@ -1,10 +1,10 @@
-import { container } from '@/container/container.ts';
-import { MiddlewareContainer } from './container.ts';
+import { container } from '../container';
+import { MiddlewareContainer } from './container';
 import type {
   IMiddleware,
   MiddlewareContextType,
   MiddlewareEventType,
-} from './types.ts';
+} from './types';
 
 export const dispatchMiddlewares = async (
   event: MiddlewareEventType,

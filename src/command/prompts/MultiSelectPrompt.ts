@@ -1,5 +1,5 @@
-import type { ScalarType } from '@/types';
 import { multiselect } from '@clack/prompts';
+import type { ScalarType } from '../../types';
 
 export const MultiSelectPrompt = async (
   message: string,

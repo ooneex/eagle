@@ -1,5 +1,5 @@
-import { Collection } from '@/collection/Collection.ts';
-import type { ControllerRouteConfigType } from './types.ts';
+import { Collection } from '../collection/Collection';
+import type { ControllerRouteConfigType } from './types';
 
 export const ControllerContainer: Collection<
   string,

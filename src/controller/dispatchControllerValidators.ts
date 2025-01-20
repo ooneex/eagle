@@ -1,6 +1,6 @@
-import { ValidationFailedException } from '@/validation/ValidationFailedException.ts';
-import type { ValidatorScopeType } from '@/validation/types.ts';
-import type { ControllerRouteConfigType } from './types.ts';
+import type { ValidatorScopeType } from '../validation';
+import { ValidationFailedException } from '../validation';
+import type { ControllerRouteConfigType } from './types';
 
 export const dispatchControllerValidators = async (config: {
   dataScope: ValidatorScopeType;

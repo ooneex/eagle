@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Header } from '@/header';
+import { Header } from './Header';
 
 describe('Header', () => {
   describe('constructor', () => {

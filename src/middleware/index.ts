@@ -1,5 +1,5 @@
-export * from './container.ts';
-export * from './decorators.ts';
-export * from './dispatchMiddlewares.ts';
-export { MiddlewareDecoratorException } from './MiddlewareDecoratorException.ts';
-export * from './types.ts';
+export * from './container';
+export * from './decorators';
+export * from './dispatchMiddlewares';
+export { MiddlewareDecoratorException } from './MiddlewareDecoratorException';
+export * from './types';

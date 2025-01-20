@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import { type ISeed, Seed, seed } from '@/seed';
+import { type ISeed, Seed, seed } from '.';
+import { container } from '../container';
 
 describe('Seed', () => {
   it('should execute seeds in correct order', async () => {

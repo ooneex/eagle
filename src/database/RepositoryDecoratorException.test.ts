@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { RepositoryDecoratorException } from '@/database';
-import { STATUS_CODE } from '@/http/status.ts';
+import { STATUS_CODE } from '../http/status';
+import { RepositoryDecoratorException } from './RepositoryDecoratorException';
 
 describe('RepositoryDecoratorException', () => {
   it('should create an exception with default values', () => {

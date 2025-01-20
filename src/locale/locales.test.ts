@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { LOCALES } from './locales.ts';
+import { LOCALES } from './locales';
 
 describe('LOCALES', () => {
   it('should contain valid locale codes', () => {

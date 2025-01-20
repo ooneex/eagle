@@ -1,2 +1,2 @@
-export { Jwt } from './Jwt.ts';
-export * from './types.ts';
+export { Jwt } from './Jwt';
+export * from './types';

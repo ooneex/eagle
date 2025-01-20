@@ -1,7 +1,7 @@
-import type { Collection } from '@/collection/Collection.ts';
-import type { IRequest } from '@/request/types';
-import type { HttpResponse } from '@/response/HttpResponse';
-import type { IUser } from '@/security/types.ts';
+import type { Collection } from '../collection/Collection';
+import type { IRequest } from '../request/types';
+import type { HttpResponse } from '../response/HttpResponse';
+import type { IUser } from '../security/types';
 
 export type MiddlewareContextType = {
   request: IRequest;

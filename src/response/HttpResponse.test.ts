@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { HttpRequest } from '@/request';
-import { HttpResponse } from '@/response/HttpResponse.ts';
+import { HttpRequest } from '../request';
+import { HttpResponse } from './HttpResponse';
 
 describe('HttpResponse', () => {
   describe('json', () => {

@@ -1,10 +1,10 @@
-import { ControllerNotFoundException } from './ControllerNotFoundException.ts';
-import { ControllerContainer } from './container.ts';
+import { ControllerNotFoundException } from './ControllerNotFoundException';
+import { ControllerContainer } from './container';
 import type {
   ControllerFindParamType,
   ControllerFindReturnType,
   ControllerMethodType,
-} from './types.ts';
+} from './types';
 
 export const findRoute = ({
   path,

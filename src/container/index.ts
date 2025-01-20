@@ -1,2 +1,2 @@
 export { inject } from 'inversify';
-export { container } from './container.ts';
+export { container } from './container';

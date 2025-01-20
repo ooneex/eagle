@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import type { IConfig } from '@/config';
-import { ConfigDecoratorException, config } from '@/config';
-import { container } from '@/container';
+import { container } from '../container/container';
+import { ConfigDecoratorException } from './ConfigDecoratorException';
+import { config } from './decorators';
+import type { IConfig } from './types';
 
 describe('Config Decorator', () => {
   it('should register a valid config class in the container', () => {

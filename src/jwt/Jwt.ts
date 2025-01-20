@@ -1,6 +1,6 @@
 import type { JWTHeaderParameters } from 'jose';
 import * as jose from 'jose';
-import type { IJwt, JwtDefaultPayloadType, JwtPayloadType } from './types.ts';
+import type { IJwt, JwtDefaultPayloadType, JwtPayloadType } from './types';
 
 export class Jwt implements IJwt {
   private secret: string;

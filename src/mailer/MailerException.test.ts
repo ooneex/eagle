@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { MailerException } from '@/mailer';
+import { STATUS_CODE } from '../http/status';
+import { MailerException } from './MailerException';
 
 describe('MailerException', () => {
   it('should create MailerException with message', () => {

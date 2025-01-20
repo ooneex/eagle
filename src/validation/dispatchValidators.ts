@@ -1,7 +1,7 @@
-import { container } from '@/container/container.ts';
-import { ValidationFailedException } from './ValidationFailedException.ts';
-import { ValidatorContainer } from './container.ts';
-import type { IValidator, ValidatorScopeType } from './types.ts';
+import { container } from '../container';
+import { ValidationFailedException } from './ValidationFailedException';
+import { ValidatorContainer } from './container';
+import type { IValidator, ValidatorScopeType } from './types';
 
 export const dispatchValidators = async (
   dataScope: ValidatorScopeType,

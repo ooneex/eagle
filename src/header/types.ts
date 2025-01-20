@@ -4,7 +4,7 @@ import type {
   HeaderFieldType,
   MethodType,
   MimeType,
-} from '@/http/types.ts';
+} from '../http/types';
 
 export type UserAgentType = {
   browser: {

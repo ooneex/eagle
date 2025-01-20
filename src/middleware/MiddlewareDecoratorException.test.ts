@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { MiddlewareDecoratorException } from '@/middleware';
+import { STATUS_CODE } from '../http/status';
+import { MiddlewareDecoratorException } from './MiddlewareDecoratorException';
 
 describe('MiddlewareDecoratorException', () => {
   it('should create an exception with default values', () => {

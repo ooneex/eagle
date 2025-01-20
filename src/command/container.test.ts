@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { CommandContainer } from '@/command';
+import { CommandContainer } from './container';
 
 describe('CommandContainer', () => {
   beforeEach(() => {

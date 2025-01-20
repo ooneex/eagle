@@ -1,4 +1,4 @@
-import { ArrayCollection } from '@/collection/ArrayCollection.ts';
+import { ArrayCollection } from '../collection/ArrayCollection';
 
 export const CommandContainer: ArrayCollection<{
   name: string;

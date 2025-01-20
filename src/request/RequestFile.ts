@@ -1,8 +1,8 @@
-import type { MimeType } from '@/http/types.ts';
-import { Random } from '@/random/Random.ts';
-import type { IStorage } from '@/storage/types.ts';
 import { toKebabCase } from '@std/text/to-kebab-case';
-import type { IRequestFile } from './types.ts';
+import type { MimeType } from '../http';
+import { Random } from '../random/Random';
+import type { IStorage } from '../storage/types';
+import type { IRequestFile } from './types';
 
 export class RequestFile implements IRequestFile {
   public readonly name: string;

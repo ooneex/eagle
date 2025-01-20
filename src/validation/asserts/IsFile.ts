@@ -1,10 +1,10 @@
-import type { MimeType } from '@/http/types.ts';
-import { RequestFile } from '@/request/RequestFile.ts';
 import {
   type ValidationArguments,
   type ValidationOptions,
   registerDecorator,
 } from 'class-validator';
+import type { MimeType } from '../../http/types';
+import { RequestFile } from '../../request/RequestFile';
 
 interface IsFileOptions {
   mimeTypes?: MimeType[];

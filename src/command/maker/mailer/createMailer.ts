@@ -1,6 +1,6 @@
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
-import { createModule } from '../module/createModule.ts';
+import { createModule } from '../module/createModule';
 
 export const createMailer = async (config: {
   name: string;

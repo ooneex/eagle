@@ -1,6 +1,6 @@
-import { Role } from './Role.ts';
-import { UnauthorizedException } from './UnauthorizedException.ts';
-import type { ERole, IUser } from './types.ts';
+import { Role } from './Role';
+import { UnauthorizedException } from './UnauthorizedException';
+import type { ERole, IUser } from './types';
 
 export const validateRoles = (user: IUser, roles: ERole[]): void => {
   if (roles.length === 0) {

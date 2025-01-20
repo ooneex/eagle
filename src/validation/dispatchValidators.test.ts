@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import type { IValidator, ValidationResultType } from '@/validation';
 import {
   AbstractValidator,
+  type IValidator,
   IsString,
   ValidationFailedException,
+  type ValidationResultType,
   ValidatorContainer,
   dispatchValidators,
   validator,
-} from '@/validation';
+} from '.';
+import { container } from '../container';
 
 describe('Validator Dispatch', () => {
   it('should execute validators in correct order', async () => {

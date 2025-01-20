@@ -1,5 +1,5 @@
-import { Exception } from '@/exception/Exception.ts';
-import { STATUS_CODE } from '@/http/status.ts';
+import { Exception } from '../exception/Exception';
+import { STATUS_CODE } from '../http/status';
 
 export class MailerDecoratorException<T = unknown> extends Exception<T> {
   constructor(

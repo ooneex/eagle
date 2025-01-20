@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { HttpRequest } from '@/request';
+import { HttpRequest } from './HttpRequest';
 
 describe('HttpRequest', () => {
   it('should parse URL and path correctly', () => {

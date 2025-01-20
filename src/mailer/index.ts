@@ -1,6 +1,6 @@
-export { BrevoMailer } from './BrevoMailer.ts';
-export * from './decorators.ts';
-export { DevMailer } from './DevMailer.ts';
-export { MailerDecoratorException } from './MailerDecoratorException.ts';
-export { MailerException } from './MailerException.ts';
-export * from './types.ts';
+export { BrevoMailer } from './BrevoMailer';
+export * from './decorators';
+export { DevMailer } from './DevMailer';
+export { MailerDecoratorException } from './MailerDecoratorException';
+export { MailerException } from './MailerException';
+export * from './types';

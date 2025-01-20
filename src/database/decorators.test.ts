@@ -1,11 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import {
-  DatabaseDecoratorException,
-  RepositoryDecoratorException,
-  database,
-  repository,
-} from '@/database';
+import { container } from '../container';
+import { DatabaseDecoratorException } from './DatabaseDecoratorException';
+import { RepositoryDecoratorException } from './RepositoryDecoratorException';
+import { database, repository } from './decorators';
 
 describe('database decorator', () => {
   it('should register database class with singleton scope by default', () => {

@@ -1,5 +1,5 @@
-import { STATUS_CODE } from '@/http/status.ts';
-import { Exception } from './Exception.ts';
+import { STATUS_CODE } from '../http/status';
+import { Exception } from './Exception';
 
 export class NotFoundException<T = unknown> extends Exception<T> {
   constructor(

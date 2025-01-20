@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { StorageDecoratorException, storage } from '@/storage';
+import { StorageDecoratorException, storage } from '.';
 
 describe('storage decorator', () => {
   it('should throw error if class name does not end with Storage', () => {

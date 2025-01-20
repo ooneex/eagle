@@ -1,11 +1,6 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import {
-  type ISeed,
-  SeedContainer,
-  SeedDecoratorException,
-  seed,
-} from '@/seed';
+import { type ISeed, SeedContainer, SeedDecoratorException, seed } from '.';
+import { container } from '../container';
 
 beforeEach(() => {
   SeedContainer.clear();

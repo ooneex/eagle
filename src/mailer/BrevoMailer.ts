@@ -1,11 +1,3 @@
-import { MailerException } from '@/mailer/MailerException.ts';
-import { mailer } from '@/mailer/decorators.ts';
-import type {
-  BrevoMailerResponseType,
-  DestinationType,
-  IMailer,
-  SenderType,
-} from '@/mailer/types.ts';
 import type {
   SendSmtpEmailAttachmentInner,
   SendSmtpEmailBccInner,
@@ -13,6 +5,14 @@ import type {
   SendSmtpEmailMessageVersionsInner,
   SendSmtpEmailReplyTo,
 } from '@getbrevo/brevo';
+import { MailerException } from './MailerException';
+import { mailer } from './decorators';
+import type {
+  BrevoMailerResponseType,
+  DestinationType,
+  IMailer,
+  SenderType,
+} from './types';
 
 import {
   SendSmtpEmail,

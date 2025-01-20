@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { ValidationException } from '@/validation';
+import { ValidationException } from '.';
+import { STATUS_CODE } from '../http/status';
 
 describe('ValidationException', () => {
   it('should create an exception with default values', () => {

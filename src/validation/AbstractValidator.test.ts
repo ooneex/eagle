@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { AbstractValidator, IsString } from '@/validation';
+import { AbstractValidator, IsString } from '.';
 
 interface ValidatorOptions {
   skipMissingProperties?: boolean;

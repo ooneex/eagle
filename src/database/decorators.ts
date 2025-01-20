@@ -1,7 +1,7 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { DatabaseDecoratorException } from './DatabaseDecoratorException.ts';
-import { RepositoryDecoratorException } from './RepositoryDecoratorException.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { DatabaseDecoratorException } from './DatabaseDecoratorException';
+import { RepositoryDecoratorException } from './RepositoryDecoratorException';
 
 export const database = (options?: {
   scope?: DecoratorScopeType;

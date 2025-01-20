@@ -1,8 +1,8 @@
-import { command } from '@/command/decorators.ts';
-import type { CommandParamType, ICommand } from '@/command/types.ts';
-import { AbstractValidator } from '@/validation/AbstractValidator.ts';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { createService } from './createService.ts';
+import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { command } from '../../decorators';
+import type { CommandParamType, ICommand } from '../../types';
+import { createService } from './createService';
 
 class ServiceValidator extends AbstractValidator {
   @IsString()

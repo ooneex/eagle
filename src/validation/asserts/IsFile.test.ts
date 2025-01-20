@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { RequestFile } from '@/request';
-import { IsFile, validate } from '@/validation';
+import { IsFile, validate } from '..';
+import { RequestFile } from '../../request';
 
 describe('IsFile', () => {
   it('should validate basic file', async () => {

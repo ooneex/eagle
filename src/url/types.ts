@@ -1,5 +1,5 @@
-import type { IReadonlyCollection } from '@/collection/types.ts';
-import type { ScalarType } from '@/types.ts';
+import type { IReadonlyCollection } from '../collection/types';
+import type { ScalarType } from '../types';
 
 export interface IUrl {
   readonly protocol: string;

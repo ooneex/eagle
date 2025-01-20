@@ -1,17 +1,17 @@
 import fs from 'node:fs';
-import { container } from '@/container/container.ts';
 import { isCancel, log } from '@clack/prompts';
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
 import * as icon from 'log-symbols';
-import * as colors from './colors.ts';
-import { CommandContainer } from './container.ts';
-import { ConfirmPrompt } from './prompts/ConfirmPrompt.ts';
-import { InputPrompt } from './prompts/InputPrompt.ts';
-import { MultiSelectPrompt } from './prompts/MultiSelectPrompt.ts';
-import { SelectPrompt } from './prompts/SelectPrompt.ts';
-import { TaskPrompt } from './prompts/TaskPrompt.ts';
-import type { ICommand } from './types.ts';
+import { container } from '../container/container';
+import * as colors from './colors';
+import { CommandContainer } from './container';
+import { ConfirmPrompt } from './prompts/ConfirmPrompt';
+import { InputPrompt } from './prompts/InputPrompt';
+import { MultiSelectPrompt } from './prompts/MultiSelectPrompt';
+import { SelectPrompt } from './prompts/SelectPrompt';
+import { TaskPrompt } from './prompts/TaskPrompt';
+import type { ICommand } from './types';
 
 export const dispatchCommand = async (commandName: string): Promise<void> => {
   const command = CommandContainer.find((c) => c.name === commandName);

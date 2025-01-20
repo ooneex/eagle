@@ -1,12 +1,12 @@
-import type { IReadonlyCollection } from '@/collection/types.ts';
-import type { ControllerMethodType } from '@/controller/types.ts';
-import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
-import type { MimeType } from '@/http/types.ts';
-import type { LocaleType } from '@/locale/locales.ts';
-import type { IStorage } from '@/storage/types.ts';
-import type { ScalarType } from '@/types.ts';
-import type { IUrl } from '@/url/types.ts';
 import type { Cookie as CookieType } from '@std/http/cookie';
+import type { IReadonlyCollection } from '../collection/types';
+import type { ControllerMethodType } from '../controller/types';
+import type { IReadonlyHeader, IUserAgent } from '../header/types';
+import type { MimeType } from '../http/types';
+import type { LocaleType } from '../locale/locales';
+import type { IStorage } from '../storage/types';
+import type { ScalarType } from '../types';
+import type { IUrl } from '../url/types';
 
 export type RequestMethodType = ControllerMethodType;
 

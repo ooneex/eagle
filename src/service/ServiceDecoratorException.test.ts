@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { ServiceDecoratorException } from '@/service';
+import { ServiceDecoratorException } from '.';
+import { STATUS_CODE } from '../http/status';
 
 describe('ServiceDecoratorException', () => {
   it('should create an exception with default values', () => {

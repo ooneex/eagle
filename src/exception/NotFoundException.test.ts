@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { NotFoundException } from '@/exception';
+import { NotFoundException } from './NotFoundException';
 
 describe('NotFoundException Class', () => {
   it('should create NotFoundException with string message', () => {

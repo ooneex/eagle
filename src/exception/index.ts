@@ -1,3 +1,3 @@
-export { Exception } from './Exception.ts';
-export { NotFoundException } from './NotFoundException.ts';
-export * from './types.ts';
+export { Exception } from './Exception';
+export { NotFoundException } from './NotFoundException';
+export * from './types';

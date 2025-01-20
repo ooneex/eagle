@@ -1,6 +1,6 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { ConfigDecoratorException } from './ConfigDecoratorException.ts';
+import { container } from '../container/container';
+import type { DecoratorScopeType } from '../types';
+import { ConfigDecoratorException } from './ConfigDecoratorException';
 
 export const config = (options?: {
   scope?: DecoratorScopeType;

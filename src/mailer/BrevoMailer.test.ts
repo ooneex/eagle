@@ -1,6 +1,4 @@
 import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
-import { container } from '@/container';
-import { BrevoMailer } from '@/mailer';
 import {
   type SendSmtpEmailAttachmentInner,
   type SendSmtpEmailBccInner,
@@ -9,6 +7,8 @@ import {
   type SendSmtpEmailReplyTo,
   TransactionalEmailsApi,
 } from '@getbrevo/brevo';
+import { container } from '../container';
+import { BrevoMailer } from './BrevoMailer';
 
 describe('BrevoMailer', () => {
   let mailer: BrevoMailer;

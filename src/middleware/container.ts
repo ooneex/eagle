@@ -1,4 +1,4 @@
-import { Collection } from '@/collection/Collection.ts';
+import { Collection } from '../collection/Collection';
 import type { MiddlewareEventType, MiddlewareValueType } from './types';
 
 export const MiddlewareContainer: Collection<

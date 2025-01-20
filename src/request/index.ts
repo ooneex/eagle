@@ -1,3 +1,3 @@
-export { HttpRequest } from './HttpRequest.ts';
-export { RequestFile } from './RequestFile.ts';
-export * from './types.ts';
+export { HttpRequest } from './HttpRequest';
+export { RequestFile } from './RequestFile';
+export * from './types';

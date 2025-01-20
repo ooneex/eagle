@@ -1,6 +1,6 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { StorageDecoratorException } from './StorageDecoratorException.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { StorageDecoratorException } from './StorageDecoratorException';
 
 export const storage = (options?: {
   scope?: DecoratorScopeType;

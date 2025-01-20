@@ -1,11 +1,9 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import {
-  ControllerContainer,
-  ControllerNotFoundException,
-  type IController,
-  Route,
-  findRoute,
-} from '@/controller';
+import { ControllerNotFoundException } from './ControllerNotFoundException';
+import { ControllerContainer } from './container';
+import { Route } from './decorators';
+import { findRoute } from './findRoute';
+import type { IController } from './types';
 
 beforeEach(() => {
   ControllerContainer.clear();

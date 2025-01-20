@@ -3,7 +3,7 @@ import type { isCancel } from '@clack/prompts';
 import type { toKebabCase } from '@std/text/to-kebab-case';
 import type { toPascalCase } from '@std/text/to-pascal-case';
 import type * as icon from 'log-symbols';
-import type * as colors from './colors.ts';
+import type * as colors from './colors';
 import type { ConfirmPrompt } from './prompts/ConfirmPrompt';
 import type { InputPrompt } from './prompts/InputPrompt';
 import type { MultiSelectPrompt } from './prompts/MultiSelectPrompt';

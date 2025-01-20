@@ -1,7 +1,7 @@
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
-import { createDatabase } from '../database/createDatabase.ts';
-import { createModule } from '../module/createModule.ts';
+import { createDatabase } from '../database/createDatabase';
+import { createModule } from '../module/createModule';
 
 export const createRepository = async (config: {
   name: string;

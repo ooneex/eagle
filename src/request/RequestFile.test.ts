@@ -1,6 +1,6 @@
 import { describe, expect, it, mock, spyOn } from 'bun:test';
-import type { MimeType } from '@/http';
-import { RequestFile } from '@/request';
+import type { MimeType } from '../http';
+import { RequestFile } from './RequestFile';
 
 describe('RequestFile', () => {
   it('should process file properties correctly', () => {

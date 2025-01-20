@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Jwt } from '@/jwt';
+import { Jwt } from './Jwt';
 
 describe('Jwt', () => {
   const secret = 'test-secret';

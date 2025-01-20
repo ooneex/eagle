@@ -1,6 +1,6 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { ServiceDecoratorException } from './ServiceDecoratorException.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { ServiceDecoratorException } from './ServiceDecoratorException';
 
 export const service = (options?: {
   scope?: DecoratorScopeType;

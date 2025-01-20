@@ -1,7 +1,7 @@
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
 import pluralize from 'pluralize';
-import { createModule } from '../module/createModule.ts';
+import { createModule } from '../module/createModule';
 
 export const createDatabase = async (config: {
   name: string;

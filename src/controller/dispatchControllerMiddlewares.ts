@@ -1,8 +1,8 @@
 import type {
   MiddlewareContextType,
   MiddlewareEventType,
-} from '@/middleware/types.ts';
-import type { ControllerRouteConfigType } from './types.ts';
+} from '../middleware/types';
+import type { ControllerRouteConfigType } from './types';
 
 export const dispatchControllerMiddlewares = async (config: {
   event: Extract<MiddlewareEventType, 'request' | 'response'>;

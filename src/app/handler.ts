@@ -1,21 +1,21 @@
-import { Collection } from '@/collection/Collection.ts';
-import { container } from '@/container/container.ts';
-import { ControllerNotFoundException } from '@/controller/ControllerNotFoundException.ts';
-import { ControllerContainer } from '@/controller/container.ts';
-import { dispatchControllerMiddlewares } from '@/controller/dispatchControllerMiddlewares.ts';
-import { findRoute } from '@/controller/findRoute.ts';
-import type { IController } from '@/controller/types.ts';
-import { Exception } from '@/exception/Exception.ts';
-import { HeaderChecker } from '@/header/HeaderChecker.ts';
-import type { StatusCodeType } from '@/http/types.ts';
-import { dispatchMiddlewares } from '@/middleware/dispatchMiddlewares.ts';
-import type { MiddlewareContextType } from '@/middleware/types.ts';
-import { HttpRequest } from '@/request/HttpRequest.ts';
-import { HttpResponse } from '@/response/HttpResponse.ts';
-import { Role } from '@/security/Role';
-import { UnauthorizedException } from '@/security/UnauthorizedException.ts';
-import { dispatchValidators } from '@/validation/dispatchValidators.ts';
 import type { Server } from 'bun';
+import { Collection } from '../collection/Collection';
+import { container } from '../container/container';
+import { ControllerNotFoundException } from '../controller/ControllerNotFoundException';
+import { ControllerContainer } from '../controller/container';
+import { dispatchControllerMiddlewares } from '../controller/dispatchControllerMiddlewares';
+import { findRoute } from '../controller/findRoute';
+import type { IController } from '../controller/types';
+import { Exception } from '../exception/Exception';
+import { HeaderChecker } from '../header/HeaderChecker';
+import type { StatusCodeType } from '../http/types';
+import { dispatchMiddlewares } from '../middleware/dispatchMiddlewares';
+import type { MiddlewareContextType } from '../middleware/types';
+import { HttpRequest } from '../request/HttpRequest';
+import { HttpResponse } from '../response/HttpResponse';
+import { Role } from '../security/Role';
+import { UnauthorizedException } from '../security/UnauthorizedException';
+import { dispatchValidators } from '../validation/dispatchValidators';
 
 export const handler = async (
   req: Request,

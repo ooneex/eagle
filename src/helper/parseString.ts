@@ -1,4 +1,4 @@
-import { trim } from './trim.ts';
+import { trim } from './trim';
 
 export const parseString = <T = unknown>(text: string): T => {
   if (/^[0-9]+$/.test(text)) {

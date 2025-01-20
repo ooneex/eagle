@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Exception } from '@/exception';
+import { Exception } from './Exception';
 
 describe('Exception Class', () => {
   it('should create Exception with string message', () => {

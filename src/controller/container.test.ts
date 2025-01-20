@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import {
-  ControllerContainer,
-  type ControllerRouteConfigType,
-} from '@/controller';
-import { HttpResponse } from '@/response/HttpResponse';
+
+import { HttpResponse } from '../response';
+import { ControllerContainer } from './container';
+import type { ControllerRouteConfigType } from './types';
 
 describe('ControllerContainer', () => {
   beforeEach(() => {

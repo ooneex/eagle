@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { unitMapper } from './utils.ts';
+import { unitMapper } from './utils';
 
 describe('unitMapper', () => {
   it('should map time units to seconds correctly', () => {

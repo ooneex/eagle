@@ -1,6 +1,6 @@
-import { container } from '@/container/container.ts';
-import { SeedContainer } from './container.ts';
-import type { ISeed } from './types.ts';
+import { container } from '../container';
+import { SeedContainer } from './container';
+import type { ISeed } from './types';
 
 export class Seed {
   public async run(): Promise<void> {

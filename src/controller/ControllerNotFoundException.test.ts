@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { ControllerNotFoundException } from '@/controller';
-import { STATUS_CODE } from '@/http/status.ts';
+import { STATUS_CODE } from '@std/http/status';
+
+import { ControllerNotFoundException } from './ControllerNotFoundException';
 
 describe('ControllerDecoratorException', () => {
   it('should create an exception with default values', () => {

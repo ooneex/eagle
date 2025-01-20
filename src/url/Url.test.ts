@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Url } from '@/url';
+import { Url } from '.';
 
 describe('Url', () => {
   it('should parse a basic URL correctly', () => {

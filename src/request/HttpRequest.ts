@@ -1,21 +1,21 @@
-import { ReadonlyCollection } from '@/collection/ReadonlyCollection.ts';
-import type { IReadonlyCollection } from '@/collection/types.ts';
-import { ReadonlyHeader } from '@/header/ReadonlyHeader.ts';
-import type { IReadonlyHeader, IUserAgent } from '@/header/types.ts';
-import { parseString } from '@/helper/parseString.ts';
-import type { LocaleType } from '@/locale/locales.ts';
-import type { ScalarType } from '@/types.ts';
-import { Url } from '@/url/Url.ts';
-import type { IUrl } from '@/url/types.ts';
 import { type Cookie as CookieType, getSetCookies } from '@std/http/cookie';
 import parser from 'accept-language-parser';
-import { RequestFile } from './RequestFile.ts';
+import { ReadonlyCollection } from '../collection/ReadonlyCollection';
+import type { IReadonlyCollection } from '../collection/types';
+import { ReadonlyHeader } from '../header/ReadonlyHeader';
+import type { IReadonlyHeader, IUserAgent } from '../header/types';
+import { parseString } from '../helper/parseString';
+import type { LocaleType } from '../locale/locales';
+import type { ScalarType } from '../types';
+import { Url } from '../url/Url';
+import type { IUrl } from '../url/types';
+import { RequestFile } from './RequestFile';
 import type {
   IRequest,
   IRequestFile,
   LanguageType,
   RequestMethodType,
-} from './types.ts';
+} from './types';
 
 export class HttpRequest implements IRequest {
   public readonly url: IUrl;

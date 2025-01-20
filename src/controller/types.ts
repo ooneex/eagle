@@ -2,11 +2,11 @@ import type {
   IMiddleware,
   MiddlewareContextType,
   MiddlewareEventType,
-} from '@/middleware/types.ts';
-import type { HttpResponse } from '@/response/HttpResponse.ts';
-import type { ERole } from '@/security/types.ts';
-import type { ScalarType } from '@/types.ts';
-import type { IValidator, ValidatorScopeType } from '@/validation/types.ts';
+} from '../middleware/types';
+import type { HttpResponse } from '../response/HttpResponse';
+import type { ERole } from '../security/types';
+import type { ScalarType } from '../types';
+import type { IValidator, ValidatorScopeType } from '../validation/types';
 
 export type ActionParamType = MiddlewareContextType;
 

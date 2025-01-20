@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { UnauthorizedException } from './UnauthorizedException.ts';
+import { UnauthorizedException } from './UnauthorizedException';
 
 describe('UnauthorizedException', () => {
   it('should create an instance with the correct message and status', () => {

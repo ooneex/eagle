@@ -1,4 +1,4 @@
-import type { BunFile, IStorage, S3File, S3Options } from './types.ts';
+import type { BunFile, IStorage, S3File, S3Options } from './types';
 
 export abstract class AbstractStorage implements IStorage {
   public abstract getOptions(): S3Options;

@@ -1,7 +1,7 @@
 import { describe, expect } from 'bun:test';
-import { CommandDecoratorException } from '@/command';
-import { Exception } from '@/exception';
-import { STATUS_CODE } from '@/http/status.ts';
+import { Exception } from '../exception/Exception';
+import { STATUS_CODE } from '../http/status';
+import { CommandDecoratorException } from './CommandDecoratorException';
 
 describe('CommandDecoratorException - should create instance with message only', () => {
   const message = 'Test error message';

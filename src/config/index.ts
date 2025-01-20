@@ -1,3 +1,3 @@
-export { ConfigDecoratorException } from './ConfigDecoratorException.ts';
-export * from './decorators.ts';
-export * from './types.ts';
+export { ConfigDecoratorException } from './ConfigDecoratorException';
+export * from './decorators';
+export * from './types';

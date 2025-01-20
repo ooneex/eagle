@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { pathToRegexp } from '@/helper';
+import { pathToRegexp } from './pathToRegexp';
 
 describe('pathToRegexp', () => {
   it('should convert simple path to regexp', () => {

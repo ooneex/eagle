@@ -5,7 +5,7 @@ import {
   validateSync,
 } from 'class-validator';
 
-import type { IValidator, ValidationResultType } from './types.ts';
+import type { IValidator, ValidationResultType } from './types';
 
 export abstract class AbstractValidator implements IValidator {
   public async validate(

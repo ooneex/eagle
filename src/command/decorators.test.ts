@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import {
-  CommandContainer,
-  CommandDecoratorException,
-  command,
-} from '@/command';
-import { container } from '@/container';
+import { container } from '../container';
+import { CommandDecoratorException } from './CommandDecoratorException';
+import { CommandContainer } from './container';
+import { command } from './decorators';
 
 describe('Command Decorator', () => {
   it('should register a valid command class in the container', () => {

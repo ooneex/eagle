@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ReadonlyHeader } from '@/header';
+import { ReadonlyHeader } from './ReadonlyHeader';
 
 describe('ReadonlyHeader', () => {
   const createHeader = (entries: [string, string][]) => {

@@ -1,6 +1,6 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { MailerDecoratorException } from './MailerDecoratorException.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { MailerDecoratorException } from './MailerDecoratorException';
 
 export const mailer = (options?: {
   scope?: DecoratorScopeType;

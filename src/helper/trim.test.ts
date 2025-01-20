@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { trim } from '@/helper';
+import { trim } from './trim';
 
 describe('trim', () => {
   it('should trim spaces from both ends by default', () => {

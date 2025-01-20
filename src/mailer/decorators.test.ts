@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
+import { container } from '../container';
 import { MailerDecoratorException } from './MailerDecoratorException';
 import { mailer } from './decorators';
 import type { IMailer } from './types';

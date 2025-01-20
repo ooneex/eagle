@@ -1,5 +1,5 @@
-import { ReadonlyCollection } from './ReadonlyCollection.ts';
-import type { ICollection } from './types.ts';
+import { ReadonlyCollection } from './ReadonlyCollection';
+import type { ICollection } from './types';
 
 export class Collection<K extends string | number = string, V = unknown>
   extends ReadonlyCollection<K, V>

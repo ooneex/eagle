@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { SeedDecoratorException } from '@/seed';
+import { SeedDecoratorException } from '.';
+import { STATUS_CODE } from '../http/status';
 
 describe('SeedDecoratorException', () => {
   it('should create an exception with default values', () => {

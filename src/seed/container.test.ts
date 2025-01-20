@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { SeedContainer } from '@/seed';
+import { SeedContainer } from '.';
 
 describe('SeedContainer', () => {
   beforeEach(() => {

@@ -1,4 +1,4 @@
-export { Header } from './Header.ts';
-export { HeaderChecker } from './HeaderChecker.ts';
-export { ReadonlyHeader } from './ReadonlyHeader.ts';
-export * from './types.ts';
+export { Header } from './Header';
+export { HeaderChecker } from './HeaderChecker';
+export { ReadonlyHeader } from './ReadonlyHeader';
+export * from './types';

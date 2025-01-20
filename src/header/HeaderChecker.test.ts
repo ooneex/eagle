@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { HeaderChecker } from '@/header';
+import { HeaderChecker } from './HeaderChecker';
 
 class TestHeaderChecker extends HeaderChecker {}
 

@@ -1,13 +1,13 @@
+import { UAParser } from 'ua-parser-js';
 import type {
   CharsetType,
   EncodingType,
   HeaderFieldType,
   MethodType,
   MimeType,
-} from '@/http/types.ts';
-import { UAParser } from 'ua-parser-js';
-import { HeaderChecker } from './HeaderChecker.ts';
-import type { IReadonlyHeader, IUserAgent } from './types.ts';
+} from '../http/types';
+import { HeaderChecker } from './HeaderChecker';
+import type { IReadonlyHeader, IUserAgent } from './types';
 
 type MimeReturnType = MimeType | '*/*' | null;
 

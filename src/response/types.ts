@@ -1,8 +1,8 @@
-import type { IReadonlyArrayCollection } from '@/collection/types.ts';
-import type { IHeader } from '@/header/types.ts';
-import type { CharsetType, StatusCodeType } from '@/http/types.ts';
-import type { IRequest } from '@/request/types.ts';
 import type { Cookie as CookieType } from '@std/http/cookie';
+import type { IReadonlyArrayCollection } from '../collection/types';
+import type { IHeader } from '../header/types';
+import type { CharsetType, StatusCodeType } from '../http/types';
+import type { IRequest } from '../request/types';
 
 export interface IResponse {
   readonly header: IHeader;

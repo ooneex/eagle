@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { ArrayCollection } from '@/collection';
+import { ArrayCollection } from '.';
 
 describe('ArrayCollection', () => {
   let collection: ArrayCollection<string>;

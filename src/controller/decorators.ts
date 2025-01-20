@@ -1,16 +1,13 @@
-import { container } from '@/container/container.ts';
-import { pathToRegexp } from '@/helper';
-import { trim } from '@/helper/trim.ts';
-import type { IMiddleware, MiddlewareEventType } from '@/middleware/types.ts';
-import { ERole } from '@/security/types.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import type { IValidator, ValidatorScopeType } from '@/validation/types.ts';
-import { ControllerDecoratorException } from './ControllerDecoratorException.ts';
-import { ControllerContainer } from './container.ts';
-import type {
-  ControllerMethodType,
-  ControllerRouteConfigType,
-} from './types.ts';
+import { container } from '../container/container';
+import { pathToRegexp } from '../helper';
+import { trim } from '../helper/trim';
+import type { IMiddleware, MiddlewareEventType } from '../middleware/types';
+import { ERole } from '../security/types';
+import type { DecoratorScopeType } from '../types';
+import type { IValidator, ValidatorScopeType } from '../validation/types';
+import { ControllerDecoratorException } from './ControllerDecoratorException';
+import { ControllerContainer } from './container';
+import type { ControllerMethodType, ControllerRouteConfigType } from './types';
 
 const path = (
   path: string | string[],

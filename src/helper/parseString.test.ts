@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { parseString } from '@/helper';
+import { parseString } from './parseString';
 
 describe('parseString', () => {
   it('should parse integers', () => {

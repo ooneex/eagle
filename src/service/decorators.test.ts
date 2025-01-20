@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
-import { ServiceDecoratorException, service } from '@/service';
-import type { ScalarType } from '@/types';
+import { ServiceDecoratorException, service } from '.';
+import { container } from '../container';
+import type { ScalarType } from '../types';
 
 describe('service decorator', () => {
   it('should throw error if class name does not end with Service', () => {

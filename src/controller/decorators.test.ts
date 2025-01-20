@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { container } from '@/container';
+import { container } from '../container/container';
+import type { IMiddleware, MiddlewareContextType } from '../middleware';
+import type { HttpResponse } from '../response';
+import { ERole } from '../security';
+import type { IValidator, ValidationResultType } from '../validation';
 import {
   type ActionParamType,
   ControllerContainer,
   ControllerDecoratorException,
   type IController,
   Route,
-} from '@/controller';
-import type { IMiddleware, MiddlewareContextType } from '@/middleware';
-import type { HttpResponse } from '@/response';
-import { ERole } from '@/security';
-import type { IValidator, ValidationResultType } from '@/validation';
+} from './index';
 
 describe('Controller Decorator', () => {
   beforeEach(() => {

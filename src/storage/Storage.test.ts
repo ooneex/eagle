@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
-import { AbstractStorage, storage } from '@/storage';
 import { S3Client, type S3Options } from 'bun';
+import { AbstractStorage, storage } from '.';
 
 @storage()
 class TestStorage extends AbstractStorage {

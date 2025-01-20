@@ -1,7 +1,7 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { SeedDecoratorException } from './SeedDecoratorException.ts';
-import { SeedContainer } from './container.ts';
+import { container } from '../container';
+import type { DecoratorScopeType } from '../types';
+import { SeedDecoratorException } from './SeedDecoratorException';
+import { SeedContainer } from './container';
 
 export const seed = (options?: {
   scope?: DecoratorScopeType;

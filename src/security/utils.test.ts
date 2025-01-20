@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ERole, ROLE_HIERARCHY } from '@/security';
+import { ERole, ROLE_HIERARCHY } from '.';
 
 describe('ROLE_HIERARCHY', () => {
   it('should define correct hierarchy levels', () => {

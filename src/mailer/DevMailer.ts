@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
 import type { Address, Attachment, Headers } from 'nodemailer/lib/mailer';
-import { MailerException } from './MailerException.ts';
-import { mailer } from './decorators.ts';
-import type { IMailer } from './types.ts';
+import { MailerException } from './MailerException';
+import { mailer } from './decorators';
+import type { IMailer } from './types';
 
 @mailer()
 export class DevMailer implements IMailer {

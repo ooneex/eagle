@@ -1,5 +1,5 @@
-import type { ScalarType } from '@/types';
 import { select } from '@clack/prompts';
+import type { ScalarType } from '../../types';
 
 export const SelectPrompt = async (
   message: string,

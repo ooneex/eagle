@@ -1,4 +1,4 @@
-import type { IReadonlyArrayCollection } from './types.ts';
+import type { IReadonlyArrayCollection } from './types';
 
 export class ReadonlyArrayCollection<V = unknown>
   implements IReadonlyArrayCollection<V>

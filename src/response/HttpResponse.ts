@@ -1,5 +1,6 @@
-import { ArrayCollection } from '@/collection/ArrayCollection.ts';
-import { Header } from '@/header/Header.ts';
+import { type Cookie as CookieType, setCookie } from '@std/http/cookie';
+import { ArrayCollection } from '../collection/ArrayCollection';
+import { Header } from '../header/Header';
 import {
   STATUS_TEXT,
   isClientErrorStatus,
@@ -8,11 +9,10 @@ import {
   isRedirectStatus,
   isServerErrorStatus,
   isSuccessfulStatus,
-} from '@/http/status.ts';
-import type { CharsetType, StatusCodeType } from '@/http/types.ts';
-import type { IRequest } from '@/request/types.ts';
-import { type Cookie as CookieType, setCookie } from '@std/http/cookie';
-import type { IResponse } from './types.ts';
+} from '../http/status';
+import type { CharsetType, StatusCodeType } from '../http/types';
+import type { IRequest } from '../request/types';
+import type { IResponse } from './types';
 
 export class HttpResponse implements IResponse {
   private data: Record<string, unknown> | ReadableStream | null = null;

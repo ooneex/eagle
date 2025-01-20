@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
-import { container } from '@/container';
-import { DevMailer } from '@/mailer';
 import nodemailer from 'nodemailer';
+import { container } from '../container';
+import { DevMailer } from './DevMailer';
 
 describe('DevMailer', () => {
   let mailer: DevMailer;

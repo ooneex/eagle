@@ -1,7 +1,7 @@
-import { container } from '@/container/container.ts';
-import type { DecoratorScopeType } from '@/types.ts';
-import { CommandDecoratorException } from './CommandDecoratorException.ts';
-import { CommandContainer } from './container.ts';
+import { container } from '../container/container';
+import type { DecoratorScopeType } from '../types';
+import { CommandDecoratorException } from './CommandDecoratorException';
+import { CommandContainer } from './container';
 
 export const command = (
   description?: string,

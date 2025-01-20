@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'bun:test';
-import { container } from '@/container';
 import {
   type IValidator,
   type ValidationResultType,
   ValidatorContainer,
   ValidatorDecoratorException,
   validator,
-} from '@/validation';
+} from '.';
+import { container } from '../container';
 
 describe('Validator Decorator', () => {
   it('should register a valid validator class in the container', () => {

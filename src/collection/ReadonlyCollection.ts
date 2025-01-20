@@ -1,4 +1,4 @@
-import type { IReadonlyCollection } from './types.ts';
+import type { IReadonlyCollection } from './types';
 
 export class ReadonlyCollection<K extends string | number = string, V = unknown>
   implements IReadonlyCollection<K, V>

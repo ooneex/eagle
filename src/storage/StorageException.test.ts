@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { STATUS_CODE } from '@/http/status.ts';
-import { StorageException } from '@/storage';
+import { StorageException } from '.';
+import { STATUS_CODE } from '../http/status';
 
 describe('StorageException', () => {
   it('should create an exception with default values', () => {

@@ -1,5 +1,5 @@
-import { ReadonlyArrayCollection } from './ReadonlyArrayCollection.ts';
-import type { IArrayCollection } from './types.ts';
+import { ReadonlyArrayCollection } from './ReadonlyArrayCollection';
+import type { IArrayCollection } from './types';
 
 export class ArrayCollection<V = unknown>
   extends ReadonlyArrayCollection<V>

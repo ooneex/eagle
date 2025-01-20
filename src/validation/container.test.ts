@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { ValidatorContainer, type ValidatorScopeType } from '@/validation';
+import { ValidatorContainer, type ValidatorScopeType } from '.';
 
 beforeEach(() => {
   ValidatorContainer.clear();

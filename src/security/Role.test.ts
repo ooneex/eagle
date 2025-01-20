@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ERole, Role } from '@/security';
+import { ERole, Role } from '.';
 
 describe('Role', () => {
   describe('constructor', () => {

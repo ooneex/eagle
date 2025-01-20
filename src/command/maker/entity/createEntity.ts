@@ -2,8 +2,8 @@ import { toSnakeCase } from '@std/text';
 import { toKebabCase } from '@std/text/to-kebab-case';
 import { toPascalCase } from '@std/text/to-pascal-case';
 import pluralize from 'pluralize';
-import { createModule } from '../module/createModule.ts';
-import { createRepository } from '../repository/createRepository.ts';
+import { createModule } from '../module/createModule';
+import { createRepository } from '../repository/createRepository';
 
 export const createEntity = async (config: {
   name: string;

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'bun:test';
-import { Collection } from '@/collection/Collection.ts';
+import { Collection } from '../collection';
+import type { MiddlewareContextType } from '../middleware/types';
 import {
   type ControllerRouteConfigType,
   dispatchControllerMiddlewares,
-} from '@/controller';
-import type { MiddlewareContextType } from '@/middleware/types.ts';
+} from './index';
 
 describe('dispatchControllerMiddlewares', () => {
   it('should execute middlewares in priority order', async () => {
