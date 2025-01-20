@@ -22,7 +22,7 @@ export const createDatabase = async (config: {
   const databaseName = `${toPascalCase(databaseFolder)}Database`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.databaseDir}`;
-  const importContent = `export { ${databaseName} } from './${config.databaseDir}/${databaseName}.ts';`;
+  const importContent = `import './${config.databaseDir}/${databaseName}';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

@@ -21,7 +21,7 @@ export const createMailer = async (config: {
   const mailerName = `${toPascalCase(config.moduleName)}${toPascalCase(mailerFolder)}Mailer`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.mailerDir}`;
-  const importContent = `export { ${mailerName} } from './${config.mailerDir}/${mailerName}.ts';`;
+  const importContent = `import './${config.mailerDir}/${mailerName}';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

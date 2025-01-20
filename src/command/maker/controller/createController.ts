@@ -24,7 +24,7 @@ export const createController = async (config: {
   const controllerName = `${toPascalCase(config.moduleName)}${toPascalCase(controllerFolder)}Controller`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.controllerDir}`;
-  const importContent = `export { ${controllerName} } from './${config.controllerDir}/${controllerName}.ts';`;
+  const importContent = `import './${config.controllerDir}/${controllerName}';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

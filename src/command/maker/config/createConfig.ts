@@ -21,7 +21,7 @@ export const createConfig = async (config: {
   const configName = `${toPascalCase(config.moduleName)}${toPascalCase(configFolder)}Config`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.configDir}`;
-  const importContent = `export { ${configName} } from './${config.configDir}/${configName}.ts';`;
+  const importContent = `import './${config.configDir}/${configName}';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

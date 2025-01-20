@@ -25,7 +25,7 @@ export const createEntity = async (config: {
   const entityName = `${toPascalCase(entityFolder)}Entity`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.entityDir}`;
-  const importContent = `export { ${entityName} } from './${config.entityDir}/${entityName}.ts';`;
+  const importContent = `import './${config.entityDir}/${entityName}';`;
   const entityModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

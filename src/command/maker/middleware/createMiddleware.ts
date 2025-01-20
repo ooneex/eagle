@@ -21,7 +21,7 @@ export const createMiddleware = async (config: {
   const middlewareName = `${toPascalCase(config.moduleName)}${toPascalCase(middlewareFolder)}Middleware`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.middlewareDir}`;
-  const importContent = `export { ${middlewareName} } from './${config.middlewareDir}/${middlewareName}.ts';`;
+  const importContent = `import './${config.middlewareDir}/${middlewareName}';`;
   const configModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );

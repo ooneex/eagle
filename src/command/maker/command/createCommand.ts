@@ -13,7 +13,7 @@ export const createCommand = async (config: {
   const commandName = `${toPascalCase(config.folderName)}${toPascalCase(config.name)}Command`;
 
   await Bun.$`mkdir -p ${config.cwd}/${config.commandDir}/${commandFolder}`;
-  const importContent = `export { ${commandName} } from './${commandFolder}/${commandName}.ts';`;
+  const importContent = `import './${commandFolder}/${commandName}';`;
   const commandModuleFile = Bun.file(
     `${config.cwd}/${config.commandDir}/RootCommand.ts`,
   );

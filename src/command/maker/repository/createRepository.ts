@@ -31,7 +31,7 @@ export const createRepository = async (config: {
   const entityName = `${toPascalCase(repositoryFolder)}Entity`;
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}/${config.repositoryDir}`;
-  const importContent = `export { ${repositoryName} } from './${config.repositoryDir}/${repositoryName}.ts';`;
+  const importContent = `import './${config.repositoryDir}/${repositoryName}';`;
   const repositoryModuleFile = Bun.file(
     `${config.srcDir}/${moduleFolder}/${moduleName}.ts`,
   );
