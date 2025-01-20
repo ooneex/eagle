@@ -20,7 +20,9 @@ export const dispatchValidators = async (
     if (!result.success) {
       throw new ValidationFailedException(
         `${validator.value.name}: Validation failed`,
-        result,
+        {
+          validation: result,
+        },
       );
     }
   }

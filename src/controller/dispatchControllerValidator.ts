@@ -16,7 +16,9 @@ export const dispatchControllerValidator = async (config: {
     if (!result.success) {
       throw new ValidationFailedException(
         `${validator.value.constructor.name}: Validation failed`,
-        result,
+        {
+          validation: result,
+        },
       );
     }
   }
