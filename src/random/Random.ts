@@ -10,6 +10,10 @@ export class Random {
     return customAlphabet('1234567890abcdef', size ?? 10)();
   }
 
+  public static stringInt(size?: number): string {
+    return customAlphabet('1234567890', size ?? 10)();
+  }
+
   public static nanoidFactory(size?: number): (size?: number) => string {
     return customAlphabet('1234567890abcdef', size ?? 10);
   }

@@ -26,6 +26,20 @@ describe('Random', () => {
     });
   });
 
+  describe('stringInt()', () => {
+    it('should generate a string with default length of 10', () => {
+      const randomInt = Random.stringInt();
+      expect(typeof randomInt).toBe('string');
+      expect(randomInt).toMatch(/^[0-9]{10}$/);
+    });
+
+    it('should generate a string with specified length', () => {
+      const randomInt = Random.stringInt(15);
+      expect(typeof randomInt).toBe('string');
+      expect(randomInt).toMatch(/^[0-9]{15}$/);
+    });
+  });
+
   describe('nanoidFactory()', () => {
     it('should return a function that generates ids with default length', () => {
       const generator = Random.nanoidFactory();
