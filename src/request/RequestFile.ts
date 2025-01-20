@@ -33,27 +33,34 @@ export class RequestFile implements IRequestFile {
     this.size = this.native.size;
     const id = Random.nanoid(15);
     this.name = `${id}.${this.extension}`;
-    this.isImage = this.type.startsWith('image/');
+    this.isImage = this.type.toString().startsWith('image/');
     this.isSvg =
-      this.type.startsWith('image/svg+xml') && this.extension === 'svg';
-    this.isVideo = this.type.startsWith('video/');
-    this.isAudio = this.type.startsWith('audio/');
+      this.type.toString().startsWith('image/svg+xml') &&
+      this.extension === 'svg';
+    this.isVideo = this.type.toString().startsWith('video/');
+    this.isAudio = this.type.toString().startsWith('audio/');
     this.isPdf =
-      this.type.startsWith('application/pdf') && this.extension === 'pdf';
+      this.type.toString().startsWith('application/pdf') &&
+      this.extension === 'pdf';
     this.isText =
-      this.type.startsWith('text/plain') && this.extension === 'txt';
-    this.isExcel = this.type.startsWith(
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    );
-    this.isCsv = this.type.startsWith('text/csv') && this.extension === 'csv';
+      this.type.toString().startsWith('text/plain') && this.extension === 'txt';
+    this.isExcel = this.type
+      .toString()
+      .startsWith(
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+    this.isCsv =
+      this.type.toString().startsWith('text/csv') && this.extension === 'csv';
     this.isJson =
-      (this.type.startsWith('application/json') && this.extension === 'json') ||
-      (this.type.startsWith('application/ld+json') &&
+      (this.type.toString().startsWith('application/json') &&
+        this.extension === 'json') ||
+      (this.type.toString().startsWith('application/ld+json') &&
         this.extension === 'jsonld');
     this.isXml =
-      this.type.startsWith('application/xml') && this.extension === 'xml';
+      this.type.toString().startsWith('application/xml') &&
+      this.extension === 'xml';
     this.isHtml =
-      this.type.startsWith('text/html') && this.extension === 'html';
+      this.type.toString().startsWith('text/html') && this.extension === 'html';
   }
 
   public async readAsArrayBuffer(): Promise<ArrayBuffer> {

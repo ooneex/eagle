@@ -23,7 +23,9 @@ export class ReadonlyHeader extends HeaderChecker implements IReadonlyHeader {
       return null;
     }
 
-    const match = contentType.match(/charset *= *(?<charset>[a-z0-9-]+)/i);
+    const match = contentType
+      .toString()
+      .match(/charset *= *(?<charset>[a-z0-9-]+)/i);
 
     if (!match) {
       return null;

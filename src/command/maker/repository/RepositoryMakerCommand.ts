@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createRepository } from './createRepository';
-
-class RepositoryValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class RepositoryMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class RepositoryMakerCommand implements ICommand {
     const repository = await prompt.input('Enter the repository name', {
       placeholder: 'e.g. module/repository',
       validator: (value) => {
-        const result = new RepositoryValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Repository name is required';
         }
 
         if (value.split('/').length !== 2) {

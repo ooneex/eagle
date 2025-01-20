@@ -4,7 +4,7 @@ import type { HTTP_METHODS } from './methods';
 import type { HTTP_PROTOCOLS } from './protocols';
 import type { StatusCode, StatusText } from './status';
 
-export type MimeType = keyof DB;
+export type MimeType = keyof typeof DB;
 
 export type MethodType = (typeof HTTP_METHODS)[number];
 

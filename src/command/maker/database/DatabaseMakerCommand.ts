@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createDatabase } from './createDatabase';
-
-class DatabaseValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class DatabaseMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class DatabaseMakerCommand implements ICommand {
     const database = await prompt.input('Enter the database name', {
       placeholder: 'e.g. module/database',
       validator: (value) => {
-        const result = new DatabaseValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Database name is required';
         }
 
         if (value.split('/').length !== 2) {

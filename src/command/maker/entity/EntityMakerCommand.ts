@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createEntity } from './createEntity';
-
-class EntityValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class EntityMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class EntityMakerCommand implements ICommand {
     const config = await prompt.input('Enter the entity name', {
       placeholder: 'e.g. module/entity',
       validator: (value) => {
-        const result = new EntityValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Entity name is required';
         }
 
         if (value.split('/').length !== 2) {

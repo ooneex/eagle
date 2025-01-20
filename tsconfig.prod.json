@@ -4,14 +4,14 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "moduleResolution": "nodenext",
-    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "target": "ES2022",
+    "moduleResolution": "bundler",
     "module": "ESNext",
     "declaration": true,
     "isolatedModules": true,
     "noEmit": true,
-    "outDir": "dist",
-    "allowImportingTsExtensions": true
+    "outDir": "dist"
   },
   "include": ["src"],
   "exclude": ["node_modules"]

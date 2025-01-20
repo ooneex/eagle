@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createSeed } from './createSeed';
-
-class SeedValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class SeedMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class SeedMakerCommand implements ICommand {
     const seed = await prompt.input('Enter the seed name', {
       placeholder: 'e.g. module/seed',
       validator: (value) => {
-        const result = new SeedValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Seed name is required';
         }
 
         if (value.split('/').length !== 2) {

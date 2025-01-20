@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createConfig } from './createConfig';
-
-class ConfigValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class ConfigMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class ConfigMakerCommand implements ICommand {
     const config = await prompt.input('Enter the config name', {
       placeholder: 'e.g. module/config',
       validator: (value) => {
-        const result = new ConfigValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Config name is required';
         }
 
         if (value.split('/').length !== 2) {

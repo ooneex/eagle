@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createMiddleware } from './createMiddleware';
-
-class MiddlewareValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class MiddlewareMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class MiddlewareMakerCommand implements ICommand {
     const middleware = await prompt.input('Enter the middleware name', {
       placeholder: 'e.g. module/middleware',
       validator: (value) => {
-        const result = new MiddlewareValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Middleware name is required';
         }
 
         if (value.split('/').length !== 2) {

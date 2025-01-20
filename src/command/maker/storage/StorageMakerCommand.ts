@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createStorage } from './createStorage';
-
-class StorageValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class StorageMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class StorageMakerCommand implements ICommand {
     const storage = await prompt.input('Enter the storage name', {
       placeholder: 'e.g. module/storage',
       validator: (value) => {
-        const result = new StorageValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Storage name is required';
         }
 
         if (value.split('/').length !== 2) {

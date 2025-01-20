@@ -1,2 +1,2 @@
-export * from './Eagle.ts';
-export * from './handler.ts';
+export * from './Eagle';
+export * from './handler';

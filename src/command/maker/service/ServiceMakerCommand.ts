@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createService } from './createService';
-
-class ServiceValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class ServiceMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class ServiceMakerCommand implements ICommand {
     const service = await prompt.input('Enter the service name', {
       placeholder: 'e.g. module/service',
       validator: (value) => {
-        const result = new ServiceValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Service name is required';
         }
 
         if (value.split('/').length !== 2) {

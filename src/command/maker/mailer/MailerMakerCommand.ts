@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createMailer } from './createMailer';
-
-class MailerValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class MailerMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class MailerMakerCommand implements ICommand {
     const mailer = await prompt.input('Enter the mailer name', {
       placeholder: 'e.g. module/mailer',
       validator: (value) => {
-        const result = new MailerValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Mailer name is required';
         }
 
         if (value.split('/').length !== 2) {

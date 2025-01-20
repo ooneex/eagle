@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createModule } from './createModule';
-
-class ModuleValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class ModuleMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class ModuleMakerCommand implements ICommand {
     const module = await prompt.input('Enter the module name', {
       placeholder: 'user, product, etc.',
       validator: (value) => {
-        const result = new ModuleValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Module name is required';
         }
 
         const folderName = toKebabCase(value);

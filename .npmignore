@@ -1,11 +1,11 @@
-.github
-.vscode
+/.github
+/.husky
+/.vscode
 .editorconfig
 .gitignore
 biome.jsonc
 bunfig.toml
 Makefile
-.husky
 /src
 tsconfig.types.json
 tsconfig.json

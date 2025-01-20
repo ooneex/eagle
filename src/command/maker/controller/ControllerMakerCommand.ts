@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { AbstractValidator } from '../../../validation/AbstractValidator';
+import { isEmpty } from 'class-validator';
 import { command } from '../../decorators';
 import type { CommandParamType, ICommand } from '../../types';
 import { createController } from './createController';
-
-class ControllerValidator extends AbstractValidator {
-  @IsString()
-  @IsNotEmpty()
-  value: string;
-}
 
 @command()
 export class ControllerMakerCommand implements ICommand {
@@ -26,9 +19,8 @@ export class ControllerMakerCommand implements ICommand {
     const controller = await prompt.input('Enter the controller name', {
       placeholder: 'e.g. module/controller',
       validator: (value) => {
-        const result = new ControllerValidator().validateSync({ value });
-        if (!result.success) {
-          return result.details[0]?.constraints?.[0]?.message;
+        if (isEmpty(value)) {
+          return 'Controller name is required';
         }
 
         if (value.split('/').length !== 2) {

@@ -60,7 +60,10 @@ export class Header extends ReadonlyHeader implements IHeader {
 
   public contentType(value: MimeType, charset: CharsetType = 'UTF-8'): this {
     this.native.delete('Content-Type');
-    this.native.append('Content-Type', `${value}; charset=${charset}`);
+    this.native.append(
+      'Content-Type',
+      `${value.toString()}; charset=${charset.toString()}`,
+    );
 
     return this;
   }
