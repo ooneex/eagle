@@ -6,3 +6,7 @@ biome.jsonc
 bunfig.toml
 Makefile
 .husky
+/src
+tsconfig.types.json
+tsconfig.json
+tsup.config.ts
