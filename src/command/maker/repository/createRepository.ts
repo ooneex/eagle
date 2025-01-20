@@ -8,6 +8,7 @@ export const createRepository = async (config: {
   srcDir: string;
   repositoryDir: string;
   databaseDir: string;
+  entityDir: string;
 }): Promise<{
   repositoryFolder: string;
   repositoryName: string;
@@ -47,8 +48,8 @@ export const createRepository = async (config: {
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.repositoryDir}/${repositoryName}.ts`;
   const content = `import { repository } from '@ooneex/eagle';
-import type { DefaultDatabase } from '@/shared/SharedModule.ts';
-import { ${entityName} } from '@/${moduleFolder}/${moduleName}.ts';
+import type { DefaultDatabase } from '@/shared/${config.databaseDir}/DefaultDatabase';
+import { ${entityName} } from '@/${moduleFolder}/${config.entityDir}/${entityName}';
 import type { FindOptionsWhere } from 'typeorm';
 
 @repository()

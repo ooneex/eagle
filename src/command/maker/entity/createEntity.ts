@@ -41,7 +41,7 @@ export const createEntity = async (config: {
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.entityDir}/${entityName}.ts`;
   const content = `import { Random } from '@ooneex/eagle';
-import { BaseEntity } from '@/shared/SharedModule.ts';
+import { BaseEntity } from '@/shared/${config.entityDir}/BaseEntity';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('${pluralize(toSnakeCase(config.name))}')
@@ -62,6 +62,7 @@ export class ${entityName} extends BaseEntity {
     srcDir: config.srcDir,
     repositoryDir: config.repositoryDir,
     databaseDir: config.databaseDir,
+    entityDir: config.entityDir,
   });
 
   return { entityFolder, entityName, moduleName, moduleFolder };
