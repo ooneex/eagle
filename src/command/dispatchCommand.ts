@@ -1,9 +1,8 @@
 import fs from 'node:fs';
 import { isCancel, log } from '@clack/prompts';
-import { toKebabCase } from '@std/text/to-kebab-case';
-import { toPascalCase } from '@std/text/to-pascal-case';
 import * as icon from 'log-symbols';
 import { container } from '../container/container';
+import { toKebabCase, toPascalCase } from '../helper';
 import * as colors from './colors';
 import { CommandContainer } from './container';
 import { ConfirmPrompt } from './prompts/ConfirmPrompt';

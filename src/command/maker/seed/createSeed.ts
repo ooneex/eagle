@@ -1,5 +1,4 @@
-import { toKebabCase } from '@std/text/to-kebab-case';
-import { toPascalCase } from '@std/text/to-pascal-case';
+import { toKebabCase, toPascalCase } from '../../../helper';
 
 export const createSeed = async (config: {
   name: string;

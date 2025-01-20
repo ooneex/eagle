@@ -1,5 +1,10 @@
-export { toKebabCase } from '@std/text/to-kebab-case';
-export { toPascalCase } from '@std/text/to-pascal-case';
+export { compareSimilarity } from './compareSimilarity';
+export { levenshteinDistance } from './levenshteinDistance';
 export { parseString } from './parseString';
 export { pathToRegexp } from './pathToRegexp';
+export { toKebabCase } from './toKebabCase';
+export { toPascalCase } from './toPascalCase';
+export { toSnakeCase } from './toSnakeCase';
 export { trim } from './trim';
+export { capitalizeWord, splitToWords } from './utils';
+export { wordSimilaritySort } from './wordSimilaritySort';

@@ -1,7 +1,5 @@
-import { toSnakeCase } from '@std/text';
-import { toKebabCase } from '@std/text/to-kebab-case';
-import { toPascalCase } from '@std/text/to-pascal-case';
 import pluralize from 'pluralize';
+import { toKebabCase, toPascalCase, toSnakeCase } from '../../../helper';
 import { createModule } from '../module/createModule';
 import { createRepository } from '../repository/createRepository';
 

@@ -17,5 +17,5 @@
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "cSpell.words": ["getbrevo", "Transac", "typedi"]
+  "cSpell.words": ["getbrevo", "levenshtein", "Transac", "typedi"]
 }

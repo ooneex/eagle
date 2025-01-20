@@ -1,6 +1,6 @@
 import { intro, outro } from '@clack/prompts';
-import { toKebabCase } from '@std/text';
 import autocomplete, { Separator } from 'inquirer-autocomplete-standalone';
+import { toKebabCase } from '../helper';
 import { bgBrightBlue, bgBrightGreen, black } from './colors';
 import { CommandContainer } from './container';
 import { dispatchCommand } from './dispatchCommand';

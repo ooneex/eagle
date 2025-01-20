@@ -1,8 +1,7 @@
 import type fs from 'node:fs';
 import type { isCancel } from '@clack/prompts';
-import type { toKebabCase } from '@std/text/to-kebab-case';
-import type { toPascalCase } from '@std/text/to-pascal-case';
 import type * as icon from 'log-symbols';
+import type { toKebabCase, toPascalCase } from '../helper';
 import type * as colors from './colors';
 import type { ConfirmPrompt } from './prompts/ConfirmPrompt';
 import type { InputPrompt } from './prompts/InputPrompt';

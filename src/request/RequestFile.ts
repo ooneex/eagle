@@ -1,4 +1,4 @@
-import { toKebabCase } from '@std/text/to-kebab-case';
+import { toKebabCase } from '../helper';
 import type { MimeType } from '../http';
 import { Random } from '../random/Random';
 import type { IStorage } from '../storage/types';
