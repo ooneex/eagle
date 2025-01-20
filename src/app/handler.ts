@@ -71,6 +71,9 @@ export const handler = async (
       formData,
       params: routeConfig.params,
     });
+
+    // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+    console.log(routeConfig);
     const controller = container.get<IController>(routeConfig.value);
     context = await dispatchControllerMiddlewares({
       event: 'request',

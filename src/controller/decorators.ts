@@ -29,10 +29,8 @@ const path = (
 
     if (config?.scope === 'singleton') {
       container.bind(controller).toSelf().inSingletonScope();
-    } else if (config?.scope === 'transient') {
-      container.bind(controller).toSelf().inTransientScope();
     } else {
-      container.bind(controller).toSelf().inRequestScope();
+      container.bind(controller).toSelf().inTransientScope();
     }
 
     // biome-ignore lint/performance/noDelete: trust me
