@@ -4,7 +4,7 @@ import type { IReadonlyCollection } from '../collection/types';
 import { ReadonlyHeader } from '../header/ReadonlyHeader';
 import type { IReadonlyHeader, IUserAgent } from '../header/types';
 import { parseString } from '../helper/parseString';
-import { type Cookie as CookieType, getSetCookies } from '../http/cookie';
+import { type Cookie, getSetCookies } from '../http/cookie';
 import type { LocaleType } from '../locale/locales';
 import type { ScalarType } from '../types';
 import { Url } from '../url/Url';
@@ -31,7 +31,7 @@ export class HttpRequest implements IRequest {
   public readonly referer: string | null;
   public readonly server: string | null;
   public readonly bearerToken: string | null;
-  public readonly cookies: IReadonlyCollection<string, CookieType>;
+  public readonly cookies: IReadonlyCollection<string, Cookie>;
   public readonly files: IReadonlyCollection<string, IRequestFile>;
   public readonly form: IReadonlyCollection<string, unknown>;
   public readonly lang: LanguageType | null = null;
@@ -70,7 +70,7 @@ export class HttpRequest implements IRequest {
     this.bearerToken = this.header.getBearerToken();
 
     const cookies = getSetCookies(this.native.headers);
-    const cookiesArray: [string, CookieType][] = [];
+    const cookiesArray: [string, Cookie][] = [];
     for (const cookie of cookies) {
       cookie.value = parseString(`${cookie.value}`);
       cookiesArray.push([cookie.name, cookie]);
