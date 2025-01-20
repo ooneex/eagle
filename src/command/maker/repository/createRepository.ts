@@ -54,7 +54,10 @@ import type { FindOptionsWhere } from 'typeorm';
 
 @repository()
 export class ${repositoryName} {
-  constructor(private readonly database: DefaultDatabase) {}
+  constructor(
+    @inject(DefaultDatabase)
+    private readonly database: DefaultDatabase,
+  ) {}
 
   public async find(id: string): Promise<${entityName} | null> {
     const userRepository = await this.database.getRepository(${entityName});
