@@ -271,7 +271,51 @@ const setMethod = (
   };
 };
 
-export const Route: Record<string, any> = {
+export type RouteType = {
+  path: typeof path;
+  host: typeof host;
+  ip: typeof ip;
+  middleware: typeof middleware;
+  validator: typeof validator;
+  delete: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  head: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  get: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  options: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  patch: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  post: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  put: (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ) => ClassDecorator;
+  notFound: () => ClassDecorator;
+  serverException: () => ClassDecorator;
+  role: {
+    anonymous: () => ClassDecorator;
+    user: () => ClassDecorator;
+    admin: () => ClassDecorator;
+    master: () => ClassDecorator;
+  };
+};
+
+export const Route: RouteType = {
   path,
   host,
   ip,
