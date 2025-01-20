@@ -33,8 +33,9 @@ const path = (
       container.bind(controller).toSelf().inTransientScope();
     }
 
-    // biome-ignore lint/performance/noDelete: trust me
-    delete config?.scope;
+    if (config) {
+      config.scope = undefined;
+    }
 
     const definition = ControllerContainer.get(
       name,
@@ -241,12 +242,24 @@ const serverException = (): ClassDecorator => {
 
 const setMethod = (
   methods: ControllerMethodType[],
-): ((path: string) => ClassDecorator) => {
-  return (path: string): ClassDecorator => {
+): ((
+  path: string,
+  config?: { scope?: DecoratorScopeType },
+) => ClassDecorator) => {
+  return (
+    path: string,
+    config?: { scope?: DecoratorScopeType },
+  ): ClassDecorator => {
     return (controller: any) => {
       ensureIsController(controller);
       const name = controller.prototype.constructor.name;
       ensureInitialData(controller, { name });
+
+      if (config?.scope === 'singleton') {
+        container.bind(controller).toSelf().inSingletonScope();
+      } else {
+        container.bind(controller).toSelf().inTransientScope();
+      }
 
       const definition = ControllerContainer.get(
         name,
