@@ -16,7 +16,10 @@ export abstract class AbstractValidator implements IValidator {
       (this as Record<string, unknown>)[key] = value;
     }
 
-    const errors = await validate(this, validatorOptions);
+    const errors = await validate(this, {
+      ...validatorOptions,
+      whitelist: true,
+    });
     return this.parseResult(errors);
   }
 

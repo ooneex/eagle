@@ -4,6 +4,7 @@ import { container } from '../container/container';
 import { ControllerNotFoundException } from '../controller/ControllerNotFoundException';
 import { ControllerContainer } from '../controller/container';
 import { dispatchControllerMiddlewares } from '../controller/dispatchControllerMiddlewares';
+import { dispatchControllerValidator } from '../controller/dispatchControllerValidator';
 import { findRoute } from '../controller/findRoute';
 import type { IController } from '../controller/types';
 import { Exception } from '../exception/Exception';
@@ -99,12 +100,51 @@ export const handler = async (
       }
     }
 
-    await dispatchValidators('payload', context.request.payload.toJson());
-    await dispatchValidators('params', context.request.params.toJson());
-    await dispatchValidators('queries', context.request.queries.toJson());
-    await dispatchValidators('cookies', context.request.cookies.toJson());
-    await dispatchValidators('files', context.request.files.toJson());
-    await dispatchValidators('form', context.request.form.toJson());
+    const requestPayload = context.request.payload.toJson();
+    const requestParams = context.request.params.toJson();
+    const requestQueries = context.request.queries.toJson();
+    const requestCookies = context.request.cookies.toJson();
+    const requestFiles = context.request.files.toJson();
+    const requestForm = context.request.form.toJson();
+
+    await dispatchValidators('payload', requestPayload);
+    await dispatchValidators('params', requestParams);
+    await dispatchValidators('queries', requestQueries);
+    await dispatchValidators('cookies', requestCookies);
+    await dispatchValidators('files', requestFiles);
+    await dispatchValidators('form', requestForm);
+
+    await dispatchControllerValidator({
+      dataScope: 'payload',
+      data: requestPayload,
+      routeConfig,
+    });
+    await dispatchControllerValidator({
+      dataScope: 'params',
+      data: requestParams,
+      routeConfig,
+    });
+    await dispatchControllerValidator({
+      dataScope: 'queries',
+      data: requestQueries,
+      routeConfig,
+    });
+    await dispatchControllerValidator({
+      dataScope: 'cookies',
+      data: requestCookies,
+      routeConfig,
+    });
+    await dispatchControllerValidator({
+      dataScope: 'files',
+      data: requestFiles,
+      routeConfig,
+    });
+    await dispatchControllerValidator({
+      dataScope: 'form',
+      data: requestForm,
+      routeConfig,
+    });
+
     context.response = await controller.action(context);
     context = await dispatchControllerMiddlewares({
       event: 'response',
