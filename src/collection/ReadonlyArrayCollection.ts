@@ -37,8 +37,8 @@ export class ReadonlyArrayCollection<V = unknown>
     return Array.from(this.data).filter(fn);
   }
 
-  public toJson(): V[] {
-    return Array.from(this.data);
+  public toJson<T extends V[]>(): T {
+    return Array.from(this.data) as T;
   }
 
   [Symbol.iterator](): IterableIterator<V> {

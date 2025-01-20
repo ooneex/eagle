@@ -61,12 +61,12 @@ export class ReadonlyCollection<K extends string | number = string, V = unknown>
     return results;
   }
 
-  public toJson(): Record<K, V> {
+  public toJson<T extends Record<K, V>>(): T {
     const data: Record<string | number, unknown> = {};
     for (const [key, value] of this) {
       data[key] = value;
     }
-    return data as Record<K, V>;
+    return data as T;
   }
 
   [Symbol.iterator](): IterableIterator<[K, V]> {

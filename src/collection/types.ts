@@ -12,7 +12,7 @@ export interface IReadonlyCollection<
   find: (fn: (key: K, value: V) => boolean) => { key: K; value: V } | null;
   filter: (fn: (key: K, value: V) => boolean) => { key: K; value: V }[];
   [Symbol.iterator](): IterableIterator<[K, V]>;
-  toJson: () => Record<K, V>;
+  toJson: <T extends Record<K, V>>() => T;
 }
 
 export interface IReadonlyArrayCollection<V = unknown> {
@@ -23,7 +23,7 @@ export interface IReadonlyArrayCollection<V = unknown> {
   find: (fn: (value: V) => boolean) => V | null;
   filter: (fn: (value: V) => boolean) => V[];
   [Symbol.iterator](): IterableIterator<V>;
-  toJson: () => V[];
+  toJson: <T extends V[]>() => T;
 }
 
 export interface ICollection<K extends string | number = string, V = unknown>
