@@ -4,9 +4,9 @@ export interface IPermission {
 }
 
 export enum ERole {
-  USER = 1,
-  ADMIN = 2,
-  MASTER = 3,
+  USER = 'ROLE_USER',
+  ADMIN = 'ROLE_ADMIN',
+  MASTER = 'ROLE_MASTER',
 }
 
 export interface IUser {

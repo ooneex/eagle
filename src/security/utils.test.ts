@@ -35,9 +35,8 @@ describe('ROLE_HIERARCHY', () => {
   });
 
   it('should include all roles from ERole enum', () => {
-    // biome-ignore lint/suspicious/noGlobalIsNan: <explanation>
-    const roleValues = Object.values(ERole).filter((v) => !isNaN(Number(v)));
-    const hierarchyKeys = Object.keys(ROLE_HIERARCHY).map(Number);
+    const roleValues = Object.values(ERole);
+    const hierarchyKeys = Object.keys(ROLE_HIERARCHY);
 
     expect(hierarchyKeys.length).toBe(roleValues.length);
     for (const role of roleValues) {
