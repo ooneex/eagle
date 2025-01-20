@@ -154,6 +154,8 @@ export const handler = async (
     context = await dispatchMiddlewares('response', context);
     return context.response.build(context.request);
   } catch (e) {
+    console.debug(e);
+
     if (e instanceof ControllerNotFoundException) {
       const def = ControllerContainer.get<{ value: IController }>(
         'NotFoundController',
