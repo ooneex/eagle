@@ -308,7 +308,7 @@ export type RouteType = {
   notFound: () => ClassDecorator;
   serverException: () => ClassDecorator;
   role: {
-    anonymous: () => ClassDecorator;
+    guest: () => ClassDecorator;
     user: () => ClassDecorator;
     admin: () => ClassDecorator;
     master: () => ClassDecorator;
@@ -331,7 +331,7 @@ export const Route: RouteType = {
   notFound,
   serverException,
   role: {
-    anonymous: setRole([]),
+    guest: setRole([ERole.GUEST]),
     user: setRole([ERole.USER]),
     admin: setRole([ERole.ADMIN]),
     master: setRole([ERole.MASTER]),

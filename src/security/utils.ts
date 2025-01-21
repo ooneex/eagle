@@ -4,4 +4,5 @@ export const ROLE_HIERARCHY: Record<ERole, number> = {
   [ERole.MASTER]: 1,
   [ERole.ADMIN]: 2,
   [ERole.USER]: 3,
+  [ERole.GUEST]: 4,
 };

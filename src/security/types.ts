@@ -4,6 +4,7 @@ export interface IPermission {
 }
 
 export enum ERole {
+  GUEST = 'ROLE_GUEST',
   USER = 'ROLE_USER',
   ADMIN = 'ROLE_ADMIN',
   MASTER = 'ROLE_MASTER',
@@ -22,9 +23,10 @@ export interface IUser {
 export interface IRole {
   get: () => ERole[];
   has: (role: ERole | IRole) => boolean;
-  isSuperAdmin: () => boolean;
+  isMaster: () => boolean;
   isAdmin: () => boolean;
   isUser: () => boolean;
+  isGuest: () => boolean;
 }
 
 export interface IAuth {

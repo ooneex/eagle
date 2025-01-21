@@ -54,9 +54,9 @@ describe('Role', () => {
   });
 
   describe('role-specific checks', () => {
-    it('should correctly check for SUPER_ADMIN', () => {
+    it('should correctly check for MASTER', () => {
       const role = new Role([ERole.MASTER]);
-      expect(role.isSuperAdmin()).toBe(true);
+      expect(role.isMaster()).toBe(true);
       expect(role.isUser()).toBe(true);
     });
 
@@ -68,6 +68,11 @@ describe('Role', () => {
     it('should correctly check for USER', () => {
       const role = new Role([ERole.USER]);
       expect(role.isUser()).toBe(true);
+    });
+
+    it('should correctly check for GUEST', () => {
+      const role = new Role([ERole.GUEST]);
+      expect(role.isGuest()).toBe(true);
     });
   });
 });

@@ -83,7 +83,7 @@ export class ControllerMakerCommand implements ICommand {
     const role = (await prompt.select(
       'Select the role',
       [
-        { value: 'anonymous', label: 'Anonymous' },
+        { value: 'guest', label: 'Guest' },
         { value: 'user', label: 'User' },
         { value: 'admin', label: 'Admin' },
         { value: 'master', label: 'Master' },

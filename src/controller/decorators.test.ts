@@ -496,16 +496,16 @@ describe('Controller Decorator', () => {
   });
 
   it('should register public role decorator', () => {
-    @Route.role.anonymous()
-    class PublicController implements IController {
+    @Route.role.guest()
+    class GuestController implements IController {
       public action({ response }: ActionParamType): HttpResponse {
         return response;
       }
     }
 
-    const controller = ControllerContainer.get(PublicController.name);
+    const controller = ControllerContainer.get(GuestController.name);
     expect(controller).toBeDefined();
-    expect(controller?.roles).toEqual([]);
+    expect(controller?.roles).toEqual([ERole.GUEST]);
   });
 
   it('should register user role decorator', () => {

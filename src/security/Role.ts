@@ -30,7 +30,7 @@ export class Role implements IRole {
     );
   }
 
-  public isSuperAdmin(): boolean {
+  public isMaster(): boolean {
     return this.has(ERole.MASTER);
   }
 
@@ -40,6 +40,10 @@ export class Role implements IRole {
 
   public isUser(): boolean {
     return this.has(ERole.USER);
+  }
+
+  public isGuest(): boolean {
+    return this.has(ERole.GUEST);
   }
 
   private checkRole(role: ERole, requiredRole: ERole): boolean {
