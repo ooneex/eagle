@@ -3,7 +3,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.65",
+  "version": "0.0.66",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -23,7 +23,12 @@
   "bugs": {
     "url": "https://github.com/ooneex/eagle/issues"
   },
-  "keywords": ["bun", "framework", "api", "rest"],
+  "keywords": [
+    "bun",
+    "framework",
+    "api",
+    "rest"
+  ],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@clack/prompts": "^0.9.1",
@@ -54,5 +59,8 @@
   },
   "author": "Ooneex",
   "license": "MIT",
-  "files": ["dist/**/*.js", "dist/**/*.d.ts"]
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ]
 }

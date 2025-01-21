@@ -1,6 +1,6 @@
-import { toKebabCase, toPascalCase } from '../../../helper';
-import { createDatabase } from '../database/createDatabase';
-import { createModule } from '../module/createModule';
+import { toKebabCase, toPascalCase } from "../../../helper";
+import { createDatabase } from "../database/createDatabase";
+import { createModule } from "../module/createModule";
 
 export const createRepository = async (config: {
   name: string;
@@ -21,8 +21,8 @@ export const createRepository = async (config: {
   });
 
   await createDatabase({
-    name: 'default',
-    moduleName: 'shared',
+    name: "default",
+    moduleName: "shared",
     srcDir: config.srcDir,
     databaseDir: config.databaseDir,
   });
@@ -50,7 +50,7 @@ export const createRepository = async (config: {
   const content = `import { repository } from '@ooneex/eagle';
 import type { DefaultDatabase } from '@/shared/${config.databaseDir}/DefaultDatabase';
 import { ${entityName} } from '@/${moduleFolder}/${config.entityDir}/${entityName}';
-import type { FindOptionsWhere } from 'typeorm';
+import type { FindOptionsWhere, UpdateResult } from 'typeorm';
 
 @repository()
 export class ${repositoryName} {
@@ -99,16 +99,16 @@ export class ${repositoryName} {
     return userRepository.save(user);
   }
 
-  public async delete(id: string): Promise<void> {
+  public async delete(id: string): Promise<UpdateResult> {
     const userRepository = await this.database.getRepository(${entityName});
 
-    await userRepository.softDelete({ id });
+    return await userRepository.softDelete({ id });
   }
 
-  public async deleteBy(where: FindOptionsWhere<${entityName}>): Promise<void> {
+  public async deleteBy(where: FindOptionsWhere<${entityName}>): Promise<UpdateResult> {
     const userRepository = await this.database.getRepository(${entityName});
 
-    await userRepository.softDelete(where);
+    return await userRepository.softDelete(where);
   }
 }
 `;
