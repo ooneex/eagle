@@ -6,7 +6,7 @@ import { CommandContainer } from './container';
 import { dispatchCommand } from './dispatchCommand';
 
 export class Command {
-  public async execute(): Promise<void> {
+  public async run(): Promise<void> {
     const commands = CommandContainer.toJson()
       .map((c: any) => ({
         value: c.name,
