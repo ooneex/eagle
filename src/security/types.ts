@@ -13,7 +13,7 @@ export interface IUser {
   getId: () => string | null;
   getUsername: () => string;
   getRole: () => IRole;
-  isSuperAdmin: () => boolean;
+  isMaster: () => boolean;
   isAdmin: () => boolean;
   isUser: () => boolean;
   isGuest: () => boolean;
