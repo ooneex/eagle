@@ -12,6 +12,7 @@ import {
 } from '../http/status';
 import type { CharsetType, StatusCodeType } from '../http/types';
 import type { IRequest } from '../request/types';
+import { ERole, type IUser } from '../security/types';
 import type { IResponse } from './types';
 
 export class HttpResponse implements IResponse {
@@ -110,7 +111,7 @@ export class HttpResponse implements IResponse {
     return this.data;
   }
 
-  public build(request?: IRequest): Response {
+  public build(request?: IRequest, user?: IUser): Response {
     for (const cookie of this.cookies) {
       setCookie(this.header.native, cookie);
     }
@@ -135,6 +136,15 @@ export class HttpResponse implements IResponse {
       method: request?.method,
       path: request?.path,
       lang: request?.lang,
+      user: {
+        id: user?.getId() ?? null,
+        username: user?.getUsername() ?? null,
+        roles: user?.getRole().get() ?? [ERole.GUEST],
+        isMaster: user?.isMaster() ?? false,
+        isAdmin: user?.isAdmin() ?? false,
+        isUser: user?.isUser() ?? false,
+        isGuest: user?.isGuest() ?? true,
+      },
     };
 
     return new Response(JSON.stringify(data), responseOptions);

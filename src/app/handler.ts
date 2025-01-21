@@ -149,7 +149,7 @@ export const handler = async (
       routeConfig,
     });
     context = await dispatchMiddlewares('response', context);
-    return context.response.build(context.request);
+    return context.response.build(context.request, context.user);
   } catch (e) {
     console.debug(e);
 
@@ -160,11 +160,11 @@ export const handler = async (
       if (!def) {
         return context.response
           .notFound(e.message, e.data)
-          .build(context.request);
+          .build(context.request, context.user);
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response.build(context.request);
+      return context.response.build(context.request, context.user);
     }
 
     if (e instanceof Exception) {
@@ -174,13 +174,15 @@ export const handler = async (
       if (!def) {
         return context.response
           .exception(e.message, e.data, e.status as StatusCodeType)
-          .build(context.request);
+          .build(context.request, context.user);
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response.build(context.request);
+      return context.response.build(context.request, context.user);
     }
 
-    return response.exception((e as Error).message).build(context.request);
+    return response
+      .exception((e as Error).message)
+      .build(context.request, context.user);
   }
 };
