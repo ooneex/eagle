@@ -26,13 +26,13 @@ export const createSeed = async (config: {
   }
 
   const fileName = `${config.cwd}/${config.seedDir}/${seedFolder}/${seedName}.ts`;
-  const content = `import { type ISeed, seed } from '@ooneex/eagle';
+  const content = `import { type ISeed, seed, type SeedParamType } from '@ooneex/eagle';
 
 @seed({ order: 1 })
 export class ${seedName} implements ISeed {
-  public async execute<T = unknown>(previousData?: T): Promise<T> {
+  public async execute<T = unknown>(context: SeedParamType): Promise<T> {
     // code goes here
-    return previousData as T;
+    return context.previousData as T;
   }
 }
 `;
