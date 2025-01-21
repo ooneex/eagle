@@ -84,19 +84,16 @@ export const handler = async (
       const user = context.user;
       const role = new Role(routeConfig.roles ?? []);
       if (!user.getRole().has(role)) {
-        throw new UnauthorizedException(
-          'User does not have the required roles',
-          {
-            user: {
-              id: user.getId(),
-              username: user.getUsername(),
-              roles: user.getRole(),
-            },
-            route: {
-              roles: routeConfig.roles,
-            },
+        throw new UnauthorizedException('Access unauthorized', {
+          user: {
+            id: user.getId(),
+            username: user.getUsername(),
+            roles: user.getRole(),
           },
-        );
+          route: {
+            roles: routeConfig.roles,
+          },
+        });
       }
     }
 
