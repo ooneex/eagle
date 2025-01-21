@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Jwt } from './Jwt';
+import type { JwtExpiresInType } from './types';
 
 describe('Jwt', () => {
   const secret = 'test-secret';
@@ -9,7 +10,7 @@ describe('Jwt', () => {
       sub: 'user123',
       iss: 'test-issuer',
       aud: 'test-audience',
-      exp: '1h',
+      exp: '1h' as JwtExpiresInType,
     },
   };
 

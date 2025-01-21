@@ -14,7 +14,7 @@ export type JwtDefaultPayloadType = {
   aud?: string | string[];
   jti?: string;
   nbf?: number | string | Date;
-  exp?: number | string | Date;
+  exp?: number | JwtExpiresInType | Date;
   iat?: number | string | Date;
 };
 
