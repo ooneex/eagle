@@ -9,6 +9,7 @@ export type MiddlewareContextType = {
   store: Collection<string, any>;
   exception?: Error;
   user?: IUser;
+  isAuthenticated?: boolean;
 };
 
 export const MiddlewareEvents = [

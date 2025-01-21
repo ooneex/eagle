@@ -141,7 +141,6 @@ export const handler = async (
       data: requestForm,
       routeConfig,
     });
-
     context.response = await controller.action(context);
     context = await dispatchControllerMiddlewares({
       event: 'response',
@@ -149,7 +148,10 @@ export const handler = async (
       routeConfig,
     });
     context = await dispatchMiddlewares('response', context);
-    return context.response.build(context.request, context.user);
+    return context.response.build(context.request, {
+      user: context.user,
+      isAuthenticated: context.isAuthenticated,
+    });
   } catch (e) {
     console.debug(e);
 
@@ -160,11 +162,17 @@ export const handler = async (
       if (!def) {
         return context.response
           .notFound(e.message, e.data)
-          .build(context.request, context.user);
+          .build(context.request, {
+            user: context.user,
+            isAuthenticated: context.isAuthenticated,
+          });
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response.build(context.request, context.user);
+      return context.response.build(context.request, {
+        user: context.user,
+        isAuthenticated: context.isAuthenticated,
+      });
     }
 
     if (e instanceof Exception) {
@@ -174,15 +182,22 @@ export const handler = async (
       if (!def) {
         return context.response
           .exception(e.message, e.data, e.status as StatusCodeType)
-          .build(context.request, context.user);
+          .build(context.request, {
+            user: context.user,
+            isAuthenticated: context.isAuthenticated,
+          });
       }
       const controller = def.value;
       context.response = await controller.action(context);
-      return context.response.build(context.request, context.user);
+      return context.response.build(context.request, {
+        user: context.user,
+        isAuthenticated: context.isAuthenticated,
+      });
     }
 
-    return response
-      .exception((e as Error).message)
-      .build(context.request, context.user);
+    return response.exception((e as Error).message).build(context.request, {
+      user: context.user,
+      isAuthenticated: context.isAuthenticated,
+    });
   }
 };

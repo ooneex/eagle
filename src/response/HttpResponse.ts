@@ -111,7 +111,10 @@ export class HttpResponse implements IResponse {
     return this.data;
   }
 
-  public build(request?: IRequest, user?: IUser): Response {
+  public build(
+    request?: IRequest,
+    cxt?: { user?: IUser; isAuthenticated?: boolean },
+  ): Response {
     for (const cookie of this.cookies) {
       setCookie(this.header.native, cookie);
     }
@@ -137,14 +140,15 @@ export class HttpResponse implements IResponse {
       path: request?.path,
       lang: request?.lang,
       user: {
-        id: user?.getId() ?? null,
-        username: user?.getUsername() ?? null,
-        roles: user?.getRole().get() ?? [ERole.GUEST],
-        isMaster: user?.isMaster() ?? false,
-        isAdmin: user?.isAdmin() ?? false,
-        isUser: user?.isUser() ?? false,
-        isGuest: user?.isGuest() ?? true,
+        id: cxt?.user?.getId() ?? null,
+        username: cxt?.user?.getUsername() ?? null,
+        roles: cxt?.user?.getRole().get() ?? [ERole.GUEST],
+        isMaster: cxt?.user?.isMaster() ?? false,
+        isAdmin: cxt?.user?.isAdmin() ?? false,
+        isUser: cxt?.user?.isUser() ?? false,
+        isGuest: cxt?.user?.isGuest() ?? true,
       },
+      isAuthenticated: cxt?.isAuthenticated ?? false,
     };
 
     return new Response(JSON.stringify(data), responseOptions);
