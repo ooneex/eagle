@@ -10,7 +10,7 @@ describe('Config Decorator', () => {
     class TestConfig implements IConfig {
       public value = 'test';
 
-      public toJson() {
+      public toJson(): any {
         return { value: this.value };
       }
     }
@@ -24,7 +24,7 @@ describe('Config Decorator', () => {
   it('should register config class with transient scope', () => {
     @config({ scope: 'transient' })
     class TransientScopedConfig implements IConfig {
-      public toJson() {
+      public toJson(): any {
         return {};
       }
     }
@@ -43,7 +43,7 @@ describe('Config Decorator', () => {
   it('should register config class with singleton scope by default', () => {
     @config()
     class SingletonScopedConfig implements IConfig {
-      public toJson() {
+      public toJson(): any {
         return {};
       }
     }
@@ -82,7 +82,7 @@ describe('Config Decorator', () => {
   it('should properly inject dependencies in config classes', () => {
     @config()
     class DependencyConfig implements IConfig {
-      public toJson() {
+      public toJson(): any {
         return {};
       }
     }
@@ -91,7 +91,7 @@ describe('Config Decorator', () => {
     class InjectedConfig implements IConfig {
       constructor(public dependency: DependencyConfig) {}
 
-      public toJson() {
+      public toJson(): any {
         return {};
       }
     }
