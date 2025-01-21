@@ -23,12 +23,7 @@
   "bugs": {
     "url": "https://github.com/ooneex/eagle/issues"
   },
-  "keywords": [
-    "bun",
-    "framework",
-    "api",
-    "rest"
-  ],
+  "keywords": ["bun", "framework", "api", "rest"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@clack/prompts": "^0.9.1",
@@ -59,8 +54,5 @@
   },
   "author": "Ooneex",
   "license": "MIT",
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.d.ts"
-  ]
+  "files": ["dist/**/*.js", "dist/**/*.d.ts"]
 }
