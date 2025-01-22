@@ -11,6 +11,8 @@ export type SeedParamType = {
     step: (message: string) => void;
     success: (message: string) => void;
     warning: (message: string) => void;
+    intro: (message: string) => void;
+    outro: (message: string) => void;
   };
   color: typeof colors;
   icon: typeof icon.default;
