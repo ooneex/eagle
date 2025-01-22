@@ -6,6 +6,7 @@ import { SeedContainer } from './container';
 export const seed = (options?: {
   scope?: DecoratorScopeType;
   order?: number;
+  active?: boolean;
 }): ClassDecorator => {
   return (seed: any) => {
     const name = seed.prototype.constructor.name;
@@ -20,6 +21,7 @@ export const seed = (options?: {
     SeedContainer.add({
       value: seed,
       order: options?.order ?? 0,
+      active: options?.active ?? true,
     });
   };
 };

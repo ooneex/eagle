@@ -11,6 +11,7 @@ describe('SeedContainer', () => {
     const seedEntry = {
       value: 'TestSeed',
       order: 1,
+      active: true,
     };
 
     SeedContainer.add(seedEntry);
@@ -23,11 +24,13 @@ describe('SeedContainer', () => {
     const seedEntry1 = {
       value: 'TestSeed1',
       order: 1,
+      active: true,
     };
 
     const seedEntry2 = {
       value: 'TestSeed2',
       order: 2,
+      active: true,
     };
 
     SeedContainer.add(seedEntry1);
@@ -44,6 +47,7 @@ describe('SeedContainer', () => {
     SeedContainer.add({
       value: 'TestSeed',
       order: 1,
+      active: true,
     });
 
     expect(SeedContainer.count()).toBe(1);
