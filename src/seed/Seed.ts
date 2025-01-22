@@ -16,6 +16,10 @@ export class Seed {
     let previousData: unknown | undefined = undefined;
 
     for (const seed of seeds) {
+      if (!seed.active) {
+        continue;
+      }
+
       const instance = container.get<ISeed>(seed.value);
       previousData = await instance.execute({
         previousData,
