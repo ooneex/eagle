@@ -1,5 +1,4 @@
 import { toKebabCase, toPascalCase } from '../../../helper';
-import { createDatabase } from '../database/createDatabase';
 import { createModule } from '../module/createModule';
 
 export const createRepository = async (config: {
@@ -18,13 +17,6 @@ export const createRepository = async (config: {
   const { moduleFolder, moduleName } = await createModule({
     name: config.moduleName,
     srcDir: config.srcDir,
-  });
-
-  await createDatabase({
-    name: 'default',
-    moduleName: 'shared',
-    srcDir: config.srcDir,
-    databaseDir: config.databaseDir,
   });
 
   const repositoryFolder = toKebabCase(config.name);
