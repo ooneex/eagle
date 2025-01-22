@@ -47,8 +47,8 @@ export const createRepository = async (config: {
   }
 
   const fileName = `${config.srcDir}/${moduleFolder}/${config.repositoryDir}/${repositoryName}.ts`;
-  const content = `import { repository } from '@ooneex/eagle';
-import type { DefaultDatabase } from '@/shared/${config.databaseDir}/DefaultDatabase';
+  const content = `import { repository, inject } from '@ooneex/eagle';
+import { DefaultDatabase } from '@/shared/${config.databaseDir}/DefaultDatabase';
 import { ${entityName} } from '@/${moduleFolder}/${config.entityDir}/${entityName}';
 import type { FindOptionsWhere, UpdateResult } from 'typeorm';
 
