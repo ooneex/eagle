@@ -16,6 +16,10 @@ export const dispatchValidators = async (
       continue;
     }
 
+    if (instance.beforeValidate) {
+      data = instance.beforeValidate(data);
+    }
+
     const result = await instance.validate(data, validator.options);
     if (!result.success) {
       throw new ValidationFailedException(

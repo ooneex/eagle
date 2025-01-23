@@ -12,6 +12,12 @@ export const dispatchControllerValidator = async (config: {
   );
 
   for (const validator of validators) {
+    let data = config.data;
+
+    if (validator.value.beforeValidate) {
+      data = validator.value.beforeValidate(data);
+    }
+
     const result = await validator.value.validate(config.data);
     if (!result.success) {
       throw new ValidationFailedException(

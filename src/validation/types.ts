@@ -20,6 +20,7 @@ export interface IValidator {
     data: Record<string, unknown>,
     validatorOptions?: ValidatorOptions,
   ) => ValidationResultType;
+  beforeValidate?: (data: Record<string, unknown>) => Record<string, unknown>;
 }
 
 export type AssertValidateReturnType = {
