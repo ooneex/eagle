@@ -10,6 +10,12 @@ export type MiddlewareContextType = {
   exception?: Error;
   user?: IUser;
   isAuthenticated?: boolean;
+  payload?: Record<string, unknown>;
+  params?: Record<string, unknown>;
+  queries?: Record<string, unknown>;
+  cookies?: Record<string, unknown>;
+  files?: Record<string, unknown>;
+  form?: Record<string, unknown>;
 };
 
 export const MiddlewareEvents = [

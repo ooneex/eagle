@@ -111,36 +111,48 @@ export const handler = async (
     await dispatchValidators('files', requestFiles);
     await dispatchValidators('form', requestForm);
 
-    await dispatchControllerValidator({
-      dataScope: 'payload',
-      data: requestPayload,
-      routeConfig,
-    });
-    await dispatchControllerValidator({
-      dataScope: 'params',
-      data: requestParams,
-      routeConfig,
-    });
-    await dispatchControllerValidator({
-      dataScope: 'queries',
-      data: requestQueries,
-      routeConfig,
-    });
-    await dispatchControllerValidator({
-      dataScope: 'cookies',
-      data: requestCookies,
-      routeConfig,
-    });
-    await dispatchControllerValidator({
-      dataScope: 'files',
-      data: requestFiles,
-      routeConfig,
-    });
-    await dispatchControllerValidator({
-      dataScope: 'form',
-      data: requestForm,
-      routeConfig,
-    });
+    context.payload = (
+      await dispatchControllerValidator({
+        dataScope: 'payload',
+        data: requestPayload,
+        routeConfig,
+      })
+    )[0];
+    context.params = (
+      await dispatchControllerValidator({
+        dataScope: 'params',
+        data: requestParams,
+        routeConfig,
+      })
+    )[0];
+    context.queries = (
+      await dispatchControllerValidator({
+        dataScope: 'queries',
+        data: requestQueries,
+        routeConfig,
+      })
+    )[0];
+    context.cookies = (
+      await dispatchControllerValidator({
+        dataScope: 'cookies',
+        data: requestCookies,
+        routeConfig,
+      })
+    )[0];
+    context.files = (
+      await dispatchControllerValidator({
+        dataScope: 'files',
+        data: requestFiles,
+        routeConfig,
+      })
+    )[0];
+    context.form = (
+      await dispatchControllerValidator({
+        dataScope: 'form',
+        data: requestForm,
+        routeConfig,
+      })
+    )[0];
     context.response = await controller.action(context);
     context = await dispatchControllerMiddlewares({
       event: 'response',
