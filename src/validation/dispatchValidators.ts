@@ -16,11 +16,10 @@ export const dispatchValidators = async (
       continue;
     }
 
-    if (instance.beforeValidate) {
-      data = instance.beforeValidate(data);
-    }
-
-    const result = await instance.validate(data, validator.options);
+    const result = await instance.validate(
+      instance.beforeValidate ? instance.beforeValidate(data) : data,
+      validator.options,
+    );
     if (!result.success) {
       throw new ValidationFailedException(
         `${validator.value.name}: Validation failed`,
@@ -28,10 +27,6 @@ export const dispatchValidators = async (
           validation: result,
         },
       );
-    }
-
-    if (instance.afterValidate) {
-      instance.afterValidate(data);
     }
   }
 };
