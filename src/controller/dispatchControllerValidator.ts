@@ -18,7 +18,7 @@ export const dispatchControllerValidator = async (config: {
       data = validator.value.beforeValidate(data);
     }
 
-    const result = await validator.value.validate(config.data);
+    const result = await validator.value.validate(data);
     if (!result.success) {
       throw new ValidationFailedException(
         `${validator.value.constructor.name}: Validation failed`,
@@ -26,6 +26,10 @@ export const dispatchControllerValidator = async (config: {
           validation: result,
         },
       );
+    }
+
+    if (validator.value.afterValidate) {
+      validator.value.afterValidate(data);
     }
   }
 };

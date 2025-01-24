@@ -21,6 +21,7 @@ export interface IValidator {
     validatorOptions?: ValidatorOptions,
   ) => ValidationResultType;
   beforeValidate?: (data: Record<string, unknown>) => Record<string, unknown>;
+  afterValidate?: (data: Record<string, unknown>) => void;
 }
 
 export type AssertValidateReturnType = {

@@ -29,5 +29,9 @@ export const dispatchValidators = async (
         },
       );
     }
+
+    if (instance.afterValidate) {
+      instance.afterValidate(data);
+    }
   }
 };
