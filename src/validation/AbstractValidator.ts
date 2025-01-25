@@ -19,6 +19,7 @@ export abstract class AbstractValidator implements IValidator {
     const errors = await validate(this, {
       ...validatorOptions,
       whitelist: true,
+      forbidUnknownValues: true,
     });
     return this.parseResult(errors);
   }
@@ -31,7 +32,11 @@ export abstract class AbstractValidator implements IValidator {
       (this as Record<string, unknown>)[key] = value;
     }
 
-    const errors = validateSync(this, validatorOptions);
+    const errors = validateSync(this, {
+      ...validatorOptions,
+      whitelist: true,
+      forbidUnknownValues: true,
+    });
     return this.parseResult(errors);
   }
 
