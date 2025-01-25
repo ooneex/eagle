@@ -30,7 +30,7 @@ export const dispatchControllerValidator = async (config: {
 
     const properties = Object.getOwnPropertyNames(validator.value);
     for (const property of properties) {
-      if (typeof (validator.value as any)[property] === 'function') {
+      if (typeof (validator.value as any)[property] !== 'function') {
         data[property] = (validator.value as any)[property];
       }
     }
