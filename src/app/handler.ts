@@ -188,6 +188,12 @@ export const handler = async (
     }
 
     if (e instanceof Exception) {
+      if (e.response) {
+        return e.response.build(context.request, {
+          user: context.user,
+          isAuthenticated: context.isAuthenticated,
+        });
+      }
       const def = ControllerContainer.get<{ value: IController }>(
         'ServerExceptionController',
       );

@@ -1,3 +1,4 @@
+import type { HttpResponse } from '../response/HttpResponse';
 import type { ExceptionStackType } from './types';
 
 export class Exception<T = unknown> extends Error {
@@ -8,11 +9,15 @@ export class Exception<T = unknown> extends Error {
   public readonly date: Date = new Date();
   public readonly status: number | null = null;
   public readonly data: Readonly<Record<string, T>> | null = null;
+  public readonly response: HttpResponse | null = null;
 
   constructor(
     message: string | Error,
     status: number | null = null,
     data: Readonly<Record<string, T>> | null = null,
+    options?: {
+      response: HttpResponse | null;
+    },
   ) {
     super(message instanceof Error ? (message as Error).message : message);
     this.stacks = this.parseStack(
@@ -33,6 +38,7 @@ export class Exception<T = unknown> extends Error {
 
     this.status = status;
     this.data = data;
+    this.response = options?.response ?? null;
   }
 
   private parseStack(stack: string): ExceptionStackType[] {
