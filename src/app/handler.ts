@@ -160,6 +160,14 @@ export const handler = async (
       routeConfig,
     });
     context = await dispatchMiddlewares('response', context);
+
+    context.response.header
+      .set('Access-Control-Allow-Origin', Bun.env.CORS_ALLOW_ORIGIN as string)
+      .set('Access-Control-Allow-Methods', '*')
+      .set('Access-Control-Allow-Headers', '*')
+      .set('Access-Control-Expose-Headers', '*')
+      .set('Access-Control-Allow-Credentials', 'true');
+
     return context.response.build(context.request, {
       user: context.user,
       isAuthenticated: context.isAuthenticated,
