@@ -38,7 +38,7 @@ export class BrevoMailer implements IMailer {
   private tags: string[] = [];
   private scheduledAt: Date | null = null;
   private batchId: string | null = null;
-  private key: string | null = null;
+  private apiKey: string | null = null;
 
   public setSender(email: string, name?: string): this {
     this.sender = { email, name };
@@ -219,17 +219,17 @@ export class BrevoMailer implements IMailer {
     return this.batchId;
   }
 
-  public setKey(key: string): this {
-    this.key = key;
+  public setApiKey(key: string): this {
+    this.apiKey = key;
     return this;
   }
 
-  public getKey(): string | null {
-    return this.key;
+  public getApiKey(): string | null {
+    return this.apiKey;
   }
 
   public async send<T = BrevoMailerResponseType>(): Promise<T> {
-    const key = this.key ?? process.env.BREVO_API_KEY;
+    const key = this.apiKey ?? process.env.BREVO_API_KEY;
 
     if (!key) {
       throw new MailerException('Brevo mailer credentials are not set');
