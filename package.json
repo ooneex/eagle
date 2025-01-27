@@ -3,7 +3,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.83",
+  "version": "0.0.84",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -34,14 +34,12 @@
     "inquirer": "^12.3.2",
     "inquirer-autocomplete-standalone": "^0.8.1",
     "log-symbols": "^7.0.0",
-    "nodemailer": "^6.9.16",
     "tsup": "^8.3.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@getbrevo/brevo": "^2.2.0",
     "@types/accept-language-parser": "^1.5.6",
     "accept-language-parser": "^1.5.0",
     "class-validator": "^0.14.1",
