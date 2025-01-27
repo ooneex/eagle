@@ -11,9 +11,8 @@ export class Eagle {
   public async start(): Promise<Server> {
     return Bun.serve({
       ...this.options?.server,
-      port: this.options?.server?.port || Bun.env.APP_PORT,
-      hostname:
-        this.options?.server?.hostname || Bun.env.APP_HOST || 'localhost',
+      port: this.options?.server?.port,
+      hostname: this.options?.server?.hostname || '0.0.0.0',
       fetch: async (req: Request, server: Server): Promise<Response> => {
         return await handler(req, server);
       },

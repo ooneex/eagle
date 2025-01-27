@@ -3,7 +3,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.84",
+  "version": "0.0.85",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -28,7 +28,6 @@
     "@biomejs/biome": "^1.9.4",
     "@clack/prompts": "^0.9.1",
     "@types/bun": "^1.1.16",
-    "@types/nodemailer": "^6.4.17",
     "@types/pluralize": "^0.0.33",
     "husky": "^9.1.7",
     "inquirer": "^12.3.2",
@@ -48,6 +47,7 @@
     "nanoid": "^5.0.9",
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
     "ua-parser-js": "^2.0.0"
   },
   "author": "Ooneex",
