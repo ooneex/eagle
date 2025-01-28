@@ -11,6 +11,7 @@ export * from './helper/index';
 export * from './http/index';
 export * from './jwt/index';
 export * from './locale/index';
+export * from './logger/index';
 export * from './mailer/index';
 export * from './middleware/index';
 export * from './random/index';

@@ -12,7 +12,7 @@ export const createModule = async (config: {
 
   await Bun.$`mkdir -p ${config.srcDir}/${moduleFolder}`;
 
-  const importContent = `import './${moduleFolder}/${moduleName}.ts';`;
+  const importContent = `import './${moduleFolder}/${moduleName}';`;
   const rootModuleFile = Bun.file(`${config.srcDir}/RootModule.ts`);
 
   if (await rootModuleFile.exists()) {
