@@ -1,6 +1,7 @@
-import { capitalizeWord, splitToWords } from './utils';
+import { capitalizeWord } from './capitalizeWord';
+import { splitToWords } from './utils';
 
-export function toPascalCase(input: string): string {
+export const toPascalCase = (input: string): string => {
   input = input.trim();
   return splitToWords(input).map(capitalizeWord).join('');
-}
+};

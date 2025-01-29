@@ -6,5 +6,7 @@ export { toKebabCase } from './toKebabCase';
 export { toPascalCase } from './toPascalCase';
 export { toSnakeCase } from './toSnakeCase';
 export { trim } from './trim';
-export { capitalizeWord, splitToWords } from './utils';
+export { splitToWords } from './utils';
+export { capitalizeWord } from './capitalizeWord';
+export { isLitteralObject } from './isLitteralObject';
 export { wordSimilaritySort } from './wordSimilaritySort';

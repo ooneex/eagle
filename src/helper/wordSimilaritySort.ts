@@ -42,10 +42,10 @@ export interface WordSimilaritySortOptions extends CompareSimilarityOptions {}
  * @param options Options for the sort.
  * @returns A sorted copy of `possibleWords`.
  */
-export function wordSimilaritySort(
+export const wordSimilaritySort = (
   givenWord: string,
   possibleWords: ReadonlyArray<string>,
   options?: WordSimilaritySortOptions,
-): string[] {
+): string[] => {
   return possibleWords.toSorted(compareSimilarity(givenWord, options));
-}
+};
