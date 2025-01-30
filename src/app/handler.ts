@@ -166,8 +166,6 @@ export const handler = async (
       isAuthenticated: context.isAuthenticated,
     });
   } catch (e) {
-    console.debug(e);
-
     if (e instanceof ControllerNotFoundException) {
       const def = ControllerContainer.get<{ value: IController }>(
         'NotFoundController',
