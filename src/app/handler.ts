@@ -13,6 +13,7 @@ import type { StatusCodeType } from '../http/types';
 import { dispatchMiddlewares } from '../middleware/dispatchMiddlewares';
 import type { MiddlewareContextType } from '../middleware/types';
 import { HttpRequest } from '../request/HttpRequest';
+import { EarlierResponse } from '../response/EarlierResponse';
 import { HttpResponse } from '../response/HttpResponse';
 import { Role } from '../security/Role';
 import { UnauthorizedException } from '../security/UnauthorizedException';
@@ -166,6 +167,13 @@ export const handler = async (
       isAuthenticated: context.isAuthenticated,
     });
   } catch (e) {
+    if (e instanceof EarlierResponse) {
+      return e.response.build(context.request, {
+        user: context.user,
+        isAuthenticated: context.isAuthenticated,
+      });
+    }
+
     if (e instanceof ControllerNotFoundException) {
       const def = ControllerContainer.get<{ value: IController }>(
         'NotFoundController',
@@ -187,12 +195,6 @@ export const handler = async (
     }
 
     if (e instanceof Exception) {
-      if (e.response) {
-        return e.response.build(context.request, {
-          user: context.user,
-          isAuthenticated: context.isAuthenticated,
-        });
-      }
       const def = ControllerContainer.get<{ value: IController }>(
         'ServerExceptionController',
       );
