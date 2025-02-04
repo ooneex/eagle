@@ -5,7 +5,7 @@ describe('pathToRegexp', () => {
   it('should convert simple path to regexp', () => {
     const regexp = pathToRegexp('/users');
     expect(regexp.test('/users')).toBe(true);
-    expect(regexp.test('/users/')).toBe(true);
+    expect(regexp.test('/users/')).toBe(false);
     expect(regexp.test('/users/123')).toBe(false);
   });
 
@@ -21,17 +21,21 @@ describe('pathToRegexp', () => {
     const regexp = pathToRegexp('/users/:id/posts/:postId');
     const match = '/users/123/posts/456'.match(regexp);
 
-    expect(match?.[1]).toEqual('123');
-    expect(match?.[2]).toEqual('456');
+    expect(match?.groups).toEqual({
+      id: '123',
+      postId: '456',
+    });
   });
 
   it('should handle multiple parameters', () => {
     const regexp = pathToRegexp('/api/:version/users/:userId/posts/:postId');
     const match = '/api/v1/users/123/posts/456'.match(regexp);
 
-    expect(match?.[1]).toEqual('v1');
-    expect(match?.[2]).toEqual('123');
-    expect(match?.[3]).toEqual('456');
+    expect(match?.groups).toEqual({
+      version: 'v1',
+      userId: '123',
+      postId: '456',
+    });
   });
 
   it('should not match paths with extra segments', () => {

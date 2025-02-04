@@ -3,7 +3,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "version": "0.0.92",
+  "version": "0.0.91",
   "description": "A powerful and flexible Bun framework designed for building robust API with modern best practices and high performance.",
   "scripts": {
     "test": "bun test",
@@ -46,7 +46,6 @@
     "inversify": "^6.2.1",
     "jose": "^5.9.6",
     "nanoid": "^5.0.9",
-    "path-to-regexp": "^8.2.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
     "pluralize": "^8.0.0",
