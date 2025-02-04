@@ -51,56 +51,12 @@ export class ${repositoryName} {
     private readonly database: DefaultDatabase,
   ) {}
 
-  public async find(id: string): Promise<${entityName} | null> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.findOne({ where: { id: id } });
+  public async open(): Promise<Repository<${entityName}>> {
+    return await this.database.open(${entityName});
   }
 
-  public async findAll(): Promise<${entityName}[]> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.find();
-  }
-
-  public async findOneBy(
-    where: FindOptionsWhere<${entityName}>,
-  ): Promise<${entityName} | null> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.findOneBy(where);
-  }
-
-  public async findBy(
-    where: FindOptionsWhere<${entityName}>,
-  ): Promise<${entityName}[]> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.find({ where });
-  }
-
-  public async create(user: ${entityName}): Promise<${entityName}> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.save(user);
-  }
-
-  public async update(user: ${entityName}): Promise<${entityName}> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return userRepository.save(user);
-  }
-
-  public async delete(id: string): Promise<UpdateResult> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return await userRepository.softDelete({ id });
-  }
-
-  public async deleteBy(where: FindOptionsWhere<${entityName}>): Promise<UpdateResult> {
-    const userRepository = await this.database.getRepository(${entityName});
-
-    return await userRepository.softDelete(where);
+  public async close(): Promise<void> {
+    await this.database.close();
   }
 }
 `;
