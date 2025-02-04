@@ -1,7 +1,5 @@
-export const pathToRegexp = (path: string): RegExp => {
-  const pattern = path
-    .replace(/:([a-zA-Z]+)/g, '(?<$1>[^/]+)')
-    .replace(/\//g, '\\/');
+import { pathToRegexp as pathToReg } from 'path-to-regexp';
 
-  return new RegExp(`^${pattern}$`);
+export const pathToRegexp = (path: string): RegExp => {
+  return pathToReg(path).regexp;
 };

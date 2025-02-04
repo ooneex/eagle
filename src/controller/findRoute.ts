@@ -1,3 +1,4 @@
+import { match } from 'path-to-regexp';
 import { ControllerNotFoundException } from './ControllerNotFoundException';
 import { ControllerContainer } from './container';
 import type {
@@ -19,7 +20,7 @@ export const findRoute = ({
       return false;
     }
 
-    if (!d.regexp?.some((r: RegExp) => r.test(path))) {
+    if (!d.regexp?.[0].test(path)) {
       return false;
     }
 
@@ -68,11 +69,10 @@ export const findRoute = ({
     },
   };
 
-  for (const reg of result.regexp) {
-    const matches = reg.exec(path);
-    if (matches?.groups) {
-      result.params = matches.groups;
-    }
+  const fn = match(result.path[0]);
+  const matches = fn(path);
+  if (matches) {
+    result.params = matches.params as Record<string, any>;
   }
 
   if (host && result.host.length > 0) {
