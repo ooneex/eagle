@@ -57,6 +57,7 @@ export const handler = async (
     request,
     response,
     store: new Collection(),
+    lang: request.lang?.code ?? 'en',
   };
 
   try {

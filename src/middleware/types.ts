@@ -1,4 +1,5 @@
 import type { Collection } from '../collection/Collection';
+import type { LocaleType } from '../locale';
 import type { IRequest } from '../request/types';
 import type { HttpResponse } from '../response/HttpResponse';
 import type { IUser } from '../security/types';
@@ -16,6 +17,7 @@ export type MiddlewareContextType = {
   cookies?: Record<string, unknown>;
   files?: Record<string, unknown>;
   form?: Record<string, unknown>;
+  lang?: LocaleType;
 };
 
 export const MiddlewareEvents = [
