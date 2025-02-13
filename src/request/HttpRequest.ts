@@ -37,7 +37,7 @@ export class HttpRequest implements IRequest {
   public readonly lang: LanguageType | null = null;
 
   constructor(
-    private readonly native: Readonly<Request>,
+    public readonly native: Readonly<Request>,
     config?: {
       params?: Record<string, ScalarType>;
       payload?: Record<string, unknown>;

@@ -43,6 +43,7 @@ export const handler = async (
 
     if (checker.isFormData()) {
       formData = await req.formData();
+      console.debug(formData);
     }
   } catch (_e) {}
 
