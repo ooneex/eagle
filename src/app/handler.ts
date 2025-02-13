@@ -41,10 +41,9 @@ export const handler = async (
       payload = await req.json();
     }
 
-    if (checker.isFormData()) {
+    try {
       formData = await req.formData();
-      console.debug(formData);
-    }
+    } catch (_e) {}
   } catch (_e) {}
 
   const request = new HttpRequest(req, {

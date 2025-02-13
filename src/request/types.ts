@@ -28,6 +28,7 @@ export interface IRequest {
   readonly server: string | null;
   readonly bearerToken: string | null;
   readonly lang: LanguageType | null;
+  readonly native: Readonly<Request>;
 }
 
 export interface IRequestFile {
