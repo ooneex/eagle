@@ -52,7 +52,7 @@ export interface IRequestFile {
   readAsStream(): ReadableStream<Uint8Array>;
   readAsText(): Promise<string>;
   write(path: string): Promise<void>;
-  store(storage: IStorage): Promise<string>;
+  store(storage: IStorage, directory?: string): Promise<string>;
 }
 
 export type LanguageType = {

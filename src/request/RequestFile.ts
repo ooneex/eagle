@@ -79,8 +79,11 @@ export class RequestFile implements IRequestFile {
     await Bun.write(path, this.native);
   }
 
-  public async store(storage: IStorage): Promise<string> {
-    await storage.put(this.name, this.native);
+  public async store(storage: IStorage, directory?: string): Promise<string> {
+    await storage.put(
+      directory ? `${directory}/${this.name}` : this.name,
+      this.native,
+    );
 
     return this.name;
   }
