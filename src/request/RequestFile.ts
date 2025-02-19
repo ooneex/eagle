@@ -31,7 +31,7 @@ export class RequestFile implements IRequestFile {
     this.originalName = `${this.originalName}.${this.extension}`;
     this.type = this.native.type.replace(/;*charset=.*$/, '') as MimeType;
     this.size = this.native.size;
-    const id = Random.nanoid(15);
+    const id = Random.nanoid(25);
     this.name = `${id}.${this.extension}`;
     this.isImage = this.type.toString().startsWith('image/');
     this.isSvg =

@@ -167,7 +167,7 @@ export const handler = async (
       user: context.user,
       isAuthenticated: context.isAuthenticated,
     });
-  } catch (e) {
+  } catch (e: any) {
     if (e instanceof EarlierResponse) {
       return e.response.build(context.request, {
         user: context.user,
@@ -195,10 +195,11 @@ export const handler = async (
       });
     }
 
+    const def = ControllerContainer.get<{ value: IController }>(
+      'ServerExceptionController',
+    );
+
     if (e instanceof Exception) {
-      const def = ControllerContainer.get<{ value: IController }>(
-        'ServerExceptionController',
-      );
       if (!def) {
         return context.response
           .exception(e.message, e.data, e.status as StatusCodeType)
@@ -207,6 +208,10 @@ export const handler = async (
             isAuthenticated: context.isAuthenticated,
           });
       }
+    }
+
+    if (def) {
+      context.exception = e;
       const controller = def.value;
       context.response = await controller.action(context);
       return context.response.build(context.request, {
