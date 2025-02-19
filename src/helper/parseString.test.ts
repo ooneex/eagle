@@ -52,4 +52,9 @@ describe('parseString', () => {
     expect(Array.isArray(result)).toBe(true);
     expect(result).toEqual([1, 2, 3]);
   });
+
+  it('should ignore Infinity', () => {
+    expect(parseString<string>('40290809e923969')).toBe('40290809e923969');
+    expect(parseString<string>('-40290809e923969')).toBe('-40290809e923969');
+  });
 });

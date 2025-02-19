@@ -34,7 +34,16 @@ export const parseString = <T = unknown>(text: string): T => {
   }
 
   try {
-    return JSON.parse(text) as T;
+    const result = JSON.parse(text);
+
+    if (
+      result === Number.POSITIVE_INFINITY ||
+      result === Number.NEGATIVE_INFINITY
+    ) {
+      return text as T;
+    }
+
+    return result;
   } catch {
     return text as T;
   }
