@@ -140,6 +140,7 @@ export class HttpResponse implements IResponse {
       path: request?.path,
       lang: request?.lang,
       user: {
+        ...cxt?.user,
         id: cxt?.user?.getId() ?? null,
         username: cxt?.user?.getUsername() ?? null,
         roles: cxt?.user?.getRole().get() ?? [ERole.GUEST],
